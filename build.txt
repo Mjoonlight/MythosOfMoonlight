@@ -1,0 +1,3 @@
+displayName = Mythos of Moonlight
+author = Mjoon
+version = 0.1
