@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 {
-	public class poo : ModItem
+	public class GhastlyFlower : ModItem
 	{
 		public override void SetStaticDefaults() {
-			Tooltip.SetDefault("stinkejuwilsdedrtfyghujygtrfedw");
-			ItemID.Sets.SortingPriorityBossSpawns[item.type] = 999999;
+			Tooltip.SetDefault("You hear shallow breathing resonating from this flora...");
+			ItemID.Sets.SortingPriorityBossSpawns[item.type] = 16;
 		}
 		public override void SetDefaults() {
 			item.width = 38;
