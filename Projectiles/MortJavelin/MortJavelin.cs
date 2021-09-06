@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mortiflora Javelin");
+            DisplayName.SetDefault("Thornbella");
             Main.projFrames[projectile.type] = 1;
         }
 

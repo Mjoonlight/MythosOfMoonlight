@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("MortifloraJavelin"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+			DisplayName.SetDefault("Thornbella");
 			Tooltip.SetDefault("javelin lol");
 		}
 
