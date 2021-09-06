@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornbella");
-			Tooltip.SetDefault("javelin lol");
+			Tooltip.SetDefault("Bounces towards nearby enemies, inflicting poison");
 		}
 
 		public override void SetDefaults()
