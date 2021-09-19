@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.Projectiles.MortJavelin
 {
-    public class MortJavelin : ModProjectile
+    public class MortJavelinProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -184,9 +184,6 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             Main.spriteBatch.Draw(texture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
 
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[projectile.type];
-            off -= new Vector2(0, 9).RotatedBy(projectile.rotation);
-            var dust = Terraria.Dust.NewDustPerfect(projectile.position + off + (projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
-
             if (target != null)
             {
                 var red = new Color(255, 0, 0, 155);
@@ -201,7 +198,10 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
         private NPC target;
         public override void AI()
         {
-            Dust dust;
+            var off = new Vector2(projectile.width / 2f, projectile.height / 2f) - new Vector2(0, 9).RotatedBy(projectile.rotation);
+            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[projectile.type];
+            var dust = Terraria.Dust.NewDustPerfect(projectile.position + off + (projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
+
             // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
             Vector2 position = projectile.Center + new Vector2(-2, 32).RotatedBy(projectile.rotation);
             dust = Terraria.Dust.NewDustPerfect(position, 1, new Vector2(0f, 0f), 0, new Color(177, 255, 0), 1f);
