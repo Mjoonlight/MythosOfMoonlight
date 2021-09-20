@@ -179,16 +179,16 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
             var orig = frame.Size() / 2f;
 
-            Main.spriteBatch.Draw(origTexture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(origTexture, drawPos + off, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, drawPos + off, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
 
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[projectile.type];
             if (target != null)
             {
                 var red = new Color(255, 0, 0, 155);
+                var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[projectile.type];
                 for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
                 {
-                    Main.spriteBatch.Draw(texture, projectile.oldPos[i] - Main.screenPosition, frame, red * (1f - fadeMult * i), projectile.oldRot[i], orig, projectile.scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off, frame, red * (1f - fadeMult * i), projectile.oldRot[i], orig, projectile.scale, SpriteEffects.None, 0f);
                 }
             }
             return false;
@@ -198,8 +198,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
         public override void AI()
         {
             var off = new Vector2(projectile.width / 2f, projectile.height / 2f) - new Vector2(0, 9).RotatedBy(projectile.rotation);
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[projectile.type];
-            var dust = Terraria.Dust.NewDustPerfect(projectile.position + off + (projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
+            var dust = Dust.NewDustPerfect(projectile.position + off + (projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
 
             // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
             Vector2 position = projectile.Center + new Vector2(-2, 32).RotatedBy(projectile.rotation);
