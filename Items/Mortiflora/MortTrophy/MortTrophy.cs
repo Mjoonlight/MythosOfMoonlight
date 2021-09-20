@@ -7,7 +7,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortTrophy
 	public class MortTrophy : ModItem
 	{
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("MortiFlora Trophy");
+			DisplayName.SetDefault("Mortiflora Trophy");
 		}
 
 		public override void SetDefaults() {
@@ -22,8 +22,8 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortTrophy
 			item.consumable = true;
 			item.value = 50000;
 			item.rare = 1;
-			item.createTile = TileType<BossTrophy>();
-			item.placeStyle = 4;
+			item.createTile = ModContent.TileType<BossTrophy>();
+			item.placeStyle = 0;
 		}
 	}
 }
