@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortJavelin
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
+			item.damage = 13;
 			item.melee = false;
 			item.width = 52;
 			item.height = 58;

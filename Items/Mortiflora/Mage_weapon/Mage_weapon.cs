@@ -1,10 +1,10 @@
-using MythosOfMoonlight.Projectiles;
+using MythosOfMoonlight.Projectiles.Mage_weapon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace MythosOfMoonlight.Items.Mortiflora
+namespace MythosOfMoonlight.Items.Mortiflora.Mage_weapon
 {
 	public class Mage_weapon : ModItem
 	{

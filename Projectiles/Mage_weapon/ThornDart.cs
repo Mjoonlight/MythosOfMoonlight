@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace MythosOfMoonlight.Projectiles
+namespace MythosOfMoonlight.Projectiles.Mage_weapon
 {
 	public class ThornDart : ModProjectile
 	{
