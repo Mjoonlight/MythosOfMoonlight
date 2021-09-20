@@ -66,7 +66,6 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
                     closestDistance = potentialDistance;
                 }
             }
-            Main.NewText(closestDistance.ToString());
             if (closestDistance <= 16 * BLOCK_LENGTH)
                 projectile.tileCollide = false;
             return closestTarget;
