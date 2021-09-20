@@ -179,7 +179,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
             var orig = frame.Size() / 2f;
 
-            Main.spriteBatch.Draw(origTexture, drawPos + off, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture, drawPos + off, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
 
             if (target != null)
