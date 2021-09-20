@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using MythosOfMoonlight.Items.Mortiflora.MortTrophy;
 
 namespace MythosOfMoonlight.Tiles.Trophies
 {
@@ -27,7 +28,7 @@ namespace MythosOfMoonlight.Tiles.Trophies
 			int item = 0;
 			switch (frameX / 54) {
 				case 0:
-					item = ItemType<MortiFloraTrophy>();
+					item = ModContent.ItemType<MortTrophy>();
 					break;
 			}
 			if (item > 0) {
