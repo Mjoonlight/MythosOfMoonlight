@@ -31,7 +31,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortJavelin
 			item.shoot = ModContent.ProjectileType<MortJavelinProjectile>();
 			item.shootSpeed = 12;
 			item.UseSound = SoundID.Item1;
-			item.scale = 0f;
+			item.noUseGraphic = true;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
