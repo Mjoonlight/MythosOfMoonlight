@@ -36,9 +36,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortJavelin
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			var direction = new Vector2(speedX, speedY);
-			direction.Normalize();
-			position += new Vector2(28f, 74f) * direction;
+			position = player.Center + new Vector2(0, -16);
 			return true;
 		}
 	}
