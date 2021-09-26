@@ -8,6 +8,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortMask
 	public class MortMask : ModItem
 	{
 		public override void SetStaticDefaults() {
+			DisplayName.SetDefault("Mortiflora Mask");
 			Tooltip.SetDefault("");
 		}
 

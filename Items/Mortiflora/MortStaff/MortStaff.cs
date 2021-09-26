@@ -45,4 +45,3 @@ namespace MythosOfMoonlight.Items.Mortiflora.Mage_weapon
 			return false;
         }
     }
-}
