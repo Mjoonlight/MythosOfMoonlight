@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using MythosOfMoonlight.Projectiles.Mage_weapon.Orbe;
+using MythosOfMoonlight.Projectiles.ThornDart.Orbe;
 
-namespace MythosOfMoonlight.Projectiles.Mage_weapon
+namespace MythosOfMoonlight.Projectiles.ThornDart
 {
 	public class ThornDart : ModProjectile
 	{

@@ -1,13 +1,13 @@
-using MythosOfMoonlight.Projectiles.Mage_weapon;
+using MythosOfMoonlight.Projectiles.ThornDart;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace MythosOfMoonlight.Items.Mortiflora.Mage_weapon
+namespace MythosOfMoonlight.Items.Mortiflora.MortStaff
 {
-	public class Mage_weapon : ModItem
+	public class MortStaff : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
