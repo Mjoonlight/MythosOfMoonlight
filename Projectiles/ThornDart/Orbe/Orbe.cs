@@ -54,13 +54,20 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
 			var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
 			var orig = frame.Size() / 2f;
 
+			float modif = projectile.timeLeft / 120f;
+			Main.spriteBatch.Draw(origTexture, projectile.Center - Main.screenPosition, frame, new Color(255, 255, 255, 0) * modif, 0f, orig, 1, SpriteEffects.None, 0);
 			for (int i = 0; i < 14; i++)
 			{
 				var rand = Main.rand.NextFloat(-.25f, .25f) * projectile.width;
-				Main.spriteBatch.Draw(origTexture, projectile.Center - Main.screenPosition + Vector2.UnitX.RotatedByRandom(180.0) * rand, frame, clr * (i / 14f), 0f, orig, Main.rand.NextFloat(), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(origTexture, projectile.Center - Main.screenPosition + Vector2.UnitX.RotatedByRandom(180.0) * rand, frame, clr * (5f / 14f) * modif, 0f, orig, Main.rand.NextFloat(), SpriteEffects.None, 0f);
 			}
 
-			return true;
+			for (int i = 1; i < 10; i += 3)
+            {
+				Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off + (Vector2.UnitX * 3 * i).RotatedBy(projectile.velocity.ToRotation()), frame, clr * ((9f - i) / 12f) * modif, 0f, orig, ((9f - i) / 9f), SpriteEffects.None, 0f);
+			}
+
+			return false;
 		}
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0);
