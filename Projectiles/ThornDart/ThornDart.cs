@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 5);
+			target.AddBuff(BuffID.Poisoned, 10);
 			for (int i = 0; i < Main.rand.Next(3, 4); i++)
 				Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedByRandom(30), ModContent.ProjectileType<Orbe.Orbe>(), 0, 0, projectile.owner, projectile.ai[0]);
 			Kill(0);
