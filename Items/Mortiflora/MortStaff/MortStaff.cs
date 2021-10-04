@@ -41,7 +41,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortStaff
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			// (int)((manaCost + 100) / 100)
-			int manaCost = (int)MathHelper.Max(15, player.statMana / 2);
+			int manaCost = (int)MathHelper.Max(30, player.statMana / 2);
 			player.statMana -= manaCost;
 			var projectile = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, item.owner, MathHelper.Clamp((manaCost + 50) / 33, 0, 3));
 			return false;

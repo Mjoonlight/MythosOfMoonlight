@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -26,10 +27,11 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
 			projectile.aiStyle = -1;
 		}
 
+		Vector2 distance;
 		public override void AI()
 		{
 			var target = Main.player[projectile.owner];
-			var distance = projectile.position - (target.position + target.oldVelocity);
+			distance = projectile.position - (target.position + target.oldVelocity);
 			var unsqDist = distance.Length();
 			var speed = MathHelper.Max(3, distance.Length() / 20);
 			projectile.velocity = Vector2.Lerp(projectile.velocity, -distance.SafeNormalize(Vector2.UnitX)*speed, 0.1f);
@@ -64,7 +66,8 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
 
 			for (int i = 1; i < 10; i += 3)
             {
-				Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off + (Vector2.UnitX * 3 * i).RotatedBy(projectile.velocity.ToRotation()), frame, clr * ((9f - i) / 12f) * modif, 0f, orig, ((9f - i) / 9f), SpriteEffects.None, 0f);
+				
+				Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off + (Vector2.UnitX * distance.Length() * i).RotatedBy(projectile.velocity.ToRotation()), frame, clr * ((9f - i) / 12f) * modif, 0f, orig, ((9f - i) / 9f), SpriteEffects.None, 0f);
 			}
 
 			return false;
