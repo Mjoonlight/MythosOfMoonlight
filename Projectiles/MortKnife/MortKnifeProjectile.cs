@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("MortKnife");
+            DisplayName.SetDefault("Chloroccyx");
             Main.projFrames[projectile.type] = 1;
         }
 
@@ -64,7 +64,6 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
             if (projectile.frameCounter == 1)
             {
                 var targets = GetTargets(Main.MouseScreen + Main.screenPosition, 42);
-                Main.NewText(targets.Count);
                 if (targets.Count > 0)
                 {
                     var target = targets[0].Center;

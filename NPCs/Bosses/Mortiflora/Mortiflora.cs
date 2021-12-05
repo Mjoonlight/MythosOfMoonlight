@@ -4,6 +4,10 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using MythosOfMoonlight;
+using MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles;
 
 namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 {
@@ -66,6 +70,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 		{
 			Default,
 			Attack1,
+			Attack1Expert,
 			Attack2,
 			Dead
 		};
@@ -99,14 +104,14 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 				case MortState.Attack1:
 					if (Phase == 1)
 					{
-						if (InRange(attackCounter, 30, 57))
+						if (InRange(attackCounter, 0, 90))
+                        {
+							goto case MortState.Default;
+                        }
+
+						else if (InRange(attackCounter, 90, 127))
 						{
 							npc.frame.Y = GetFrame(5, 7); // ((getFrame + lastFrame) % 5 + 7) * npc.height;
-						}
-
-						else
-						{
-							goto case MortState.Default;
 						}
 					}
 
@@ -116,7 +121,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
                     }
 					break;
 				case MortState.Attack2:
-					npc.frame.Y = GetFrame(4, 13); // ((getFrame + lastFrame) % 4 + 13) * npc.height;
+					npc.frame.Y = GetFrame(4, 12); // ((getFrame + lastFrame) % 4 + 13) * npc.height;
 					break;
             }
         }
@@ -152,6 +157,13 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 
 		public override void AI()
 		{
+			if (Main.netMode != NetmodeID.Server) // This all needs to happen client-side!
+			{
+				Filters.Scene.Activate("PurpleComet");
+
+				Filters.Scene["PurpleComet"].Deactivate();
+			}
+
 			npc.TargetClosest(true);
 			var target = Main.player[npc.target];
 
@@ -168,86 +180,79 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 					npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, (target.Center.Y > npc.Center.Y ? 5 : -5) + (float)Math.Sin(attackCounter / 33d) * 2, 0.04f * (speedMod * .5f));
 					if (Main.rand.NextFloat() < .02f && attackCounter > 120)
                     {
-						state = MortState.Attack1;
+						state = MortState.Attack2;
 					}
 					break;
 				case MortState.Attack1:
-					if (Phase == 0)
+					if (InRange(attackCounter, 0, 90))
 					{
-						if (InRange(attackCounter, 0, 30))
+						// place dust
+						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.01f);
+					}
+
+					else if (InRange(attackCounter, 90, 90))
+                    {
+						npc.velocity = (target.Center - npc.Center).SafeNormalize(Vector2.UnitX) * speedMod * 8;
+						var projectile = Projectile.NewProjectileDirect(npc.Center + npc.velocity, npc.velocity * 1.5f, ModContent.ProjectileType<MortifloraRedWave>(), 6, 5);
+						Main.NewText(projectile.position);
+						Main.NewText(npc.position);
+					}
+
+					else if (InRange(attackCounter, 120, 120))
+                    {
+						state = MortState.Default;
+                    }
+					break;
+				case MortState.Attack1Expert:
+					int delay = 45, dashLength = 75, dashMax = 4;
+					delay = (int)(delay / speedMod);
+					dashLength = (int)(dashLength / speedMod);
+					if (InRange(attackCounter, 0, delay))
+                    {
+						npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.01f);
+					}
+
+					else if (attackCounter > delay && (int)(attackCounter / dashLength) < dashMax)
+                    {
+						var realCounter = attackCounter % dashLength;
+						if (InRange(realCounter, delay, delay))
 						{
-							// place dust
+							var direction = (target.Center - npc.Center).SafeNormalize(Vector2.UnitX) * 8;
+							npc.velocity = direction.RotatedByRandom(MathHelper.Pi/6f) * speedMod;
+							var projectile = Projectile.NewProjectileDirect(npc.Center + npc.velocity, direction, ModContent.ProjectileType<MortifloraRedWave>(), 6, 5);
 						}
 
-						else if (InRange(attackCounter, 30, 31))
-						{
-							// expert mode dash
-							// npc.velocity = -(npc.Center - target.Center).SafeNormalize(Vector2.UnitX) * 12f;
-							npc.frameCounter = 0;
-							npc.velocity = -(npc.Center - target.Center).SafeNormalize(Vector2.UnitX) * 3f;
+						else if (InRange(realCounter, delay, dashLength))
+                        {
+							npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 						}
 
-						else if (InRange(attackCounter, 31, 56))
-						{
-							npc.velocity *= 1.04f;
-						}
-
-						else if (InRange(attackCounter, 56, 57))
-						{
-							// schut projectile
-						}
-
-						else if (InRange(attackCounter, 57, 58))
-						{
-							state = MortState.Default;
-							attackCounter = -300;
-						}
+						else if (realCounter > dashLength)
+                        {
+							attackCounter += dashLength - 1;
+                        }
 					}
 
 					else
                     {
-						/* if (InRange(attackCounter, 0, 30))
-						{
-							// place dust
-						}
-
-						else */ if (dashCounter < 3)
-						{
-							// if (InRange(attackCounter, 30, 31))
-							if (InRange(attackCounter, 0, 1))
-							{
-								// expert mode dash
-								// npc.velocity = -(npc.Center - target.Center).SafeNormalize(Vector2.UnitX) * 12f;
-								npc.velocity = -(npc.Center - target.Center).SafeNormalize(Vector2.UnitX) * 3f;
-								if (dashCounter % 2 == 0)
-									npc.velocity = npc.velocity.RotatedByRandom(MathHelper.ToRadians(15));
-							}
-
-							// else if (InRange(attackCounter, 31, 56))
-							else if (InRange(attackCounter, 1, 26))
-							{
-								npc.velocity *= 1.04f;
-							}
-
-							// else if (InRange(attackCounter, 62, 63))
-							else if (InRange(attackCounter, 26, 27))
-							{
-								dashCounter++;
-								npc.frameCounter = 0;
-								attackCounter = dashCounter < 3 ? 0 : 62;
-								// schut projectile
-							}
-						}
-
-						else
-						{
-							state = MortState.Default;
-							attackCounter = -300;
-							dashCounter = 0;
-						}
+						state = MortState.Default;
+                    }
+					break;
+				case MortState.Attack2:
+					if (attackCounter == 1)
+					{
+						npc.velocity = Vector2.Zero;
+						Helper.FireProjectilesInArc(npc.Center + Vector2.UnitY * 16, -Vector2.UnitY, MathHelper.Pi, ModContent.ProjectileType<MortifloraBones>(), 6, 6, 1, ++fireTime);
 					}
+
+					else if (attackCounter > 30)
+                    {
+						state = MortState.Default;
+                    }
 					break;
 			}
 		}
+
+		int fireTime = 0;
 	}
 }

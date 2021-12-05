@@ -11,6 +11,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortStaff
 	{
 		public override void SetStaticDefaults()
 		{
+			DisplayName.SetDefault("Leech Life");
 			Tooltip.SetDefault("Shoots a dart that splits into 4 healing orbs on hit.");
 			Item.staff[item.type] = true; //this makes the useStyle animate as a staff instead of as a gun
 		}

@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-public abstract class ModEvent
+public abstract class ModInvasion
 {
     public virtual int[] invaders => new int[1] { NPCID.Zombie };
     public static bool enabled;

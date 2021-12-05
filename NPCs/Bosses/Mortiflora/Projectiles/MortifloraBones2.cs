@@ -7,6 +7,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
 {
 	public class MortifloraBones2 : ModProjectile
 	{
+		public override string Texture => "MythosOfMoonlight/NPCs/Bosses/Mortiflora/Projectiles/MortifloraBones";
         public override void SetStaticDefaults() {
 			DisplayName.SetDefault("Dessicated Bones");
 			Main.projFrames[projectile.type] = 4;

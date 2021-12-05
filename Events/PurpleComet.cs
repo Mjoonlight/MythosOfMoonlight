@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-public class PurpleComet : ModEvent
+public class PurpleComet
 {
-
+    
 }

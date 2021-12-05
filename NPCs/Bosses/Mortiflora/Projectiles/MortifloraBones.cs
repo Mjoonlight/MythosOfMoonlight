@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
 		public override void SetDefaults() {
 			projectile.width = 17;
 			projectile.height = 17;
-			projectile.aiStyle = 1;
+			projectile.aiStyle = -1;
 			projectile.hostile = true;
 			projectile.friendly = false;
 			projectile.timeLeft = 9999;
@@ -22,6 +22,10 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
 			projectile.penetrate = 2;
 			projectile.frame = Main.rand.Next(4);
 		}
+		public override void AI()
+        {
+			projectile.velocity = projectile.velocity;
+        }
 		public override bool OnTileCollide(Vector2 oldVelocity) {
 			Main.PlaySound(SoundID.NPCHit2);
 			projectile.penetrate--;

@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortKnife
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chloroccyx");
-			Tooltip.SetDefault("Launches up to two bloodthirsty knives which aims at enemies near the cursor");
+			Tooltip.SetDefault("Launches up to two bloodthirsty knives that aim at enemies near the cursor");
 		}
 
 		public override void SetDefaults()
