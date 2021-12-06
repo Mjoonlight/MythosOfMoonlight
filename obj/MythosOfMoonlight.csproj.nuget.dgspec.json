@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {}
+    "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {
+    "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+        "projectUniqueName": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
         "projectName": "MythosOfMoonlight",
-        "projectPath": "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
-        "packagesPath": "C:\\Users\\DiceD\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\obj\\",
+        "projectPath": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+        "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\DiceD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,7 +45,7 @@
               "version": "[0.1.*, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
