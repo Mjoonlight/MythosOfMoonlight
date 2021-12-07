@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {}
+    "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlightMod\\MythosOfMoonlightMod.csproj": {}
   },
   "projects": {
-    "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj": {
+    "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlightMod\\MythosOfMoonlightMod.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+        "projectUniqueName": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlightMod\\MythosOfMoonlightMod.csproj",
         "projectName": "MythosOfMoonlightMod",
-        "projectPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+        "projectPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlightMod\\MythosOfMoonlightMod.csproj",
         "packagesPath": "C:\\Users\\156pl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\obj\\",
+        "outputPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlightMod\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,4 +1,0 @@
-C:\Users\DiceD\OneDrive\Documents\My Games\Terraria\ModLoader\Mod Sources\MythosOfMoonlight\obj\Debug\net45\MythosOfMoonlight.csprojAssemblyReference.cache
-C:\Users\DiceD\OneDrive\Documents\My Games\Terraria\ModLoader\Mod Sources\MythosOfMoonlight\obj\Debug\net45\MythosOfMoonlight.AssemblyInfoInputs.cache
-C:\Users\DiceD\OneDrive\Documents\My Games\Terraria\ModLoader\Mod Sources\MythosOfMoonlight\obj\Debug\net45\MythosOfMoonlight.AssemblyInfo.cs
-C:\Users\DiceD\OneDrive\Documents\My Games\Terraria\ModLoader\Mod Sources\MythosOfMoonlight\obj\Debug\net45\MythosOfMoonlight.csproj.CoreCompileInputs.cache

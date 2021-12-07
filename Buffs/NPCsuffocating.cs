@@ -8,7 +8,12 @@ using Terraria.ModLoader;
 
 public class NPCsuffocating : ModBuff
 {
-	public override void SetDefaults()
+    public override bool Autoload(ref string name, ref string texture)
+    {
+		texture = "Terraria/Buff_68";
+        return true;
+    }
+    public override void SetDefaults()
 	{
 		DisplayName.SetDefault("Choking");
 		Description.SetDefault("haha dumb enemies");
@@ -18,7 +23,11 @@ public class NPCsuffocating : ModBuff
 		longerExpertDebuff = false;
 	}
     public override void Update(NPC npc, ref int buffIndex)
-    {
-		npc.GetGlobalNPC<>().NPCsuffocating = true;
-    }
+	{
+		if (npc.lifeRegen > 0)
+		{
+			npc.lifeRegen = 0;
+		}
+		npc.lifeRegen -= 40;
+	}
 }

@@ -20,7 +20,7 @@ namespace MythosOfMoonlight.Items.CenturySet
 		{
 			item.width = 40;
 			item.height = 40;
-			item.damage = 5;
+			item.damage = 0;
 			item.magic = true;
 			item.noMelee = true;
 			item.useTime = 3;

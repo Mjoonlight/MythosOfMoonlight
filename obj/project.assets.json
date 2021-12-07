@@ -31,19 +31,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\migue\\.nuget\\packages\\": {}
+    "C:\\Users\\156pl\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
-      "projectName": "MythosOfMoonlight",
-      "projectPath": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
-      "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\obj\\",
+      "projectUniqueName": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+      "projectName": "MythosOfMoonlightMod",
+      "projectPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+      "packagesPath": "C:\\Users\\156pl\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\156pl\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\156pl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

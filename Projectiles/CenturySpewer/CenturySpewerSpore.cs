@@ -16,10 +16,10 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer.CenturySpewerSpore
             Main.projFrames[projectile.type] = 2;
         }
 
-        const int MAX_TIMELEFT = 270;
+        const int MAX_TIMELEFT = 170;
         public override void SetDefaults()
         {
-            projectile.damage = 5;
+            projectile.damage = 0;
             projectile.height = 64;
             projectile.penetrate = -1;  
             projectile.width = 80;
@@ -41,6 +41,25 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer.CenturySpewerSpore
             var currentTime = (float)(MAX_TIMELEFT - projectile.timeLeft);
             projectile.alpha = (int)(currentTime / MAX_TIMELEFT * 255);
             projectile.scale = currentTime / MAX_TIMELEFT + .1f;
+            if (projectile.owner == Main.myPlayer)
+            {
+                Rectangle rect1 = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].active && !Main.npc[i].friendly && !Main.npc[i].dontTakeDamage && Main.npc[i].lifeMax > 1)
+                    {
+                        Rectangle rect2 = new Rectangle((int)Main.npc[i].position.X, (int)Main.npc[i].position.Y, Main.npc[i].width, Main.npc[i].height);
+                        if (rect1.Intersects(rect2))
+                        {
+                            Main.npc[i].AddBuff(ModContent.BuffType<NPCsuffocating>(), 2);
+                        }
+                    }
+                }
+            }
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<NPCsuffocating>(), 2);
         }
     }
 }
