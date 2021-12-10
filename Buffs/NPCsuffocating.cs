@@ -28,6 +28,6 @@ public class NPCsuffocating : ModBuff
 		{
 			npc.lifeRegen = 0;
 		}
-		npc.lifeRegen -= 40;
+		npc.lifeRegen -= 80;
 	}
 }
