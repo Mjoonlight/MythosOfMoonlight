@@ -17,6 +17,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortMask
 			item.height = 32;
 			item.value = 10000;
 			item.rare = ItemRarityID.Green;
+			item.vanity = true;
 		}
 	}
 }

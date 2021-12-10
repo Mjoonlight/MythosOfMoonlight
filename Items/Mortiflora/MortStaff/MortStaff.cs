@@ -26,6 +26,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortStaff
 			item.useTime = 25;
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.rare = ItemRarityID.Green;
 			item.knockBack = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;

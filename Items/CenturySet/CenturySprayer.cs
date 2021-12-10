@@ -24,14 +24,21 @@ namespace MythosOfMoonlight.Items.CenturySet
 			item.magic = true;
 			item.noMelee = true;
 			item.useTime = 3;
-			item.useAnimation = 6;
+			item.useAnimation = 20;
 			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.rare = ItemRarityID.Blue;
 			item.knockBack = 5;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
-			item.mana = 9;
+			item.mana = 5;
 			item.shoot = ProjectileType<CenturySpewerSpore>();	
-			item.shootSpeed = 16f;
+			item.shootSpeed = 10f;
+		}
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			var velocity = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(10));
+			Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+			return false;
 		}
 	}
 }

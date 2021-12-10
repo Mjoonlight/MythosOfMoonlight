@@ -45,35 +45,20 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-			//3hi31mg
-			var clr = new Color(255, 255, 255, 255); // full white
-			var drawPos = projectile.Center - Main.screenPosition;
-			var off = new Vector2(projectile.width / 2f, projectile.height / 2f);
-			var origTexture = Main.projectileTexture[projectile.type];
-			var texture = mod.GetTexture("Projectiles/ThornDart/Orbe/Orbe");
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
-			var orig = frame.Size() / 2f;
-
-			float modif = projectile.timeLeft / 120f;
-			Main.spriteBatch.Draw(origTexture, projectile.Center - Main.screenPosition, frame, new Color(255, 255, 255, 0) * modif, 0f, orig, 1, SpriteEffects.None, 0);
-			for (int i = 0; i < 14; i++)
-			{
-				var rand = Main.rand.NextFloat(-.25f, .25f) * projectile.width;
-				Main.spriteBatch.Draw(origTexture, projectile.Center - Main.screenPosition + Vector2.UnitX.RotatedByRandom(180.0) * rand, frame, clr * (5f / 14f) * modif, 0f, orig, Main.rand.NextFloat(), SpriteEffects.None, 0f);
-			}
-
-			for (int i = 1; i < 10; i += 3)
-            {
-				
-				Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off + (Vector2.UnitX * distance.Length() * i).RotatedBy(projectile.velocity.ToRotation()), frame, clr * ((9f - i) / 12f) * modif, 0f, orig, ((9f - i) / 9f), SpriteEffects.None, 0f);
-			}
-
-			return false;
+		{
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+			Texture2D texture = ModContent.GetTexture("MythosOfMoonlight/Projectiles/ThornDart/Orbe/Orbe_Glowy");
+			Rectangle rect = new Rectangle(0, 0, texture.Width, texture.Height);
+			Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, rect, new Color(5, 240, 0), projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+			return true;
 		}
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0);
+
+		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0);
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
