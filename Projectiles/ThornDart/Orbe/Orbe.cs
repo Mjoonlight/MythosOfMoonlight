@@ -47,15 +47,8 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
 
             // For some apparent reason, 255 is supposed to be invisible and yet it displays the projectile if it is of a value 255
             // I don't understand why this one projectile has so many problems but if it works, it works
-            if (projectile.timeLeft < 60)
-            {
-                projectile.alpha = (int)MathHelper.Lerp(0, 255, projectile.timeLeft / 60f);
-            }
-            else
-            {
-                // Apparently if I don't set this it becomes invisible
-                projectile.alpha = 255;
-            }
+            projectile.alpha = (int)MathHelper.Lerp(0, 255, Utils.Clamp(projectile.timeLeft, 0, 60) / 60f);
+            Main.NewText(projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -89,7 +82,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
             var fadeMult = 1f / trailLength;
             for (int i = 1; i < trailLength; i++)
             {
-                Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off, frame, green * (1f - fadeMult * i), projectile.oldRot[i], orig, projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off, frame, Color.Lerp(Color.Transparent, green * (1f - fadeMult * i), Utils.Clamp(projectile.timeLeft, 0, 60) / 60f), projectile.oldRot[i], orig, projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
             }
 
 
@@ -97,7 +90,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
         }
 
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 0) * projectile.alpha;
+        public override Color? GetAlpha(Color lightColor) => Color.White * projectile.alpha;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
