@@ -43,12 +43,6 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
                 target.HealEffect(heal);
                 projectile.timeLeft = 0;
             }
-
-
-            // For some apparent reason, 255 is supposed to be invisible and yet it displays the projectile if it is of a value 255
-            // I don't understand why this one projectile has so many problems but if it works, it works
-            projectile.alpha = (int)MathHelper.Lerp(0, 255, Utils.Clamp(projectile.timeLeft, 0, 60) / 60f);
-            Main.NewText(projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -74,23 +68,28 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
             var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
             var orig = frame.Size() / 2f;
 
-            Main.spriteBatch.Draw(origTexture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
-
             var green = new Color(0, 255, 0, 155);
             var trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
             var fadeMult = 1f / trailLength;
             for (int i = 1; i < trailLength; i++)
             {
-                Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off, frame, Color.Lerp(Color.Transparent, green * (1f - fadeMult * i), Utils.Clamp(projectile.timeLeft, 0, 60) / 60f), projectile.oldRot[i], orig, projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, projectile.oldPos[i] - Main.screenPosition + off, frame, Color.Lerp(Color.Transparent, green * (1f - fadeMult * i), Utils.Clamp(projectile.timeLeft, 0, 60) / 60f), projectile.oldRot[i], orig, projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
             }
 
-
-            return true;
+            return false;
         }
 
 
-        public override Color? GetAlpha(Color lightColor) => Color.White * projectile.alpha;
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = ModContent.GetTexture("MythosOfMoonlight/Projectiles/ThornDart/Orbe/Orbe");
+            Rectangle rect = new Rectangle(0, 0, texture.Width, texture.Height);
+            Vector2 drawOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, rect, Color.Lerp(Color.Transparent, Color.White, Utils.Clamp(projectile.timeLeft, 0, 60) / 60f), projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0);
+
+            base.PostDraw(spriteBatch, lightColor);
+        }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
