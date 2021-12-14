@@ -75,6 +75,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             }
             npc.frame.Y = (int)npc.frameCounter * frameHeight;
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return SpawnCondition.OverworldNight.Chance * .05f;
+        }
         public override void AI()
         {
             Player target = Main.player[npc.target];
@@ -147,7 +151,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             return base.SpawnNPC(tileX, tileY);
         }
         public override void AI()
-        {
+        {   
             if (npc.life < npc.lifeMax)
             {
                 npc.TargetClosest();
@@ -182,11 +186,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (NPC.downedBoss1)
-            {
-                return SpawnCondition.OverworldNight.Chance * .05f;
-            }
-            return 0;
+                return SpawnCondition.OverworldNight.Chance * 1f;
         }
         public override void DrawEffects(ref Color drawColor)
         {
