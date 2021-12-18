@@ -31,43 +31,51 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		}
 
 		void SetState(int newState)
-        {
+		{
 			npc.ai[0] = newState;
 			npc.frameCounter = 0;
-        }
+		}
+        public override void FindFrame(int frameHeight)
+        {
+			npc.frame.Y = GetFrame() * frameHeight;
+			Main.NewText(GetFrame());
+		}
+        void SetFrame(int frame)
+		{
+			npc.frame.Y = npc.height * frame;
+		}
 		const float strideSpeed = 1f, jumpHeight = 7f;
 		public override bool PreAI()
 		{
 			npc.frameCounter++;
 			if (Main.rand.NextFloat() <= .05f && npc.frameCounter > 150 && npc.ai[0] == 0)
-            {
+			{
+				RealFrame = ScaleFrame(5);
 				SetState(1);
-            }
+			}
 
 			switch (npc.ai[0])
-            {
+			{
 				case 1:
-					npc.velocity.X = 0;
-					if (npc.frameCounter <= 75)
-                    {
-						
-                    } else if (npc.frameCounter % 10 == 0) {
-						Projectile.NewProjectileDirect(npc.Center - new Vector2(-20, 21), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CenturyFlowerSpore.CenturyFlowerSpore>(), 0, 0);
-						if (npc.frameCounter >= 150)
-                        {
-							SetState(0);
-                        }
-					}
-                    break;
+					OpenPetals();
+					OpenPetalsAnimation();
+					break;
 				default:
-					ManageMovement();
+                    ManageMovement();
+					ManageMovementAnimation();
 					break;
 			}
 			return false;
 		}
-
+		const float animationSpdOffset = 4f;
+		int GetFrame() => (int)(RealFrame / strideSpeed / animationSpdOffset);
+		int ScaleFrame(int frame) => (int)(animationSpdOffset * frame * strideSpeed); // returns value necessary for real frame to set animation frame to target frame frame
+		float RealFrame {
+			get => npc.ai[1];
+			set => npc.ai[1] = value;
+		}
 		void ManageMovement()
-        {
+		{
 			npc.TargetClosest(false);
 			var player = Main.player[npc.target];
 			// var sqrDistance = player.DistanceSQ(npc.position);
@@ -85,13 +93,53 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			npc.spriteDirection = npc.direction;
 		}
 
+		void ManageMovementAnimation()
+		{
+			RealFrame++;
+			if (npc.velocity.Y != 0 || npc.oldVelocity == Vector2.Zero || GetFrame() > 5 || GetFrame() < 0)
+            {
+				RealFrame = 3;
+            }
+        }
+
 		public void OpenPetals()
         {
+			npc.velocity.X = 0;
+			if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
+			{
+				if (npc.frameCounter >= 150)
+				{
+					RealFrame = ScaleFrame(4);
+					Main.NewText(RealFrame);
+					SetState(0);
+				}
+				
+				else
+				{
+					Projectile.NewProjectileDirect(npc.Center - new Vector2(1, 19), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CenturyFlowerSpore.CenturyFlowerSpore>(), 0, 0);
+				}
+			}
+		}
 
+		public void OpenPetalsAnimation()
+		{
+			if (npc.frameCounter <= 75 && GetFrame() < 7)
+			{
+				RealFrame++;
+			}
+
+			else if (Helper.InRange(npc.frameCounter, 140, 150) && GetFrame() > 5)
+            {
+				RealFrame--;
+            }
         }
 
 		void FitVelocityToTarget(Vector2 newVelocity) => npc.velocity = Vector2.Lerp(npc.velocity, newVelocity, .1f);
 		void FitVelocityXToTarget(float newX) => npc.velocity.X = MathHelper.Lerp(npc.velocity.X, newX, 0.1f);
 		void FitVelocityYToTarget(float newY) => npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, newY, 0.1f);
-	}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			return SpawnCondition.OverworldDay.Chance * 0.7f;
+		}
+    }
 }

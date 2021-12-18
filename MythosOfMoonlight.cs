@@ -11,7 +11,22 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
-        public const float ONEDEG = .01745329252f;
+        public static Vector2 GetPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+        {
+            float cx = 3 * (p1.X - p0.X);
+            float cy = 3 * (p1.Y - p0.Y);
+            float bx = 3 * (p2.X - p1.X) - cx;
+            float by = 3 * (p2.Y - p1.Y) - cy;
+            float ax = p3.X - p0.X - cx - bx;
+            float ay = p3.Y - p0.Y - cy - by;
+            float cube = t * t * t;
+            float square = t * t;
+
+            float resX = (ax * cube) + (bx * square) + (cx * t) + p0.X;
+            float resY = (ay * cube) + (by * square) + (cy * t) + p0.Y;
+
+            return new Vector2(resX, resY);
+        }
         public struct Range
         {
             float min, max;
@@ -26,14 +41,14 @@ namespace MythosOfMoonlight
         }
         public static void FireProjectilesInArc(Vector2 origin, Vector2 centerDirection, float radians, int type, float speed, int damage, float knockback, int amount)
         {
-            var centeredDir = centerDirection.RotatedBy(-radians/2f); //-MathHelper.ToRadians(degrees / 2f));
+            var centeredDir = centerDirection.RotatedBy(-radians / 2f); //-MathHelper.ToRadians(degrees / 2f));
             for (float i = 1; i <= amount; i++)
             {
-                var direction = centeredDir.RotatedBy(i/amount * radians);
+                var direction = centeredDir.RotatedBy(i / amount * radians);
                 Projectile.NewProjectile(origin, direction * speed, type, damage, knockback);
             }
 
-            centeredDir = centerDirection.RotatedBy(-radians/1.5f); //-MathHelper.ToRadians(degrees / 2f));
+            centeredDir = centerDirection.RotatedBy(-radians / 1.5f); //-MathHelper.ToRadians(degrees / 2f));
             for (float i = 1; i <= amount; i++)
             {
                 var direction = centeredDir.RotatedBy(i / amount * radians);
@@ -47,6 +62,8 @@ namespace MythosOfMoonlight
                 Projectile.NewProjectile(origin, direction * speed, type, damage, knockback);
             }
         }
+        public static bool InRange(float value, float min, float max) => value < max && value > min;
+        public static bool InRange(double value, double min, double max) => value < max && value > min;
     }
     public class MythosOfMoonlight : Mod
 	{
