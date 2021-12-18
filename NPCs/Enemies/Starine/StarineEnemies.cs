@@ -144,14 +144,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.noGravity = true;
         }
         float TargetY;
-        public override int SpawnNPC(int tileX, int tileY)
-        {
-            Vector2 spawnvect = new Vector2(tileX, tileY);
-            TargetY = spawnvect.ToWorldCoordinates().Y;
-            return base.SpawnNPC(tileX, tileY);
-        }
+        int Timer = 0;
         public override void AI()
-        {   
+        {
+            Lighting.AddLight(npc.Center, new Vector3(.25f, .3f, .4f));
+            //SpawnNPC() wasn't working as intended, so this equates to something happening as soon as the npc is spawned, I think
+            if (Timer == 0)
+            {
+                TargetY = npc.position.Y;
+            }
+            else npc.position.Y = (float)(TargetY + Math.Sin(Timer / 20f) * (Main.player[npc.target].active ? 110f : 70f));
+            Timer++;
             if (npc.life < npc.lifeMax)
             {
                 npc.TargetClosest();
@@ -174,28 +177,23 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         if (npc.velocity.X > -3f) npc.velocity.X--;
                         break;
                     }
-            }
-            if (npc.position.Y <= TargetY - 50f)
-            {
-                if (npc.velocity.Y < 5f) npc.velocity.Y++;
-            }
-            else if (npc.position.Y >= TargetY + 50f)
-            {
-                if (npc.velocity.Y > -5f) npc.velocity.Y--;
+                default:
+                    {
+                        npc.direction = (int)Main.rand.NextFloatDirection();
+                        break;
+                    }
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-                return SpawnCondition.OverworldNight.Chance * 1f;
+            return SpawnCondition.OverworldNight.Chance * .05f;
         }
         public override void DrawEffects(ref Color drawColor)
         {
             drawColor = Color.White;
         }
-        int Timer = 0;
         public override void FindFrame(int frameHeight)
         {
-            Timer++;
             if (Timer % 4 == 0) npc.frameCounter++;
             if (npc.frameCounter > 3)
             {
