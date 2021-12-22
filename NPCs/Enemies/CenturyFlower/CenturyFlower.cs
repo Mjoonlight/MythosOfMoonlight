@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			npc.damage = 12;
 			npc.lifeMax = 150;
 			npc.defense = 5;
-			npc.HitSound = SoundID.NPCHit3;
+			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath32;
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.aiStyle = 3;
@@ -38,7 +38,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         public override void FindFrame(int frameHeight)
         {
 			npc.frame.Y = GetFrame() * frameHeight;
-			Main.NewText(GetFrame());
 		}
         void SetFrame(int frame)
 		{
@@ -96,7 +95,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		void ManageMovementAnimation()
 		{
 			RealFrame++;
-			if (npc.velocity.Y != 0 || npc.oldVelocity == Vector2.Zero || GetFrame() > 5 || GetFrame() < 0)
+			if (npc.velocity.Y != 0 || npc.oldVelocity == Vector2.Zero || GetFrame() > 4 || GetFrame() < 0)
             {
 				RealFrame = 3;
             }
@@ -110,7 +109,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 				if (npc.frameCounter >= 150)
 				{
 					RealFrame = ScaleFrame(4);
-					Main.NewText(RealFrame);
 					SetState(0);
 				}
 				
@@ -121,6 +119,30 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			}
 		}
 
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);
+			}
+			if (npc.life <= 0)
+            {
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century3"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century3"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century4"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century4"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century5"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century5"));
+				for (int i = 0; i < 10; i++)
+				{
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);
+				}
+			}
+		}
 		public void OpenPetalsAnimation()
 		{
 			if (npc.frameCounter <= 75 && GetFrame() < 7)
@@ -139,7 +161,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		void FitVelocityYToTarget(float newY) => npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, newY, 0.1f);
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return SpawnCondition.OverworldDay.Chance * 0.7f;
+			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
     }
 }
