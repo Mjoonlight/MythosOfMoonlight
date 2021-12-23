@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using MythosOfMoonlight.Items.CenturySet;
 namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 {
 	public class CenturyFlower : ModNPC
@@ -162,6 +162,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return SpawnCondition.OverworldDay.Chance * 0.2f;
+		}
+
+        public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(20))
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CenturySprayer>());
+			}
 		}
     }
 }
