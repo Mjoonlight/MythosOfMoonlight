@@ -148,6 +148,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.DeathSound = SoundID.NPCDeath1;
         }
         float TargetY;
+        float sineTime = 10f;
         int Timer = 0;
         public override void AI()
         {
@@ -157,37 +158,29 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 TargetY = npc.position.Y;
             }
-            else npc.position.Y = (float)(TargetY + Math.Sin(Timer / 20f) * (Main.player[npc.target].active ? 110f : 10f));
+            else npc.position.Y = MathHelper.Lerp(npc.position.Y, (float)(TargetY + Math.Sin(Timer / 20f) * sineTime), 0.05f);
             Timer++;
             if (npc.life < npc.lifeMax)
             {
                 npc.damage = 19;
-                npc.TargetClosest();
+                npc.TargetClosest(false);
             }
+
+            int minDist = 128;
+            bool exceedMin = Helper.HorizontalDistance(npc.Center, Main.player[npc.target].Center) <= minDist;
             if (Main.player[npc.target].active)
             {
                 TargetY = Main.player[npc.target].position.Y;
-                npc.direction = (Main.player[npc.target].position.X > npc.position.X) ? 1 : -1;
+                if (!exceedMin || npc.direction == 0)
+                {
+                    npc.direction = (Main.player[npc.target].position.X > npc.position.X) ? 1 : -1;
+                }
                 npc.spriteDirection = (Main.player[npc.target].position.X > npc.position.X) ? 1 : -1;
+                sineTime = MathHelper.Lerp(sineTime, 110f, 0.01f);
             }
-            switch (npc.direction)
-            {
-                case 1:
-                    {
-                        if (npc.velocity.X < 2f) npc.velocity.X++;
-                        break;
-                    }
-                case -1:
-                    {
-                        if (npc.velocity.X > -2f) npc.velocity.X--;
-                        break;
-                    }
-                default:
-                    {
-                        npc.direction = (int)Main.rand.NextFloatDirection();
-                        break;
-                    }
-            }
+
+            npc.velocity.X = MathHelper.Lerp(npc.velocity.X, npc.direction * 2f, 0.05f);
+            Main.NewText(npc.velocity.X);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -199,24 +192,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override void FindFrame(int frameHeight)
         {
-            if (npc.life < npc.lifeMax)
+            if (Timer % (npc.life < npc.lifeMax ? 4 : 6) == 0) npc.frameCounter++;
+            if (npc.frameCounter > 3)
             {
-                if (Timer % 4 == 0) npc.frameCounter++;
-                if (npc.frameCounter > 3)
-                {
-                    npc.frameCounter = 0;
-                }
-                npc.frame.Y = (int)npc.frameCounter * frameHeight;
+                npc.frameCounter = 0;
             }
-          else
-            {
-                if (Timer % 6 == 0) npc.frameCounter++;
-                if (npc.frameCounter > 3)
-                {
-                    npc.frameCounter = 0;
-                }
-                npc.frame.Y = (int)npc.frameCounter * frameHeight;
-            }
+            npc.frame.Y = (int)npc.frameCounter * frameHeight;
         }
     }
 

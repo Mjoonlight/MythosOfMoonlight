@@ -16,7 +16,7 @@ float2 uImageSize1;
 float4 ScreenBasic(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
-    colour.rgb = float4(128, 128, 0, 1);
+    colour.rgb = float4(128, 128, 0, 255);
     return colour * sampleColor;
 }
 

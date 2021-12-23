@@ -11,6 +11,7 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static float HorizontalDistance(Vector2 one, Vector2 two) => System.Math.Abs(one.X - two.X);
         public static Vector2 GetPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
         {
             float cx = 3 * (p1.X - p0.X);
