@@ -123,7 +123,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, 2 * hitDirection, -1.5f);
 			}
 			if (npc.life <= 0)
             {
@@ -131,12 +131,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century1"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century2"));
+				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century2"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century3"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century3"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century4"));
 				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century4"));
-				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century5"));
-				Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Century5"));
 				for (int i = 0; i < 10; i++)
 				{
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);

@@ -23,6 +23,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.damage = 15;
             npc.defense = 2;
             npc.lifeMax = 80;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
         }
         public override void DrawEffects(ref Color drawColor)
         {
@@ -142,6 +144,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.lifeMax = 140;
             npc.noTileCollide = true;
             npc.noGravity = true;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
         }
         float TargetY;
         int Timer = 0;
@@ -153,10 +157,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 TargetY = npc.position.Y;
             }
-            else npc.position.Y = (float)(TargetY + Math.Sin(Timer / 20f) * (Main.player[npc.target].active ? 110f : 70f));
+            else npc.position.Y = (float)(TargetY + Math.Sin(Timer / 20f) * (Main.player[npc.target].active ? 110f : 10f));
             Timer++;
             if (npc.life < npc.lifeMax)
             {
+                npc.damage = 19;
                 npc.TargetClosest();
             }
             if (Main.player[npc.target].active)
@@ -169,12 +174,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 case 1:
                     {
-                        if (npc.velocity.X < 3f) npc.velocity.X++;
+                        if (npc.velocity.X < 2f) npc.velocity.X++;
                         break;
                     }
                 case -1:
                     {
-                        if (npc.velocity.X > -3f) npc.velocity.X--;
+                        if (npc.velocity.X > -2f) npc.velocity.X--;
                         break;
                     }
                 default:
@@ -194,12 +199,24 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override void FindFrame(int frameHeight)
         {
-            if (Timer % 4 == 0) npc.frameCounter++;
-            if (npc.frameCounter > 3)
+            if (npc.life < npc.lifeMax)
             {
-                npc.frameCounter = 0;
+                if (Timer % 4 == 0) npc.frameCounter++;
+                if (npc.frameCounter > 3)
+                {
+                    npc.frameCounter = 0;
+                }
+                npc.frame.Y = (int)npc.frameCounter * frameHeight;
             }
-            npc.frame.Y = (int)npc.frameCounter * frameHeight;
+          else
+            {
+                if (Timer % 6 == 0) npc.frameCounter++;
+                if (npc.frameCounter > 3)
+                {
+                    npc.frameCounter = 0;
+                }
+                npc.frame.Y = (int)npc.frameCounter * frameHeight;
+            }
         }
     }
 
