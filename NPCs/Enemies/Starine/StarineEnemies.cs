@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Starine
 {
@@ -23,7 +24,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.damage = 15;
             npc.defense = 2;
             npc.lifeMax = 80;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit19;
             npc.DeathSound = SoundID.NPCDeath1;
         }
         public override void DrawEffects(ref Color drawColor)
@@ -81,8 +82,28 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             return SpawnCondition.OverworldNight.Chance * .05f;
         }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                    Main.dust[dust].scale = 2f;
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Starine"));
+                }
+            }
+        }
         public override void AI()
         {
+            Lighting.AddLight(npc.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[npc.target];
             npc.TargetClosest();
             switch (State)
@@ -144,7 +165,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.lifeMax = 140;
             npc.noTileCollide = true;
             npc.noGravity = true;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit19;
             npc.DeathSound = SoundID.NPCDeath1;
         }
         float TargetY;
@@ -180,7 +201,25 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             }
 
             npc.velocity.X = MathHelper.Lerp(npc.velocity.X, npc.direction * 2f, 0.05f);
-            Main.NewText(npc.velocity.X);
+        }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                    Main.dust[dust].scale = 2f;
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Starine"));
+                }
+            }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
