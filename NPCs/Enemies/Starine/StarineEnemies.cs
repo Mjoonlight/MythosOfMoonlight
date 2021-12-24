@@ -40,7 +40,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 case 0:
                     {
-                        if (npc.velocity.Y >= 0)
+                        if (npc.velocity.Y > 0)
                         {
                             npc.frameCounter = 7;
                         }
@@ -121,8 +121,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         {
                             if (npc.velocity.X == 0)
                             {
-                                NumZeroes++;
-                                if (NumZeroes < 2)
+                                if (NumZeroes++ < 1)
                                 {
                                     State = 1;
                                 }
