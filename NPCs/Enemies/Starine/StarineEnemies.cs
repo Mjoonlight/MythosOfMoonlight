@@ -101,7 +101,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 }
             }
         }
-        float LastXValue
+        float NumZeroes
         {
             get => npc.ai[0];
             set => npc.ai[0] = value;
@@ -119,10 +119,24 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         Timer++;
                         if (npc.velocity.Y == 0)
                         {
-                            npc.velocity.X = 0;
-                            if (npc.oldVelocity.X == 0) State = 3;
+                            if (npc.velocity.X == 0)
+                            {
+                                NumZeroes++;
+                                if (NumZeroes < 2)
+                                {
+                                    State = 1;
+                                }
+                                else
+                                {
+                                    State = 3;
+                                    NumZeroes = 0;
+                                }
+                            }
                             else State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
                             Timer = (JumpsElapsed % 4f == 0) ? 30f : (8f * ((npc.life < npc.lifeMax / 2) ? (npc.life / npc.lifeMax) : 1f));
+                            npc.velocity.X = 0;
+                        } else {
+                            npc.velocity.X = 4f * npc.direction;
                         }
                         break;
                     }
@@ -156,7 +170,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                     if (Timer <= 0)
                     {
                         npc.direction = npc.spriteDirection = (target.position.X > npc.position.X) ? -1 : 1;
-                        npc.velocity += new Vector2((Main.rand.NextFloat() - .5f + 4f) * npc.direction, -7f);
+                        npc.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * npc.direction, -7f);
                         JumpsElapsed++;
                         State = 0;
                     }
