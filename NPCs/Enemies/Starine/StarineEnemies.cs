@@ -101,17 +101,27 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 }
             }
         }
+        float LastXValue
+        {
+            get => npc.ai[0];
+            set => npc.ai[0] = value;
+        }
         public override void AI()
         {
             Lighting.AddLight(npc.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[npc.target];
-            npc.TargetClosest();
+            npc.TargetClosest(false);
             switch (State)
             {
                 //Falling waiting to be grounded
                 case 0:
                     {
                         Timer++;
+                        if (npc.oldVelocity.X == 0)
+                        {
+                            State = 3;
+                            break;
+                        }
                         if (npc.velocity.Y == 0)
                         {
                             npc.velocity.X = 0;
@@ -126,9 +136,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         Timer--;
                         if (Timer <= 0)
                         {
-                            npc.velocity += new Vector2(4f * ((target.position.X > npc.position.X) ? 1f : -1f), -7f);
-                            npc.direction = (target.position.X > npc.position.X) ? 1 : -1;
-                            npc.spriteDirection = (target.position.X > npc.position.X) ? 1 : -1;
+                            npc.direction = npc.spriteDirection = (target.position.X > npc.position.X) ? 1 : -1;
+                            npc.velocity = new Vector2(4f * npc.direction, -7f);
                             JumpsElapsed++;
                             State = 0;
                         }
@@ -141,10 +150,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         if (Timer <= 0)
                         {
                             JumpsElapsed++;
-                            State = 0;
+                            State = 1;
                         }
                         break;
                     }
+                //Jump backwards to fix psotion
+                case 3:
+                    Timer--;
+                    if (Timer <= 0)
+                    {
+                        npc.direction = npc.spriteDirection = (target.position.X > npc.position.X) ? -1 : 1;
+                        npc.velocity += new Vector2((Main.rand.NextFloat() - .5f + 4f) * npc.direction, -7f);
+                        JumpsElapsed++;
+                        State = 0;
+                    }
+                    break;
             }
         }
     }
