@@ -117,15 +117,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 case 0:
                     {
                         Timer++;
-                        if (npc.oldVelocity.X == 0)
-                        {
-                            State = 3;
-                            break;
-                        }
                         if (npc.velocity.Y == 0)
                         {
                             npc.velocity.X = 0;
-                            State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
+                            if (npc.oldVelocity.X == 0) State = 3;
+                            else State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
                             Timer = (JumpsElapsed % 4f == 0) ? 30f : (8f * ((npc.life < npc.lifeMax / 2) ? (npc.life / npc.lifeMax) : 1f));
                         }
                         break;
