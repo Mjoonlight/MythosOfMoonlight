@@ -40,6 +40,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 			npc.lavaImmune = true;
 			music = MusicID.Boss5;
 			npc.buffImmune[BuffID.Poisoned] = true;
+			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Mortiflora");
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
