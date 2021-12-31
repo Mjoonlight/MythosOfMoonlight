@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "isCRFdjz4KfSYXVzUqu1K+58zm1prKAJQcxe4YHkHhkh7Tx6o/oR3Gr3u24xsT3fUp+JHEZtE0Kqp5QPGfzWgg==",
+  "dgSpecHash": "A6sIqFCKMVpL/dcb3jFU1Ug/LQ9Lg1LwyMIRY5JoIG5IubmBy2h1X6xSfOgxVVJeI+YHFmpINYqlPdLXAdorfQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\migue\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
+  "projectFilePath": "C:\\Users\\DiceD\\OneDrive\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\MythosOfMoonlight\\MythosOfMoonlight.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\migue\\.nuget\\packages\\tmodloader.codeassist\\0.1.3\\tmodloader.codeassist.0.1.3.nupkg.sha512"
+    "C:\\Users\\DiceD\\.nuget\\packages\\tmodloader.codeassist\\0.1.3\\tmodloader.codeassist.0.1.3.nupkg.sha512"
   ],
   "logs": []
 }

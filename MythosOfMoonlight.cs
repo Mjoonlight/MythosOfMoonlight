@@ -11,6 +11,26 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                Dust.NewDust(position, (int)size.X, (int)size.Y, type, velocity.X, velocity.Y);
+            }
+        }
+        public static void SpawnGore(NPC npc, string gore, int amount = 1, int type = -1)
+        {
+            var mod = npc.modNPC.mod;
+            var position = npc.Center;
+            if (type != -1)
+            {
+                gore += type;
+            }
+            for (int i = 0; i < amount; i++)
+            {
+                Gore.NewGore(position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot(gore));
+            }
+        }
         public static float HorizontalDistance(Vector2 one, Vector2 two) => System.Math.Abs(one.X - two.X);
         public static Vector2 GetPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
         {
