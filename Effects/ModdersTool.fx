@@ -20,10 +20,17 @@ float uSaturation;
 float4 uSourceRect;
 float2 uZoom;
 
-float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+float2 Transform(float3 vec)
+{
+    float2 View2 = float2(0.5, 0.5);
+    float3 View3 = float3(View2, -2);
+    float2 vec2 = float2(vec.x, vec.y);
+    return vec2 - (vec2 - View2) * (1 - (-View3.z / (vec.z - View3.z)));
+}
+float4 PixelShaderFunction2(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
-    color.rb *= 3.24;
+	color.rgb *= uColor;
     return color;
 }
 
@@ -31,6 +38,6 @@ technique Technique1
 {
     pass ModdersToolkitShaderPass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunction2();
     }
 }

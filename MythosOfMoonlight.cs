@@ -92,8 +92,8 @@ namespace MythosOfMoonlight
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Ref<Effect> filterRef = new Ref<Effect>(GetEffect("Effects/PurpleComet"));
-                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(filterRef, "ScreenBasic"), EffectPriority.Medium);
+                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
+                SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
         }
     }
