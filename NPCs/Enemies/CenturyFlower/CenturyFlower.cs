@@ -103,8 +103,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 
 		public void OpenPetals()
         {
-			npc.velocity.X = 0;
-			if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
+			if (npc.frameCounter == 1)
+			{
+				npc.velocity.X = 0;
+			}
+			else if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
 			{
 				if (npc.frameCounter >= 150)
 				{
