@@ -23,7 +23,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             npc.height = 22;
             npc.defense = 0;
         }
-        const float SPEED = 2f;
+        const float SPEED = 3.5f;
         const int TRANSITION_CHANCE = 99;
         int State
         {
@@ -88,6 +88,10 @@ namespace MythosOfMoonlight.NPCs.Critters
         public override Color? GetAlpha(Color drawColor)
         {
             return Color.White;
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return !PurpleCometEvent.PurpleComet ? 0 : 0.17f;
         }
     }
 }

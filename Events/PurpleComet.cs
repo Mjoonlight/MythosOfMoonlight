@@ -59,6 +59,11 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 		{
 			PurpleComet = false;
 		}
+
+		public static int[] PurpleCometCritters = new[]
+		{
+			NPCType<NPCs.Critters.SparkleSkittler>()
+		};
         public override void PreUpdate()
 		{
 			if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
@@ -72,7 +77,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 				testedEvents = true;
 			}
 			else if (PurpleComet && Main.dayTime)
-			{
+            {
 				Main.NewText("The purple shine fades as the sun rises.", 179, 0, 255); //event message in chat.
 				PurpleComet = false;
 				testedEvents = false;

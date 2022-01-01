@@ -45,9 +45,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
 		{
 			Main.NewText("You start to feel like levitating...", 179, 0, 255, true);
 			Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
-			if (!Main.dayTime) {
-				PurpleCometEvent.PurpleComet = true;
-			}
+			PurpleCometEvent.PurpleComet = true;
 			return true;
         }
 	}
