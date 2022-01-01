@@ -1,7 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Items.PurpleComet.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +24,11 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             npc.defense = 0;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
+            Main.npcCatchable[npc.type] = true;
+            npc.catchItem = (short)ModContent.ItemType<SparkleSkittlerItem>();
+            npc.dontCountMe = true;
+            npc.npcSlots = 0;
+            npc.dontTakeDamageFromHostiles = false;
         }
         const float SPEED = 3.5f;
         const int TRANSITION_CHANCE = 99;
@@ -46,7 +50,8 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                     {
                         npc.velocity.X = 0;
                         State = 1;
-                    } else if (npc.velocity.X == 0)
+                    }
+                    else if (npc.velocity.X == 0)
                     {
                         npc.direction = -npc.direction;
                     }
@@ -96,7 +101,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                         {
                             npc.frameCounter = FRAME_RATE;
                         }
-                    } 
+                    }
                     else
                     {
                         npc.frameCounter = FRAME_RATE;
