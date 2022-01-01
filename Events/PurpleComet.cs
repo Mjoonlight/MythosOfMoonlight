@@ -62,7 +62,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 
 		public static int[] PurpleCometCritters = new[]
 		{
-			NPCType<NPCs.Critters.SparkleSkittler>()
+			NPCType<NPCs.Critters.PurpleComet.SparkleSkittler>()
 		};
         public override void PreUpdate()
 		{

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
 {
@@ -26,6 +27,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             npc.lifeMax = 260;
             npc.noGravity = true;
             npc.noTileCollide = true;
+            npc.HitSound = SoundID.NPCHit7;
+            npc.DeathSound = SoundID.NPCDeath43;
         }
 
         const float SPEED = 4.2f, MINIMUM_DISTANCE = 60f;
@@ -105,9 +108,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
                 Helper.SpawnGore(npc, "Gores/Enemies/EntroTotem", 8, 2);
                 Helper.SpawnGore(npc, "Gores/Enemies/EntroTotem", 3, 3);
                 Helper.SpawnGore(npc, "Gores/Enemies/EntroTotem", 6, 4);
+                Helper.SpawnDust(npc.position, npc.Size, ModContent.DustType<EntropicTotemProjectileDust>(), new Vector2(-hitDirection * Math.Abs(npc.oldVelocity.X), -1.5f), dustAmount);
                 dustAmount = 10;
+
             }
             Helper.SpawnDust(npc.position, npc.Size, DustID.Stone, new Vector2(-hitDirection * Math.Abs(npc.oldVelocity.X), -1.5f), dustAmount);
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

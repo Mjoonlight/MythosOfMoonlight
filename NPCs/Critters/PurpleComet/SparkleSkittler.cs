@@ -1,11 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MythosOfMoonlight.NPCs.Critters
+namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
 {
     public class SparkleSkittler : ModNPC
     {
@@ -16,12 +17,14 @@ namespace MythosOfMoonlight.NPCs.Critters
         }
         public override void SetDefaults()
         {
-            npc.friendly = true;
+            npc.friendly = false;
             npc.aiStyle = -1;
             npc.lifeMax = 5;
             npc.width = 30;
             npc.height = 22;
             npc.defense = 0;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
         }
         const float SPEED = 3.5f;
         const int TRANSITION_CHANCE = 99;
@@ -61,6 +64,26 @@ namespace MythosOfMoonlight.NPCs.Critters
             npc.spriteDirection = npc.direction;
         }
         const int FRAME_RATE = 3;
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
+                Main.dust[dust].scale = 0.5f;
+            }
+            if (npc.life <= 0)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
+                    Main.dust[dust].scale = 0.8f;
+                }
+                for (int i = 0; i < 2; i++)
+                {
+                    Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Purpurine"));
+                }
+            }
+        }
         public override void FindFrame(int frameHeight)
         {
             switch (State)
