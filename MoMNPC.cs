@@ -18,6 +18,10 @@ namespace MythosOfMoonlight
                 {
                     pool.Add(PurpleCometEvent.PurpleCometCritters[i], 1f);
                 }
+                for (int i = 0; i < PurpleCometEvent.StarineEntities.Length; i++)
+                {
+                    pool.Add(PurpleCometEvent.StarineEntities[i], 0.1f);
+                }
             }
         }
 
