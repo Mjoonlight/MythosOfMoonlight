@@ -96,5 +96,13 @@ namespace MythosOfMoonlight
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
         }
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+            if (PurpleCometEvent.PurpleComet)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/PurpleComet");
+                priority = MusicPriority.Event;
+            }
+        }
     }
 }
