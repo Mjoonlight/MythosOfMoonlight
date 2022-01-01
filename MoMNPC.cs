@@ -23,8 +23,11 @@ namespace MythosOfMoonlight
 
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
-            spawnRate = 50;
-            maxSpawns = 255;
+            if (PurpleCometEvent.PurpleComet)
+            {
+                spawnRate = 50;
+                maxSpawns = 255;
+            }
         }
     }
 }
