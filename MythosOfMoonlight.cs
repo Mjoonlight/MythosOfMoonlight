@@ -92,7 +92,7 @@ namespace MythosOfMoonlight
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
+                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(5, 0, 11).UseOpacity(.09f), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
         }
