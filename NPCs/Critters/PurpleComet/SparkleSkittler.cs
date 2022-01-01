@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override void SetDefaults()
         {
-            npc.friendly = false;
+            npc.friendly = true;
             npc.aiStyle = -1;
             npc.lifeMax = 5;
             npc.width = 30;
@@ -29,6 +29,14 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             npc.dontCountMe = true;
             npc.npcSlots = 0;
             npc.dontTakeDamageFromHostiles = false;
+        }
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return true;
+        }
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return true;
         }
         const float SPEED = 3.5f;
         const int TRANSITION_CHANCE = 99;
