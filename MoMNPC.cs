@@ -24,7 +24,7 @@ namespace MythosOfMoonlight
                 }
             }
         }
-
+        /*
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
             if (PurpleCometEvent.PurpleComet)
@@ -33,5 +33,6 @@ namespace MythosOfMoonlight
                 maxSpawns = 255;
             }
         }
-    }
+        */
+    }   
 }
