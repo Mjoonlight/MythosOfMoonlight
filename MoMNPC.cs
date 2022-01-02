@@ -16,11 +16,19 @@ namespace MythosOfMoonlight
                 pool.Clear();
                 for (int i = 0; i < PurpleCometEvent.PurpleCometCritters.Length; i++)
                 {
-                    pool.Add(PurpleCometEvent.PurpleCometCritters[i], 1f);
+                    var type = PurpleCometEvent.PurpleCometCritters[i];
+                    if (!pool.ContainsKey(type))
+                    {
+                        pool.Add(type, 1f);
+                    }
                 }
                 for (int i = 0; i < PurpleCometEvent.StarineEntities.Length; i++)
                 {
-                    pool.Add(PurpleCometEvent.StarineEntities[i], 0.1f);
+                    var type = PurpleCometEvent.StarineEntities[i];
+                    if (!pool.ContainsKey(type))
+                    {
+                        pool.Add(type, 0.1f);
+                    }
                 }
             }
         }
