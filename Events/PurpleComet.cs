@@ -62,7 +62,12 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 	   public static int[] PurpleCometCritters => new[]
         {
             NPCType<NPCs.Critters.PurpleComet.SparkleSkittler>(),
+<<<<<<< Updated upstream
             NPCID.EnchantedNightcrawler
+=======
+            NPCID.EnchantedNightcrawler,
+			NPCID.Firefly
+>>>>>>> Stashed changes
         };
         public static int[] StarineEntities => new[]
         {
