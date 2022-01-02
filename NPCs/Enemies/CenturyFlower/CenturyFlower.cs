@@ -76,6 +76,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		void ManageMovement()
 		{
 			npc.TargetClosest(false);
+			Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
 			var player = Main.player[npc.target];
 			// var sqrDistance = player.DistanceSQ(npc.position);
 			if (npc.velocity == Vector2.Zero)
@@ -123,7 +124,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			}
 			if (npc.velocity.Y == 0)
 			{
-				npc.velocity.X *= 0.02f;
+				npc.velocity.X *= 0.9f;
 			}
 		}
 

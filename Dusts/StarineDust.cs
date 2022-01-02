@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.Dusts
 		{
 			dust.noGravity = false;
 			dust.noLight = true;
-			dust.scale = 2f;
+			// dust.scale *= 2f;
 		}
 		public override bool Update(Dust dust)
 		{

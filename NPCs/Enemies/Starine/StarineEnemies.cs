@@ -15,6 +15,26 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             DisplayName.SetDefault("Starine Skipper");
             Main.npcFrameCount[npc.type] = 8;
+            NPCID.Sets.TrailCacheLength[npc.type] = 10;
+            NPCID.Sets.TrailingMode[npc.type] = 8;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            //3hi31mg
+            var off = new Vector2(npc.width / 2, npc.height / 2);
+            var clr = new Color(255, 255, 255, 255); // full white
+            var drawPos = npc.Center - Main.screenPosition;
+            var texture = mod.GetTexture("NPCs/Enemies/Starine/Starine_Skipper");
+            var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            var orig = frame.Size() / 2f;
+
+            var red = new Color(255, 0, 0, 255);
+            var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
+            for (int i = 1; i < trailLength; i++)
+            {
+                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, red, npc.oldRot[i], orig, 1f, SpriteEffects.None, 0f);
+            }
+            return true;
         }
         public override void SetDefaults()
         {

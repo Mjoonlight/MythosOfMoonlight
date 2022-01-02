@@ -55,6 +55,12 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                     {
                         npc.direction = Main.rand.NextBool(2) ? 1 : -1;
                     }
+                    var dustPosOffset = new Vector2(1 * npc.direction, 5);
+                    var dustPosition = npc.Center + dustPosOffset;
+                    var dust = Dust.NewDustPerfect(dustPosition, ModContent.DustType<PurpurineDust>(), default, 0, default, 1f); // 10, 9
+                    dust.noGravity = true;
+                    dust.velocity = Vector2.Zero;
+
                     if (Main.rand.NextBool(TRANSITION_CHANCE))
                     {
                         npc.velocity.X = 0;
