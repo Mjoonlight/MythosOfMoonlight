@@ -47,6 +47,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override void AI()
         {
+            Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
             switch (State)
             {
                 case 0:
@@ -82,14 +83,14 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             for (int i = 0; i < 2; i++)
             {
                 int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
-                Main.dust[dust].scale = 0.5f;
+                Main.dust[dust].scale = 1f;
             }
             if (npc.life <= 0)
             {
                 for (int i = 0; i < 5; i++)
                 {
                     int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
-                    Main.dust[dust].scale = 0.8f;
+                    Main.dust[dust].scale = 1f;
                 }
                 for (int i = 0; i < 2; i++)
                 {
