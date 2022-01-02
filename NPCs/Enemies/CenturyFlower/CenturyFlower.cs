@@ -109,16 +109,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			}
 			else if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
 			{
+
 				if (npc.frameCounter >= 150)
 				{
 					RealFrame = ScaleFrame(4);
 					SetState(0);
 				}
-				
+
 				else
 				{
 					Projectile.NewProjectileDirect(npc.Center - new Vector2(1, 19), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CenturyFlowerSpore.CenturyFlowerSpore>(), 0, 0);
 				}
+			}
+			if (npc.velocity.Y == 0)
+			{
+				npc.velocity.X *= 0.02f;
 			}
 		}
 
