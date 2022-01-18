@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.Projectiles.RupturedPilgrim;
+using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles;
 
-namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim {
+namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
+{
     public class RupturedPilgrim : ModNPC {
         public override void SetStaticDefaults()
         {
@@ -86,7 +86,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim {
                 }
                 else {
                     hasDoneDeathDrama = true;
-                    Projectile.NewProjectile(npc.Center - new Vector2(0, 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 45, 0);
+                    Projectile.NewProjectileDirect(npc.Center - new Vector2(0, 0), new Vector2(0), ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
                     npc.life = 0;
                 }
             }
@@ -136,9 +136,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim {
             Player player = Main.player[npc.target];
             if (AIState == Idle) {
                 AITimer++;
-                Vector2 pos = new Vector2(player.position.X + 350, player.position.Y);
+                Vector2 pos = new Vector2(player.position.X + 150, player.position.Y + 10);
                 Vector2 moveTo = pos - npc.Center;
-                npc.velocity = (moveTo) * 0.18f;
+                npc.velocity = (moveTo) * 0.08f;
                 if (AITimer >= 155) {
                     AITimer = 0;
                     AIState = Attack;
@@ -148,7 +148,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim {
             }
             else if (AIState == Attack) {
                 if (npc.frameCounter == 26) {
-                    Projectile.NewProjectile(npc.Center - new Vector2(0, 45), Vector2.Zero, ModContent.ProjectileType<PilgrimProj>(), 0, 0);
+                    Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
                 }
             }
             else if (AIState == DeathDrama) {
