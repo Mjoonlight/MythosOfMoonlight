@@ -30,6 +30,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile
         int Parent => (int)projectile.ai[1];
         public override void AI()
         {
+            projectile.damage = Main.expertMode ? Main.npc[Parent].damage / 2 : Main.npc[Parent].damage;
             var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
             var dust = Dust.NewDustPerfect(projectile.Center, dustType, -projectile.velocity);
 

@@ -86,7 +86,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 else {
                     hasDoneDeathDrama = true;
-                    Projectile.NewProjectileDirect(npc.Center - new Vector2(0, 0), new Vector2(0), ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
+                    Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
                     npc.life = 0;
                 }
             }
@@ -116,6 +116,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         	if (damage >= npc.life && !hasDoneDeathDrama)
         	{
                 damage = 0;
+                knockback = 0;
                 AIState = DeathDrama;
                 npc.frameCounter = 0;
                 npc.dontTakeDamage = true;
@@ -126,6 +127,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         	if (damage >= npc.life && !hasDoneDeathDrama)
         	{
                 damage = 0;
+                knockback = 0;
                 AIState = DeathDrama;
                 npc.frameCounter = 0;
                 npc.dontTakeDamage = true;
