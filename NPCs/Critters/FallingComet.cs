@@ -9,14 +9,14 @@ using System.IO;
 using System.Collections.Generic;
 using Terraria.Utilities;
 
-namespace MythosOfMoonlight.NPCs.Enemies.PurpleChunk
+namespace MythosOfMoonlight.NPCs.Critters
 {
     public class FallingComet : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purple Chunk");
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcFrameCount[npc.type] = 3;
 			NPCID.Sets.TrailCacheLength[npc.type] = 4;
 			NPCID.Sets.TrailingMode[npc.type] = 2;
         }
@@ -49,7 +49,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.PurpleChunk
 			color = npc.GetAlpha(lightColor);
 
 			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, npc.frame, color, npc.rotation, drawOrigin, npc.scale, npc.spriteDirection == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);
-			spriteBatch.Draw(mod.GetTexture("NPCs/Enemies/PurpleChunk/FallingCometGlow"), drawPos, npc.frame, Color.White, npc.rotation, drawOrigin, npc.scale, npc.spriteDirection == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);	
+			spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometGlow"), drawPos, npc.frame, Color.White, npc.rotation, drawOrigin, npc.scale, npc.spriteDirection == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);	
 		}
 		Vector2 Drawoffset => new Vector2(0) + Vector2.UnitX * npc.spriteDirection * 24;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //Trail Code
@@ -81,14 +81,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.PurpleChunk
             for (int i = 1; i < 110 / trailLength; i++) //trail length
             {
                 Color color = Color.Lerp(startColor, endColor, i / 1f * 10f / trailLength) * opacity;
-                Main.spriteBatch.Draw(mod.GetTexture("NPCs/Enemies/PurpleChunk/FallingCometTrail"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(5) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 8f), spriteEffects, 0f);
-			    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Enemies/PurpleChunk/FallingCometTrail"), Main.screenPosition, Color.Lerp(Color.Transparent, purple * (1f * 10f - opacityMult * i),8) * (trailLength - i));
+                Main.spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometTrail"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(5) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 8f), spriteEffects, 0f);
+			    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometTrail"), Main.screenPosition, Color.Lerp(Color.Transparent, purple * (1f * 10f - opacityMult * i),8) * (trailLength - i));
 			}
         }
 		//private static int FRAMESPEED = 7;
         bool firstFrame = false;
         public override void AI()
-        {  
+        {
+			if (firstFrame)
+			{
+				npc.frame.Y = Main.rand.Next(2) * npc.height;
+			}
+
 			if (npc.timeLeft > 60)
             {
                   if (Main.rand.NextBool(12))

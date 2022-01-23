@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles;
+using Terraria.ID;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
@@ -20,6 +21,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             npc.damage = 0;
             npc.aiStyle = 0;
             npc.noGravity = true;
+            npc.HitSound = SoundID.NPCHit44;
+            npc.DeathSound = SoundID.NPCDeath52;
             npc.noTileCollide = true;
         }
         bool hasDoneDeathDrama;
