@@ -17,8 +17,8 @@ namespace MythosOfMoonlight.NPCs.Critters
         {
             DisplayName.SetDefault("Purple Chunk");
             Main.npcFrameCount[npc.type] = 3;
-			NPCID.Sets.TrailCacheLength[npc.type] = 4;
-			NPCID.Sets.TrailingMode[npc.type] = 2;
+			NPCID.Sets.TrailCacheLength[npc.type] = 10;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
         }
         public override void SetDefaults()
         {
@@ -52,41 +52,27 @@ namespace MythosOfMoonlight.NPCs.Critters
 			spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometGlow"), drawPos, npc.frame, Color.White, npc.rotation, drawOrigin, npc.scale, npc.spriteDirection == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);	
 		}
 		Vector2 Drawoffset => new Vector2(0) + Vector2.UnitX * npc.spriteDirection * 24;
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //Trail Code
-		{
-		    float num395 = Main.mouseTextColor / 35f - 3.5f;
-            num395 *= 0.1f;
-            float num366 = num395 + 0.57f;
-			if (npc.velocity.Y != 0)
-			{
-				DrawAfterImage(Main.spriteBatch, new Vector2(1f, 1f), 0.75f * 1f, Color.Violet, 0.1f * 1f, num366, 0.57f * 1f);
-			}
-			var effects = npc.spriteDirection == -1? SpriteEffects.None : SpriteEffects.FlipVertically;
-			var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
-			var fadeMult = 1f / trailLength;
-			var opacityMult = 4f / trailLength;
-			var opacity = 1f * 10f / trailLength; 
-			//var purple = new Color(255, 0, 255, 155);
-			return false;
-		}
-		//Trail code (con.t)
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
-        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpriteEffects spriteEffects = (npc.spriteDirection == -1) ? SpriteEffects.FlipVertically : SpriteEffects.None;
-			var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
-			var fadeMult = 2f / trailLength; //trail size mutliplier
-			var opacityMult = 1f * 10f / trailLength;
-			var purple = Color.Violet * 1f * 10f;
-            for (int i = 1; i < 110 / trailLength; i++) //trail length
+            //3hi31mg
+            var off = new Vector2(npc.width / 2, npc.height / 2);
+            var clr = new Color(255, 255, 255, 255); // full white
+            var drawPos = npc.Center - Main.screenPosition;
+            var texture = mod.GetTexture("NPCs/Critters/FallingCometTrail");
+            var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            var orig = frame.Size() / 2f;
+            var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
+
+            for (int i = 1; i < trailLength; i++)
             {
-                Color color = Color.Lerp(startColor, endColor, i / 1f * 10f / trailLength) * opacity;
-                Main.spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometTrail"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(5) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 8f), spriteEffects, 0f);
-			    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Critters/FallingCometTrail"), Main.screenPosition, Color.Lerp(Color.Transparent, purple * (1f * 10f - opacityMult * i),8) * (trailLength - i));
-			}
+                float scale = MathHelper.Lerp(1f, 0.1f, (float)(trailLength - i) / trailLength);
+                var fadeMult = 1f / trailLength;
+                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (scale - fadeMult * i), npc.oldRot[i], orig, 1f, SpriteEffects.None, 0f);
+            }
+            return true;
         }
-		//private static int FRAMESPEED = 7;
-        bool firstFrame = false;
+            //private static int FRAMESPEED = 7;
+            bool firstFrame = false;
         public override void AI()
         {
 			if (firstFrame)
