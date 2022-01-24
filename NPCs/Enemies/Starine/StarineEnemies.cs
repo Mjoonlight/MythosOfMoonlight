@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                 Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (scale - fadeMult * i), npc.oldRot[i], orig, 1f, flipType, 0f);
+                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
             }
             return true;
         }
@@ -237,7 +237,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (scale - fadeMult * i), npc.oldRot[i], orig, 1f, flipType, 0f);
+                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
             }
             return true;
         }
