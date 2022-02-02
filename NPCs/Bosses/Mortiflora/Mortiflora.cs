@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 		{
 			DisplayName.SetDefault("Mortiflora");
 			Main.npcFrameCount[npc.type] = 16;
-			NPCID.Sets.TrailingMode[npc.type] = 7;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			NPCID.Sets.TrailCacheLength[npc.type] = 16;
 		}
 		public override void SetDefaults()

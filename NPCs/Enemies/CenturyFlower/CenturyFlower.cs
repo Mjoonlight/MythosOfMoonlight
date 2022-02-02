@@ -29,7 +29,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			npc.modNPC.aiType = NPCID.GoblinScout;
 			npc.netAlways = true;
 		}
-
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.lifeMax = (int)(npc.lifeMax * 0.675f * bossLifeScale);
+		}
 		void SetState(int newState)
 		{
 			npc.ai[0] = newState;
@@ -140,6 +143,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 2);
 				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 3);
 				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 4);
+				Helper.SpawnGore(npc, "Gores/Enemies/CenturyLeaf", 5);
 				for (int i = 0; i < 10; i++)
 				{
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);

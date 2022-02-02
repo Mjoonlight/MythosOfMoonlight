@@ -29,6 +29,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath43;
+            npc.buffImmune[BuffID.Confused] = true;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.650f * bossLifeScale);
         }
 
         const float SPEED = 4.2f, MINIMUM_DISTANCE = 60f;
@@ -59,7 +67,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             }
             
         }
-        void TiltSprite() => npc.rotation = MathHelper.Clamp(npc.velocity.X * .25f, MathHelper.ToRadians(-30), MathHelper.ToRadians(30));
+        void TiltSprite() => npc.rotation = MathHelper.Clamp(npc.velocity.X * .15f, MathHelper.ToRadians(-30), MathHelper.ToRadians(30));
         void StateTransitionManagement()
         {
             var maxTime = EntropicTotemProjectile.EntropicTotemProjectile.MAX_TIMELEFT;
