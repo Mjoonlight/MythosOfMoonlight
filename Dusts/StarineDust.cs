@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,9 +12,13 @@ namespace MythosOfMoonlight.Dusts
 			dust.noLight = true;
 			// dust.scale *= 2f;
 		}
-		public override bool Update(Dust dust)
+		public override bool MidUpdate(Dust dust)
 		{
-			dust.velocity.Y += 0.1f;
+			if (!dust.noGravity)
+            {
+				dust.velocity.Y += 0.1f;
+			}	
+
 			dust.rotation += 1f;
 			dust.scale -= 0.05f;
 			dust.position += dust.velocity;
@@ -23,5 +28,7 @@ namespace MythosOfMoonlight.Dusts
 			Lighting.AddLight(dust.position, 0.5f * dust.scale, 0.7f * dust.scale, 1f * dust.scale);
 			return false;
 		}
+		public override Color? GetAlpha(Dust dust, Color lightColor)
+		=> new Color(lightColor.R, lightColor.G, lightColor.B, 25);
 	}
 }

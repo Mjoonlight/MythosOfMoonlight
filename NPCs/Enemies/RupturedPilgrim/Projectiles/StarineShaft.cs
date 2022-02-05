@@ -36,7 +36,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
             {
                 int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<StarineDust>(), 2f);
                 Main.dust[dust].scale = 2f;
-                Main.dust[dust].velocity = projectile.oldVelocity;
+                Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 1.2f;
+                Main.dust[dust].velocity.Y = -1.5f;
                 Main.dust[dust].noGravity = true;
             }
         }
@@ -57,7 +58,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 
             for (int i = 1; i < trailLength; i++)
             {
-                float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                float scale = MathHelper.Lerp(0.70f, 1f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.spriteBatch.Draw(texture, projectile.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), projectile.oldRot[i], orig, scale, flipType, 0f);

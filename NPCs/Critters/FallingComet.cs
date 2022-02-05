@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Terraria.Utilities;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Critters
 {
@@ -84,7 +85,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             {
                   if (Main.rand.NextBool(12))
             {
-                int d = Dust.NewDust(npc.Center + new Vector2(5f, 0f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + npc.velocity.ToRotation()), 4, 4, ModContent.DustType<Dusts.FallingCometDust>());
+                int d = Dust.NewDust(npc.Center + new Vector2(5f, 0f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + npc.velocity.ToRotation()), 4, 4, ModContent.DustType<PurpurineStoneDust>());
                 Main.dust[d].velocity = npc.velocity * 0.6f;
             } 
 			}
@@ -109,7 +110,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             {
                 if (Main.rand.NextBool(12))
               {
-                int d = Dust.NewDust(npc.Center + new Vector2(6f, 6f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4)), 5, 5,ModContent.DustType<Dusts.FallingCometDust>());
+                int d = Dust.NewDust(npc.Center + new Vector2(6f, 6f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4)), 5, 5,ModContent.DustType<Dusts.PurpurineStoneDust>());
                 Main.dust[d].velocity = npc.velocity * 0.6f;
 		      }
 			}

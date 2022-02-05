@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //3hi31mg
-            var off = new Vector2(npc.width / 2, npc.height / 2);
+            var off = new Vector2(npc.width / 2, npc.height / 2 + 2);
             var clr = new Color(255, 255, 255, 255); // full white
             var drawPos = npc.Center - Main.screenPosition;
             var texture = mod.GetTexture("NPCs/Enemies/Starine/Starine_Skipper_Trail");
@@ -109,6 +109,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             for (int i = 0; i < 4; i++)
             {
                 int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].scale = 1.5f;
             }
             if (npc.life <= 0)
             {
@@ -116,8 +118,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 {
                     int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
                     Main.dust[dust].scale = 2f;
+                    Main.dust[dust].noGravity = true;
                 }
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
                     Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Starine"));
                 }
@@ -224,7 +227,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //3hi31mg
-            var off = new Vector2(npc.width / 2, npc.height / 2);
+            var off = new Vector2(npc.width / 2, npc.height / 2 + 2);
             var clr = new Color(255, 255, 255, 255); // full white
             var drawPos = npc.Center - Main.screenPosition;
             var texture = mod.GetTexture("NPCs/Enemies/Starine/Starine_Sightseer_Trail");
@@ -234,7 +237,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
 
             for (int i = 1; i < trailLength; i++)
             {
-                float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                float scale = MathHelper.Lerp(0.95f, 1f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
@@ -281,6 +284,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             for (int i = 0; i < 4; i++)
             {
                 int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                Main.dust[dust].noGravity = true;
+                          Main.dust[dust].scale = 1.5f;
             }
             if (npc.life <= 0)
             {
@@ -288,8 +293,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 {
                     int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
                     Main.dust[dust].scale = 2f;
+                    Main.dust[dust].noGravity = true;
                 }
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < Main.rand.Next(3, 5); i++)
                 {
                     Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Starine"));
                 }

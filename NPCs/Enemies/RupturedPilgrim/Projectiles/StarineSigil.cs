@@ -18,22 +18,27 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            projectile.rotation += .2f;
+            projectile.rotation += .1f;
             projectile.alpha += 50;
             Texture2D drawTexture = Main.projectileTexture[projectile.type];
-            Texture2D drawTexture2 = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Glow");
-            Texture2D drawTexture3 = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Extra1");
-            Texture2D drawTexture4 = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Extra2");
+            Texture2D drawTextureGlow = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Glow");
+            Texture2D drawTexture1 = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Extra1");
+            Texture2D drawTexture2 = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/StarineSigil_Extra2");
 			Rectangle sourceRectangle = new Rectangle(0, 0, drawTexture.Width, drawTexture.Height);
 			spriteBatch.Draw(drawTexture, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
-			spriteBatch.Draw(drawTexture3, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), -projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
-			spriteBatch.Draw(drawTexture4, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+			spriteBatch.Draw(drawTexture1, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), -projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+			spriteBatch.Draw(drawTexture2, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), -projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-			spriteBatch.Draw(drawTexture2, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+
+            if (!Main.dayTime)
+            {
+                spriteBatch.Draw(drawTextureGlow, projectile.Center - Main.screenPosition, sourceRectangle, new Color(projectile.alpha, projectile.alpha, projectile.alpha, projectile.alpha), projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+            }   
+
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-			return false;
+            return false;
         }
 		public override void SetDefaults()
 		{

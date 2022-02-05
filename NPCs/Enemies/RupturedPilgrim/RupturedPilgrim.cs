@@ -150,6 +150,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     npc.frameCounter = 0;
                     npc.velocity = Vector2.Zero;
                 }
+            npc.rotation = MathHelper.Clamp(npc.velocity.X * .15f, MathHelper.ToRadians(-10), MathHelper.ToRadians(10));
             }
             else if (AIState == Attack) {
                 if (npc.frameCounter == 26) {
