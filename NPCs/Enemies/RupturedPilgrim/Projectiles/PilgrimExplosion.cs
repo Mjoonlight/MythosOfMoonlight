@@ -37,6 +37,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                 projectile.Kill();
             }
         }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (projectile.frame > 1) 
+            {
+                Texture2D drawTextureGlow = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra");
+                Rectangle sourceRectangle = new Rectangle(0, 0, drawTextureGlow.Width, drawTextureGlow.Height);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+
+                var scale = (projectile.frame * 5 + projectile.frameCounter) / 35f;
+                var color = Color.Lerp(lightColor, new Color(lightColor.R, lightColor.G, lightColor.B, 0), scale);
+                Main.spriteBatch.Draw(drawTextureGlow, projectile.Center - Main.screenPosition, sourceRectangle, color, 0f, new Vector2(drawTextureGlow.Width, drawTextureGlow.Height) / 2, scale, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
         public override Color? GetAlpha(Color lightColor)
         {
             return Color.White;

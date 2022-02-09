@@ -11,6 +11,15 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static Vector2 CoordToTile(Vector2 coordinates)
+        {
+            return new Vector2((int)(coordinates.X / 16f), (int)(coordinates.Y / 16f));
+        }
+        public static bool TileAtWorldPosition(Vector2 coords) => TileAtTilePosition(CoordToTile(coords));
+        public static bool TileAtTilePosition(Vector2 coords)
+        {
+            return Framing.GetTileSafely(coords).active();
+        }
         public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1)
         {
             for (int i = 0; i < amount; i++)

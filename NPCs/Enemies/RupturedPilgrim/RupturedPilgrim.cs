@@ -87,7 +87,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 else if (npc.frameCounter < 20) {
                     npc.frame.Y = 14 * frameHeight;
                 }
-                else {
+                else if (!hasDoneDeathDrama) {
                     hasDoneDeathDrama = true;
                     Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
                     npc.life = 0;
@@ -114,28 +114,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             return Color.White;
         }
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-        	if (damage >= npc.life && !hasDoneDeathDrama)
-        	{
-                damage = 0;
-                knockback = 0;
+        public override bool CheckDead()
+        {
+            if (npc.life <= 0 && !hasDoneDeathDrama)
+            {
+                npc.life = 1;
                 AIState = DeathDrama;
                 npc.frameCounter = 0;
-                npc.dontTakeDamage = true;
-        	}
-		}
-		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
-		{
-        	if (damage >= npc.life && !hasDoneDeathDrama)
-        	{
-                damage = 0;
-                knockback = 0;
-                AIState = DeathDrama;
-                npc.frameCounter = 0;
-                npc.dontTakeDamage = true;
-        	}
-		}
+                npc.immortal = true;
+                return false;
+            }
+            return true;
+        }
         public override void AI()
         {
             Player player = Main.player[npc.target];
