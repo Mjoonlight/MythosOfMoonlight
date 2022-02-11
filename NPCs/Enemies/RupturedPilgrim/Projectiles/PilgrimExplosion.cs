@@ -25,6 +25,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 			projectile.friendly = false;
 			projectile.tileCollide = true;
 			projectile.hostile = true;
+            projectile.penetrate = -1;
+            projectile.tileCollide = false;
 		}
         public override void AI()
         {

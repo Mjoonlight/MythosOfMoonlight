@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles;
 using Terraria.ID;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
@@ -89,8 +90,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 else if (!hasDoneDeathDrama) {
                     hasDoneDeathDrama = true;
-                    Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
+                    Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 100, 100);
                     npc.life = 0;
+                    Main.PlaySound(SoundID.NPCDeath43, npc.Center);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 2f;
+                        Main.dust[dust].scale = 1f * Main.rand.Next(1, 3);
+                        Main.dust[dust].noGravity = true;
+                    }
                 }
             }
         }
@@ -118,6 +127,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             if (npc.life <= 0 && !hasDoneDeathDrama)
             {
+                Main.PlaySound(SoundID.NPCDeath52, npc.Center);
                 npc.life = 1;
                 AIState = DeathDrama;
                 npc.frameCounter = 0;
