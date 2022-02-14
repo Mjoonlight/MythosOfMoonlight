@@ -17,8 +17,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             npc.width = 54;
             npc.height = 68;
-            npc.lifeMax = 625;
-            npc.defense = 5;
+            npc.lifeMax = 890;
+            npc.defense = 8;
             npc.damage = 0;
             npc.aiStyle = 0;
             npc.noGravity = true;
@@ -136,14 +136,25 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             }
             return true;
         }
+        float modX = 150;
+        int movetimer = 0;
+        int attackRepeat = -1;
         public override void AI()
         {
+            Main.NewText(attackRepeat);
             Player player = Main.player[npc.target];
-            if (AIState == Idle) {
+            if (AIState == Idle)
+            {
                 AITimer++;
-                Vector2 pos = new Vector2(player.position.X + 150, player.position.Y + 10);
+                Vector2 pos = new Vector2(player.Center.X + modX, player.position.Y + 10);
                 Vector2 moveTo = pos - npc.Center;
                 npc.velocity = (moveTo) * 0.08f;
+
+                if (movetimer++ >= Main.rand.Next(400, 500))
+                {
+                    modX *= -1f;
+                    movetimer = 0;
+                }
                 if (AITimer >= 155) {
                     AITimer = 0;
                     AIState = Attack;
@@ -152,9 +163,33 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
             npc.rotation = MathHelper.Clamp(npc.velocity.X * .15f, MathHelper.ToRadians(-10), MathHelper.ToRadians(10));
             }
-            else if (AIState == Attack) {
-                if (npc.frameCounter == 26) {
-                    Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
+            else if (AIState == Attack) 
+            {
+                if (npc.frameCounter == 26) 
+                {
+                    var AttackNum = Main.rand.Next(1, 4);
+                    if (AttackNum == 2 && attackRepeat != 2)
+                    {
+                        Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
+                        attackRepeat = 2;
+                    }
+
+                    else if (AttackNum == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
+                    {
+                        Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2) * Main.rand.NextFloat();
+                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * 6, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                        }
+                        attackRepeat = 3;
+                    }
+
+                    else if (AttackNum == 1 && attackRepeat != 1)
+                    {
+                        Projectile.NewProjectile(new Vector2(player.Center.X, player.Center.Y - 230), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
+                        attackRepeat = 1;
+                    }
                 }
             }
             else if (AIState == DeathDrama) {
