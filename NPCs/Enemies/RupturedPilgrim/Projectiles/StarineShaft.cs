@@ -40,6 +40,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                 Main.dust[dust].velocity.Y = -1.5f;
                 Main.dust[dust].noGravity = true;
             }
+            Main.PlaySound(SoundID.Item10, projectile.Center);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

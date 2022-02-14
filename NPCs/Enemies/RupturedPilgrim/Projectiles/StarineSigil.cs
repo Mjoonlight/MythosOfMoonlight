@@ -52,14 +52,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
         public override void AI()
         {
             if (projectile.ai[0] == 15) {
-            Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(),  10, 0);
+                Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(),  10, 0);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
             }
             if (projectile.ai[0] == 30) {
-            Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
             }
             if (++projectile.ai[0] == 45) {
-            Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-            projectile.Kill();
+                Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
+                projectile.Kill();
             }
         }
     }

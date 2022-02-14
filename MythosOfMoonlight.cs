@@ -125,5 +125,21 @@ namespace MythosOfMoonlight
                 priority = MusicPriority.Event;
             }
         }
+        public override void Close()
+        {
+            var slots = new int[] {
+                 GetSoundSlot(SoundType.Music, "Sounds/Music/PurpleComet"),
+              };
+
+            foreach (var slot in slots)
+            {
+                if (Main.music.IndexInRange(slot) && Main.music[slot]?.IsPlaying == true)
+                {
+                    Main.music[slot].Stop(Microsoft.Xna.Framework.Audio.AudioStopOptions.Immediate);
+                }
+            }
+
+            base.Close();
+        }
     }
 }

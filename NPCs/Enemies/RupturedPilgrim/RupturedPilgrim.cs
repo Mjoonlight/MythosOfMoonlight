@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles;
 using Terraria.ID;
 using MythosOfMoonlight.Dusts;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
@@ -12,17 +13,20 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             DisplayName.SetDefault("Ruptured Pilgrim");
             Main.npcFrameCount[npc.type] = 15;
+            NPCID.Sets.TrailCacheLength[npc.type] = 9;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
         }
         public override void SetDefaults()
         {
             npc.width = 54;
             npc.height = 68;
-            npc.lifeMax = 890;
-            npc.defense = 8;
+            npc.lifeMax = 1000;
+            npc.defense = 12;
             npc.damage = 0;
             npc.aiStyle = 0;
+            npc.knockBackResist = 0f;
             npc.noGravity = true;
-            npc.HitSound = SoundID.NPCHit44;
+            npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath52;
             npc.noTileCollide = true;
         }
@@ -76,30 +80,73 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
             }
             if (AIState == DeathDrama) {
-                if (npc.frameCounter < 5) {
+                 npc.velocity.X = npc.velocity.Y *= 0.9f;
+                if (npc.frameCounter < 5)
+                {
                     npc.frame.Y = 11 * frameHeight;
-                }
-                else if (npc.frameCounter < 10) {
-                    npc.frame.Y = 12 * frameHeight;
-                }
-                else if (npc.frameCounter < 15) {
-                    npc.frame.Y = 13 * frameHeight;
-                }
-                else if (npc.frameCounter < 20) {
-                    npc.frame.Y = 14 * frameHeight;
-                }
-                else if (!hasDoneDeathDrama) {
-                    hasDoneDeathDrama = true;
-                    Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 100, 100);
-                    npc.life = 0;
-                    Main.PlaySound(SoundID.NPCDeath43, npc.Center);
-                    for (int i = 0; i < 30; i++)
+                    for (int i = 0; i < 2; i++)
                     {
                         int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
                         Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 2f;
-                        Main.dust[dust].scale = 1f * Main.rand.Next(1, 3);
+                        Main.dust[dust].scale = 1f;
                         Main.dust[dust].noGravity = true;
                     }
+                }
+                else if (npc.frameCounter < 40)
+                {
+                    npc.frame.Y = 12 * frameHeight;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 2f;
+                        Main.dust[dust].scale = 1f * Main.rand.Next(1, 2);
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+                else if (npc.frameCounter < 75)
+                {
+                    npc.frame.Y = 13 * frameHeight;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 2f;
+                        Main.dust[dust].scale = 2f;
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+                else if (npc.frameCounter < 110)
+                {
+                    for (int i = 0; i < 15; i++)
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 2f;
+                        Main.dust[dust].scale = 1f * Main.rand.Next(2, 3);
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+                else if (!hasDoneDeathDrama)
+                {
+                    hasDoneDeathDrama = true;
+                    Projectile.NewProjectileDirect(npc.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 100, 100);
+                    npc.life = 0;
+                    Helper.SpawnGore(npc, "Gores/Enemies/Starine", Main.rand.Next(4, 5));
+                    Helper.SpawnGore(npc, "Gores/Enemies/PurpFabric", 1, 1);
+                    Helper.SpawnGore(npc, "Gores/Enemies/PurpFabric", 2, 2);
+                    Helper.SpawnGore(npc, "Gores/Enemies/PurpMagFabric", 1, 1);
+                    Helper.SpawnGore(npc, "Gores/Enemies/PurpMagFabric", 2, 2);
+                    Main.PlaySound(SoundID.Item62, npc.Center);
+                    for (int i = 0; i < 80; i++)
+                    {
+                        int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 4f;
+                        Main.dust[dust].scale = 1f * Main.rand.Next(2, 3);
+                        Main.dust[dust].noGravity = true;
+                    }
+                    for (int a = 0; a < 5; a++)
+                    {
+                        Vector2 speed2 = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
+                        Projectile.NewProjectile(npc.Center, -speed2 * 4.5f, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                    }   
                 }
             }
         }
@@ -123,6 +170,28 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             return Color.White;
         }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (npc.life <= npc.lifeMax / 2)
+            {
+                var off = new Vector2(npc.width / 2, npc.height / 2 + 2);
+                var clr = new Color(255, 255, 255, 255); // full white
+                var drawPos = npc.Center - Main.screenPosition;
+                var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
+                var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+                var orig = frame.Size() / 2f;
+                var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
+
+                for (int i = 1; i < trailLength; i++)
+                {
+                    float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                    var fadeMult = 1f / trailLength;
+                    SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                    Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
+                }
+            }
+            return true;
+        }
         public override bool CheckDead()
         {
             if (npc.life <= 0 && !hasDoneDeathDrama)
@@ -141,6 +210,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         int currentAttack, attackRepeat = -1;
         public override void AI()
         {
+            float speedMod = (npc.lifeMax - npc.life * .3f) / (npc.lifeMax * .7f);
             Player player = Main.player[npc.target];
             if (AIState == Idle)
             {
@@ -154,7 +224,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     modX *= -1f;
                     movetimer = 0;
                 }
-                if (AITimer >= 155) {
+                if (AITimer >= 155 / speedMod) {
                     AITimer = 0;
                     currentAttack = -1;
                     do currentAttack = Main.rand.Next(1, npc.life <= (npc.lifeMax / 2) ? 4 : 3); while (currentAttack == attackRepeat);
@@ -190,11 +260,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     else if (currentAttack == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
                     {
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 8; i++)
                         {
-                            Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2) * Main.rand.NextFloat();
-                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * 6, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                            Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
+                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
                         }
+                        Main.PlaySound(SoundID.Item62, npc.Center);
                         attackRepeat = 3;
                     }
                 }
