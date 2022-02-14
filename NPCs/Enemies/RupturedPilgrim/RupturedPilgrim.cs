@@ -138,10 +138,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         float modX = 150;
         int movetimer = 0;
-        int attackRepeat = -1;
+        int currentAttack, attackRepeat = -1;
         public override void AI()
         {
-            Main.NewText(attackRepeat);
             Player player = Main.player[npc.target];
             if (AIState == Idle)
             {
@@ -157,6 +156,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 if (AITimer >= 155) {
                     AITimer = 0;
+                    currentAttack = -1;
+                    do currentAttack = Main.rand.Next(1, npc.life <= (npc.lifeMax / 2) ? 4 : 3); while (currentAttack == attackRepeat);
                     AIState = Attack;
                     npc.frameCounter = 0;
                     npc.velocity = Vector2.Zero;
@@ -165,16 +166,28 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             }
             else if (AIState == Attack) 
             {
-                if (npc.frameCounter == 26) 
+                if (npc.frameCounter != 26)
                 {
-                    var AttackNum = Main.rand.Next(1, 4);
-                    if (AttackNum == 2 && attackRepeat != 2)
+                    if (currentAttack == 3)
+                    {
+                        Vector2 atk3PositionVector = new Vector2(player.Center.X, player.Center.Y - 180) - npc.Center;
+                        npc.velocity = atk3PositionVector * 0.08f;
+                    }
+                }
+                else 
+                {
+                    if (currentAttack == 1 && attackRepeat != 1)
+                    {
+                        Projectile.NewProjectile(new Vector2(player.Center.X, player.Center.Y - 230), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
+                        attackRepeat = 1;
+                    }
+                    else if (currentAttack == 2 && attackRepeat != 2)
                     {
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
                         attackRepeat = 2;
                     }
 
-                    else if (AttackNum == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
+                    else if (currentAttack == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
                     {
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
                         for (int i = 0; i < 5; i++)
@@ -183,12 +196,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * 6, ModContent.ProjectileType<StarineShaft>(), 0, 0);
                         }
                         attackRepeat = 3;
-                    }
-
-                    else if (AttackNum == 1 && attackRepeat != 1)
-                    {
-                        Projectile.NewProjectile(new Vector2(player.Center.X, player.Center.Y - 230), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
-                        attackRepeat = 1;
                     }
                 }
             }
