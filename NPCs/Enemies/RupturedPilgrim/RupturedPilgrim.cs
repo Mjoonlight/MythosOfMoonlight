@@ -20,7 +20,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             npc.width = 54;
             npc.height = 68;
-            npc.lifeMax = 1000;
+            npc.lifeMax = 1100;
             npc.defense = 12;
             npc.damage = 0;
             npc.aiStyle = 0;
@@ -260,10 +260,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     else if (currentAttack == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
                     {
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
-                        for (int i = 0; i < 8; i++)
-                        {
+                        float quantity = !Main.expertMode ? 8: 10;
+                        float multSpeed = !Main.expertMode ? 4 : 6;
+                        for (int i = 0; i < quantity; i++)
+                        {    
                             Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
-                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * multSpeed, ModContent.ProjectileType<StarineShaft>(), 0, 0);
                         }
                         Main.PlaySound(SoundID.Item62, npc.Center);
                         attackRepeat = 3;
