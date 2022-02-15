@@ -145,7 +145,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     for (int a = 0; a < 5; a++)
                     {
                         Vector2 speed2 = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
-                        Projectile.NewProjectile(npc.Center, -speed2 * 4.5f, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                        Projectile.NewProjectile(npc.Center, -speed2 * 4.5f, ModContent.ProjectileType<StarineShaft>(), 10, 0);
                     }   
                 }
             }
@@ -172,25 +172,29 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            var off = new Vector2(npc.width / 2, npc.height / 2);
+            var clr = new Color(255, 255, 255, 255); // full white
+            var drawPos = npc.Center - Main.screenPosition;
+            var origTexture = Main.npcTexture[npc.type];
+            var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
+            var glowTexture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Glow");
+            var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            var orig = frame.Size() / 2f;
+            var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
+            SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
             if (npc.life <= npc.lifeMax / 2)
             {
-                var off = new Vector2(npc.width / 2, npc.height / 2 + 2);
-                var clr = new Color(255, 255, 255, 255); // full white
-                var drawPos = npc.Center - Main.screenPosition;
-                var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
-                var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
-                var orig = frame.Size() / 2f;
-                var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
-
                 for (int i = 1; i < trailLength; i++)
                 {
                     float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                     var fadeMult = 1f / trailLength;
-                    SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                     Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
                 }
             }
-            return true;
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, npc.rotation, orig, npc.scale, flipType, 0f);
+            Main.spriteBatch.Draw(glowTexture, drawPos, frame, clr, npc.rotation, orig, npc.scale, flipType, 0f);
+            return false;
         }
         public override bool CheckDead()
         {
@@ -256,7 +260,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 0, 0);
                         attackRepeat = 2;
                     }
-
                     else if (currentAttack == 3 && npc.life <= (npc.lifeMax / 2) && attackRepeat != 3)
                     {
                         Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, 0);
@@ -265,7 +268,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         for (int i = 0; i < quantity; i++)
                         {    
                             Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
-                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * multSpeed, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * multSpeed, ModContent.ProjectileType<StarineShaft>(), 10, 0);
                         }
                         Main.PlaySound(SoundID.Item62, npc.Center);
                         attackRepeat = 3;

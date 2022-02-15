@@ -120,7 +120,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                        Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 10, 0);
                     }
                     Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
                     Main.PlaySound(SoundID.Item9, projectile.Center);
