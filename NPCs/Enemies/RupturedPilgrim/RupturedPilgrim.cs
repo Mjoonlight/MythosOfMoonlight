@@ -145,7 +145,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     for (int a = 0; a < 5; a++)
                     {
                         Vector2 speed2 = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
-                        Projectile.NewProjectile(npc.Center, -speed2 * 4.5f, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                        Projectile.NewProjectile(npc.Center, -speed2 * 4.5f, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                     }   
                 }
             }
@@ -212,6 +212,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         float modX = 150;
         int movetimer = 0;
         int currentAttack, attackRepeat = -1;
+        int projDamage = 10;
         public override void AI()
         {
             float speedMod = (npc.lifeMax - npc.life * .3f) / (npc.lifeMax * .7f);
@@ -268,7 +269,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         for (int i = 0; i < quantity; i++)
                         {    
                             Vector2 speed = Main.rand.NextVector2Unit((float)MathHelper.Pi / 4, (float)MathHelper.Pi / 2);
-                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * multSpeed, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                            Projectile.NewProjectile(npc.Center - new Vector2(0, npc.height + 45), -speed * multSpeed, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                         }
                         Main.PlaySound(SoundID.Item62, npc.Center);
                         attackRepeat = 3;

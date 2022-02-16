@@ -52,6 +52,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 			projectile.hostile = true;
             projectile.timeLeft = 45;
 		}
+        int projDamage = 10;
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 30; i++)
@@ -81,7 +82,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
             {
                 if (++ProjectileTimer % 15 == 0)
                 {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                     Main.PlaySound(SoundID.Item9, projectile.Center);
                     if (ProjectileTimer == 45)
                     {
@@ -97,15 +98,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                            Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 10, 0);
                         }
-                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                         Main.PlaySound(SoundID.Item9, projectile.Center);
                         projectile.Kill();
                     }
                     else if (ProjectileTimer % 5 == 0)
-                    {
-                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                    { 
+                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                         Main.PlaySound(SoundID.Item9, projectile.Center);
                     }
                 }

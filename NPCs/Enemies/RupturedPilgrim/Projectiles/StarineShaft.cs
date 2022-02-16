@@ -22,6 +22,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
         }
         public override void SetDefaults()
         {
+            projectile.damage = 10;
             projectile.width = 26;
             projectile.height = 60;
             projectile.aiStyle = 1;
