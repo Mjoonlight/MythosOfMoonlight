@@ -11,6 +11,7 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static float RandomRotation() => Main.rand.NextFloat() * MathHelper.TwoPi;
         public static float Squared(float flt) => flt * flt;
         public static Player PlayerTarget(this NPC npc) => Main.player[npc.target];
         public static Vector2 CoordToTile(Vector2 coordinates)
@@ -25,12 +26,21 @@ namespace MythosOfMoonlight
         public static bool WarpAroundPlayer(this NPC npc, Vector2 center, float sqrMinDistFromCenter, float radius, int attempts = -1) // when attempts == -1, attempts to find an open spot to teleport to until it does so successfully
         {
             Vector2 finalPos = center + Main.rand.NextVector2Circular(radius, radius);
-            for (int i = 0; TileAtWorldPosition(finalPos) || (center - finalPos).LengthSquared() > sqrMinDistFromCenter; i++)
+            for (int i = 0; TileAtWorldPosition(finalPos) || (center - finalPos).LengthSquared() < sqrMinDistFromCenter; i++)
             {
                 finalPos = center + Main.rand.NextVector2Circular(radius, radius);
             }
-            npc.Teleport(finalPos, npc.teleportStyle);
-            return npc.position == finalPos;
+            npc.Center = finalPos;
+            return npc.Center == finalPos;
+        }
+        public static Vector2 GetWarpPosition(this NPC npc, Vector2 center, float sqrMinDistFromCenter, float radius)
+        {
+            Vector2 finalPos = center + Main.rand.NextVector2Circular(radius, radius);
+            for (int i = 0; TileAtWorldPosition(finalPos) || (center - finalPos).LengthSquared() < sqrMinDistFromCenter; i++)
+            {
+                finalPos = center + Main.rand.NextVector2Circular(radius, radius);
+            }
+            return finalPos;
         }
         public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1)
         {

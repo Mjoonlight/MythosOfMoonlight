@@ -163,13 +163,6 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 
 		public override void AI()
 		{
-			if (Main.netMode != NetmodeID.Server) // This all needs to happen client-side!
-			{
-				Filters.Scene.Activate("PurpleComet");
-
-				Filters.Scene["PurpleComet"].Deactivate();
-			}
-
 			npc.TargetClosest(true);
 			var target = Main.player[npc.target];
 
@@ -178,6 +171,11 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 			speedMod = (npc.lifeMax - npc.life * .5f) / (npc.lifeMax * .77f);
 			Animate();
 
+			if (npc.frameCounter % 60 == 0)
+			{
+				Helper.WarpAroundPlayer(npc, npc.PlayerTarget().Center, 10000, 300);
+			}
+			/*
 			switch (state)
 			{
 				case MortState.Default:
@@ -257,6 +255,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
                     }
 					break;
 			}
+			*/
 		}
 
 		int fireTime = 0;

@@ -50,6 +50,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 			projectile.friendly = false;
 			projectile.tileCollide = false;
 			projectile.hostile = true;
+            projectile.timeLeft = 45;
 		}
         public override void Kill(int timeLeft)
         {
@@ -68,63 +69,45 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                 Main.dust[dust].noGravity = true;
             }
         }
+        int ProjectileTimer
+        {
+            get => (int)projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
+        double RandRadian => Main.rand.NextDouble() * (MathHelper.PiOver2 / 3f) - (MathHelper.PiOver2 / 6f);
         public override void AI()
         {
             if (!Main.expertMode)
             {
-                if (projectile.ai[0] == 15)
+                if (++ProjectileTimer % 15 == 0)
                 {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
                     Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (projectile.ai[0] == 30)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (++projectile.ai[0] == 45)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                    projectile.Kill();
+                    if (ProjectileTimer == 45)
+                    {
+                        projectile.Kill();
+                    }
                 }
             }
             else
             {
-                if (projectile.ai[0] == 10)
+                if (++ProjectileTimer >= 10)
                 {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (projectile.ai[0] == 15)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (projectile.ai[0] == 20)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (projectile.ai[0] == 25)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (projectile.ai[0] == 30)
-                {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                }
-                if (++projectile.ai[0] == 35)
-                {
-                    for (int i = 0; i < 3; i++)
+                    if (ProjectileTimer == 35)
                     {
-                        Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 0, 0);
+                        }
+                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                        Main.PlaySound(SoundID.Item9, projectile.Center);
+                        projectile.Kill();
                     }
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), 0), ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                    Main.PlaySound(SoundID.Item9, projectile.Center);
-                    projectile.Kill();
+                    else if (ProjectileTimer % 5 == 0)
+                    {
+                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                        Main.PlaySound(SoundID.Item9, projectile.Center);
+                    }
                 }
             }
         }
