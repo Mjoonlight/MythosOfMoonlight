@@ -319,5 +319,89 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.frame.Y = (int)npc.frameCounter * frameHeight;
         }
     }
+    public class Starine_Scatterer : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Starine Scatterer");
+            Main.npcFrameCount[npc.type] = 12;
+        }
+        public override void SetDefaults()
+        {
+            npc.width = 36;
+            npc.height = 28;
+            npc.aiStyle = -1;
+            npc.defense = 4;
+            npc.lifeMax = 90;
+            npc.HitSound = SoundID.NPCHit19;
+            npc.DeathSound = SoundID.NPCDeath1;
+        }
+        public override void DrawEffects(ref Color drawColor)
+        {
+            drawColor = Color.White;
+        }
+        readonly float aggrorange = 240f;
+        public override void FindFrame(int frameHeight)
+        {
+            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= aggrorange)
+            {
+                if (npc.velocity.Y == 0)
+                {
+                    if (npc.frameCounter > 4) npc.frameCounter = 0;
+                    else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
+                }
+                else npc.frameCounter = 4;
+            }
+            else
+            {
+                if (npc.ai[0] < 52) npc.frameCounter = 5;
+                else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
+                if (npc.frameCounter > 10 && (npc.ai[1]) % 4 == 0) npc.ai[0] = 0;
+            }
+            npc.frame.Y = (int)npc.frameCounter * frameHeight;
+        }
+        public override void AI()
+        {
+            npc.ai[1]++;
+            if (npc.ai[0] == 52) npc.ai[1] = 0;
+            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= aggrorange)
+            {
+                npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 5, 1.75f, false);
+                npc.ai[0] = 0;
+            }
+            else
+            {
+                npc.velocity.X = 0;
+                npc.ai[0]++;
+                if (npc.ai[0] % 60 == 0)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * npc.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 30, 1f);
+                    }
+                    Main.PlaySound(SoundID.Item9, npc.Center);
+                }
+            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            //3hi31mg
+            var off = new Vector2(npc.width / 2, npc.height / 2 + 2);
+            var clr = new Color(255, 255, 255, 255); // full white
+            var drawPos = npc.Center - Main.screenPosition;
+            var texture = mod.GetTexture("NPCs/Enemies/Starine/Starine_Scatterer_Trail");
+            var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            var orig = frame.Size() / 2f;
+            var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
 
+            for (int i = 1; i < trailLength; i++)
+            {
+                float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                var fadeMult = 1f / trailLength;
+                SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Main.spriteBatch.Draw(texture, npc.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), npc.oldRot[i], orig, scale, flipType, 0f);
+            }
+            return true;
+        }
+    }
 }
