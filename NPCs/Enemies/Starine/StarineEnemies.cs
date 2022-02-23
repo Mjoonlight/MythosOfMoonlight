@@ -354,9 +354,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             }
             else
             {
-                if (npc.ai[0] < 52) npc.frameCounter = 5;
+                if (npc.frameCounter == 11 && (npc.ai[1]) % 4 == 0) npc.ai[0] = 0;
+                if (npc.ai[0] < 50) npc.frameCounter = 5;
                 else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
-                if (npc.frameCounter > 10 && (npc.ai[1]) % 4 == 0) npc.ai[0] = 0;
             }
             npc.frame.Y = (int)npc.frameCounter * frameHeight;
         }
@@ -366,12 +366,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             if (npc.ai[0] == 52) npc.ai[1] = 0;
             if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= aggrorange)
             {
-                npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 5, 1.75f, false);
+                npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 0, 1.75f, false);
                 npc.ai[0] = 0;
             }
             else
             {
                 npc.velocity.X = 0;
+                npc.FaceTarget();
                 npc.ai[0]++;
                 if (npc.ai[0] % 60 == 0)
                 {
