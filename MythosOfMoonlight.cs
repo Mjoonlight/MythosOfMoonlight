@@ -11,6 +11,7 @@ namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static Rectangle GetFrame(this NPC npc) => new Rectangle(0, npc.frame.Y, npc.width, npc.height);
         public static float RandomRotation() => Main.rand.NextFloat() * MathHelper.TwoPi;
         public static float Squared(float flt) => flt * flt;
         public static Player PlayerTarget(this NPC npc) => Main.player[npc.target];
@@ -23,6 +24,8 @@ namespace MythosOfMoonlight
         {
             return Framing.GetTileSafely(coords).active();
         }
+        public static bool PositionComparison(Vector2 center, Vector2 other, float minDist) // compares two vectors to see if the distsance between them exceeds a certain value or not. returns true if it does, false if it doesn't
+            => (center - other).LengthSquared() < Squared(minDist);
         public static bool WarpAroundPlayer(this NPC npc, Vector2 center, float sqrMinDistFromCenter, float radius, int attempts = -1) // when attempts == -1, attempts to find an open spot to teleport to until it does so successfully
         {
             Vector2 finalPos = center + Main.rand.NextVector2Circular(radius, radius);

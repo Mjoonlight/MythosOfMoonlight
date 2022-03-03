@@ -44,7 +44,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 projectile.rotation += 0.2f;
             }
-            projectile.velocity.Y -= -0.1f;
+            if (projectile.velocity.Y == 0)
+            {
+                projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, 0, 0.35f);
+                projectile.velocity.Y = -projectile.oldVelocity.Y / 5;
+            }
+            else
+            {
+                Main.NewText("pulp");
+                projectile.velocity.Y += 0.1f;
+            }
+            Main.NewText(projectile.velocity.Y);
         }
         bool HasCollided = false;
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -54,8 +64,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 Main.PlaySound(SoundID.Item10.WithVolume(0.8f), projectile.Center);
                 HasCollided = true;
             }
-            projectile.velocity.Y = -projectile.oldVelocity.Y / 5;
-            projectile.velocity.X = -projectile.oldVelocity.X / 5;
+            // projectile.velocity.Y = -projectile.oldVelocity.Y / 5;
+            // if (projectile.velocity.X == 0)
+            // {
+            //    projectile.velocity.X = -projectile.oldVelocity.X / 5;
+            // }
             return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

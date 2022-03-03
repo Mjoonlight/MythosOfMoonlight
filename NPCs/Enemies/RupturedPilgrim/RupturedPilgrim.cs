@@ -178,7 +178,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             var origTexture = Main.npcTexture[npc.type];
             var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
             var glowTexture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Glow");
-            var frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            var frame = origTexture.Bounds;
             var orig = frame.Size() / 2f;
             var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
             SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -194,6 +194,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             }
             Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, npc.rotation, orig, npc.scale, flipType, 0f);
             Main.spriteBatch.Draw(glowTexture, drawPos, frame, clr, npc.rotation, orig, npc.scale, flipType, 0f);
+
+            var symbolTexture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/Starine_Barrier");
+            var symbolFrame = symbolTexture.Bounds;
+            var symbolOrig = symbolFrame.Size() / 2f;
+            Main.spriteBatch.Draw(symbolTexture, origin - Main.screenPosition, symbolFrame, clr, 0f, symbolOrig, 1f, SpriteEffects.None, 0f);
             return false;
         }
         public override bool CheckDead()
@@ -213,10 +218,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         int movetimer = 0;
         int currentAttack, attackRepeat = -1;
         int projDamage = 10;
+        Vector2 origin = new Vector2(-1, -1);
+        const float MinBarrierDistance = 422;
+
         public override void AI()
         {
             float speedMod = (npc.lifeMax - npc.life * .3f) / (npc.lifeMax * .7f);
             Player player = Main.player[npc.target];
+            if (origin == Vector2.One * -1)
+            {
+                origin = npc.position;
+            }
+            if (Helper.PositionComparison(npc.PlayerTarget().Center, origin, MinBarrierDistance))
+            {
+                
+            }
+            player.GetModPlayer<MoMPlayer>().NewCameraPosition(npc.Center, 0.05f, npc.whoAmI);
             if (AIState == Idle)
             {
                 AITimer++;

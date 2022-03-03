@@ -329,7 +329,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         public override void SetDefaults()
         {
             npc.width = 36;
-            npc.height = 28;
+            npc.height = 30;
             npc.aiStyle = -1;
             npc.defense = 4;
             npc.lifeMax = 90;
@@ -340,49 +340,130 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             drawColor = Color.White;
         }
-        readonly float aggrorange = 240f;
-        public override void FindFrame(int frameHeight)
+        readonly float aggrorange = 57600f;
+        readonly float ClimbSpeed = 2f;
+        void NormalStateAnimation()
         {
-            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= aggrorange)
+            if (npc.velocity.Y == 0 || npc.collideX)
             {
-                if (npc.velocity.Y == 0)
-                {
-                    if (npc.frameCounter > 4) npc.frameCounter = 0;
-                    else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
-                }
-                else npc.frameCounter = 4;
+                if (npc.frameCounter > 4) npc.frameCounter = 0;
+                else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
             }
-            else
+            else npc.frameCounter = 4;
+        }
+        void AngryStateAnimation()
+        {
+            if (SqrDistanceFromPlayer <= aggrorange)
             {
                 if (npc.frameCounter == 11 && (npc.ai[1]) % 4 == 0) npc.ai[0] = 0;
                 if (npc.ai[0] < 50) npc.frameCounter = 5;
                 else if (npc.ai[1] % 4 == 0) npc.frameCounter++;
             }
+            else
+            {
+                NormalStateAnimation();
+            }
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            switch (AIState)
+            {
+                case Normal:
+                    NormalStateAnimation();
+                    break;
+                case Angry:
+                    AngryStateAnimation();
+                    break;
+            }
             npc.frame.Y = (int)npc.frameCounter * frameHeight;
+        }
+
+        int AIState
+        {
+            get => (int)npc.ai[3];
+            set => npc.ai[3] = value;
+        }
+        float SqrDistanceFromPlayer => Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center);
+        float targetRotation;
+        const int Normal = 1, Angry = 2;
+        const float MinimumPlayerHeightDistance = 30f;
+        void WalkAndCrawlLogic()
+        {
+            if (npc.collideX) // if colliding with wall
+            {
+                npc.velocity.Y = -ClimbSpeed; // climb upwards
+                npc.velocity.X = npc.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
+                targetRotation = -npc.direction * MathHelper.PiOver2; // rotate
+            }
+            else // if not colliding anymore
+            {
+                targetRotation = 0; // fix rotation to 0
+            }
+            npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 0, 1.75f, false); // hustle ass
+            npc.ai[0] = 0; 
+        }
+        void NormalState()
+        {
+            if (SqrDistanceFromPlayer >= aggrorange || npc.PlayerTarget().Center.Y - npc.Center.Y >= MinimumPlayerHeightDistance || targetRotation != 0) // third check means if not rotated; means not climbing
+            {
+                WalkAndCrawlLogic();
+            }
+            else // finished crawling
+            {
+                AIState = Angry;
+            }
+        }
+        void AngryState()
+        {
+            var playerDistance = SqrDistanceFromPlayer;
+            if (playerDistance >= aggrorange * 2) // double aggro range; he's fuckin pissed 
+            {
+                AIState = Normal;
+            }
+            else
+            {
+                if (playerDistance <= aggrorange && npc.PlayerTarget().Center.Y - npc.Center.Y <= MinimumPlayerHeightDistance)
+                {
+                    if (!npc.justHit && npc.velocity.Y == 0)
+                    {
+                        npc.velocity.X = 0;
+                    }
+                    npc.FaceTarget();
+                    npc.ai[0]++;
+                    if (npc.ai[0] % 60 <= 0)// && npc.collideY)
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * npc.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 30, 1f);
+                        }
+                        Main.PlaySound(SoundID.Item9, npc.Center);
+                    }
+                }
+                else
+                {
+                    WalkAndCrawlLogic();
+                }
+            }
         }
         public override void AI()
         {
             npc.ai[1]++;
             if (npc.ai[0] == 52) npc.ai[1] = 0;
-            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= aggrorange)
+            npc.TargetClosest(false);
+            npc.rotation = MathHelper.Lerp(npc.rotation, targetRotation, 0.35f);
+            switch (AIState)
             {
-                npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 0, 1.75f, false);
-                npc.ai[0] = 0;
+                default:
+                    AIState = Normal; // only during first frame of life
+                    break;
+                case Normal:
+                    NormalState();
+                    break;
+                case Angry:
+                    AngryState();
+                    break;
             }
-            else
-            {
-                npc.velocity.X = 0;
-                npc.FaceTarget();
-                npc.ai[0]++;
-                if (npc.ai[0] % 60 == 0)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * npc.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 30, 1f);
-                    }
-                    Main.PlaySound(SoundID.Item9, npc.Center);
-                }
-            }
+           
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

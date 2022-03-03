@@ -28,7 +28,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             npc.buffImmune[BuffID.OnFire] = true;
             npc.buffImmune[BuffID.Venom] = true;
             npc.aiStyle = -1;
-            npc.modNPC.aiType = NPCID.GoblinScout;
             npc.netAlways = true;
         }
 
@@ -36,7 +35,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
         int fighterFC = 0;
         public override void AI()
         {
-            npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, JUMP_HEIGHT, STRIDE_SPEED, fighterFC++ == 0);
+            npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, JUMP_HEIGHT, STRIDE_SPEED, fighterFC++ != 0);
         }
         public override void HitEffect(int hitDirection, double damage)
         {
