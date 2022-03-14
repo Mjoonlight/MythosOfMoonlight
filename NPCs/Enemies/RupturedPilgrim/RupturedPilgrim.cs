@@ -19,7 +19,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         public override void SetDefaults()
         {
             npc.width = 54;
-            npc.height = 68;
+            npc.height = 70;
             npc.lifeMax = 1100;
             npc.defense = 12;
             npc.damage = 0;
@@ -178,7 +178,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             var origTexture = Main.npcTexture[npc.type];
             var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
             var glowTexture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Glow");
-            var frame = origTexture.Bounds;
+            var frame = npc.frame;
             var orig = frame.Size() / 2f;
             var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
             SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
