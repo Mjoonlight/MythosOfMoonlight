@@ -229,11 +229,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             {
                 origin = npc.position;
             }
-            if (Helper.PositionComparison(npc.PlayerTarget().Center, origin, MinBarrierDistance))
-            {
-                
-            }
-            player.GetModPlayer<MoMPlayer>().NewCameraPosition(npc.Center, 0.05f, npc.whoAmI);
+            player.GetModPlayer<MoMPlayer>().NewCameraPosition(origin, 0.05f, npc.whoAmI);
             if (AIState == Idle)
             {
                 AITimer++;

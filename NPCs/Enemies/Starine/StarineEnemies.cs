@@ -325,6 +325,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             DisplayName.SetDefault("Starine Scatterer");
             Main.npcFrameCount[npc.type] = 12;
+            NPCID.Sets.TrailCacheLength[npc.type] = 10;
+            NPCID.Sets.TrailingMode[npc.type] = 3;
         }
         public override void SetDefaults()
         {
@@ -333,6 +335,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.aiStyle = -1;
             npc.defense = 4;
             npc.lifeMax = 90;
+            npc.knockBackResist = .5f;
             npc.HitSound = SoundID.NPCHit19;
             npc.DeathSound = SoundID.NPCDeath1;
         }
@@ -340,7 +343,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             drawColor = Color.White;
         }
-        readonly float aggrorange = 57600f;
+        readonly int aggrorange = 24;
         readonly float ClimbSpeed = 2f;
         void NormalStateAnimation()
         {
@@ -368,6 +371,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             switch (AIState)
             {
+                case GiveUp:
                 case Normal:
                     NormalStateAnimation();
                     break;
@@ -383,14 +387,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             get => (int)npc.ai[3];
             set => npc.ai[3] = value;
         }
-        float SqrDistanceFromPlayer => Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center);
+        float SqrDistanceFromPlayer => Math.Abs(npc.PlayerTarget().Center.X - npc.Center.X);
         float targetRotation;
-        const int Normal = 1, Angry = 2;
-        const float MinimumPlayerHeightDistance = 30f;
+        const int Normal = 1, Angry = 2, GiveUp = 3;
+        const float MinimumPlayerHeightDistance = 10f;
         void WalkAndCrawlLogic()
         {
             if (npc.collideX) // if colliding with wall
             {
+                if (npc.collideY && npc.velocity.Y != 0)
+                {
+                    AIState = GiveUp;
+                }
                 npc.velocity.Y = -ClimbSpeed; // climb upwards
                 npc.velocity.X = npc.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
                 targetRotation = -npc.direction * MathHelper.PiOver2; // rotate
@@ -402,9 +410,32 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 0, 1.75f, false); // hustle ass
             npc.ai[0] = 0; 
         }
+        void WalkAndCrawlLogicGivenUp()
+        {
+            if (npc.collideX) // if colliding with wall
+            {
+                npc.velocity.Y = -ClimbSpeed; // climb upwards
+                npc.velocity.X = -npc.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
+                targetRotation = npc.direction * MathHelper.PiOver2; // rotate
+            }
+            else // if not colliding anymore
+            {
+                targetRotation = 0; // fix rotation to 0
+            }
+            npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 0, -1.75f, false); // hustle ass
+            npc.ai[0] = 0;
+        }
+        void GiveUpState()
+        {
+            WalkAndCrawlLogicGivenUp();
+            if (Collision.CanHitLine(npc.position, npc.width, npc.height, npc.PlayerTarget().position, npc.PlayerTarget().width, npc.PlayerTarget().height))
+            {
+                AIState = Normal;
+            }
+        }
         void NormalState()
         {
-            if (SqrDistanceFromPlayer >= aggrorange || npc.PlayerTarget().Center.Y - npc.Center.Y >= MinimumPlayerHeightDistance || targetRotation != 0) // third check means if not rotated; means not climbing
+            if (SqrDistanceFromPlayer >= aggrorange || npc.PlayerTarget().Center.Y - npc.Center.Y >= MinimumPlayerHeightDistance || targetRotation != 0 || !Collision.CanHitLine(npc.position, npc.width, npc.height, npc.PlayerTarget().position, npc.PlayerTarget().width, npc.PlayerTarget().height)) // third check means if not rotated; means not climbing
             {
                 WalkAndCrawlLogic();
             }
@@ -429,12 +460,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         npc.velocity.X = 0;
                     }
                     npc.FaceTarget();
+                    npc.spriteDirection = npc.direction;
                     npc.ai[0]++;
                     if (npc.ai[0] % 60 <= 0)// && npc.collideY)
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * npc.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 30, 1f);
+                            Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * npc.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 10, 1f);
                         }
                         Main.PlaySound(SoundID.Item9, npc.Center);
                     }
@@ -462,8 +494,32 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 case Angry:
                     AngryState();
                     break;
+                case GiveUp:
+                    GiveUpState();
+                    break;
+            }  
+        }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].scale = 1.5f;
             }
-           
+            if (npc.life <= 0)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                    Main.dust[dust].scale = 2f;
+                    Main.dust[dust].noGravity = true;
+                }
+                for (int i = 0; i < Main.rand.Next(3, 5); i++)
+                {
+                    Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, mod.GetGoreSlot("Gores/Enemies/Starine"));
+                }
+            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

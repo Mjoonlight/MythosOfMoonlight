@@ -51,10 +51,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             }
             else
             {
-                Main.NewText("pulp");
                 projectile.velocity.Y += 0.1f;
             }
-            Main.NewText(projectile.velocity.Y);
         }
         bool HasCollided = false;
         public override bool OnTileCollide(Vector2 oldVelocity)
