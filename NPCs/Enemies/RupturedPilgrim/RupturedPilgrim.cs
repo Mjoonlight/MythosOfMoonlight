@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ruptured Pilgrim");
-            Main.npcFrameCount[npc.type] = 15;
+            Main.npcFrameCount[npc.type] = 24;
             NPCID.Sets.TrailCacheLength[npc.type] = 9;
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
@@ -47,33 +47,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 else if (npc.frameCounter < 20) {
                     npc.frame.Y = 3 * frameHeight;
                 }
-                else if (npc.frameCounter < 25) {
-                    npc.frame.Y = 4 * frameHeight;
-                }
                 else {
                     npc.frameCounter = 0;
                 }
             }
             if (AIState == Attack) {
-                if (npc.frameCounter < 5) {
-                    npc.frame.Y = 5 * frameHeight;
-                }
-                else if (npc.frameCounter < 10) {
-                    npc.frame.Y = 6 * frameHeight;
-                }
-                else if (npc.frameCounter < 15) {
-                    npc.frame.Y = 7 * frameHeight;
-                }
-                else if (npc.frameCounter < 20) {
-                    npc.frame.Y = 8 * frameHeight;
-                }
-                else if (npc.frameCounter < 25) {
-                    npc.frame.Y = 9 * frameHeight;
-                }
-                else if (npc.frameCounter < 30) {
-                    npc.frame.Y = 10 * frameHeight;
-                }
-                else {
+                npc.frame.Y = (int)(npc.frameCounter / 5 + 16) * frameHeight;
+                Main.NewText((int)(npc.frameCounter / 5) + 16);
+                if (npc.frameCounter > 30) { 
                     AIState = Idle;
                     AITimer = 0;
                     npc.frameCounter = 0;
@@ -83,7 +64,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                  npc.velocity.X = npc.velocity.Y *= 0.9f;
                 if (npc.frameCounter < 5)
                 {
-                    npc.frame.Y = 11 * frameHeight;
+                    npc.frame.Y = 20 * frameHeight;
                     for (int i = 0; i < 2; i++)
                     {
                         int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
@@ -94,7 +75,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 else if (npc.frameCounter < 40)
                 {
-                    npc.frame.Y = 12 * frameHeight;
+                    npc.frame.Y = 21 * frameHeight;
                     for (int i = 0; i < 5; i++)
                     {
                         int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
@@ -105,7 +86,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 else if (npc.frameCounter < 75)
                 {
-                    npc.frame.Y = 13 * frameHeight;
+                    npc.frame.Y = 22 * frameHeight;
                     for (int i = 0; i < 8; i++)
                     {
                         int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
@@ -116,6 +97,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
                 else if (npc.frameCounter < 110)
                 {
+                    npc.frame.Y = 23 * frameHeight;
                     for (int i = 0; i < 15; i++)
                     {
                         int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
