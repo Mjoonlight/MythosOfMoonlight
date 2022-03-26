@@ -52,8 +52,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 }
             }
             if (AIState == Attack) {
-                npc.frame.Y = (int)(npc.frameCounter / 5 + 16) * frameHeight;
-                Main.NewText((int)(npc.frameCounter / 5) + 16);
+                npc.frame.Y = (int)(npc.frameCounter / 5 + 13) * frameHeight;
+                Main.NewText((int)(npc.frameCounter / 5) + 13);
                 if (npc.frameCounter > 30) { 
                     AIState = Idle;
                     AITimer = 0;
