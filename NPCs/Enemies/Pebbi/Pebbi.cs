@@ -35,6 +35,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
         int fighterFC = 0;
         public override void AI()
         {
+            npc.TargetClosest(true);
             npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, JUMP_HEIGHT, STRIDE_SPEED, fighterFC++ != 0);
         }
         public override void HitEffect(int hitDirection, double damage)
