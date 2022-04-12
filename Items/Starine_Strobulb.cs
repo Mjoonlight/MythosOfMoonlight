@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Strobulb");
+            DisplayName.SetDefault("Starine Starbulb");
             Tooltip.SetDefault("Charges a powerful ray of Starine light that burns foes. \nIlluminating!");
         }
         public override void SetDefaults()

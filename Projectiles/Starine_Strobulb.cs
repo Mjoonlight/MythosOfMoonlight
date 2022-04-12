@@ -38,7 +38,7 @@ namespace MythosOfMoonlight.Projectiles
                     {
                         if (projectile.ai[1] == 3f)
                         {
-                            Projectile.NewProjectile(projectile.Center + new Vector2(0, 100f).RotatedBy(projectile.rotation), Vector2.Zero, ModContent.ProjectileType<Starine_Flash>(), projectile.damage, projectile.knockBack);
+                            Projectile.NewProjectile(projectile.Center + new Vector2(0, 100f).RotatedBy(projectile.rotation), Vector2.Zero, ModContent.ProjectileType<Starine_Flash>(), projectile.damage, projectile.knockBack,Main.myPlayer);
                         }
                         brightness += .05f;
                         scale += new Vector2(.2f, .2f);
@@ -95,6 +95,11 @@ namespace MythosOfMoonlight.Projectiles
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.magic = true;
+            projectile.timeLeft = 2;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
         }
     }
 }
