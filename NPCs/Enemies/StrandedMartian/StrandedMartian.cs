@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Items.Materials;
-using MythosOfMoonlight.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -21,10 +20,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
             npc.width = 38;
             npc.height = 40;
             npc.damage = 15;
-            npc.lifeMax = 50;
+            npc.lifeMax = 90;
             npc.defense = 2;
-            npc.HitSound = SoundID.NPCHit7;
-            npc.DeathSound = SoundID.NPCDeath43;
+            npc.HitSound = SoundID.NPCHit39;
+            npc.DeathSound = SoundID.NPCDeath57;
             npc.aiStyle = -1;
             npc.netAlways = true;
         }
@@ -88,11 +87,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
                 case NState.Shoot:
                     {
                         Timer++;
+                        npc.direction = (Main.player[npc.target].Center.X >= npc.Center.X) ? 1 : -1;
                         npc.spriteDirection = npc.direction;
                         npc.frame = new Rectangle(0, 0, 38, 46);
                         if (Timer % 60 == 0)
                         {
-                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center + new Vector2(0, -150) - npc.Center) * 10f, ModContent.ProjectileType<CometEmber>(), Main.expertMode ? 6 : 8, .075f, npc.target, Main.player[npc.target].Center.X >= npc.Center.X ? 1 : -1);
+                            Main.PlaySound(SoundID.Item68, npc.Center);
+                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center + new Vector2(0, -150) - npc.Center) * 10f, ModContent.ProjectileType<CometEmberMini>(), Main.expertMode ? 6 : 8, .075f, npc.target, Main.player[npc.target].Center.X >= npc.Center.X ? 1 : -1);
                         }
                         if (!Main.player[npc.target].active || Main.player[npc.target].dead || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 400f || Timer > 120)
                         {

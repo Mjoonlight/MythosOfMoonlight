@@ -343,7 +343,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             drawColor = Color.White;
         }
-        readonly int aggrorange = 24;
+        readonly int aggrorange = 240;
         readonly float ClimbSpeed = 2f;
         void NormalStateAnimation()
         {
