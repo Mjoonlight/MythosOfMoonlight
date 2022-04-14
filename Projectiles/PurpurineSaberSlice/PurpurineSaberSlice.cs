@@ -93,7 +93,7 @@ namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
         {
             if (projectile.ai[0]>0)
             {
-                Texture2D tex = ModContent.GetTexture("MythosOfMoonlight/Projectiles/PurpurineSaber/PurpurineSaber");
+                Texture2D tex = ModContent.GetTexture("MythosOfMoonlight/Projectiles/PurpurineSaberSlice/PurpurineSaberSlice");
                 Vector2 ori = new Vector2(20, 21);
                 Rectangle rec = new Rectangle(0, (int)projectile.ai[0] * 42, 40, 42);
                 float rot = projectile.rotation;

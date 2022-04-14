@@ -79,7 +79,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 		{
 			if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
 			{
-				if ((Main.rand.NextBool(1) && !downedPurpleComet) || (Main.rand.NextBool(1) && downedPurpleComet))
+				if ((Main.rand.NextBool(8) && !downedPurpleComet) || (Main.rand.NextBool(16) && downedPurpleComet))
 				{
 					Main.NewText("You feel like you're levitating...", 179, 0, 255); //event message in chat.
 					PurpleComet = true;
