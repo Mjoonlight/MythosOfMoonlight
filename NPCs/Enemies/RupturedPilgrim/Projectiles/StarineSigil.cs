@@ -52,9 +52,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
 			projectile.hostile = true;
             projectile.timeLeft = 45;
 		}
-        int projDamage = 10;
+        int projDamage = 8;
         public override void Kill(int timeLeft)
         {
+            if (Main.expertMode)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 5, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                }
+                Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
+            }
             for (int i = 0; i < 30; i++)
             {
                 int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<StarineDust>(), 2f);
@@ -80,11 +89,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
         {
             if (!Main.expertMode)
             {
-                if (++ProjectileTimer % 15 == 0)
+                if (++ProjectileTimer % 20 == 0)
                 {
-                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                    Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian * .5f), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                     Main.PlaySound(SoundID.Item9, projectile.Center);
-                    if (ProjectileTimer == 45)
+                    if (ProjectileTimer == 60)
                     {
                         projectile.Kill();
                     }
@@ -92,21 +101,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
             }
             else
             {
-                if (++ProjectileTimer >= 10)
+                if (++ProjectileTimer >= 15)
                 {
-                    if (ProjectileTimer == 35)
+                    if (ProjectileTimer == 55)
                     {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Projectile.NewProjectile(projectile.Center, Main.rand.NextVector2Unit() * 4, ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                        }
-                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
-                        Main.PlaySound(SoundID.Item9, projectile.Center);
                         projectile.Kill();
                     }
-                    else if (ProjectileTimer % 5 == 0)
+                    else if (ProjectileTimer % 15 == 0)
                     { 
-                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                        Projectile.NewProjectile(projectile.Center, 10.5f * Utils.RotatedBy(projectile.DirectionTo(Main.player[Main.myPlayer].Center), RandRadian * .5f), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                         Main.PlaySound(SoundID.Item9, projectile.Center);
                     }
                 }

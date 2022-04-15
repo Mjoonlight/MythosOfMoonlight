@@ -521,6 +521,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 }
             }
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return SpawnCondition.OverworldNight.Chance * .05f;
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //3hi31mg

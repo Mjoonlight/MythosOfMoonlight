@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Events;
 using MythosOfMoonlight.Items.PurpleComet.Critters;
 using Terraria;
 using Terraria.ID;

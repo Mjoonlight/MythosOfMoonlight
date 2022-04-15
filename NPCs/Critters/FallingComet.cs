@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Generic;
 using Terraria.Utilities;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Events;
 
 namespace MythosOfMoonlight.NPCs.Critters
 {
