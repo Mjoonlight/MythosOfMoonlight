@@ -12,8 +12,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight.Projectiles
 {
-    public class TestTentacleProj : ModProjectile
+    public class TestTentacle/*Proj*/ : ModProjectile
     {
+        public override string Texture => "MythosOfMoonlight/Projectiles/TestTentacleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Test Tentacle");

@@ -429,13 +429,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         }
                         if (AITimer == 90)
                         {
-                            Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
+                            Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f);
                         }
                         if (npc.life < npc.lifeMax * .5f)
                         {
                             if (AITimer == 120)
                             {
-                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
+                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f);
                             }
                         }
                         if (AITimer == (npc.life >= npc.lifeMax * .5f ? 180 : 210)) 

@@ -45,6 +45,22 @@ namespace MythosOfMoonlight
             }
             return finalPos;
         }
+        public static Tile GetTileInHorizontalRange(Vector2 start, int xRange) // start is tile coords
+        {
+            int intX = (int)start.X, intY = (int)start.Y; 
+            for (int x = (int)intX; x < intX + xRange; x++)
+            {
+                var tile = Framing.GetTileSafely(new Vector2(x, intY));
+                if (tile.active()) 
+                {
+                    return tile;
+                }
+            } return null;
+        }
+        public static Tile GetTileInHorizontalRange(float x, float y, int xRange) // start is tile coords
+        {
+            return GetTileInHorizontalRange(new Vector2(x, y), xRange);
+        }
         public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1)
         {
             for (int i = 0; i < amount; i++)
@@ -132,7 +148,7 @@ namespace MythosOfMoonlight
         }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
-            if (PurpleCometEvent.PurpleComet)
+            if (PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/PurpleComet");
                 priority = MusicPriority.Event;

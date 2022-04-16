@@ -59,22 +59,23 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 		{
 			PurpleComet = false;
 		}
-	   public static int[] PurpleCometCritters => new[]
-        {
-            NPCType<NPCs.Critters.PurpleComet.SparkleSkittler>(),
+		public static int[] PurpleCometCritters => new[]
+		 {
+			NPCType<NPCs.Critters.PurpleComet.SparkleSkittler>(),
 			NPCType<NPCs.Critters.PurpleComet.CometPeep>(),
-            NPCID.EnchantedNightcrawler,
+			NPCID.EnchantedNightcrawler,
 			NPCID.Firefly
-        };
-		public static int[] RarePurpleCometCritters => new[]
-		{
-			NPCType<NPCs.Critters.PurpleComet.CometPeepLeader>()
 		};
         public static int[] StarineEntities => new[]
         {
             NPCType<NPCs.Enemies.Starine.Starine_Sightseer>(),
-            NPCType<NPCs.Enemies.Starine.Starine_Skipper>()
+            NPCType<NPCs.Enemies.Starine.Starine_Skipper>(),
+			NPCType<NPCs.Enemies.Starine.Starine_Scatterer>()
         };
+		public static int[] RarePurpleCometEnemies => new[]
+		{
+			NPCType<NPCs.Enemies.StrandedMartian.StrandedMartian>()
+		};
         public override void PreUpdate()
 		{
 			if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)

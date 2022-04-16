@@ -136,7 +136,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 							for (int i = 90; i <= 360; i += 90)
 							{
 								Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
-								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f, Main.myPlayer);
 							}
 						}
 						if (StateTimer == 90)
@@ -154,7 +154,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 							for (int i = 90; i <= 360; i += 90)
 							{
 								Vector2 shoot = MathHelper.ToRadians(i + 45).ToRotationVector2();
-								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f, Main.myPlayer);
 							}
 							StateTimer = 0;
 							SwitchTo(NState.Invulerable);

@@ -11,7 +11,9 @@ namespace MythosOfMoonlight
     {
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (PurpleCometEvent.PurpleComet)
+            // base.EditSpawnPool(pool, spawnInfo);
+
+            if (PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight)
             {
                 pool.Clear();
                 for (int i = 0; i < PurpleCometEvent.PurpleCometCritters.Length; i++)
@@ -28,6 +30,14 @@ namespace MythosOfMoonlight
                     if (!pool.ContainsKey(type))
                     {
                         pool.Add(type, 0.1f);
+                    }
+                }
+                for (int i = 0; i < PurpleCometEvent.RarePurpleCometEnemies.Length; i++)
+                {
+                    var type = PurpleCometEvent.RarePurpleCometEnemies[i];
+                    if (!pool.ContainsKey(type))
+                    {
+                        pool.Add(type, 0.05f);
                     }
                 }
             }
