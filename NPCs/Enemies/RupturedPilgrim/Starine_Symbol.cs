@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles;
 using MythosOfMoonlight.Projectiles;
 using System;
 using System.IO;
@@ -102,7 +103,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 			}
 			if (CircleCenter == Vector2.Zero)
             {
-				CircleCenter = npc.Center - new Vector2(0, 32);
+				CircleCenter = npc.Center - new Vector2(0, 48);
             }
             switch (State) 
 			{
@@ -163,6 +164,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 				case NState.Death:
                     {
 						Radius -= 3.5f;
+						if (Radius <= 0f)
+                        {
+							StateTimer++;
+                        }
+						if (StateTimer > 0)
+                        {
+							npc.velocity = CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - npc.Center;
+                        }
+						if (StateTimer == 120)
+                        {
+							npc.life = 0;
+							npc.checkDead();
+                        }
 						break;
                     }
 			}
@@ -170,15 +184,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             {
 				if (Radius >= 400 && Vector2.Distance(CircleCenter, Main.LocalPlayer.Center) > 420)
                 {
-					Vector2 vel = Utils.SafeNormalize(npc.Center - CircleCenter, Vector2.Zero);
+					Vector2 vel = Utils.SafeNormalize(CircleCenter - Main.LocalPlayer.Center, Vector2.Zero);
 					Main.LocalPlayer.Center += vel * 9f;
 					Main.LocalPlayer.velocity = vel * 3f;
 					Main.LocalPlayer.itemTime = Main.LocalPlayer.HeldItem.useTime - 2;
 					Main.LocalPlayer.gravity = 0f;
-					Main.LocalPlayer.controlDown = false;
-					Main.LocalPlayer.controlJump = false;
-					Main.LocalPlayer.controlLeft = false;
-					Main.LocalPlayer.controlRight = false;
 					Main.LocalPlayer.controlMount = false;
 					Main.LocalPlayer.controlHook = false;
 					for (int i = 1; i <= 10; i++)
@@ -240,6 +250,23 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 			}
 			return true;
+        }
+        public override bool CheckDead()
+        {
+			Main.PlaySound(SoundID.Item62, npc.Center);
+			for (int i = 0; i < 80; i++)
+			{
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
+				Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 4f;
+				Main.dust[dust].scale = 1f * Main.rand.Next(2, 3);
+				Main.dust[dust].noGravity = true;
+			}
+			return base.CheckDead();
+        }
+        public override void NPCLoot()
+        {
+			symbol = null;
+			Item.NewItem(npc.Hitbox, ItemID.FallenStar, 33);
         }
     }
 }

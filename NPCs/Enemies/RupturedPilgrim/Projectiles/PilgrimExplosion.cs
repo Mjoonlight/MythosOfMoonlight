@@ -58,5 +58,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
         {
             return Color.White;
         }
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 1; i < (Main.expertMode ? 9 : 6); i++) 
+            {
+                Projectile.NewProjectile(projectile.Center, new Vector2(0,-6).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-45,45))), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+            }
+            Main.PlaySound(SoundID.Item9, projectile.Center);
+        }
     }
 }
