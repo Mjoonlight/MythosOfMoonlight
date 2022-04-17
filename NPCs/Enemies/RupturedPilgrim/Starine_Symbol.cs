@@ -83,10 +83,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 		public Vector2 CircleCenter;
         public override void AI()
         {
-			if (symbol == null || !symbol.active)
-            {
-				symbol = npc;
-            }
 			Main.npcChatText = "I will never leave you alone";
 			Lighting.AddLight(npc.Center, 1f, 1f, 1f);
 			FloatTimer++;
@@ -136,7 +132,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 							for (int i = 90; i <= 360; i += 90)
 							{
 								Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
-								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
 							}
 						}
 						if (StateTimer == 90)
@@ -154,7 +150,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 							for (int i = 90; i <= 360; i += 90)
 							{
 								Vector2 shoot = MathHelper.ToRadians(i + 45).ToRotationVector2();
-								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
 							}
 							StateTimer = 0;
 							SwitchTo(NState.Invulerable);
@@ -218,9 +214,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			npc.townNPC = false;
-			NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
-			SwitchTo(NState.Invulerable);
+			if (!Main.dayTime)
+			{
+				npc.townNPC = false;
+				int pil = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
+				Main.npc[pil].ai[0] = 6;
+				if (symbol == null || !symbol.active)
+				{
+					symbol = npc;
+				}
+				SwitchTo(NState.Invulerable);
+			}
+            else
+            {
+				Utils.DrawBorderString(Main.spriteBatch, "Please come at nighttime!", npc.Center - new Vector2(0, 30), Color.Cyan, 2f);
+            }
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {

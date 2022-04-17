@@ -10,7 +10,9 @@ using MythosOfMoonlight.Projectiles;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
-    public class RupturedPilgrim : ModNPC {
+    public class RupturedPilgrim : ModNPC 
+    {
+        NPC sym => Starine_Symbol.symbol;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ruptured Pilgrim");
@@ -31,6 +33,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath52;
             npc.noTileCollide = true;
+            npc.ai[0] = 6;
+            npc.alpha = 255;
         }
         bool hasDoneDeathDrama;
         public override void FindFrame(int frameHeight)
@@ -75,6 +79,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         npc.frame.Y = (int)(npc.frameCounter / 5) * frameHeight;
                     }
                 }
+            }
+            if (State == AIState.Spawn)
+            {
+                npc.frame.Y = (int)(npc.frameCounter / 5) * frameHeight;
             }
             if (State == (AIState)1 || State == AIState.TentacleP2) 
             {
@@ -132,32 +140,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         }
                         else
                         {
-                            if (AITimer <= (npc.life < npc.lifeMax * .5f ? 150 : 180))
+                            if (State == AIState.TentacleP1 ? (AITimer <= (npc.life < npc.lifeMax * .5f ? 190 : 220)) : AITimer <= 290) 
                             {
                                 npc.frameCounter = 0;
                                 npc.frame.Y = 12 * frameHeight;
-                            }
-                            else
-                            {
-                                if (AITimer <= (npc.life < npc.lifeMax * .5f ? 164 : 194))
-                                {
-                                    npc.frame.Y = (int)((npc.frameCounter / 5) + 13) * frameHeight;
-                                }
-                                else
-                                {
-                                    if (AITimer == (npc.life < npc.lifeMax * .5f ? 165 : 195))
-                                    {
-                                        npc.frameCounter = 0;
-                                    }
-                                    else
-                                    {
-                                        if (npc.frameCounter >= 19)
-                                        {
-                                            npc.frameCounter = 0;
-                                        }
-                                        npc.frame.Y = (int)(npc.frameCounter / 5) * frameHeight;
-                                    }
-                                }
                             }
                         }
                     }
@@ -283,7 +269,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             SymbolLaser,
             ArrowExplosion,
             TentacleP2,
-            Death
+            Death,
+            Spawn
         }
         private AIState State
         {
@@ -307,7 +294,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var off = new Vector2(npc.width / 2, npc.height / 2);
-            var clr = new Color(255, 255, 255, 255); // full white
+            var clr = new Color(255, 255, 255, 255) * (float)((float)(255f - (float)npc.alpha) / 255f);
             var drawPos = npc.Center - Main.screenPosition;
             var origTexture = Main.npcTexture[npc.type];
             var texture = mod.GetTexture("NPCs/Enemies/RupturedPilgrim/RupturedPilgrim_Trail");
@@ -315,7 +302,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             var frame = npc.frame;
             var orig = frame.Size() / 2f;
             var trailLength = NPCID.Sets.TrailCacheLength[npc.type];
-            SpriteEffects flipType = npc.spriteDirection == 1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flipType = npc.spriteDirection == -1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             if (npc.life <= npc.lifeMax / 2)
             {
@@ -346,8 +333,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         public override void AI()
         {
             npc.TargetClosest(true);
-            npc.FaceTarget();
-            npc.spriteDirection = -npc.direction;
+            if (State != AIState.TentacleP1 && State != AIState.TentacleP2)
+            {
+                npc.spriteDirection = npc.direction;
+                npc.FaceTarget();
+            }
             Player player = Main.player[npc.target];
             foreach(NPC npc in Main.npc)
             {
@@ -361,9 +351,43 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 npc.active = false;
                 owner.active = false;
             }
+            if (!owner.active)
+            {
+                npc.active = false;
+            }
             AITimer++;
             switch (State)
             {
+                case AIState.Spawn:
+                    {
+                        npc.alpha -= 5;
+                        npc.velocity *= 0;
+                        if (npc.alpha > 0)
+                        {
+                            for (int i = 1; i <= 6; i++)
+                            {
+                                Vector2 pos = npc.Center + new Vector2(90, 0).RotatedBy(Main.rand.NextFloat(0, 6.28f));
+                                Vector2 vel = Vector2.Normalize(pos - npc.Center) * -9f;
+                                Dust dust = Dust.NewDustDirect(pos, 1, 1, DustID.FireworkFountain_Blue);
+                                dust.color = Color.Cyan;
+                                dust.velocity = vel;
+                                dust.scale = .8f;
+                                dust.fadeIn = .4f;
+                                dust.noGravity = true;
+                            }
+                        }
+                        if (npc.alpha < 0)
+                        {
+                            npc.alpha = 0;
+                        }
+                        if (AITimer >= 155)
+                        {
+                            AITimer = 0;
+                            npc.frameCounter = 0;
+                            SwitchTo(AIState.StarineSigil);
+                        }
+                        break;
+                    }
                 case AIState.StarineSigil:
                     {
                         if (AITimer < 60)
@@ -384,11 +408,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         {
                             if (Main.rand.NextBool(2))
                             {
-                                Projectile.NewProjectile(npc.Center - new Vector2(0, 200), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
+                                Vector2 pos = Vector2.Distance(npc.Center - new Vector2(0, 200), ((Starine_Symbol)sym.modNPC).CircleCenter) <= 400 ? npc.Center - new Vector2(0, 200) : Utils.SafeNormalize(npc.Center - new Vector2(0, 200) - ((Starine_Symbol)sym.modNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)sym.modNPC).CircleCenter;
+                                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center - new Vector2(0, 200), Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
+                                Vector2 pos = Vector2.Distance(player.Center - new Vector2(0, 200), ((Starine_Symbol)sym.modNPC).CircleCenter) <= 400 ? player.Center - new Vector2(0, 200) : Utils.SafeNormalize(player.Center - new Vector2(0, 200) - ((Starine_Symbol)sym.modNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)sym.modNPC).CircleCenter;
+                                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
                             }
                         }
                         if (AITimer == 120)
@@ -425,20 +451,20 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                                 Dust dust = Dust.NewDustDirect(npc.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                                 dust.noGravity = true;
                             }
-                            npc.Center = player.Center + Main.rand.NextFloat(0, 6.28f).ToRotationVector2() * 150f;
+                            npc.Center = player.Center + Main.rand.NextFloat(0, 3.14f).ToRotationVector2() * -150f;
                         }
                         if (AITimer == 90)
                         {
-                            Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f);
+                            Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.spriteDirection, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
                         }
                         if (npc.life < npc.lifeMax * .5f)
                         {
                             if (AITimer == 120)
                             {
-                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<Projectiles.TestTentacleProj>(), 8, .1f);
+                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.spriteDirection, 11), Utils.SafeNormalize(player.Center - npc.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
                             }
                         }
-                        if (AITimer == (npc.life >= npc.lifeMax * .5f ? 180 : 210)) 
+                        if (AITimer == (npc.life >= npc.lifeMax * .5f ? 190 : 220)) 
                         {
                             AITimer = 0;
                             npc.frameCounter = 0;
@@ -541,7 +567,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 case AIState.TentacleP2:
                     {
                         npc.velocity *= .9f;
-                        if (AITimer == 30)
+                        if (AITimer <= 30 && AITimer % 10 == 0)
                         {
                             Main.PlaySound(SoundID.NPCHit5, npc.Center);
                             for (int i = 4; i <= 360; i += 4)
@@ -550,14 +576,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                                 Dust dust = Dust.NewDustDirect(npc.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                                 dust.noGravity = true;
                             }
-                            npc.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 90, 180, 270, 360 })).ToRotationVector2() * 150f;
+                            npc.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
                         }
                         if (AITimer == 90)
                         {
                             float ai1 = Main.rand.Next(new int[] { -1, 1 });
                             for (int i = 90; i <= 360; i += 90)
                             {
-                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.direction, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(), 8, .1f, Main.myPlayer, 0, ai1);
+                                Projectile.NewProjectile(npc.Center + new Vector2(11 * npc.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(), 8, .1f, Main.myPlayer, 0, ai1);
                             }
                         }
                         if (AITimer == 290)

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.PurpleComet.Critters;
 using Terraria;
@@ -23,82 +22,121 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             npc.aiStyle = -1;
             npc.defense = 0;
             npc.lifeMax = 5;
-            npc.noGravity = false;
+            npc.noGravity = true;
             npc.noTileCollide = false;
         }
+        public bool isCasual = true;
+        public float SineCounter
+        {
+            get => npc.ai[0];
+            set => npc.ai[0] = value;
+        }
+        public float InitialPositionY
+        {
+            get => npc.ai[1];
+            set => npc.ai[1] = value;
+        }
+        public const float SPEED = 2, SINE_SPEED = .5f;
+        public float offset = 4;
+        public int state = 0;
         public override Color? GetAlpha(Color drawColor)
         {
             return Color.White;
         }
 
-        const float RecoverySpeed = -3f;
-        const int VerticalTileRange = 7, HorizontalTileRange = 3;
-        float horizontalSpeed = 1f;
-        bool IsFirstFrame
+        public float LogicFrameCounter
         {
-            get
-            {
-                if (npc.ai[0] < 1)
-                {
-                    npc.ai[0]++;
-                    return true;
-                } return false;
-            }
+            get => npc.ai[2];
+            set => npc.ai[2] = value;
         }
-        /*
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            var texture = mod.GetTexture("NPCs/Critters/PurpleComet/CometPeep_Trail");
-            var frame = texture.Bounds;
-            var clr = Color.White;
-
-            // Main.spriteBatch.End();
-            // Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, frame, clr, 0f, frame.Size() / 2, 1f, SpriteEffects.None, 0f);
-            return false;
-        }
-        */
         public override void AI()
         {
-            if (IsFirstFrame)
+            LogicFrameCounter++;
+            switch (state)
             {
-                npc.direction = npc.Center.X < Helper.CoordToTile(Main.LocalPlayer.Center).X ? 1 : -1;
-                horizontalSpeed = Main.rand.NextFloat(9, 12);
-            }
-
-            npc.noGravity = false; // initialize gravity
-            var tilePos = Helper.CoordToTile(npc.Center); // first convert position to be used for tile coordinates
-            for (int y = (int)tilePos.Y; y < tilePos.Y + VerticalTileRange; y++) // go from the y position of the tile coordinates to 3 tiles below the y position of the tile coordinates
-            {
-                var tileY = Framing.GetTileSafely((int)tilePos.X, y);
-                var tileX = Helper.GetTileInHorizontalRange(tilePos.X, y, HorizontalTileRange);
-                if (tileX?.active() ?? false)
-                {
-                    if (tileX.frameX - (int)tilePos.X == 1)
+                case -1:
+                    npc.velocity = Vector2.Zero;
+                    if (LogicFrameCounter++ > 60)
                     {
+                        SineCounter = state = 0;
+                        LogicFrameCounter = 0;
                         npc.direction = -npc.direction;
-                        break;
                     }
-                }
-                else if (tileY?.active() ?? false) // if the tile at the y coordinate in the loop and the tilePos x coordinate  position is not active
-                {
-                    var getTile = Framing.GetTileSafely((int)tilePos.X, (int)tilePos.Y - 1);
-                    if (getTile?.active() ?? false)
+                    break;
+                case 0:
+                    Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
+                    if (npc.direction == 0)
                     {
-                        if (Main.tileSolid[getTile.type])
-                        {
-                            npc.direction = -npc.direction;
-                        }
+                        npc.position.Y -= offset * 16f;
+                    }
+                    if (LogicFrameCounter == 1)
+                    {
+                        npc.direction = Main.rand.NextBool(2) ? 1 : -1;
+                    }
+                    else if (npc.velocity.X == 0)
+                    {
+                        // npc.position.Y -= SINE_SPEED * 4;
+                        InitialPositionY = npc.position.Y;
+                        state = 1;
+                    }
+                    if (Main.rand.Next(120) == 0 && isCasual)
+                    {
+                        state = -1;
+                    }
+                    npc.velocity.X = npc.direction * SPEED;
+
+                    SineCounter += 0.1f;
+                    npc.position.Y += (float)Math.Sin(SineCounter) * SINE_SPEED;
+                    break;
+                case 1:
+                    if (npc.position.X != npc.oldPosition.X)
+                    {
+                        state = 2;
+                    }
+                    npc.velocity.X = npc.direction * SPEED;
+                    npc.velocity.Y = -SPEED;
+                    break;
+                case 2:
+                    npc.frameCounter++;
+                    if (npc.position.X == npc.oldPosition.X && npc.frameCounter > 5)
+                    {
+                        state = 1;
+                        npc.frameCounter = 0;
+                    }
+                    else if (npc.velocity.Y != 0 && npc.frameCounter > 15)
+                    {
+                        state = 3;
+                        npc.noGravity = false;
+                        npc.frameCounter = 0;
+                    }
+                    npc.velocity.X = npc.direction * SPEED;
+                    npc.velocity.Y = SPEED;
+                    break;
+                case 3:
+                    if (npc.velocity.Y == 0)
+                    {
+                        npc.velocity.Y = -npc.oldVelocity.Y / 2;
+                        state = 4;
                     }
                     else
                     {
-                        npc.noGravity = true; // turn off gravity to overcome acceleration
-                        npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, RecoverySpeed, 0.1f); // increase (decrease) vertical velocity by recovery speed
+                        npc.velocity.X = npc.direction * SPEED;
                     }
                     break;
-                }
+                case 4:
+                    npc.frameCounter++;
+                    npc.velocity.Y *= 1.1f;
+                    if (npc.frameCounter > 15)
+                    {
+                        SineCounter = 0;
+                        npc.frameCounter = 0;
+                        npc.noGravity = true;
+                        npc.velocity.Y = 0;
+                        state = 0;
+                    }
+                    break;
             }
-            npc.velocity.X = horizontalSpeed * npc.direction; // move forward/backward according to direction
+
         }
 
         /*
