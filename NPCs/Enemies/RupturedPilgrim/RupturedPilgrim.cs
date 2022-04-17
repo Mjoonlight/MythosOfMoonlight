@@ -82,6 +82,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             }
             if (State == AIState.Spawn)
             {
+                if (npc.frameCounter >= 19)
+                {
+                    npc.frameCounter = 0;
+                }
                 npc.frame.Y = (int)(npc.frameCounter / 5) * frameHeight;
             }
             if (State == (AIState)1 || State == AIState.TentacleP2) 
