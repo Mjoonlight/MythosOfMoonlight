@@ -15,7 +15,7 @@ namespace MythosOfMoonlight
         NPC sym => Starine_Symbol.symbol;
         public override void UpdateBiomeVisuals()
         {
-            var purpleComet = PurpleCometEvent.PurpleComet;
+            var purpleComet = PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight;
             player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
         }
         public override void OnEnterWorld(Player player)
