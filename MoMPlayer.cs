@@ -21,13 +21,6 @@ namespace MythosOfMoonlight
         public override void OnEnterWorld(Player player)
         {
             Starine_Symbol.symbol = null;
-            if (MoMWorld.SpawnX[0] > 0 && MoMWorld.SpawnY[0] > 0)
-            {
-                if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
-                {
-                    NPC.NewNPC(MoMWorld.SpawnX[0], MoMWorld.SpawnY[0] - 1, ModContent.NPCType<Starine_Symbol>());
-                }
-            }
         }
         public Vector2 targetCameraPosition = new Vector2(-1, -1);
         public readonly Vector2 setToPlayer = new Vector2(-1, -1);
@@ -36,7 +29,7 @@ namespace MythosOfMoonlight
         public float LerpTimer;
         public override void ResetEffects()
         {
-            foreach(NPC npc in Main.npc)
+            foreach (NPC npc in Main.npc)
             {
                 if (npc.type == ModContent.NPCType<Starine_Symbol>())
                 {
@@ -67,7 +60,7 @@ namespace MythosOfMoonlight
                 if (npc.type == ModContent.NPCType<Starine_Symbol>())
                 {
                     if (sym != null)
-                    { 
+                    {
                         if (sym.active)
                         {
                             if (Vector2.Distance(player.Center, ((Starine_Symbol)sym.modNPC).CircleCenter) < 1000f)
