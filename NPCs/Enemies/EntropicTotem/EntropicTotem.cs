@@ -146,7 +146,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
         }
           public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return SpawnCondition.Cavern.Chance * 0.07f;
+			return SpawnCondition.Cavern.Chance * 0.04f;
 		}
 
     }
