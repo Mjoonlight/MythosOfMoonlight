@@ -15,12 +15,19 @@ namespace MythosOfMoonlight
         NPC sym => Starine_Symbol.symbol;
         public override void UpdateBiomeVisuals()
         {
-            var purpleComet = PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight;
+            var purpleComet = PurpleCometEvent.PurpleComet;
             player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
         }
         public override void OnEnterWorld(Player player)
         {
             Starine_Symbol.symbol = null;
+            if (MoMWorld.SpawnX[0] > 0 && MoMWorld.SpawnY[0] > 0)
+            {
+                if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                {
+                    NPC.NewNPC(MoMWorld.SpawnX[0], MoMWorld.SpawnY[0] - 1, ModContent.NPCType<Starine_Symbol>());
+                }
+            }
         }
         public Vector2 targetCameraPosition = new Vector2(-1, -1);
         public readonly Vector2 setToPlayer = new Vector2(-1, -1);
@@ -59,11 +66,14 @@ namespace MythosOfMoonlight
             {
                 if (npc.type == ModContent.NPCType<Starine_Symbol>())
                 {
-                    if (npc.active)
+                    if (sym != null)
                     { 
-                        if (Vector2.Distance(player.Center, ((Starine_Symbol)sym.modNPC).CircleCenter) < 1000f)
+                        if (sym.active)
                         {
-                            Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)sym.modNPC).CircleCenter - player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
+                            if (Vector2.Distance(player.Center, ((Starine_Symbol)sym.modNPC).CircleCenter) < 1000f)
+                            {
+                                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)sym.modNPC).CircleCenter - player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
+                            }
                         }
                     }
                 }
