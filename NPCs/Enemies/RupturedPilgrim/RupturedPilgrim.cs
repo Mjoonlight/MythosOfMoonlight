@@ -355,7 +355,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 npc.active = false;
                 owner.active = false;
             }
-            if (!owner.active)
+            if (owner == null || !owner.active)
             {
                 npc.active = false;
             }

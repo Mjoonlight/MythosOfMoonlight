@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Century Flower");
-			Main.npcFrameCount[npc.type] = 8;
+			Main.npcFrameCount[npc.type] = 10;
 		}
 
 		public override void SetDefaults()
@@ -113,7 +113,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			}
 			else if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
 			{
-
 				if (npc.frameCounter >= 150)
 				{
 					RealFrame = ScaleFrame(4);
@@ -144,15 +143,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 3);
 				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 4);
 				Helper.SpawnGore(npc, "Gores/Enemies/CenturyLeaf", 5);
-				for (int i = 0; i < 10; i++)
+				Helper.SpawnDust(npc.position, npc.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 10);
+				/*for (int i = 0; i < 10; i++)
 				{
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);
-				}
+				}*/
 			}
 		}
 		public void OpenPetalsAnimation()
 		{
-			if (npc.frameCounter <= 75 && GetFrame() < 7)
+			if (npc.frameCounter <= 75 && GetFrame() < 9)
 			{
 				RealFrame++;
 			}
