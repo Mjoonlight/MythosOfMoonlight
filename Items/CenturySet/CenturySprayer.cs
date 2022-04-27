@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using MythosOfMoonlight.Projectiles.CenturySpewer.CenturySpewerSpore;
+using MythosOfMoonlight.Projectiles.CenturySpewer;
 
 namespace MythosOfMoonlight.Items.CenturySet
 {

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace MythosOfMoonlight.Projectiles.CenturySpewer.CenturySpewerSpore
+namespace MythosOfMoonlight.Projectiles.CenturySpewer
 {
     public class CenturySpewerSpore : ModProjectile
     {
@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer.CenturySpewerSpore
         {
             projectile.damage = 0;
             projectile.height = 64;
-            projectile.penetrate = -1;  
+            projectile.penetrate = -1;
             projectile.width = 80;
             projectile.friendly = true;
             projectile.hostile = false;

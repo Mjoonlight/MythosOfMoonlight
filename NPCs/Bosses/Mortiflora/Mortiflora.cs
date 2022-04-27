@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 		{
 			DisplayName.SetDefault("Mortiflora");
 			Main.npcFrameCount[npc.type] = 16;
-			NPCID.Sets.TrailingMode[npc.type] = 7;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			NPCID.Sets.TrailCacheLength[npc.type] = 16;
 		}
 		public override void SetDefaults()
@@ -40,6 +40,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 			npc.lavaImmune = true;
 			music = MusicID.Boss5;
 			npc.buffImmune[BuffID.Poisoned] = true;
+			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Mortiflora");
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -65,6 +66,11 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 			}
 			return false;
 		}
+		 public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.675f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.6f);
+        }
 
 		enum MortState
 		{
@@ -157,13 +163,6 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 
 		public override void AI()
 		{
-			if (Main.netMode != NetmodeID.Server) // This all needs to happen client-side!
-			{
-				Filters.Scene.Activate("PurpleComet");
-
-				Filters.Scene["PurpleComet"].Deactivate();
-			}
-
 			npc.TargetClosest(true);
 			var target = Main.player[npc.target];
 
@@ -172,6 +171,11 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
 			speedMod = (npc.lifeMax - npc.life * .5f) / (npc.lifeMax * .77f);
 			Animate();
 
+			if (npc.frameCounter % 60 == 0)
+			{
+				Helper.WarpAroundPlayer(npc, npc.PlayerTarget().Center, 10000, 300);
+			}
+			/*
 			switch (state)
 			{
 				case MortState.Default:
@@ -251,6 +255,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
                     }
 					break;
 			}
+			*/
 		}
 
 		int fireTime = 0;

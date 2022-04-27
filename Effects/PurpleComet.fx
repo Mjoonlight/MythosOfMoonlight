@@ -1,29 +1,36 @@
-﻿sampler uImage0 : register(s0);
-sampler uImage1 : register(s1);
+sampler uImage0 : register(s0);
+sampler uImage1 : register(s1); // Automatically Images/Misc/Perlin via Force Shader testing option
+sampler uImage2 : register(s2); // Automatically Images/Misc/noise via Force Shader testing option
+sampler uImage3 : register(s3);
 float3 uColor;
 float3 uSecondaryColor;
+float2 uScreenResolution;
+float2 uScreenPosition;
+float2 uTargetPosition;
+float2 uDirection;
 float uOpacity;
-float uSaturation;
-float uRotation;
 float uTime;
-float4 uSourceRect;
-float2 uWorldPosition;
-float uDirection;
-float3 uLightSource;
-float2 uImageSize0;
+float uIntensity;
+float uProgress;
 float2 uImageSize1;
+float2 uImageSize2;
+float2 uImageSize3;
+float2 uImageOffset;
+float uSaturation;
+float4 uSourceRect;
+float2 uZoom;
 
-float4 ScreenBasic(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
-    float4 colour = tex2D(uImage0, coords);
-    colour.rgb = float4(128, 128, 0, 1);
-    return colour * sampleColor;
+    float4 color = tex2D(uImage0, coords);
+    color.rb *= 3.24;
+    return color;
 }
 
 technique Technique1
 {
-    pass ScreenBasic
+    pass ModdersToolkitShaderPass
     {
-        PixelShader = compile ps_2_0 ScreenBasic();
+        PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }
