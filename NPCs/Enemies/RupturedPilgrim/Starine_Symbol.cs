@@ -83,7 +83,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 		public Vector2 CircleCenter;
         public override void AI()
         {
-			Main.npcChatText = "I will never leave you alone";
 			Lighting.AddLight(npc.Center, 1f, 1f, 1f);
 			FloatTimer++;
 			if (CircleCenter != Vector2.Zero)

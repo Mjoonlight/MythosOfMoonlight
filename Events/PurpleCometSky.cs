@@ -29,6 +29,7 @@ namespace MythosOfMoonlight.Events
         {
             return isActive;
         }
+        float intensity;
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)

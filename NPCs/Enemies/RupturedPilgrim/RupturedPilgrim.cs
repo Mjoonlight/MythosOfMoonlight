@@ -372,7 +372,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             {
                                 Vector2 pos = npc.Center + new Vector2(90, 0).RotatedBy(Main.rand.NextFloat(0, 6.28f));
                                 Vector2 vel = Vector2.Normalize(pos - npc.Center) * -9f;
-                                Dust dust = Dust.NewDustDirect(pos, 1, 1, DustID.FireworkFountain_Blue);
+                                Dust dust = Dust.NewDustDirect(pos, 1, 1, 221);
                                 dust.color = Color.Cyan;
                                 dust.velocity = vel;
                                 dust.scale = .8f;
