@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
+using Terraria.GameContent.Creative;
 
 namespace MythosOfMoonlight.Items.Materials
 {
@@ -15,13 +10,13 @@ namespace MythosOfMoonlight.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purpurine Quartz");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
         public override void SetDefaults()
         {
-            item.value = Item.buyPrice(0, 0, 0, 1);
-            item.rare = ItemRarityID.Green;
-            item.material = true;
-            item.maxStack = 99;
+            Item.value = Item.buyPrice(0, 0, 0, 1);
+            Item.rare = ItemRarityID.Green;
+            Item.maxStack = 99;
         }
     }
 }

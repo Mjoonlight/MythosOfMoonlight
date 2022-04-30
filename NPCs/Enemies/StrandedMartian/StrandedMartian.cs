@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Items.Materials;
-using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,19 +15,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stranded Martian");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[NPC.type] = 9;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
         {
-            npc.width = 38;
-            npc.height = 40;
-            npc.damage = 15;
-            npc.lifeMax = 90;
-            npc.defense = 2;
-            npc.HitSound = SoundID.NPCHit39;
-            npc.DeathSound = SoundID.NPCDeath57;
-            npc.aiStyle = -1;
-            npc.netAlways = true;
+            NPC.width = 38;
+            NPC.height = 40;
+            NPC.damage = 15;
+            NPC.lifeMax = 90;
+            NPC.defense = 2;
+            NPC.HitSound = SoundID.NPCHit39;
+            NPC.DeathSound = SoundID.NPCDeath57;
+            NPC.aiStyle = -1;
+            NPC.netAlways = true;
         }
         private enum NState
         {
@@ -34,8 +38,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         }
         private NState State
         {
-            get { return (NState)(int)npc.ai[0]; }
-            set { npc.ai[0] = (int)value; }
+            get { return (NState)(int)NPC.ai[0]; }
+            set { NPC.ai[0] = (int)value; }
         }
         private void SwitchTo(NState state)
         {
@@ -43,13 +47,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         }
         public float JumpCD
         {
-            get => npc.ai[1];
-            set => npc.ai[1] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
         public float Timer
         {
-            get => npc.ai[2];
-            set => npc.ai[2] = value;
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
         }
         public override void AI()
         {
@@ -57,73 +61,66 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
             {
                 JumpCD = 0;
             }
-            foreach(Player player in Main.player)
+            foreach (Player player in Main.player)
             {
-                if (State == NState.Wander && Vector2.Distance(player.Center,npc.Center)<= 300f)
+                if (State == NState.Wander && Vector2.Distance(player.Center, NPC.Center) <= 300f)
                 {
                     Timer = 0;
-                    npc.target = player.whoAmI;
+                    NPC.target = player.whoAmI;
                     SwitchTo(NState.Shoot);
                 }
             }
             switch (State)
             {
                 case NState.Wander:
-                    {
-                        Timer++;
-                        npc.spriteDirection = npc.direction;
-                        if (npc.velocity.Y <=0)
-                        {
-                            npc.frame = new Rectangle(0, ((2 + (int)Timer / 6) % 7) * 46, 38, 46);
-                        }
-                        else
-                        {
-                            npc.frame = new Rectangle(0, 46, 38, 46);
-                        }
-                        npc.GetGlobalNPC<FighterGlobalAI>().FighterAI(npc, 10, 1.8f, true);
-                        npc.TargetClosest(true);
-                        break;
-                    }
+                    Timer++;
+                    NPC.spriteDirection = NPC.direction;
+                    if (NPC.velocity.Y <= 0)
+                        NPC.frame = new Rectangle(0, ((2 + (int)Timer / 6) % 7) * 46, 38, 46);
+                    else
+                        NPC.frame = new Rectangle(0, 46, 38, 46);
+
+                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 10, 1.8f, true);
+                    NPC.TargetClosest(true);
+                    break;
                 case NState.Shoot:
+                    Timer++;
+                    NPC.direction = (Main.player[NPC.target].Center.X >= NPC.Center.X) ? 1 : -1;
+                    NPC.spriteDirection = NPC.direction;
+                    NPC.frame = new Rectangle(0, 0, 38, 46);
+                    if (Timer % 60 == 0)
                     {
-                        Timer++;
-                        npc.direction = (Main.player[npc.target].Center.X >= npc.Center.X) ? 1 : -1;
-                        npc.spriteDirection = npc.direction;
-                        npc.frame = new Rectangle(0, 0, 38, 46);
-                        if (Timer % 60 == 0)
-                        {
-                            Main.PlaySound(SoundID.Item68, npc.Center);
-                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center + new Vector2(0, -150) - npc.Center) * 10f, ModContent.ProjectileType<CometEmberMini>(), Main.expertMode ? 6 : 8, .075f, npc.target, Main.player[npc.target].Center.X >= npc.Center.X ? 1 : -1);
-                        }
-                        if (!Main.player[npc.target].active || Main.player[npc.target].dead || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 400f || Timer > 120)
-                        {
-                            npc.TargetClosest(true);
-                            SwitchTo(NState.Wander);
-                        }
-                        npc.velocity *= .9f;
-                        break;
+                        SoundEngine.PlaySound(SoundID.Item68, NPC.Center);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[NPC.target].Center + new Vector2(0, -150) - NPC.Center) * 10f, ModContent.ProjectileType<CometEmberMini>(), Main.expertMode ? 6 : 8, .075f, NPC.target, Main.player[NPC.target].Center.X >= NPC.Center.X ? 1 : -1);
                     }
+                    if (!Main.player[NPC.target].active || Main.player[NPC.target].dead || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 400f || Timer > 120)
+                    {
+                        NPC.TargetClosest(true);
+                        SwitchTo(NState.Wander);
+                    }
+                    NPC.velocity *= .9f;
+                    break;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Color color = Color.White;
-            Vector2 drawPos = npc.Center - Main.screenPosition + new Vector2(0,npc.gfxOffY);
-            Texture2D texture = mod.GetTexture("NPCs/Enemies/StrandedMartian/StrandedMartian_Glow");
-            Texture2D origTexture = Main.npcTexture[npc.type];
-            Rectangle frame = new Rectangle(0, npc.frame.Y, npc.width, npc.height);
+            Vector2 drawPos = NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY);
+            Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Glow").Value;
+            Texture2D origTexture = TextureAssets.Npc[NPC.type].Value;
+            Rectangle frame = new(0, NPC.frame.Y, NPC.width, NPC.height);
             Vector2 orig = frame.Size() / 2f;
-            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, npc.rotation, orig, npc.scale, npc.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-            Main.spriteBatch.Draw(texture, drawPos, frame, color, npc.rotation, orig, npc.scale, npc.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, NPC.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Main.spriteBatch.Draw(texture, drawPos, frame, color, NPC.rotation, orig, NPC.scale, NPC.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return base.SpawnChance(spawnInfo);
         }
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem(npc.Hitbox, ModContent.ItemType<PurpurineQuartz>(), Main.rand.Next(3, 7));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PurpurineQuartz>(), 1, 3, 6));
         }
     }
 }

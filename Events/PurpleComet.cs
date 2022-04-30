@@ -1,107 +1,126 @@
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Terraria;
-using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
 using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
-using Terraria.DataStructures;
 using static Terraria.ModLoader.ModContent;
-using static Terraria.ModLoader.Core.TmodFile;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
+using MythosOfMoonlight.NPCs.Critters.PurpleComet;
+using MythosOfMoonlight.NPCs.Enemies.Starine;
+using MythosOfMoonlight.NPCs.Enemies.StrandedMartian;
+using Terraria.Chat;
 
 namespace MythosOfMoonlight //Every comment is a guess lmao
 {
-	public class PurpleCometEvent : ModWorld
-	{
-		private static bool dayTimeLast;
-		public static bool testedEvents;
+    public class PurpleCometEvent : ModSystem
+    {
+        private static bool dayTimeLast;
+        public static bool testedEvents;
 
-		public static bool PurpleComet = false;
-		public static bool downedPurpleComet = false;
-		/*
-			public override TagCompound Save()
-			{
-				var data = new TagCompound();
-				var downed = new List<string>();
-				if (downedPurpleComet)
-				downed.Add("purplecomet"); //ensures that clearing the event will mark it as downed, in other words checked in boss checklist if that mod is installed (imagine not having that installed).
-				data.Add("downed", downed);
-				data.Add("purpleComet", PurpleComet);
-				return data;
-			}
-			public override void Load(TagCompound tag)
-			{
-				var downed = tag.GetList<string>("downed");
-				downedPurpleComet = downed.Contains("purplecomet"); //"downed.Add("purplecomet");" wouldn't work if this is nonexistent.
-				PurpleComet = tag.GetBool("purpleComet");
-			} 
-		*/
-		public override void NetSend(BinaryWriter writer)
-		{
-			BitsByte environment = new BitsByte(PurpleComet, downedPurpleComet);
-		}
-		public override void NetReceive(BinaryReader reader)
-		{
-			BitsByte environment = reader.ReadByte();
-			PurpleComet = environment[0];
-			downedPurpleComet = environment[1];
-		}
-		public override void Initialize()
-		{
-			PurpleComet = false;
-		}
-		public static int[] PurpleCometCritters => new[]
-		 {
-			NPCType<NPCs.Critters.PurpleComet.SparkleSkittler>(),
-			NPCType<NPCs.Critters.PurpleComet.CometPeep>(),
-			NPCID.EnchantedNightcrawler,
-			NPCID.Firefly
-		};
+        public static bool PurpleComet = false;
+        public static bool downedPurpleComet = false;
+
+        public override void SaveWorldData(TagCompound tag)
+        {
+            var downed = new List<string>();
+
+            if (downedPurpleComet)
+                downed.Add("downedPurpleComet");
+            if (PurpleComet)
+                downed.Add("PurpleComet");
+
+            tag["downed"] = downed;
+        }
+        public override void LoadWorldData(TagCompound tag)
+        {
+            var downed = tag.GetList<string>("lists");
+            downedPurpleComet = downed.Contains("downedPurpleComet");
+            PurpleComet = downed.Contains("PurpleComet");
+        }
+        public override void NetSend(BinaryWriter writer)
+        {
+            var flags = new BitsByte();
+            flags[0] = downedPurpleComet;
+            flags[1] = PurpleComet;
+            writer.Write(flags);
+        }
+        public override void NetReceive(BinaryReader reader)
+        {
+            BitsByte flags = reader.ReadByte();
+            downedPurpleComet = flags[0];
+            PurpleComet = flags[1];
+        }
+
+        public override void OnWorldLoad() // This and OnWorldUnload replaces Initilize
+        {
+            PurpleComet = false;
+            downedPurpleComet = false;
+        }
+        public override void OnWorldUnload()
+        {
+            PurpleComet = false;
+            downedPurpleComet = false;
+        }
+
+        public static int[] PurpleCometCritters => new[]
+         {
+            NPCType<SparkleSkittler>(),
+            NPCType<CometPeep>(),
+            NPCID.EnchantedNightcrawler,
+            NPCID.Firefly
+        };
         public static int[] StarineEntities => new[]
         {
-            NPCType<NPCs.Enemies.Starine.Starine_Sightseer>(),
-            NPCType<NPCs.Enemies.Starine.Starine_Skipper>(),
-			NPCType<NPCs.Enemies.Starine.Starine_Scatterer>()
+            NPCType<Starine_Sightseer>(),
+            NPCType<Starine_Skipper>(),
+            NPCType<Starine_Scatterer>()
         };
-		public static int[] RarePurpleCometEnemies => new[]
-		{
-			NPCType<NPCs.Enemies.StrandedMartian.StrandedMartian>()
-		};
-        public override void PreUpdate()
-		{
-			if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
-			{
-				if ((Main.rand.NextBool(8) && !downedPurpleComet) || (Main.rand.NextBool(16) && downedPurpleComet))
-				{
-					Main.NewText("You feel like you're levitating...", 179, 0, 255); //event message in chat.
-					PurpleComet = true;
-					downedPurpleComet = true;
-				}
-				testedEvents = true;
-			}
-			else if (PurpleComet && Main.dayTime)
+        public static int[] RarePurpleCometEnemies => new[]
+        {
+            NPCType<StrandedMartian>()
+        };
+        public override void PreUpdateWorld()
+        {
+            if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
             {
-				Main.NewText("The purple shine fades as the sun rises.", 179, 0, 255); //event message in chat.
-				PurpleComet = false;
-				testedEvents = false;
-			}
-		}
+                if ((Main.rand.NextBool(8) && !downedPurpleComet) || (Main.rand.NextBool(16) && downedPurpleComet))
+                {
+                    string status = "You feel like you're levitating...";
+                    if (Main.netMode == NetmodeID.Server)
+                        ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(status), new Color(179, 0, 255));
+                    else if (Main.netMode == NetmodeID.SinglePlayer)
+                        Main.NewText(Language.GetTextValue(status), new Color(179, 0, 255));
 
-		public void PostUpdate()
-		{
-			if (PurpleComet && !downedPurpleComet)
-			{
-				downedPurpleComet = true;
-			}
-		}
-	}
+                    PurpleComet = true;
+                    downedPurpleComet = true;
+
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendData(MessageID.WorldData);
+                }
+                testedEvents = true;
+            }
+            else if (PurpleComet && Main.dayTime)
+            {
+                string status = "The purple shine fades as the sun rises.";
+                if (Main.netMode == NetmodeID.Server)
+                    ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(status), new Color(179, 0, 255));
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                    Main.NewText(Language.GetTextValue(status), new Color(179, 0, 255));
+
+                PurpleComet = false;
+                testedEvents = false;
+
+                if (Main.netMode == NetmodeID.Server)
+                    NetMessage.SendData(MessageID.WorldData);
+            }
+        }
+
+        public override void PostUpdateWorld()
+        {
+            if (PurpleComet && !downedPurpleComet)
+                downedPurpleComet = true;
+        }
+    }
 }

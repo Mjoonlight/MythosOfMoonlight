@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
 
 namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
 {
@@ -17,25 +14,25 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Ember Mini");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 180;
-            projectile.netUpdate = true;
-            projectile.netUpdate2 = true;
-            projectile.netImportant = true;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 180;
+            Projectile.netUpdate = true;
+            Projectile.netUpdate2 = true;
+            Projectile.netImportant = true;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            projectile.Kill();
+            Projectile.Kill();
         }
         private enum ProjState
         {
@@ -44,8 +41,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         }
         private ProjState State
         {
-            get { return (ProjState)(int)projectile.ai[1]; }
-            set { projectile.ai[1] = (int)value; }
+            get { return (ProjState)(int)Projectile.ai[1]; }
+            set { Projectile.ai[1] = (int)value; }
         }
         private void SwitchTo(ProjState state)
         {
@@ -53,34 +50,34 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         }
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 1, 1, 1);
+            Lighting.AddLight(Projectile.Center, 1, 1, 1);
             var dustType = ModContent.DustType<PurpurineDust>();
-            var dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+            var dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
             Main.dust[dust].velocity = Vector2.Zero;
             Main.dust[dust].noGravity = true;
             Main.dust[dust].velocity.Y = -1f;
-            if (projectile.timeLeft < 179)
+            if (Projectile.timeLeft < 179)
             {
-                if (projectile.timeLeft == 178)
+                if (Projectile.timeLeft == 178)
                 {
                 }
-                switch(State)
+                switch (State)
                 {
                     case ProjState.Straight:
                         {
-                            projectile.rotation += MathHelper.ToRadians(projectile.ai[0] * 9f);
-                            if (projectile.timeLeft <= 60 || Math.Abs(projectile.Center.X-Main.player[projectile.owner].Center.X)<=30)
+                            Projectile.rotation += MathHelper.ToRadians(Projectile.ai[0] * 9f);
+                            if (Projectile.timeLeft <= 60 || Math.Abs(Projectile.Center.X - Main.player[Projectile.owner].Center.X) <= 30)
                             {
-                                projectile.velocity.Y = 0;
+                                Projectile.velocity.Y = 0;
                                 SwitchTo(ProjState.Stomp);
                             }
                             break;
                         }
                     case ProjState.Stomp:
                         {
-                            projectile.rotation = MathHelper.Lerp(projectile.rotation, MathHelper.ToRadians(180), .05f);
-                            projectile.velocity.X = 0;
-                            projectile.velocity.Y += .25f;
+                            Projectile.rotation = MathHelper.Lerp(Projectile.rotation, MathHelper.ToRadians(180), .05f);
+                            Projectile.velocity.X = 0;
+                            Projectile.velocity.Y += .25f;
                             break;
                         }
                 }
@@ -88,18 +85,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberExplode>(), projectile.damage, projectile.knockBack);
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberExplode>(), Projectile.damage, Projectile.knockBack);
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            Vector2 ori = new Vector2(9, 9);
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+            Vector2 ori = new(9, 9);
             for (int i = 0; i <= 4; i += 1)
             {
-                Vector2 pos = projectile.oldPos[i] + ori - Main.screenPosition;
-                float scale = (float)Math.Sqrt(((float)projectile.oldPos.Length - i) / (float)projectile.oldPos.Length) * .75f;
-                Color color = Color.White * (float)((float)((float)projectile.oldPos.Length - i) / (float)projectile.oldPos.Length) * ((float)(255 - (float)projectile.alpha) / 255f);
-                spriteBatch.Draw(tex, pos, null, color, projectile.oldRot[i], ori, scale, SpriteEffects.None, 0f);
+                Vector2 pos = Projectile.oldPos[i] + ori - Main.screenPosition;
+                float scale = (float)Math.Sqrt(((float)Projectile.oldPos.Length - i) / Projectile.oldPos.Length) * .75f;
+                Color color = Color.White * (float)((float)((float)Projectile.oldPos.Length - i) / Projectile.oldPos.Length) * ((float)(255 - (float)Projectile.alpha) / 255f);
+                Main.EntitySpriteDraw(tex, pos, null, color, Projectile.oldRot[i], ori, scale, SpriteEffects.None, 0);
             }
             return true;
         }

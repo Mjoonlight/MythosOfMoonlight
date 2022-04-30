@@ -1,34 +1,36 @@
 using Terraria;
-using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace MythosOfMoonlight.Items
 {
-	public class Starine_Strobulb : ModItem
+    public class Starine_Strobulb : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starine Starbulb");
-            Tooltip.SetDefault("Charges a powerful ray of Starine light that burns foes. \nIlluminating!");
+            Tooltip.SetDefault("Charges a powerful ray of Starine light that burns foes." +
+                "\nIlluminating!");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.width = 24;
-            item.height = 38;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.knockBack = 0f;
-            item.damage = 7;
-            item.rare = ItemRarityID.Green;
-            item.magic = true;
-            item.channel = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.shootSpeed = 0f;
-            item.shoot = ModContent.ProjectileType<Projectiles.Starine_Strobulb>();
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.width = 24;
+            Item.height = 38;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.knockBack = 0f;
+            Item.damage = 7;
+            Item.rare = ItemRarityID.Green;
+            Item.DamageType = DamageClass.Magic;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 0f;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Starine_Strobulb>();
         }
 	}
 }

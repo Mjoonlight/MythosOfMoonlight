@@ -1,46 +1,55 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Kranira
 {
-	public class Kranira : ModNPC
+    public class Kranira : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kranira");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
+			NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
+			{
+				SpecificallyImmuneTo = new int[] {
+					BuffID.Poisoned,
+				}
+			});
+
+			NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 24;
-			npc.height = 44;
-			npc.damage = 12;
-			npc.lifeMax = 120;
-			npc.defense = 2;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.aiStyle = -1;
-			npc.noGravity = true;
-			npc.netAlways = true;
-			npc.noTileCollide = true;
+			NPC.width = 24;
+			NPC.height = 44;
+			NPC.damage = 12;
+			NPC.lifeMax = 120;
+			NPC.defense = 2;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.aiStyle = -1;
+			NPC.noGravity = true;
+			NPC.netAlways = true;
+			NPC.noTileCollide = true;
 		}
 
-		float increment = 0.0075f, currentSpeed = 0;
-		float sineIncrement = 0;
+        private readonly float increment = 0.0075f;
+        private float currentSpeed = 0;
+        float sineIncrement = 0;
 		public override void AI()
 		{
 			UpdateFrame();
-			npc.TargetClosest(true);
-			var target = Main.player[npc.target];
+			NPC.TargetClosest(true);
+			var target = Main.player[NPC.target];
 
-			npc.DirectionTo(target.Center);
-			npc.spriteDirection = npc.direction;
+			NPC.DirectionTo(target.Center);
+			NPC.spriteDirection = NPC.direction;
 			MoveTowardsPlayer(target);
 
 			IncreaseSine(.05f);
@@ -48,15 +57,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.Kranira
 
 		void MoveTowardsPlayer(Player target)
         {
-			Vector2 direction = -GetNormalized(npc.position - target.position);
-			npc.velocity = direction * currentSpeed;
+			Vector2 direction = -GetNormalized(NPC.position - target.position);
+			NPC.velocity = direction * currentSpeed;
 			currentSpeed += currentSpeed <= 2.4976f ? increment : 0;
 		}
 
 		void IncreaseSine(float value)
         {
 			sineIncrement += value;
-			npc.velocity += new Vector2(0, (float)Math.Sin(sineIncrement) * 0.3f);
+			NPC.velocity += new Vector2(0, (float)Math.Sin(sineIncrement) * 0.3f);
 		}
 
 		Vector2 GetNormalized(Vector2 direction)
@@ -68,7 +77,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Kranira
 
 		Vector2 GetNormalized(float x, float y)
         {
-			Vector2 returnDir = new Vector2(x, y);
+			Vector2 returnDir = new(x, y);
 			returnDir.Normalize();
 			return returnDir;
         }
@@ -78,7 +87,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Kranira
         {
 			trueAnimationFrame = (trueAnimationFrame + .125f) % 4;
 			int animationFrame = (int)trueAnimationFrame;
-			npc.frame.Y = animationFrame * npc.height;
+			NPC.frame.Y = animationFrame * NPC.height;
         }
 	}
 }

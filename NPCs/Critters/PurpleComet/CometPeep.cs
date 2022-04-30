@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.Items.PurpleComet.Critters;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,17 +10,19 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Peep");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
         {
-            npc.width = npc.height = 22;
-            npc.friendly = true;
-            npc.aiStyle = -1;
-            npc.defense = 0;
-            npc.lifeMax = 5;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
+            NPC.width = NPC.height = 22;
+            NPC.friendly = true;
+            NPC.aiStyle = -1;
+            NPC.defense = 0;
+            NPC.lifeMax = 5;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
         }
         public override Color? GetAlpha(Color drawColor)
         {
@@ -38,11 +36,12 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             get
             {
-                if (npc.ai[0] < 1)
+                if (NPC.ai[0] < 1)
                 {
-                    npc.ai[0]++;
+                    NPC.ai[0]++;
                     return true;
-                } return false;
+                }
+                return false;
             }
         }
         /*
@@ -54,7 +53,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
 
             // Main.spriteBatch.End();
             // Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, frame, clr, 0f, frame.Size() / 2, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, frame, clr, 0f, frame.Size() / 2, 1f, SpriteEffects.None, 0f);
             return false;
         }
         */
@@ -62,43 +61,41 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             if (IsFirstFrame)
             {
-                npc.direction = npc.Center.X < Helper.CoordToTile(Main.LocalPlayer.Center).X ? 1 : -1;
+                NPC.direction = NPC.Center.X < Helper.CoordToTile(Main.LocalPlayer.Center).X ? 1 : -1;
                 horizontalSpeed = Main.rand.NextFloat(9, 12);
             }
 
-            npc.noGravity = false; // initialize gravity
-            var tilePos = Helper.CoordToTile(npc.Center); // first convert position to be used for tile coordinates
+            NPC.noGravity = false; // initialize gravity
+            var tilePos = Helper.CoordToTile(NPC.Center); // first convert position to be used for tile coordinates
             for (int y = (int)tilePos.Y; y < tilePos.Y + VerticalTileRange; y++) // go from the y position of the tile coordinates to 3 tiles below the y position of the tile coordinates
             {
                 var tileY = Framing.GetTileSafely((int)tilePos.X, y);
                 var tileX = Helper.GetTileInHorizontalRange(tilePos.X, y, HorizontalTileRange);
-                if (tileX?.active() ?? false)
+                if (!tileX.HasTile)
                 {
-                    if (tileX.frameX - (int)tilePos.X == 1)
+                    if (tileX.TileFrameX - (int)tilePos.X == 1)
                     {
-                        npc.direction = -npc.direction;
+                        NPC.direction = -NPC.direction;
                         break;
                     }
                 }
-                else if (tileY?.active() ?? false) // if the tile at the y coordinate in the loop and the tilePos x coordinate  position is not active
+                else if (!tileX.HasTile) // if the tile at the y coordinate in the loop and the tilePos x coordinate  position is not active
                 {
                     var getTile = Framing.GetTileSafely((int)tilePos.X, (int)tilePos.Y - 1);
-                    if (getTile?.active() ?? false)
+                    if (!tileX.HasTile)
                     {
-                        if (Main.tileSolid[getTile.type])
-                        {
-                            npc.direction = -npc.direction;
-                        }
+                        if (Main.tileSolid[getTile.TileType])
+                            NPC.direction = -NPC.direction;
                     }
                     else
                     {
-                        npc.noGravity = true; // turn off gravity to overcome acceleration
-                        npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, RecoverySpeed, 0.1f); // increase (decrease) vertical velocity by recovery speed
+                        NPC.noGravity = true; // turn off gravity to overcome acceleration
+                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, RecoverySpeed, 0.1f); // increase (decrease) vertical velocity by recovery speed
                     }
                     break;
                 }
             }
-            npc.velocity.X = horizontalSpeed * npc.direction; // move forward/backward according to direction
+            NPC.velocity.X = horizontalSpeed * NPC.direction; // move forward/backward according to direction
         }
 
         /*

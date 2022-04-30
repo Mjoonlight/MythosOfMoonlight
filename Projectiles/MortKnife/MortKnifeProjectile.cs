@@ -13,39 +13,36 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chloroccyx");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 18;
-            projectile.friendly = true;
-            projectile.timeLeft = 30;
-            projectile.penetrate = 2;
-            projectile.melee = true;
+            Projectile.width = 32;
+            Projectile.height = 18;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 30;
+            Projectile.penetrate = 2;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
-        List<NPC> GetTargets(Vector2 position, float radius) // get targets, organized by closest npc
+        static List<NPC> GetTargets(Vector2 position, float radius) // get targets, organized by closest NPC
         {
             float closestDistance = -1;
             var npcs = new List<NPC>();
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                var npc = Main.npc[i];
-                var distance = Vector2.DistanceSquared(npc.Center, position);
+                var NPC = Main.npc[i];
+                var distance = Vector2.DistanceSquared(NPC.Center, position);
                 if (distance < Math.Pow(radius, 2))
                 {
                     if (closestDistance > distance || closestDistance == -1)
                     {
                         closestDistance = distance;
-                        npcs.Insert(0, npc);
+                        npcs.Insert(0, NPC);
                     }
-
                     else
-                    {
-                        npcs.Add(npc);
-                    }
+                        npcs.Add(NPC);
                 }
             }
             return npcs;
@@ -55,89 +52,81 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
         const float BLOCK_LENGTH = 16;
         public override void AI()
         {
-            var owner = Main.player[projectile.owner];
-            var distance = (projectile.Center - owner.Center);
-            projectile.rotation = distance.ToRotation();
-            projectile.position = projectile.position + owner.velocity;
+            var owner = Main.player[Projectile.owner];
+            var distance = (Projectile.Center - owner.Center);
+            Projectile.rotation = distance.ToRotation();
+            Projectile.position = Projectile.position + owner.velocity;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter == 1)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter == 1)
             {
                 var targets = GetTargets(Main.MouseScreen + Main.screenPosition, 42);
                 if (targets.Count > 0)
                 {
                     var target = targets[0].Center;
-                    var diff = projectile.Center - target;
-                    projectile.velocity = (-Vector2.UnitX * projectile.velocity.Length()).RotatedBy(diff.ToRotation());
+                    var diff = Projectile.Center - target;
+                    Projectile.velocity = (-Vector2.UnitX * Projectile.velocity.Length()).RotatedBy(diff.ToRotation());
                 }
-
                 else
-                {
-                    projectile.velocity = projectile.velocity.RotatedByRandom(MathHelper.Pi / 6f);
-                }
+                    Projectile.velocity = Projectile.velocity.RotatedByRandom(MathHelper.Pi / 6f);
             }
 
-            if (projectile.frameCounter == 15 && !hit)
-            {
+            if (Projectile.frameCounter == 15 && !hit)
                 Reflect();
-            }
-
             else if (distance.LengthSquared() < 256 && hit)
-            {
-                projectile.timeLeft = 0;
-            }
+                Projectile.timeLeft = 0;
         }
         void Reflect()
         {
             if (!hit)
             {
-                projectile.velocity = -projectile.oldVelocity;
+                Projectile.velocity = -Projectile.oldVelocity;
                 hit = true;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0]++;
-            if (projectile.ai[0] == 1)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] == 1)
                 Reflect();
             else
-                projectile.timeLeft = 0;
+                Projectile.timeLeft = 0;
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 playerPosition = Main.player[projectile.owner].MountedCenter;
+            Vector2 playerPosition = Main.player[Projectile.owner].MountedCenter;
             int amount = 12;
-            var diff = playerPosition - projectile.Center;
+            var diff = playerPosition - Projectile.Center;
             var interval = diff / amount;
             float rotDir = diff.ToRotation();
-            Vector2 off = new Vector2(0, 9).RotatedBy(projectile.rotation);
+            Vector2 off = new Vector2(0, 9).RotatedBy(Projectile.rotation);
 
-            var chainTexture = mod.GetTexture("Projectiles/MortKnife/MortKnifeChain");
+            var chainTexture = ModContent.Request<Texture2D>("Projectiles/MortKnife/MortKnifeChain").Value;
             var chainRect = chainTexture.Frame();
 
             for (int i = 1; i < amount; i++)
             {
-                Main.spriteBatch.Draw(chainTexture, projectile.Center + (interval * i) + off - Main.screenPosition, chainRect, lightColor, rotDir, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(chainTexture, Projectile.Center + (interval * i) + off - Main.screenPosition, chainRect, lightColor, rotDir, default, 1f, SpriteEffects.None, 0f);
             }
 
-            var handleTexture = mod.GetTexture("Projectiles/MortKnife/MortKnifeBase");
+            var handleTexture = ModContent.Request<Texture2D>("Projectiles/MortKnife/MortKnifeBase").Value;
             var handleRect = handleTexture.Frame();
             var handleOff = new Vector2(14, 9).RotatedBy(rotDir);
 
-            var drawData = new Terraria.DataStructures.DrawData(handleTexture, interval * (amount - 1) + handleOff - Main.screenPosition, handleRect, lightColor, projectile.rotation, default, 1f, SpriteEffects.None, 0);
-            Main.playerDrawData.Add(drawData);
-            drawData.Draw(Main.spriteBatch);
+            //var drawData = new DrawData(handleTexture, interval * (amount - 1) + handleOff - Main.screenPosition, handleRect, lightColor, Projectile.rotation, default, 1f, SpriteEffects.None, 0);
+            //Main.playerDrawData.Add(drawData);
+            //drawData.Draw(Main.spriteBatch);
 
 
             /*
-            Vector2 playerPosition = Main.player[projectile.owner].MountedCenter;
+            Vector2 playerPosition = Main.player[Projectile.owner].MountedCenter;
             int amount = 12;
-            var diff = playerPosition - projectile.Center;
+            var diff = playerPosition - Projectile.Center;
             var interval = diff / amount;
             float rotDir = diff.ToRotation();
-            Vector2 off = new Vector2(0, 9).RotatedBy(projectile.rotation);
+            Vector2 off = new Vector2(0, 9).RotatedBy(Projectile.rotation);
 
             var handleTexture = mod.GetTexture("Projectiles/MortKnife/MortKnifeBase");
             var handleRect = handleTexture.Frame();

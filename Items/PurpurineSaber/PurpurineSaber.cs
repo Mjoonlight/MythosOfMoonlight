@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using MythosOfMoonLight.Projectiles.PurpurineSaberSlice;
-using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Items.Materials;
+using Terraria.GameContent.Creative;
 
 namespace MythosOfMoonLight.Items.PurpurineSaber
 {
@@ -17,30 +12,31 @@ namespace MythosOfMoonLight.Items.PurpurineSaber
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purpurine Saber");
-            Tooltip.SetDefault("Every full swing creates a short energy slice forward.\n"+
-                "Is that a lightsaber?\n"+
+            Tooltip.SetDefault("Every full swing creates a short energy slice forward.\n" +
+                "Is that a lightsaber?\n" +
                 "Nope, Even better!");
-            ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true;
-            ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
+            ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
+            ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.melee = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 1f;
-            item.width = 48;
-            item.height = 48;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = false;
-            item.channel = true;
-            item.value = Item.buyPrice(0, 0, 0, 1);
-            item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<PurpurineSaberSlice>();
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Melee;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 1f;
+            Item.width = 48;
+            Item.height = 48;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.value = Item.buyPrice(0, 0, 0, 1);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<PurpurineSaberSlice>();
         }
         public override bool CanUseItem(Player player)
         {
@@ -48,11 +44,10 @@ namespace MythosOfMoonLight.Items.PurpurineSaber
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurpurineQuartz>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe()
+                .AddIngredient(ModContent.ItemType<PurpurineQuartz>(), 25)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }

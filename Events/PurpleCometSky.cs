@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.Events
         {
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
             {
-                Texture2D aa = ModContent.GetTexture("MythosOfMoonlight/Textures/Sky");
+                Texture2D aa = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
                 spriteBatch.Draw(aa, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * intensity);
             }
         }

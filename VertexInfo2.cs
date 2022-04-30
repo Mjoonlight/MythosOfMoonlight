@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight
 {
     public struct VertexInfo2 : IVertexType
     {
-        private static VertexDeclaration _vertexDeclaration = new VertexDeclaration(new VertexElement[3]
+        private static VertexDeclaration _vertexDeclaration = new(new VertexElement[3]
         {
             new VertexElement(0,VertexElementFormat.Vector2,VertexElementUsage.Position,0),
             new VertexElement(8,VertexElementFormat.Color,VertexElementUsage.Color,0),

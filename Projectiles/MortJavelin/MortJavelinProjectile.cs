@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,24 +14,24 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thornbella");
-            Main.projFrames[projectile.type] = 1;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 40;
+            Main.projFrames[Projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 74;
-            projectile.friendly = true;
-            projectile.timeLeft = 300;
-            projectile.penetrate = 3;
-            projectile.melee = true;
+            Projectile.width = 28;
+            Projectile.height = 74;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 300;
+            Projectile.penetrate = 3;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         private const int MAX_TICKS = 45;
 
-        private float velocity = 12f;
+        private readonly float velocity = 12f;
         private void NormalAI()
         {
             TargetWhoAmI++;
@@ -41,15 +43,15 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
                 const float velXmult = 0.98f;
                 const float velYmult = 0.35f;
                 TargetWhoAmI = MAX_TICKS;
-                projectile.velocity.X *= velXmult;
-                projectile.velocity.Y += velYmult;
+                Projectile.velocity.X *= velXmult;
+                Projectile.velocity.Y += velYmult;
                 if (target != null)
-                    if (Vector2.DistanceSquared(projectile.position, target.Center) >= 16 * BLOCK_LENGTH)
-                        projectile.tileCollide = true;
+                    if (Vector2.DistanceSquared(Projectile.position, target.Center) >= 16 * BLOCK_LENGTH)
+                        Projectile.tileCollide = true;
 
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
         }
 
         const float BLOCK_LENGTH = 16;
@@ -58,21 +60,21 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
         {
             NPC closestTarget = null;
             float closestDistance = 99999;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                float potentialDistance = Vector2.Distance(projectile.position, npc.Center);
-                if (npc.friendly || !npc.active || potentialDistance > 48 * BLOCK_LENGTH
+                float potentialDistance = Vector2.Distance(Projectile.position, NPC.Center);
+                if (NPC.friendly || !NPC.active || potentialDistance > 48 * BLOCK_LENGTH
                     || potentialDistance >= closestDistance)
                     continue;
-                bool collidesWith = Collision.CanHitLine(projectile.position, HITBOX_SIZE, HITBOX_SIZE, npc.position, npc.width, npc.height);
+                bool collidesWith = Collision.CanHitLine(Projectile.position, HITBOX_SIZE, HITBOX_SIZE, NPC.position, NPC.width, NPC.height);
                 if (collidesWith)
                 {
-                    closestTarget = npc;
+                    closestTarget = NPC;
                     closestDistance = potentialDistance;
                 }
             }
             // if (closestDistance <= 16 * BLOCK_LENGTH)
-            //     projectile.tileCollide = false;
+            //     Projectile.tileCollide = false;
             return closestTarget;
         }
 
@@ -84,17 +86,17 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             {
                 // if ()
                 // {
-                Main.PlaySound(SoundID.Item71);
-                var direction = -(projectile.Center - target.Center);
+                SoundEngine.PlaySound(SoundID.Item71);
+                var direction = -(Projectile.Center - target.Center);
                 direction.Normalize();
-                projectile.velocity = direction * (velocity * 2);
+                Projectile.velocity = direction * (velocity * 2);
 
                 //doost
                 Dust dust;
-                Vector2 position = projectile.Center;
+                Vector2 position = Projectile.Center;
                 for (int i = 0; i < 17; i++)
                 {
-                    dust = Main.dust[Terraria.Dust.NewDust(position, 20, 20, 235, 0f, 0f, 0, new Color(255, 0, 0), 1.1f)];
+                    dust = Main.dust[Terraria.Dust.NewDust(position, 20, 20, DustID.LifeDrain, 0f, 0f, 0, new Color(255, 0, 0), 1.1f)];
                     dust.velocity = Main.rand.NextVector2Unit() * 1.2f;
                     dust.fadeIn = 0f;
                 }
@@ -109,17 +111,17 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
 
             else
             {
-                Main.PlaySound(SoundID.NPCHit2);
-                projectile.velocity = new Vector2(projectile.velocity.X, -projectile.velocity.Y);
+                SoundEngine.PlaySound(SoundID.NPCHit2);
+                Projectile.velocity = new Vector2(Projectile.velocity.X, -Projectile.velocity.Y);
             }
 
-            // if (Math.Abs((int)projectile.velocity.Y) == 0)
+            // if (Math.Abs((int)Projectile.velocity.Y) == 0)
             // {
-            //    projectile.Kill();
+            //    Projectile.Kill();
             // }
         }
 
-        private float Magnitude(Vector2 mag)
+        private static float Magnitude(Vector2 mag)
         {
             return (float)Math.Sqrt(mag.X * mag.X + mag.Y * mag.Y);
         }
@@ -135,7 +137,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             return projHitbox.Intersects(targetHitbox);
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             width = height = 28;
             return true;
@@ -152,7 +154,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
                     break;
                 default:
                     if (timeSinceLastBounced > 2)
-                        projectile.Kill();
+                        Projectile.Kill();
                     else
                         Bounce();
                     break;
@@ -162,41 +164,41 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
 
         private int TargetWhoAmI
         {
-            get => (int)projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         private int Phase
         {
-            get => (int)projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         int timeSinceLastBounced = 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //3hi31mg
             var clr = new Color(255, 255, 255, 255); // full white
-            var drawPos = projectile.Center - Main.screenPosition;
-            var off = new Vector2(projectile.width / 2f, projectile.height / 2f);
-            var origTexture = Main.projectileTexture[projectile.type];
-            var texture = mod.GetTexture("Projectiles/MortJavelin/MortJavelinGlow");
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            var frame = new Rectangle(0, frameHeight * projectile.frame, texture.Width, frameHeight - 2);
+            var drawPos = Projectile.Center - Main.screenPosition;
+            var off = new Vector2(Projectile.width / 2f, Projectile.height / 2f);
+            var origTexture = TextureAssets.Projectile[Projectile.type].Value;
+            var texture = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/MortJavelin/MortJavelinGlow").Value;
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            var frame = new Rectangle(0, frameHeight * Projectile.frame, texture.Width, frameHeight - 2);
             var orig = frame.Size() / 2f;
 
-            Main.spriteBatch.Draw(origTexture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, drawPos, frame, clr, projectile.rotation, orig, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, clr, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, drawPos, frame, clr, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0f);
 
             if (target != null)
             {
                 var red = new Color(255, 0, 0, 155);
-                var trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
+                var trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
                 var fadeMult = 1f / trailLength;
                 for (int i = 1; i < trailLength; i++)
                 {
-                    Main.spriteBatch.Draw(origTexture, projectile.oldPos[i] - Main.screenPosition + off, frame, red * (1f - fadeMult * i), projectile.oldRot[i], orig, projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(origTexture, Projectile.oldPos[i] - Main.screenPosition + off, frame, red * (1f - fadeMult * i), Projectile.oldRot[i], orig, Projectile.scale * (trailLength - i) / trailLength, SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -205,12 +207,12 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
         private NPC target;
         public override void AI()
         {
-            var off = new Vector2(projectile.width / 2f, projectile.height / 2f) - new Vector2(0, 9).RotatedBy(projectile.rotation);
-            var dust = Dust.NewDustPerfect(projectile.position + off + (projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
+            var off = new Vector2(Projectile.width / 2f, Projectile.height / 2f) - new Vector2(0, 9).RotatedBy(Projectile.rotation);
+            var dust = Dust.NewDustPerfect(Projectile.position + off + (Projectile.velocity * 2), 235, new Vector2(), 0, new Color(255, 255, 255), 1f);
 
             // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
-            Vector2 position = projectile.Center + new Vector2(-2, 32).RotatedBy(projectile.rotation);
-            dust = Terraria.Dust.NewDustPerfect(position, 1, new Vector2(0f, 0f), 0, new Color(177, 255, 0), 1f);
+            Vector2 position = Projectile.Center + new Vector2(-2, 32).RotatedBy(Projectile.rotation);
+            dust = Dust.NewDustPerfect(position, 1, new Vector2(0f, 0f), 0, new Color(177, 255, 0), 1f);
             dust.noGravity = true;
             dust.fadeIn = 0.9f;
 

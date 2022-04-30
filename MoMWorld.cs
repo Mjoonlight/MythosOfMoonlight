@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
 using Terraria.ID;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight
 {
-    public class MoMWorld : ModWorld
+    public class MoMWorld : ModSystem
     {
-        public static List<int> SpawnX = new List<int>
+        public static List<int> SpawnX = new()
         {
         };
-        public static List<int> SpawnY = new List<int>
+        public static List<int> SpawnY = new()
         {
         };
         public static int GetWorldSize()
@@ -39,15 +36,16 @@ namespace MythosOfMoonlight
             int positionX = Main.spawnTileX - Main.rand.Next(100, 250) * (int)Main.rand.Next(new float[] { -1, 1 }) * GetWorldSize();
             int positionY = Main.spawnTileY - Main.rand.Next(-5, 5);
             bool placed = false;
-            List<int> ProperBlock = new List<int> {
-            1,
-            2,
-            0,
-            147,
-            161,
-            40,
-            TileID.Mud,
-            TileID.Sand
+            List<int> ProperBlock = new()
+            {
+                1,
+                2,
+                0,
+                147,
+                161,
+                40,
+                TileID.Mud,
+                TileID.Sand
             };
             for (int offsetX = -200; offsetX <= 200; offsetX++)
             {
@@ -70,7 +68,7 @@ namespace MythosOfMoonlight
                     for (int k = 0; k < 10; k++)
                     {
                         Tile tile = Framing.GetTileSafely(baseCheckX + k, baseCheckY + 4);
-                        if (!WorldGen.SolidTile(tile) || !ProperBlock.Contains((int)tile.type))
+                        if (!WorldGen.SolidTile(tile) || !ProperBlock.Contains((int)tile.TileType))
                         {
                             canPlaceStatueHere = false;
                             break;
@@ -85,7 +83,8 @@ namespace MythosOfMoonlight
                                 WorldGen.KillTile(baseCheckX + l, baseCheckY + m, false, false, false);
                             }
                             WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 4, TileID.IceBrick, false, true, -1, 0);
-                            Main.tile[baseCheckX + l, baseCheckY + 4].slope(0);
+                            Tile t = Main.tile[baseCheckX + l, baseCheckY + 4];
+                            t.Slope = SlopeType.Solid;
                         }
                         WorldGen.PlaceTile(baseCheckX + 1, baseCheckY + 3, TileID.Bookcases, false, true, -1, 0);
                         WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 3, TileID.TeamBlockBluePlatform, false, true, -1, 0);
@@ -94,7 +93,7 @@ namespace MythosOfMoonlight
                         placed = true;
                         SpawnX.Add(baseCheckX + 8);
                         SpawnY.Add(baseCheckY + 3);
-                        int num = NPC.NewNPC(SpawnX[0] * 16, (SpawnY[0] - 1) * 16, ModContent.NPCType<Starine_Symbol>());
+                        int num = NPC.NewNPC(new EntitySource_WorldGen(), SpawnX[0] * 16, (SpawnY[0] - 1) * 16, ModContent.NPCType<Starine_Symbol>());
                         Main.npc[num].homeTileX = SpawnX[0];
                         Main.npc[num].homeTileY = SpawnY[0] - 1;
                         Main.npc[num].direction = 1;
@@ -102,9 +101,7 @@ namespace MythosOfMoonlight
                     }
                 }
                 if (placed)
-                {
                     break;
-                }
             }
         }
     }

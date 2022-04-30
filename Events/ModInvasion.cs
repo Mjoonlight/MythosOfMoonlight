@@ -1,25 +1,18 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
-public abstract class ModInvasion
+namespace MythosOfMoonlight.Events
 {
-    public virtual int[] invaders => new int[1] { NPCID.Zombie };
-    public static bool enabled;
-
-    public virtual void StartInvasion()
+    public abstract class ModInvasion
     {
-        if (Main.invasionType != 0)
-        {
-            return;
-        }
+        public virtual int[] Invaders => new int[1] { NPCID.Zombie };
+        public static bool enabled;
 
-        else
+        public virtual void StartInvasion()
         {
+            if (Main.invasionType != 0)
+                return;
+
             Main.invasionType = -1;
             Main.invasionSize = 100;
             Main.invasionSizeStart = Main.invasionSize;
@@ -28,7 +21,7 @@ public abstract class ModInvasion
             Main.invasionProgressWave = 0;
             Main.invasionProgressMax = Main.invasionSizeStart;
             Main.invasionWarn = 3600;
-            Main.invasionX = (double)Main.maxTilesX;
+            Main.invasionX = Main.maxTilesX;
         }
     }
 }

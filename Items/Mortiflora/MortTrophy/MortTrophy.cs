@@ -1,29 +1,26 @@
 using MythosOfMoonlight.Tiles.Trophies;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace MythosOfMoonlight.Items.Mortiflora.MortTrophy
 {
-	public class MortTrophy : ModItem
-	{
-		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Mortiflora Trophy");
-		}
-
-		public override void SetDefaults() {
-			item.width = 30;
-			item.height = 30;
-			item.maxStack = 99;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.value = 50000;
-			item.rare = 1;
-			item.createTile = ModContent.TileType<BossTrophy>();
-			item.placeStyle = 0;
-		}
-	}
+    public class MortTrophy : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mortiflora Trophy");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+        }
+        public override void SetDefaults()
+        {
+            Item.DefaultToPlaceableTile(TileType<BossTrophy>(), 0);
+            Item.width = 30;
+            Item.height = 30;
+            Item.maxStack = 99;
+            Item.value = 50000;
+            Item.rare = ItemRarityID.Blue;
+        }
+    }
 }

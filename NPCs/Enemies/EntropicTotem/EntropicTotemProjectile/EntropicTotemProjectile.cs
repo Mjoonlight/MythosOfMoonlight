@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 
@@ -18,28 +14,26 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile
         public const int MAX_TIMELEFT = 240;
         public override void SetDefaults()
         {
-            projectile.height = projectile.width = 10;
-            projectile.aiStyle = -1;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.damage = 42;
-            projectile.tileCollide = false;
-            projectile.timeLeft = MAX_TIMELEFT;
+            Projectile.height = Projectile.width = 10;
+            Projectile.aiStyle = -1;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.damage = 42;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = MAX_TIMELEFT;
         }
-        float RotationalIncrement => MathHelper.ToRadians(projectile.ai[0]);
-        int Parent => (int)projectile.ai[1];
+        float RotationalIncrement => MathHelper.ToRadians(Projectile.ai[0]);
+        int Parent => (int)Projectile.ai[1];
         public override void AI()
         {
-            projectile.damage = Main.expertMode ? Main.npc[Parent].damage / 2 : Main.npc[Parent].damage;
+            Projectile.damage = Main.expertMode ? Main.npc[Parent].damage / 2 : Main.npc[Parent].damage;
             var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
-            var dust = Dust.NewDustPerfect(projectile.Center, dustType, -projectile.velocity);
+            var dust = Dust.NewDustPerfect(Projectile.Center, dustType, -Projectile.velocity);
 
-            projectile.velocity = projectile.velocity.RotatedBy(RotationalIncrement);
-            projectile.position += Main.npc[Parent].position - Main.npc[Parent].oldPosition; // move to npc's position constantly
+            Projectile.velocity = Projectile.velocity.RotatedBy(RotationalIncrement);
+            Projectile.position += Main.npc[Parent].position - Main.npc[Parent].oldPosition; // move to NPC's position constantly
             if (!Main.npc[Parent].active)
-            {
-                projectile.timeLeft = 0;
-            }
+                Projectile.timeLeft = 0;
         }
     }
 }

@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
 {
@@ -12,33 +11,33 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Century Flower Spore");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 2;
         }
 
         const int MAX_TIMELEFT = 270;
         public override void SetDefaults()
         {
-            projectile.height = 64;
-            projectile.width = 80;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.damage = 0;
-            projectile.tileCollide = false;
-            projectile.timeLeft = MAX_TIMELEFT;
-            projectile.frame = Main.rand.Next(0, 2);
-            projectile.localNPCHitCooldown = 1;
-            projectile.usesLocalNPCImmunity = true;
+            Projectile.height = 64;
+            Projectile.width = 80;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.damage = 0;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = MAX_TIMELEFT;
+            Projectile.frame = Main.rand.Next(0, 2);
+            Projectile.localNPCHitCooldown = 1;
+            Projectile.usesLocalNPCImmunity = true;
         }
 
 
         /*
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            var texture = ModContent.GetTexture("MythosOfMoonlight/NPCs/Enemies/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore2");
-            var rect = new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height);
+            var texture = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Enemies/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore2");
+            var rect = new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height);
             var alphadColor = new Color(lightColor.R, lightColor.G, lightColor.B, 255);
             Main.NewText(alphadColor);
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition, rect, alphadColor, -projectile.rotation, default, projectile.scale, SpriteEffects.None, 1f);
+            Main.spriteBatch.Draw(texture, Projectile.position - Main.screenPosition, rect, alphadColor, -Projectile.rotation, default, Projectile.scale, SpriteEffects.None, 1f);
             return true;
         }
         */
@@ -48,7 +47,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
             for (int i = 0; i < Main.player.Length; i++)
             {
                 var current = Main.player[i];
-                if (current.Hitbox.Intersects(projectile.Hitbox))
+                if (current.Hitbox.Intersects(Projectile.Hitbox))
                 {
                     current.AddBuff(BuffID.Suffocation, 60);
                 }
@@ -56,13 +55,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
         }
         public override void AI()
         {
-            projectile.knockBack = 0;
-            projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.05f);
-            projectile.rotation += .01f;
+            Projectile.knockBack = 0;
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Zero, 0.05f);
+            Projectile.rotation += .01f;
 
-            var currentTime = (float)(MAX_TIMELEFT - projectile.timeLeft);
-            projectile.alpha = (int)(currentTime / MAX_TIMELEFT * 255);
-            projectile.scale = currentTime / MAX_TIMELEFT + .1f;
+            var currentTime = (float)(MAX_TIMELEFT - Projectile.timeLeft);
+            Projectile.alpha = (int)(currentTime / MAX_TIMELEFT * 255);
+            Projectile.scale = currentTime / MAX_TIMELEFT + .1f;
             CheckCollision();
         }
     }

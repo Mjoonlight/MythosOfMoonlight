@@ -2,47 +2,50 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 
 namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
 {
-	public class MortifloraBones2 : ModProjectile
-	{
-		public override string Texture => "MythosOfMoonlight/NPCs/Bosses/Mortiflora/Projectiles/MortifloraBones";
-        public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Dessicated Bones");
-			Main.projFrames[projectile.type] = 4;
+    public class MortifloraBones2 : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/NPCs/Bosses/Mortiflora/Projectiles/MortifloraBones";
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dessicated Bones");
+            Main.projFrames[Projectile.type] = 4;
         }
-		public override void SetDefaults() {
-			projectile.width = 17;
-			projectile.height = 17;
-			projectile.aiStyle = 1;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.timeLeft = 9999;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
-			projectile.frame = Main.rand.Next(4);
-		}
-		public override bool OnTileCollide(Vector2 oldVelocity) {
-			Main.PlaySound(SoundID.NPCHit2);
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0) {
-				projectile.Kill();
-			}
-			else {
-				Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-				Main.PlaySound(SoundID.Item10, projectile.position);
-				if (projectile.velocity.X != oldVelocity.X) {
-					projectile.velocity.X = -oldVelocity.X * 0.5f;
-				}
-				if (projectile.velocity.Y != oldVelocity.Y) {
-					projectile.velocity.Y = -oldVelocity.Y * 0.5f;
-				}
-			}
-			return false;
-		}
-		public override void Kill(int timeLeft) {
-			Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-		}
-	}   
+        public override void SetDefaults()
+        {
+            Projectile.width = 17;
+            Projectile.height = 17;
+            Projectile.aiStyle = 1;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.timeLeft = 9999;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.frame = Main.rand.Next(4);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            SoundEngine.PlaySound(SoundID.NPCHit2);
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
+                Projectile.Kill();
+            else
+            {
+                Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+                SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+                if (Projectile.velocity.X != oldVelocity.X)
+                    Projectile.velocity.X = -oldVelocity.X * 0.5f;
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                    Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+            }
+            return false;
+        }
+        public override void Kill(int timeLeft)
+        {
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+        }
+    }
 }

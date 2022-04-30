@@ -1,62 +1,63 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Items.CenturySet;
+using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
+
 namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 {
-	public class CenturyFlower : ModNPC
+    public class CenturyFlower : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Century Flower");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[NPC.type] = 10;
 		}
-
 		public override void SetDefaults()
 		{
-			npc.width = 30;
-			npc.height = 70;
-			npc.damage = 12;
-			npc.lifeMax = 150;
-			npc.defense = 5;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath32;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.aiStyle = 3;
-			npc.modNPC.aiType = NPCID.GoblinScout;
-			npc.netAlways = true;
+			NPC.width = 30;
+			NPC.height = 70;
+			NPC.damage = 12;
+			NPC.lifeMax = 150;
+			NPC.defense = 5;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath32;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.aiStyle = 3;
+			AIType = NPCID.GoblinScout;
+			NPC.netAlways = true;
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.675f * bossLifeScale);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.675f * bossLifeScale);
 		}
-		void SetState(int newState)
+		private void SetState(int newState)
 		{
-			npc.ai[0] = newState;
-			npc.frameCounter = 0;
+			NPC.ai[0] = newState;
+			NPC.frameCounter = 0;
 		}
         public override void FindFrame(int frameHeight)
         {
-			npc.frame.Y = GetFrame() * frameHeight;
+			NPC.frame.Y = GetFrame() * frameHeight;
 		}
-        void SetFrame(int frame)
+        private void SetFrame(int frame)
 		{
-			npc.frame.Y = npc.height * frame;
+			NPC.frame.Y = NPC.height * frame;
 		}
 		const float strideSpeed = 1f, jumpHeight = 7f;
 		public override bool PreAI()
 		{
-			npc.frameCounter++;
-			if (Main.rand.NextFloat() <= .05f && npc.frameCounter > 150 && npc.ai[0] == 0)
+			NPC.frameCounter++;
+			if (Main.rand.NextFloat() <= .05f && NPC.frameCounter > 150 && NPC.ai[0] == 0)
 			{
 				RealFrame = ScaleFrame(5);
 				SetState(1);
 			}
 
-			switch (npc.ai[0])
+			switch (NPC.ai[0])
 			{
 				case 1:
 					OpenPetals();
@@ -71,35 +72,35 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		}
 		const float animationSpdOffset = 4f;
 		int GetFrame() => (int)(RealFrame / strideSpeed / animationSpdOffset);
-		int ScaleFrame(int frame) => (int)(animationSpdOffset * frame * strideSpeed); // returns value necessary for real frame to set animation frame to target frame frame
+        static int ScaleFrame(int frame) => (int)(animationSpdOffset * frame * strideSpeed); // returns value necessary for real frame to set animation frame to target frame frame
 		float RealFrame {
-			get => npc.ai[1];
-			set => npc.ai[1] = value;
+			get => NPC.ai[1];
+			set => NPC.ai[1] = value;
 		}
 		void ManageMovement()
 		{
-			npc.TargetClosest(false);
-			Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 0);
-			var player = Main.player[npc.target];
-			// var sqrDistance = player.DistanceSQ(npc.position);
-			if (npc.velocity.X == 0 && npc.frameCounter > 2)
+			NPC.TargetClosest(false);
+			Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+			var player = Main.player[NPC.target];
+			// var sqrDistance = player.DistanceSQ(NPC.position);
+			if (NPC.velocity.X == 0 && NPC.frameCounter > 2)
 			{
-				npc.velocity.Y = -jumpHeight;
+				NPC.velocity.Y = -jumpHeight;
 			}
 
-			FitVelocityXToTarget(strideSpeed * npc.direction);
-			var horizontalDistance = Math.Abs(npc.Center.X - player.Center.X);
+			FitVelocityXToTarget(strideSpeed * NPC.direction);
+			var horizontalDistance = Math.Abs(NPC.Center.X - player.Center.X);
 			if (horizontalDistance >= 35.78f)
 			{
-				npc.FaceTarget();
+				NPC.FaceTarget();
 			}
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 		}
 
 		void ManageMovementAnimation()
 		{
 			RealFrame++;
-			if (npc.velocity.Y != 0 || npc.oldVelocity == Vector2.Zero || GetFrame() > 4 || GetFrame() < 0)
+			if (NPC.velocity.Y != 0 || NPC.oldVelocity == Vector2.Zero || GetFrame() > 4 || GetFrame() < 0)
             {
 				RealFrame = 3;
             }
@@ -107,76 +108,65 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 
 		public void OpenPetals()
         {
-			if (npc.frameCounter == 1)
+			if (NPC.frameCounter == 1)
+				NPC.velocity.X = 0;
+			else if (NPC.frameCounter > 75 && NPC.frameCounter % 10 == 0)
 			{
-				npc.velocity.X = 0;
-			}
-			else if (npc.frameCounter > 75 && npc.frameCounter % 10 == 0)
-			{
-				if (npc.frameCounter >= 150)
+				if (NPC.frameCounter >= 150)
 				{
 					RealFrame = ScaleFrame(4);
 					SetState(0);
 				}
-
 				else
 				{
-					Projectile.NewProjectileDirect(npc.Center - new Vector2(1, 19), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CenturyFlowerSpore.CenturyFlowerSpore>(), 0, 0);
+					Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center - new Vector2(1, 19), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CenturyFlowerSpore.CenturyFlowerSpore>(), 0, 0);
 				}
 			}
-			if (npc.velocity.Y == 0)
-			{
-				npc.velocity.X *= 0.9f;
-			}
+			if (NPC.velocity.Y == 0)
+				NPC.velocity.X *= 0.9f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, 2 * hitDirection, -1.5f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2 * hitDirection, -1.5f);
 			}
-			if (npc.life <= 0)
-            {
-				Helper.SpawnGore(npc, "Gores/Enemies/Century", 4, 1);
-				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 2);
-				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 3);
-				Helper.SpawnGore(npc, "Gores/Enemies/Century", 2, 4);
-				Helper.SpawnGore(npc, "Gores/Enemies/CenturyLeaf", 5);
-				Helper.SpawnDust(npc.position, npc.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 10);
+			if (NPC.life <= 0)
+			{
+				if (Main.netMode == NetmodeID.Server)
+					return;
+
+				Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 4, 1);
+				Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 2);
+				Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 3);
+				Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 4);
+				Helper.SpawnGore(NPC, "MythosOfMoonlight/CenturyLeaf", 5);
+				Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 10);
 				/*for (int i = 0; i < 10; i++)
 				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Grass, 2 * hitDirection, -1.5f);
+					int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Grass, 2 * hitDirection, -1.5f);
 				}*/
 			}
 		}
 		public void OpenPetalsAnimation()
 		{
-			if (npc.frameCounter <= 75 && GetFrame() < 9)
-			{
+			if (NPC.frameCounter <= 75 && GetFrame() < 9)
 				RealFrame++;
-			}
-
-			else if (Helper.InRange(npc.frameCounter, 140, 150) && GetFrame() > 5)
-            {
+			else if (Helper.InRange(NPC.frameCounter, 140, 150) && GetFrame() > 5)
 				RealFrame--;
-            }
         }
 
-		void FitVelocityToTarget(Vector2 newVelocity) => npc.velocity = Vector2.Lerp(npc.velocity, newVelocity, .1f);
-		void FitVelocityXToTarget(float newX) => npc.velocity.X = MathHelper.Lerp(npc.velocity.X, newX, 0.1f);
-		void FitVelocityYToTarget(float newY) => npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, newY, 0.1f);
+		void FitVelocityToTarget(Vector2 newVelocity) => NPC.velocity = Vector2.Lerp(NPC.velocity, newVelocity, .1f);
+		void FitVelocityXToTarget(float newX) => NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, newX, 0.1f);
+		void FitVelocityYToTarget(float newY) => NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, newY, 0.1f);
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
-
-        public override void NPCLoot()
-		{
-			if (Main.rand.NextBool(20))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CenturySprayer>());
-			}
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CenturySprayer>(), 20));
 		}
     }
 }
