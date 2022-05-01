@@ -103,7 +103,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
             float rotDir = diff.ToRotation();
             Vector2 off = new Vector2(0, 9).RotatedBy(Projectile.rotation);
 
-            var chainTexture = ModContent.Request<Texture2D>("Projectiles/MortKnife/MortKnifeChain").Value;
+            var chainTexture = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/MortKnife/MortKnifeChain").Value;
             var chainRect = chainTexture.Frame();
 
             for (int i = 1; i < amount; i++)
@@ -111,7 +111,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
                 Main.spriteBatch.Draw(chainTexture, Projectile.Center + (interval * i) + off - Main.screenPosition, chainRect, lightColor, rotDir, default, 1f, SpriteEffects.None, 0f);
             }
 
-            var handleTexture = ModContent.Request<Texture2D>("Projectiles/MortKnife/MortKnifeBase").Value;
+            var handleTexture = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/MortKnife/MortKnifeBase").Value;
             var handleRect = handleTexture.Frame();
             var handleOff = new Vector2(14, 9).RotatedBy(rotDir);
 
