@@ -41,9 +41,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             NPC.alpha = 255;
         }
         bool hasDoneDeathDrama;
+        public int Direction;
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter++;
+            if (State != AIState.TentacleP2 || AITimer >= 100)
+            {
+                NPC.frameCounter++;
+            }
             if (State == 0)
             {
                 if (AITimer < 60)
@@ -83,57 +87,53 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 
                 NPC.frame.Y = (int)(NPC.frameCounter / 5) * frameHeight;
             }
-            if (State == (AIState)1 || State == AIState.TentacleP2)
+            if (State == AIState.TentacleP2)
             {
-                if (AITimer < 30)
+                if (AITimer < 150)
                 {
-                    if (AITimer > 20)
-                        NPC.frame.Y = (int)((NPC.frameCounter / 5) + 8) * frameHeight;
+                    if (AITimer > 100)
+                        NPC.frame.Y = (int)(((AITimer - 100) / 6) + 4) * frameHeight;
                     else
                     {
-                        if (AITimer == 30)
+                        if (AITimer == 100)
                             NPC.frameCounter = 0;
                         else
                         {
-                            if (NPC.frameCounter >= 19)
-                                NPC.frameCounter = 0;
+                            if (AITimer % 20 == 0)
+                                NPC.frameCounter = Main.rand.Next(0, 19);
 
-                            NPC.frame.Y = (int)(NPC.frameCounter / 5) * frameHeight;
+                            NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
                         }
                     }
                 }
                 else
                 {
-                    if (AITimer == 30)
+                    if (NPC.frameCounter >= 7)
                         NPC.frameCounter = 0;
+                    NPC.frame.Y = frameHeight * (NPC.frameCounter >= 4 ? 11 : 12);
+                }
+            }
+            if (State == (AIState)1)
+            {
+                if (AITimer < 60)
+                {
+                    if (AITimer > 20)
+                        NPC.frame.Y = (int)(((AITimer - 20) / 5) + 4) * frameHeight;
                     else
                     {
-                        if (AITimer < 90)
-                        {
-                            if (AITimer > 80)
-                                NPC.frame.Y = (int)((NPC.frameCounter / 5) + 10) * frameHeight;
-                            else
-                            {
-                                if (AITimer == 80)
-                                    NPC.frameCounter = 0;
-                                else
-                                {
-                                    if (NPC.frameCounter >= 19)
-                                        NPC.frameCounter = 0;
-
-                                    NPC.frame.Y = (int)(NPC.frameCounter / 5) * frameHeight;
-                                }
-                            }
-                        }
+                        if (AITimer == 20)
+                            NPC.frameCounter = 0;
                         else
                         {
-                            if (State == AIState.TentacleP1 ? (AITimer <= (NPC.life < NPC.lifeMax * .5f ? 190 : 220)) : AITimer <= 290)
-                            {
-                                NPC.frameCounter = 0;
-                                NPC.frame.Y = 12 * frameHeight;
-                            }
+                            NPC.frame.Y = (int)(AITimer / 5) * frameHeight;
                         }
                     }
+                }
+                else
+                {
+                    if (NPC.frameCounter >= 7)
+                        NPC.frameCounter = 0;
+                    NPC.frame.Y = frameHeight * (NPC.frameCounter >= 4 ? 11 : 12);
                 }
             }
             if (State == (AIState)2 || State == (AIState)3)
@@ -321,6 +321,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 NPC.spriteDirection = NPC.direction;
                 NPC.FaceTarget();
             }
+            else
+            {
+                if (AITimer == (State == AIState.TentacleP1 ? 90 : 150))
+                {
+                    Direction = NPC.direction;
+                }
+                if (AITimer > (State == AIState.TentacleP1 ? 90 : 150))
+                {
+                    NPC.direction = Direction;
+                    NPC.spriteDirection = NPC.direction;
+                }
+            }
             Player player = Main.player[NPC.target];
             foreach (NPC NPC in Main.npc)
             {
@@ -347,11 +359,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             for (int i = 1; i <= 6; i++)
                             {
                                 Vector2 pos = NPC.Center + new Vector2(90, 0).RotatedBy(Main.rand.NextFloat(0, 6.28f));
-                                Vector2 vel = Vector2.Normalize(pos - NPC.Center) * -9f;
-                                Dust dust = Dust.NewDustDirect(pos, 1, 1, DustID.FireworkFountain_Blue);
+                                Vector2 vel = Vector2.Normalize(pos - NPC.Center) * -4f;
+                                Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>());
                                 dust.color = Color.Cyan;
                                 dust.velocity = vel;
-                                dust.scale = .8f;
+                                dust.scale = 1.2f;
                                 dust.fadeIn = .4f;
                                 dust.noGravity = true;
                             }
@@ -521,7 +533,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 case AIState.TentacleP2:
                     {
                         NPC.velocity *= .9f;
-                        if (AITimer <= 30 && AITimer % 10 == 0)
+                        if (AITimer <= 100 && AITimer % 20 == 0)
                         {
                             SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                             for (int i = 4; i <= 360; i += 4)
@@ -532,7 +544,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             }
                             NPC.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
                         }
-                        if (AITimer == 90)
+                        if (AITimer == 150)
                         {
                             float ai1 = Main.rand.Next(new int[] { -1, 1 });
                             for (int i = 90; i <= 360; i += 90)
@@ -540,7 +552,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(), 8, .1f, Main.myPlayer, 0, ai1);
                             }
                         }
-                        if (AITimer == 290)
+                        if (AITimer == 350)
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;

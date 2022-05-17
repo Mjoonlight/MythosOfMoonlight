@@ -98,7 +98,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 SymbolTimer++;
 
             if (CircleCenter == Vector2.Zero)
-                CircleCenter = NPC.Center - new Vector2(0, 48);
+                CircleCenter = NPC.Center - new Vector2(0, 36);
 
             switch (State)
             {
@@ -222,7 +222,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            button = "Challenge";
+            if (!Main.dayTime)
+            {
+                button = "Challenge";
+            }
         }
         public override string GetChat()
         {

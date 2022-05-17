@@ -5,6 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Dusts;
+using System;
 
 namespace MythosOfMoonlight
 {
@@ -138,7 +141,9 @@ namespace MythosOfMoonlight
         public static bool InRange(double value, double min, double max) => value < max && value > min;
     }
     public class MythosOfMoonlight : Mod
-	{
+    {
+        public static RenderTarget2D OrigRender;
+        public static RenderTarget2D DustTrail1;
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
@@ -146,6 +151,82 @@ namespace MythosOfMoonlight
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
+            On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
+            On.Terraria.Main.LoadWorlds += new On.Terraria.Main.hook_LoadWorlds(Main_LoadWorlds);
+            Main.OnResolutionChanged += Main_OnResolutionChanged;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
+                SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
+            }
+        }
+
+        private void Main_OnResolutionChanged(Vector2 obj)
+        {
+            if (OrigRender == null)
+            {
+                OrigRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                DustTrail1 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+            }
+        }
+
+        private void Main_LoadWorlds(On.Terraria.Main.orig_LoadWorlds orig)
+        {
+            orig.Invoke();
+            if (OrigRender == null)
+            {
+                GraphicsDevice gd = Main.graphics.GraphicsDevice;
+                OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+            }
+        }
+
+        private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
+        {
+            GraphicsDevice gd = Main.graphics.GraphicsDevice;
+            if (Main.myPlayer >= 0)
+            {
+                if (OrigRender == null)
+                {
+                    OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                }
+                DustTrail(gd);
+            }
+            orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
+        }
+        private void DustTrail(GraphicsDevice graphicsDevice)
+        {
+            graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+            graphicsDevice.Clear(Color.Transparent);
+            Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
+            Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            Main.spriteBatch.End();
+            graphicsDevice.SetRenderTarget(OrigRender);
+            graphicsDevice.Clear(Color.Transparent);
+            Main.spriteBatch.Begin((SpriteSortMode)1, BlendState.AlphaBlend);
+            Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, 0, 0f);
+            Main.spriteBatch.End();
+            graphicsDevice.SetRenderTarget(DustTrail1);
+            graphicsDevice.Clear(Color.Transparent);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Dust dust in Main.dust)
+            {
+                if (dust.type == ModContent.DustType<StarineDust>())
+                {
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        Main.spriteBatch.Draw(Request<Texture2D>("MythosOfMoonlight/Dusts/StarineDust").Value, dust.position - dust.velocity * i - Main.screenPosition, dust.frame, Color.White * (float)Math.Sqrt((float)Math.Abs((float)(5f - (float)i) / 5f)), dust.rotation, new Vector2(4, 4), dust.scale * (float)((float)(5f - (float)i) / 5f), SpriteEffects.None, 0f);
+                    }
+                }
+            }
+            Main.spriteBatch.End();
+            graphicsDevice.SetRenderTarget(Main.screenTarget);
+            graphicsDevice.Clear(Color.Transparent);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            Main.spriteBatch.Draw(OrigRender, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, 0, 0f);
+            Main.spriteBatch.Draw(DustTrail1, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, 0, 0f);
+            Main.spriteBatch.End();
         }
         /*public override void UpdateMusic(ref int music, ref MusicPriority priority) // Put this in a ModSceneEffect thing
         {
