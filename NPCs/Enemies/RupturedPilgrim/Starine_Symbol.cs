@@ -32,7 +32,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             NPC.townNPC = true;
             NPC.width = 54;
-            NPC.height = 62;
+            NPC.height = 64;
             NPC.aiStyle = -1;
             NPC.damage = 1;
             NPC.defense = 2;
