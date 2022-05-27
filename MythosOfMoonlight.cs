@@ -49,11 +49,11 @@ namespace MythosOfMoonlight
         }
         public static Tile GetTileInHorizontalRange(Vector2 start, int xRange) // start is tile coords
         {
-            int intX = (int)start.X, intY = (int)start.Y; 
+            int intX = (int)start.X, intY = (int)start.Y;
             for (int x = intX; x < intX + xRange; x++)
             {
                 var tile = Framing.GetTileSafely(new Vector2(x, intY));
-                if (tile.HasTile) 
+                if (tile.HasTile)
                 {
                     return tile;
                 }
@@ -212,7 +212,7 @@ namespace MythosOfMoonlight
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Dust dust in Main.dust)
             {
-                if (dust.type == ModContent.DustType<StarineDust>())
+                if (dust.type == ModContent.DustType<StarineDust>() && dust.velocity.Length() > 0 && dust.active)
                 {
                     for (int i = 1; i <= 5; i++)
                     {
