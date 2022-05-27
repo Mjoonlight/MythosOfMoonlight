@@ -20,7 +20,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             Main.npcFrameCount[NPC.type] = 24;
             NPCID.Sets.TrailCacheLength[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
@@ -28,7 +27,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             NPC.width = 54;
             NPC.height = 70;
-            NPC.lifeMax = 1100;
+            NPC.lifeMax = Main.expertMode ? (Main.masterMode ? 3300 : 2200) : 1100;
+            NPC.boss = true;
             NPC.defense = 12;
             NPC.damage = 0;
             NPC.aiStyle = 0;
@@ -485,7 +485,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         if (AITimer == 90)
                             owner.ai[0] = 2;
 
-                        if (AITimer == 210)
+                        if (AITimer == 250)
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;
