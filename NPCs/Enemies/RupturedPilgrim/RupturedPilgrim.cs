@@ -400,12 +400,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             if (Main.rand.NextBool(2))
                             {
                                 Vector2 pos = Vector2.Distance(NPC.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? NPC.Center - new Vector2(0, 200) : Utils.SafeNormalize(NPC.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f);
                             }
                             else
                             {
                                 Vector2 pos = Vector2.Distance(player.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? player.Center - new Vector2(0, 200) : Utils.SafeNormalize(player.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 8, .1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f);
                             }
                         }
                         if (AITimer == 120)
@@ -440,13 +440,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         }
                         if (AITimer == 90)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(),12, .1f);
                         }
                         if (NPC.life < NPC.lifeMax * .5f)
                         {
                             if (AITimer == 120)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 8, .1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(),12, .1f);
                             }
                         }
                         if (AITimer == (NPC.life >= NPC.lifeMax * .5f ? 190 : 220))
@@ -520,7 +520,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         }
                         if (AITimer == 90)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 10, .1f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 12, .1f, Main.myPlayer);
                         }
                         if (AITimer == 130)
                         {
@@ -549,7 +549,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             float ai1 = Main.rand.Next(new int[] { -1, 1 });
                             for (int i = 90; i <= 360; i += 90)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(), 8, .1f, Main.myPlayer, 0, ai1);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(),12, .1f, Main.myPlayer, 0, ai1);
                             }
                         }
                         if (AITimer == 350)

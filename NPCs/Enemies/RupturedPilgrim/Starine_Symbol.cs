@@ -27,10 +27,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f, };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPCID.Sets.ActsLikeTownNPC[Type] = true;
         }
         public override void SetDefaults()
         {
-            NPC.townNPC = true;
             NPC.width = 54;
             NPC.height = 64;
             NPC.aiStyle = -1;
@@ -216,10 +216,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 Utils.DrawBorderString(Main.spriteBatch, "Please come at nighttime!", NPC.Center - new Vector2(0, 30), Color.Cyan, 2f);
             }
         }
-        public override void OnHitByProjectile(Projectile Projectile, int damage, float knockback, bool crit)
-        {
-            SwitchTo(NState.Invulerable);
-        }
+        public override bool CanChat() => true;
         public override void SetChatButtons(ref string button, ref string button2)
         {
             if (!Main.dayTime)
@@ -229,7 +226,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override string GetChat()
         {
-            return "I will never leave you alone.";
+            return "It shimmers intensely.\n" +
+                "Something may come if you disturb it.";
+        }
+        public override bool UsesPartyHat()
+        {
+            return false;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
