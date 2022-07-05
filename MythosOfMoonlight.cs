@@ -8,6 +8,7 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
 using System;
+using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
 
 namespace MythosOfMoonlight
 {
@@ -153,12 +154,22 @@ namespace MythosOfMoonlight
             }
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             On.Terraria.Main.LoadWorlds += new On.Terraria.Main.hook_LoadWorlds(Main_LoadWorlds);
+            On.Terraria.Player.SetTalkNPC += Player_SetTalkNPC;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             if (Main.netMode != NetmodeID.Server)
             {
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
+        }
+
+        private void Player_SetTalkNPC(On.Terraria.Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
+        {
+            if (npcIndex == NPCType<Starine_Symbol>())
+            {
+                self.currentShoppingSettings.HappinessReport = "";
+            }
+            orig.Invoke(self,npcIndex,fromNet);
         }
 
         private void Main_OnResolutionChanged(Vector2 obj)
