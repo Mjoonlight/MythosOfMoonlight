@@ -4,6 +4,9 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
 using Terraria.ID;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
+using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace MythosOfMoonlight
 {
@@ -97,12 +100,39 @@ namespace MythosOfMoonlight
                         Main.npc[num].homeTileX = SpawnX[0];
                         Main.npc[num].homeTileY = SpawnY[0] - 1;
                         Main.npc[num].direction = 1;
+                        SymbolRespawnSystem.SymbolHome = new Vector2(SpawnX[0], SpawnY[0] - 1);
                         break;
                     }
                 }
                 if (placed)
                     break;
             }
+        }
+    }
+    public class SymbolRespawnSystem : ModSystem
+    {
+        public static Vector2 SymbolHome = Vector2.Zero;
+        public override void SaveWorldData(TagCompound tag)
+        {
+            var home = new List<Vector2>();
+            if (SymbolHome != Vector2.Zero)
+            {
+                home.Add(SymbolHome);
+            }
+        }
+        public override void LoadWorldData(TagCompound tag)
+        {
+            var home = tag.GetList<Vector2>("home");
+            SymbolHome = home[0];
+        }
+        public override void NetSend(BinaryWriter writer)
+        {
+            Vector2 flag = SymbolHome;
+            writer.WriteVector2(flag);
+        }
+        public override void NetReceive(BinaryReader reader)
+        {
+            SymbolHome = reader.ReadVector2();
         }
     }
 }
