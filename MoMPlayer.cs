@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.Events;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,40 +9,37 @@ namespace MythosOfMoonlight
 {
     public class MoMPlayer : ModPlayer
     {
-        NPC sym => Starine_Symbol.symbol;
-        public override void UpdateBiomeVisuals()
-        {
-            var purpleComet = PurpleCometEvent.PurpleComet;
-            player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
-        }
+        static NPC Sym => Starine_Symbol.symbol;
+        //public override void UpdateBiomeVisuals()
+        //{
+        //    var purpleComet = PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight;
+        //    player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
+        //}
         public override void OnEnterWorld(Player player)
         {
             Starine_Symbol.symbol = null;
-            if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+            if (SymbolRespawnSystem.SymbolHome != Vector2.Zero)
             {
-                if (MoMWorld.SpawnX[0] != 0 && MoMWorld.SpawnY[0]!= 0)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num = NPC.NewNPC(MoMWorld.SpawnX[0] * 16, (MoMWorld.SpawnY[0]-1) * 16, ModContent.NPCType<Starine_Symbol>());
-                    Main.npc[num].homeTileX = MoMWorld.SpawnX[0];
-                    Main.npc[num].homeTileY = MoMWorld.SpawnY[0]-1;
-                    Main.npc[num].direction = 1;
+                    NPC symbol = NPC.NewNPCDirect(null, SymbolRespawnSystem.SymbolHome, ModContent.NPCType<Starine_Symbol>());
                 }
             }
         }
-        public Vector2 targetCameraPosition = new Vector2(-1, -1);
-        public readonly Vector2 setToPlayer = new Vector2(-1, -1);
+        public Vector2 targetCameraPosition = new(-1, -1);
+        public readonly Vector2 setToPlayer = new(-1, -1);
         public int source = -1;
         public float lerpSpeed;
         public float LerpTimer;
         public override void ResetEffects()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.type == ModContent.NPCType<Starine_Symbol>())
+                if (NPC.type == ModContent.NPCType<Starine_Symbol>())
                 {
-                    if (npc.active)
+                    if (NPC.active)
                     {
-                        if (npc.ai[0] == 1 || npc.ai[0] == 2)
+                        if (NPC.ai[0] == 1 || NPC.ai[0] == 2)
                         {
                             LerpTimer++;
                         }
@@ -65,17 +59,17 @@ namespace MythosOfMoonlight
         }
         public override void ModifyScreenPosition()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC NPC in Main.npc)
             {
-                if (npc.type == ModContent.NPCType<Starine_Symbol>())
+                if (NPC.type == ModContent.NPCType<Starine_Symbol>())
                 {
-                    if (sym != null)
+                    if (Sym != null)
                     {
-                        if (sym.active)
+                        if (Sym.active)
                         {
-                            if (Vector2.Distance(player.Center, ((Starine_Symbol)sym.modNPC).CircleCenter) < 1000f)
+                            if (Vector2.Distance(Player.Center, ((Starine_Symbol)Sym.ModNPC).CircleCenter) < 1000f)
                             {
-                                Main.screenPosition = player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)sym.modNPC).CircleCenter - player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
+                                Main.screenPosition = Player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)Sym.ModNPC).CircleCenter - Player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
                             }
                         }
                     }
