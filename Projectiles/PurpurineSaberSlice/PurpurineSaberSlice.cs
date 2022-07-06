@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
+using MythosOfMoonLight.Items.PurpurineSaber;
 
 namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
 {
@@ -12,7 +13,7 @@ namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purpurine Saber");
+            DisplayName.SetDefault("Iridic Saber");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -28,7 +29,8 @@ namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
             Projectile.timeLeft = 30;
             Projectile.netUpdate = true;
             Projectile.netUpdate2 = true;
-            Projectile.netImportant = true;
+            Projectile.netImportant = true; 
+            Projectile.ownerHitCheck = true;
         }
         public override void AI()
         {
@@ -40,7 +42,9 @@ namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
                 {
                     if (player == Main.player[Projectile.owner])
                     {
-                        Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Microsoft.Xna.Framework.Vector2.UnitX) * 36f;
+                        player.direction = Projectile.Center.X >= player.Center.X ? 1 : -1;
+                        player.heldProj = Projectile.whoAmI;
+                        Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Microsoft.Xna.Framework.Vector2.UnitX) * 28f;
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
                     }
                 }
@@ -64,7 +68,7 @@ namespace MythosOfMoonLight.Projectiles.PurpurineSaberSlice
                     Projectile.frameCounter = 1;
 
                 Projectile.frame = Projectile.frameCounter / 4;
-                if (Main.player[Projectile.owner].channel)
+                if (Main.player[Projectile.owner].channel && Main.player[Projectile.owner].HeldItem.type == ModContent.ItemType<PurpurineSaber>())
                     Projectile.timeLeft = 3;
 
                 if (Projectile.frameCounter == 5 || Projectile.frameCounter == 25)
