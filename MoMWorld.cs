@@ -96,11 +96,11 @@ namespace MythosOfMoonlight
                         placed = true;
                         SpawnX.Add(baseCheckX + 8);
                         SpawnY.Add(baseCheckY + 3);
-                        int num = NPC.NewNPC(new EntitySource_WorldGen(), SpawnX[0] * 16, (SpawnY[0] - 1) * 16, ModContent.NPCType<Starine_Symbol>());
+                        int num = NPC.NewNPC(new EntitySource_WorldGen(), SpawnX[0] * 16, (SpawnY[0] - 2) * 16, ModContent.NPCType<Starine_Symbol>());
                         Main.npc[num].homeTileX = SpawnX[0];
-                        Main.npc[num].homeTileY = SpawnY[0] - 1;
+                        Main.npc[num].homeTileY = SpawnY[0] - 2;
                         Main.npc[num].direction = 1;
-                        SymbolRespawnSystem.SymbolHome = new Vector2(SpawnX[0], SpawnY[0] - 1);
+                        SymbolRespawnSystem.SymbolHome = new Vector2(SpawnX[0], SpawnY[0] - 2);
                         break;
                     }
                 }

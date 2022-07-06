@@ -22,7 +22,12 @@ namespace MythosOfMoonlight
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    NPC symbol = NPC.NewNPCDirect(null, SymbolRespawnSystem.SymbolHome, ModContent.NPCType<Starine_Symbol>());
+                    if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                    {
+                        NPC symbol = NPC.NewNPCDirect(null, SymbolRespawnSystem.SymbolHome + new Vector2(0, 16), ModContent.NPCType<Starine_Symbol>());
+                        symbol.homeTileX = (int)SymbolRespawnSystem.SymbolHome.X;
+                        symbol.homeTileY = (int)SymbolRespawnSystem.SymbolHome.Y + 16;
+                    }
                 }
             }
         }
