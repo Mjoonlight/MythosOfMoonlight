@@ -145,8 +145,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             var origTexture = TextureAssets.Npc[NPC.type].Value;
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
             var orig = frame.Size() / 2f;
-            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, NPC.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Main.spriteBatch.Draw(texture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, NPC.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
         public override void AI()
@@ -156,6 +156,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             MovementLogic();
             TiltSprite();
             StateTransitionManagement();
+            if (NPC.target > -1 && NPC.target < 255 && Main.player[NPC.target] != null && Main.player[NPC.target].active && !Main.player[NPC.target].dead)
+            {
+                NPC.direction = Main.player[NPC.target].Center.X >= NPC.Center.X ? 1 : -1;
+            }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
