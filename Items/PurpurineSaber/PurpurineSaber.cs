@@ -4,6 +4,8 @@ using Terraria.ID;
 using MythosOfMoonLight.Projectiles.PurpurineSaberSlice;
 using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace MythosOfMoonLight.Items.PurpurineSaber
 {
@@ -11,7 +13,7 @@ namespace MythosOfMoonLight.Items.PurpurineSaber
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purpurine Saber");
+            DisplayName.SetDefault("Iridic Saber");
             Tooltip.SetDefault("Every full swing creates a short energy slice forward.\n" +
                 "Is that a lightsaber?\n" +
                 "Nope, Even better!");
@@ -38,7 +40,7 @@ namespace MythosOfMoonLight.Items.PurpurineSaber
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<PurpurineSaberSlice>();
         }
-        public override bool CanUseItem(Player player)
+        public override bool CanShoot(Player player)
         {
             return player.ownedProjectileCounts[ModContent.ProjectileType<PurpurineSaberSlice>()] < 1;
         }
