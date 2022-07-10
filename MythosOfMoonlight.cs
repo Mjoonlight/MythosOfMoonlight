@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
 using System;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
+using ReLogic.Content;
 
 namespace MythosOfMoonlight
 {
@@ -145,22 +146,24 @@ namespace MythosOfMoonlight
     {
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D DustTrail1;
+        public static Effect PurpleCometEffect;
+        public static MythosOfMoonlight Instance { get; set; }
+        public MythosOfMoonlight()
+        {
+            Instance = this;
+        }
         public override void Load()
         {
-            if (Main.netMode != NetmodeID.Server)
+            if (!Main.dedServ)
             {
-                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
+                PurpleCometEffect = Instance.Assets.Request<Effect>("Effects/PurpleComet", AssetRequestMode.ImmediateLoad).Value;
+                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
             }
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             On.Terraria.Main.LoadWorlds += new On.Terraria.Main.hook_LoadWorlds(Main_LoadWorlds);
             On.Terraria.Player.SetTalkNPC += Player_SetTalkNPC;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.88f, 0.48f, 1.02f).UseOpacity(.8f), EffectPriority.VeryHigh);
-                SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
-            }
         }
 
         private void Player_SetTalkNPC(On.Terraria.Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
