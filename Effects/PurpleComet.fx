@@ -23,7 +23,9 @@ float2 uZoom;
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
-    color.rb *= 3.24;
+    color.r *= 1 + 0.15 * uOpacity;
+    color.g *= 1 - 0.3 * uOpacity;
+    color.b *= 1 + 0.3 * uOpacity;
     return color;
 }
 
