@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using MythosOfMoonlight.BiomeManager;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.PurpleComet.Critters;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,7 +33,19 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             NPC.catchItem = (short)ModContent.ItemType<SparkleSkittlerItem>();
             NPC.dontCountMe = true;
             NPC.npcSlots = 0;
-            NPC.dontTakeDamageFromHostiles = false;
+            NPC.dontTakeDamageFromHostiles = false; 
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("By absorbing natural cosmic energy around it, a Sparkle Skittler can make quick dashes away from potential predators, although it doesn¡¯t always have control over which direction it goes.")
+            });
         }
         const float SPEED = 3.5f;
         const int TRANSITION_CHANCE = 99;

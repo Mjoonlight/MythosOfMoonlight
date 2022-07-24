@@ -7,19 +7,39 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
+using Terraria.DataStructures;
+using MythosOfMoonlight.BiomeManager;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Starine
 {
     public class Starine_Skipper : ModNPC
     {
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+        }
+        public int f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starine Skipper");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.TrailCacheLength[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0)
+            {
+                Frame = (int)(NPC.frameCounter / 5),
+                Velocity = 1f
+            };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("Powered by magic derived from the stars, it uses its well-developed back legs to hop and skip about the night, usually kicking off unsuspecting prey to cripple them.")
+            });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -50,6 +70,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             NPC.lifeMax = 80;
             NPC.HitSound = SoundID.NPCHit19;
             NPC.DeathSound = SoundID.NPCDeath1;
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
         }
         public override void DrawEffects(ref Color drawColor)
         {
@@ -64,27 +88,30 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 case 0:
                     if (NPC.velocity.Y > 0)
-                        NPC.frameCounter = 7;
+                        f = 7;
                     else
                     {
                         if (Timer < 8)
-                            NPC.frameCounter = 5;
+                            f = 5;
                         else
-                            NPC.frameCounter = 4;
+                            f = 4;
                     }
                     break;
                 case 1:
-                    if (Timer % 4 == 0) NPC.frameCounter++;
-                    if (NPC.frameCounter > 3)
-                        NPC.frameCounter = 0;
+                    if (Timer % 4 == 0)
+                    {
+                        f++;
+                    }
+                    if (f > 3)
+                        f = 0;
                     break;
                 case 2:
-                    if (Timer % 4 == 0) NPC.frameCounter++;
-                    if (NPC.frameCounter > 3)
-                        NPC.frameCounter = 0;
+                    if (Timer % 4 == 0) f++;
+                    if (f > 3)
+                        f = 0;
                     break;
             }
-            NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
+            NPC.frame.Y = f * frameHeight;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -119,6 +146,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override void AI()
         {
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 39) NPC.frameCounter = 0;
             Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[NPC.target];
             NPC.TargetClosest(false);
@@ -188,13 +217,23 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
     }
     public class Starine_Sightseer : ModNPC
     {
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starine Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0)
+            {
+                Velocity = 1f,
+                Position = new Vector2(0, 0),
+                PortraitPositionYOverride = 0,
+                Direction = 1
+            };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
@@ -209,6 +248,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit19;
             NPC.DeathSound = SoundID.NPCDeath1;
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("Brilliant and peaceful. Hovering around certain spots, they seem to study the environment. Although they may seem helpless, they will defend themselves if necessary.")
+            });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -295,22 +346,25 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override void FindFrame(int frameHeight)
         {
-            if (Timer % (NPC.life < NPC.lifeMax ? 4 : 6) == 0) NPC.frameCounter++;
-            if (NPC.frameCounter > 3)
-                NPC.frameCounter = 0;
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= (NPC.life >= NPC.lifeMax / 2 ? 17 : 11)) NPC.frameCounter = 0;
 
-            NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
+            NPC.frame.Y = (int)(NPC.frameCounter / (NPC.life >= NPC.lifeMax / 2 ? 6 : 4)) * frameHeight;
         }
     }
     public class Starine_Scatterer : ModNPC
     {
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starine Scatterer");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 3;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
@@ -319,10 +373,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             NPC.height = 30;
             NPC.aiStyle = -1;
             NPC.defense = 4;
-            NPC.lifeMax = 90;
+            NPC.lifeMax = 270;
             NPC.knockBackResist = .5f;
             NPC.HitSound = SoundID.NPCHit19;
             NPC.DeathSound = SoundID.NPCDeath1;
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("All three of its legs are made up of a strange, jelly-like substance, which gives it grippy, sticky capabilities, climbing over most obstacles.")
+            });
         }
         public override void DrawEffects(ref Color drawColor)
         {
@@ -354,13 +420,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             switch (AIState)
             {
-                case GiveUp:
                 case Normal:
                     NormalStateAnimation();
                     break;
                 case Angry:
                     AngryStateAnimation();
                     break;
+                case GiveUp: break;
             }
             NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
         }

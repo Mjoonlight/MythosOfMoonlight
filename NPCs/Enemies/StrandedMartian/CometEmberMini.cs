@@ -65,10 +65,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
                 {
                     case ProjState.Straight:
                         {
-                            Projectile.rotation += MathHelper.ToRadians(Projectile.ai[0] * 9f);
-                            if (Projectile.timeLeft <= 60 || Math.Abs(Projectile.Center.X - Main.player[Projectile.owner].Center.X) <= 30)
+                            Projectile.rotation += MathHelper.ToRadians(-Projectile.timeLeft * 6f * Projectile.ai[0]);
+                            Projectile.velocity.Y += .15f;
+                            if (Projectile.timeLeft <= 60 || Math.Abs(Projectile.Center.X - Main.player[Projectile.owner].Center.X) <= 76)
                             {
-                                Projectile.velocity.Y = 0;
                                 SwitchTo(ProjState.Stomp);
                             }
                             break;
@@ -76,8 +76,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
                     case ProjState.Stomp:
                         {
                             Projectile.rotation = MathHelper.Lerp(Projectile.rotation, MathHelper.ToRadians(180), .05f);
-                            Projectile.velocity.X = 0;
-                            Projectile.velocity.Y += .25f;
+                            Projectile.velocity.X *= .9f;
+                            Projectile.velocity.Y += .3f;
                             break;
                         }
                 }

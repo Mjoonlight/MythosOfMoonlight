@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.BiomeManager;
 using MythosOfMoonlight.Items.Materials;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         {
             DisplayName.SetDefault("Stranded Martian");
             Main.npcFrameCount[NPC.type] = 9;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
@@ -30,6 +32,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
             NPC.DeathSound = SoundID.NPCDeath57;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
+                new FlavorTextBestiaryInfoElement("A martian sent on a scouting mission, who collided with a rogue comet that was unforeseen in its ships course. Determined to survive, it adapted by creating a crystalline substance from the comet's stone known as Iridic quartz, which sees use widely in its arsenal, alongside an alloy of Martian steel and Iridic quartz, known as Iridium. It follows the comet on ground, secretively working on a means to communicate to its planet once more.")
+            });
         }
         private enum NState
         {
@@ -80,8 +94,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
                     else
                         NPC.frame = new Rectangle(0, 46, 38, 46);
 
-                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 10, 1.8f, true);
-                    NPC.TargetClosest(true);
+                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 8, 1.8f, true);
                     break;
                 case NState.Shoot:
                     Timer++;

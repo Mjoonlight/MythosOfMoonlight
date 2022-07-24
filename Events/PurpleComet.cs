@@ -21,7 +21,11 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 
         public static bool PurpleComet = false;
         public static bool downedPurpleComet = false;
-
+        public static PurpleCometEvent Instance { get; set; }
+        public PurpleCometEvent()
+        {
+            Instance = this;
+        }
         public override void SaveWorldData(TagCompound tag)
         {
             var downed = new List<string>();

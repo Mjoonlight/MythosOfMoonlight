@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
 {
@@ -30,6 +31,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+                new FlavorTextBestiaryInfoElement("Entropic Totems are both parts astonishing and terrifying. Astonishing, for they are statues of a goddess brought to life by the sheer determination of followers gone by, and terrifying, for they are brutal and unforgiving to anyone not associated with their beliefs.")
+            });
         }
         public override void SetDefaults()
         {

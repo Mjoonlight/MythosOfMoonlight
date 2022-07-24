@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using MythosOfMoonlight.BiomeManager;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,6 +25,18 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             NPC.lifeMax = 5;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+            SpawnModBiomes = new int[]
+            {
+                ModContent.GetInstance<PurpleCometBiome>().Type
+            };
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("Often seen in flocks, known as showers (see: Meteor Shower), these undeniably adorable critters are able to communicate amongst each other, and can even be seen playing, although they do scurry when approached.")
+            });
         }
         public override Color? GetAlpha(Color drawColor)
         {

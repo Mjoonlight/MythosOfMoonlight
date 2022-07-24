@@ -54,7 +54,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             if (HasCollided == false)
             {
-                SoundEngine.PlaySound(SoundID.Item10.WithVolume(0.8f), Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item10.WithVolumeScale(.8f), Projectile.Center);
                 HasCollided = true;
             }
             // Projectile.velocity.Y = -Projectile.oldVelocity.Y / 5;

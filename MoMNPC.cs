@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using MythosOfMoonlight.Buffs;
 
 namespace MythosOfMoonlight
 {
@@ -37,6 +38,13 @@ namespace MythosOfMoonlight
                         pool.Add(type, 0.05f);
                     }
                 }
+            }
+        }
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            if (npc.HasBuff(ModContent.BuffType<NPCsuffocating>()))
+            {
+                damage = 5;
             }
         }
         /*

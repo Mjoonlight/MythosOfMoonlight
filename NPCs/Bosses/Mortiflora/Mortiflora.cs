@@ -50,7 +50,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
             NPC.noTileCollide = true;
             NPC.lavaImmune = true;
             if (!Main.dedServ)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Mortiflora");
+                Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Mortiflora");
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

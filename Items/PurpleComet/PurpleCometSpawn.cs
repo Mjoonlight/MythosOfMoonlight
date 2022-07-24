@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Terraria.Audio;
+using Microsoft.Xna.Framework;
 
 namespace MythosOfMoonlight.Items.PurpleComet
 {
@@ -46,7 +47,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
         public override bool? UseItem(Player player)
         {
             Main.NewText("You start to feel like levitating...", 179, 0, 255);
-            SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
+            SoundEngine.PlaySound(SoundID.Roar, new Vector2((int)player.position.X, (int)player.position.Y));
             PurpleCometEvent.PurpleComet = true;
 
             if (Main.netMode == NetmodeID.Server)

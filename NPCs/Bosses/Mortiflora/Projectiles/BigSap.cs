@@ -55,7 +55,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
             if (Main.expertMode)
                 damage = 5;
             for (int i = 0; i < 4; i++)
-                Projectile.NewProjectile(Entity.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-10, -6)), ModContent.ProjectileType<LittleSap>(), damage, 0f, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-10, -6)), ModContent.ProjectileType<LittleSap>(), damage, 0f, Main.myPlayer);
         }
     }
 }

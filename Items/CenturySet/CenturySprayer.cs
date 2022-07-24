@@ -23,7 +23,7 @@ namespace MythosOfMoonlight.Items.CenturySet
 			Item.damage = 0;
 			Item.DamageType = DamageClass.Magic;
 			Item.noMelee = true;
-			Item.useTime = 3;
+			Item.useTime = 5;
 			Item.useAnimation = 20;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.rare = ItemRarityID.Blue;
@@ -32,7 +32,7 @@ namespace MythosOfMoonlight.Items.CenturySet
 			Item.autoReuse = true;
 			Item.mana = 5;
 			Item.shoot = ProjectileType<CenturySpewerSpore>();	
-			Item.shootSpeed = 10f;
+			Item.shootSpeed = 6f;
 		}
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

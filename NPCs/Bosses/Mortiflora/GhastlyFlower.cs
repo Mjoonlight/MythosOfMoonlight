@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
+                SoundEngine.PlaySound(SoundID.Roar, player.position);
 
                 int type = ModContent.NPCType<Mortiflora>();
 

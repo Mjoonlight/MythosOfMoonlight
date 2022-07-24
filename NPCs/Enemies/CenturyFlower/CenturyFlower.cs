@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Items.CenturySet;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 {
@@ -15,6 +16,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		{
 			DisplayName.SetDefault("Century Flower");
 			Main.npcFrameCount[NPC.type] = 10;
+		}
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+			{
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+				new FlavorTextBestiaryInfoElement("These unique plants are capable of spewing large clouds of spores, dangerous to much of the wildlife. Their age makes them extremely irrational and ill-tempered, spewing their suffocating spores at anything they deem to be less wise.")
+			});
 		}
 		public override void SetDefaults()
 		{
@@ -83,7 +93,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
 			var player = Main.player[NPC.target];
 			// var sqrDistance = player.DistanceSQ(NPC.position);
-			if (NPC.velocity.X == 0 && NPC.frameCounter > 2)
+			if (NPC.collideX && NPC.frameCounter > 2)
 			{
 				NPC.velocity.Y = -jumpHeight;
 			}

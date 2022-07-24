@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.Buffs
 			if (NPC.lifeRegen > 0)
 				NPC.lifeRegen = 0;
 
-			NPC.lifeRegen -= 80;
+			NPC.lifeRegen -= 65;
 		}
 	}
 }

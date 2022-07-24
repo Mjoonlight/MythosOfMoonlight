@@ -8,6 +8,7 @@ using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
@@ -23,15 +24,24 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("When the will is weak, either naturally or from their weakening minds, the astral power can rupture from flesh. Unfortunate, but determined to continue its pilgrimage, it guards it's shrine fiercely.")
+            });
+        }
         public override void SetDefaults()
         {
             NPC.width = 54;
             NPC.height = 70;
-            NPC.lifeMax = Main.expertMode ? (Main.masterMode ? 3300 : 2200) : 1100;
+            NPC.lifeMax = 1100;
             NPC.boss = true;
             NPC.defense = 12;
             NPC.damage = 0;
-            NPC.aiStyle = 0;
+            NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit49;
@@ -39,6 +49,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             NPC.noTileCollide = true;
             NPC.ai[0] = 6;
             NPC.alpha = 255;
+            if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
         }
         bool hasDoneDeathDrama;
         public int Direction;
@@ -440,13 +455,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                         }
                         if (AITimer == 90)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(),12, .1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 12, .1f);
                         }
                         if (NPC.life < NPC.lifeMax * .5f)
                         {
                             if (AITimer == 120)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(),12, .1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacleProj>(), 12, .1f);
                             }
                         }
                         if (AITimer == (NPC.life >= NPC.lifeMax * .5f ? 190 : 220))
@@ -549,7 +564,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                             float ai1 = Main.rand.Next(new int[] { -1, 1 });
                             for (int i = 90; i <= 360; i += 90)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(),12, .1f, Main.myPlayer, 0, ai1);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Vector2.UnitX.RotatedBy(MathHelper.ToRadians(i)), ModContent.ProjectileType<TestTentacleProj1>(), 12, .1f, Main.myPlayer, 0, ai1);
                             }
                         }
                         if (AITimer == 350)
