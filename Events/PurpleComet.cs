@@ -89,7 +89,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
         {
             if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
             {
-                if ((Main.rand.NextBool(1) && !downedPurpleComet) || (Main.rand.NextBool(1) && downedPurpleComet))
+                if ((Main.rand.NextBool(8) && !downedPurpleComet) || (Main.rand.NextBool(16) && downedPurpleComet))
                 {
                     string status = "You feel like you're levitating...";
                     if (Main.netMode == NetmodeID.Server)

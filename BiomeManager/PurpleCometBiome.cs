@@ -45,7 +45,7 @@ namespace MythosOfMoonlight.BiomeManager
                 return MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
             }
         }
-        public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
+        public override SceneEffectPriority Priority => SceneEffectPriority.Event;
         public override bool IsBiomeActive(Player player)
         {
             return PurpleCometEvent.PurpleComet;

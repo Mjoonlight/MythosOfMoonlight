@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using MythosOfMoonlight.Buffs;
+using MythosOfMoonlight.BiomeManager;
 
 namespace MythosOfMoonlight
 {
@@ -27,7 +28,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.StarineEntities[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, 0.1f);
+                        pool.Add(type, .05f);
                     }
                 }
                 for (int i = 0; i < PurpleCometEvent.RarePurpleCometEnemies.Length; i++)
@@ -35,7 +36,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.RarePurpleCometEnemies[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, 0.05f);
+                        pool.Add(type, .025f);
                     }
                 }
             }
@@ -47,15 +48,13 @@ namespace MythosOfMoonlight
                 damage = 5;
             }
         }
-        /*
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
             if (PurpleCometEvent.PurpleComet)
             {
-                spawnRate = 50;
+                spawnRate = 15;
                 maxSpawns = 255;
             }
         }
-        */
     }   
 }
