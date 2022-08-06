@@ -11,6 +11,7 @@ using MythosOfMoonlight.NPCs.Critters.PurpleComet;
 using MythosOfMoonlight.NPCs.Enemies.Starine;
 using MythosOfMoonlight.NPCs.Enemies.StrandedMartian;
 using Terraria.Chat;
+using MythosOfMoonlight.NPCs.Enemies;
 
 namespace MythosOfMoonlight //Every comment is a guess lmao
 {
@@ -84,6 +85,10 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
         public static int[] RarePurpleCometEnemies => new[]
         {
             NPCType<StrandedMartian>()
+        };
+        public static int[] NotThatRareEnemies => new[] 
+        {
+            NPCType<CometEmber>()
         };
         public override void PreUpdateWorld()
         {

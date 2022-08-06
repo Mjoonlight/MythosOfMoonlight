@@ -3,11 +3,64 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 using MythosOfMoonlight.Buffs;
 using MythosOfMoonlight.BiomeManager;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace MythosOfMoonlight
 {
     public class MoMNPC : GlobalNPC
     {
+        public static float AlivePlayerNum = 0;
+        public static float EscapeDelay = 0;
+        public static List<int> TargetedPlayer = new();
+        public static void PlayerCheck(float checkradian, NPC npc)
+        {
+            AlivePlayerNum = 0;
+            foreach (Player player in Main.player)
+            {
+                if (player.active && !player.dead)
+                {
+                    if (Vector2.Distance(npc.Center, player.Center) <= checkradian)
+                    {
+                        if (!TargetedPlayer.Contains(player.whoAmI)) TargetedPlayer.Add(player.whoAmI);
+                        AlivePlayerNum++;
+                    }
+                }
+                else
+                {
+                    if (TargetedPlayer.Contains(player.whoAmI)) TargetedPlayer.Remove(player.whoAmI);
+                }
+            }
+            if (AlivePlayerNum > 0) npc.TargetClosest(true);
+        }
+        public static void EscapeCheck(float checkradian, float delaytime, NPC npc)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Player target = Main.player[npc.target];
+                if (target == null || !target.active || target.dead)
+                {
+                    PlayerCheck(checkradian, npc);
+                }
+                else
+                {
+                    if (Vector2.Distance(target.Center, npc.Center) > checkradian)
+                    {
+                        PlayerCheck(checkradian, npc);
+                    }
+                    else
+                    {
+                        if (!TargetedPlayer.Contains(target.whoAmI)) TargetedPlayer.Add(target.whoAmI);
+                    }
+                }
+                if (TargetedPlayer.Count <= 0) EscapeDelay++;
+                else EscapeDelay = 0;
+                if (EscapeDelay >= delaytime)
+                {
+                    npc.active = false;
+                }
+            }
+        }
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
             // base.EditSpawnPool(pool, spawnInfo);
@@ -39,6 +92,14 @@ namespace MythosOfMoonlight
                         pool.Add(type, .025f);
                     }
                 }
+                for (int i = 0; i < PurpleCometEvent.NotThatRareEnemies.Length; i++)
+                {
+                    var type = PurpleCometEvent.RarePurpleCometEnemies[i];
+                    if (!pool.ContainsKey(type))
+                    {
+                        pool.Add(type, .035f);
+                    }
+                }
             }
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
@@ -52,9 +113,9 @@ namespace MythosOfMoonlight
         {
             if (PurpleCometEvent.PurpleComet)
             {
-                spawnRate = 15;
-                maxSpawns = 255;
+                spawnRate = 10;
+                maxSpawns = 200;
             }
         }
-    }   
+    }
 }
