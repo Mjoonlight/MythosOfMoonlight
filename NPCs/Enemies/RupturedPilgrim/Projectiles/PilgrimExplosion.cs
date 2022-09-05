@@ -20,7 +20,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
             Projectile.height = 132;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;

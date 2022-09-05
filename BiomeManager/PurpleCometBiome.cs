@@ -3,6 +3,9 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Events;
+using Terraria.ID;
+using MythosOfMoonlight.Graphics.Particles;
+using MythosOfMoonlight.Graphics;
 
 namespace MythosOfMoonlight.BiomeManager
 {
@@ -49,6 +52,18 @@ namespace MythosOfMoonlight.BiomeManager
         public override bool IsBiomeActive(Player player)
         {
             return PurpleCometEvent.PurpleComet;
+        }
+        public override void OnInBiome(Player player)
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    Particle.Spawn<PurpurineParticle>(Main.screenPosition + Main.rand.NextVector2FromRectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight)), Main.rand.NextVector2Circular(3, 3), Color.White);
+                }
+                player.gravity = .2f;
+                player.maxFallSpeed *= .75f;
+            }
         }
     }
 }
