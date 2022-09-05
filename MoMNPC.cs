@@ -73,7 +73,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.PurpleCometCritters[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, 1f);
+                        pool.Add(type, .2f);
                     }
                 }
                 for (int i = 0; i < PurpleCometEvent.StarineEntities.Length; i++)
@@ -94,7 +94,7 @@ namespace MythosOfMoonlight
                 }
                 for (int i = 0; i < PurpleCometEvent.NotThatRareEnemies.Length; i++)
                 {
-                    var type = PurpleCometEvent.RarePurpleCometEnemies[i];
+                    var type = PurpleCometEvent.NotThatRareEnemies[i];
                     if (!pool.ContainsKey(type))
                     {
                         pool.Add(type, .035f);
@@ -113,8 +113,8 @@ namespace MythosOfMoonlight
         {
             if (PurpleCometEvent.PurpleComet)
             {
-                spawnRate = 10;
-                maxSpawns = 200;
+                //spawnRate = 1;
+                //maxSpawns = 50;
             }
         }
     }

@@ -55,6 +55,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
             var orig = frame.Size() / 2f;
             var trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+
             for (int i = 1; i < trailLength; i++)
             {
                 float scale = MathHelper.Lerp(0.70f, 1f, (float)(trailLength - i) / trailLength);
@@ -62,6 +65,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
                 SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), Projectile.oldRot[i], orig, scale, flipType, 0f);
             }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

@@ -42,7 +42,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
         }
         public override void SetDefaults()
         {
-            NPC.width = 62;
+            NPC.width = 54;
             NPC.height = 70;
             NPC.aiStyle = -1;
             NPC.damage = 15;
@@ -153,7 +153,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             var texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Glow").Value;
             var origTexture = TextureAssets.Npc[NPC.type].Value;
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
-            var orig = frame.Size() / 2f;
+            var orig = frame.Size() / 2f - new Vector2(0, 3);
             Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, NPC.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             Main.spriteBatch.Draw(texture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, NPC.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;

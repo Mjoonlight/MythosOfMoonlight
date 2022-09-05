@@ -330,19 +330,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override void AI()
         {
-            NPC.TargetClosest(true);
+            NPC.TargetClosest(false);
             if (State != AIState.TentacleP1 && State != AIState.TentacleP2)
             {
-                NPC.spriteDirection = NPC.direction;
                 NPC.FaceTarget();
+                NPC.spriteDirection = NPC.direction;
             }
             else
             {
-                if (AITimer == (State == AIState.TentacleP1 ? 90 : 150))
+                if (AITimer < (State == AIState.TentacleP1 ? (NPC.life >= NPC.lifeMax * .5f ? 90 : 120) : 150))
                 {
+                    NPC.FaceTarget();
                     Direction = NPC.direction;
+                    NPC.spriteDirection = NPC.direction;
                 }
-                if (AITimer > (State == AIState.TentacleP1 ? 90 : 150))
+                else
                 {
                     NPC.direction = Direction;
                     NPC.spriteDirection = NPC.direction;

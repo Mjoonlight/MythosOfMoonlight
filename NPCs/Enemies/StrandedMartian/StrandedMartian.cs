@@ -24,7 +24,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
         public override void SetDefaults()
         {
             NPC.width = 38;
-            NPC.height = 40;
+            NPC.height = 42;
             NPC.damage = 15;
             NPC.lifeMax = 90;
             NPC.defense = 2;
@@ -90,7 +90,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.StrandedMartian
                     Timer++;
                     NPC.spriteDirection = NPC.direction;
                     if (NPC.velocity.Y <= 0)
-                        NPC.frame = new Rectangle(0, ((2 + (int)Timer / 6) % 7) * 46, 38, 46);
+                        NPC.frame = new Rectangle(0, (2 + ((int)(Timer / 6) % 7)) * 46, 38, 46);
                     else
                         NPC.frame = new Rectangle(0, 46, 38, 46);
 
