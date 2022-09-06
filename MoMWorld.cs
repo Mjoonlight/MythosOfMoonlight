@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader.IO;
 using System.IO;
+using System;
 
 namespace MythosOfMoonlight
 {
@@ -52,6 +53,7 @@ namespace MythosOfMoonlight
             };
             for (int offsetX = -200; offsetX <= 200; offsetX++)
             {
+                if (Math.Abs(offsetX) <= 20) break;
                 for (int offsetY = -50; offsetY <= 50; offsetY++)
                 {
                     int baseCheckX = positionX + offsetX;

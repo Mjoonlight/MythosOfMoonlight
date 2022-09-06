@@ -108,6 +108,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             switch (State)
             {
                 case NState.Normal:
+                    NPC.dontTakeDamage = true;
                     break;
                 case NState.Invulerable:
                     NPC.dontTakeDamage = true;

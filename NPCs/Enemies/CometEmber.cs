@@ -29,11 +29,11 @@ namespace MythosOfMoonlight.NPCs.Enemies
         {
             NPC.width = 38;
             NPC.height = 42;
-            NPC.damage = 42;
-            NPC.lifeMax = 124;
+            NPC.damage = 28;
+            NPC.lifeMax = 70;
             NPC.defense = 2;
             NPC.HitSound = SoundID.NPCHit39;
-            NPC.DeathSound = SoundID.NPCDeath57;
+            NPC.DeathSound = SoundID.Item74;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
             NPC.noTileCollide = true;
@@ -135,9 +135,7 @@ namespace MythosOfMoonlight.NPCs.Enemies
                     NPC.velocity.Y += .5f;
                     if ((NPC.collideY || NPC.position.Y <= NPC.oldPos[1].Y) && PhaseTimer > 1)
                     {
-                        SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 30, .05f, Main.myPlayer);
-                        NPC.active = false;
+                        NPC.checkDead();
                     }
                     break;
             }
@@ -168,6 +166,11 @@ namespace MythosOfMoonlight.NPCs.Enemies
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
+        }
+        public override bool CheckDead()
+        {
+            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 20, .1f, Main.myPlayer);
+            return base.CheckDead();
         }
     }
 }
