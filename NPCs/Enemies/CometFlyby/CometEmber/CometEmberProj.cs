@@ -7,8 +7,8 @@ using Terraria.Audio;
 using ReLogic.Content;
 using MythosOfMoonlight.Dusts;
 
-namespace MythosOfMoonlight.NPCs.Enemies
-{
+namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
+{   
     public class CometEmberProj : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";

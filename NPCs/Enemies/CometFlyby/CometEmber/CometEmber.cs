@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using MythosOfMoonlight.Dusts;
 
-namespace MythosOfMoonlight.NPCs.Enemies
+namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
 {
     public class CometEmber : ModNPC
     {
