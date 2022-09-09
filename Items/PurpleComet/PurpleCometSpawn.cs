@@ -18,16 +18,14 @@ namespace MythosOfMoonlight.Items.PurpleComet
 
         public override void SetDefaults()
         {
-            Item.width = Item.height = 16;
+            Item.width = 34;
+            Item.height = 18;
             Item.rare = ItemRarityID.Pink;
-
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.useTime = Item.useAnimation = 10;
-
             Item.noMelee = true;
             Item.consumable = true;
             Item.autoReuse = false;
-
             Item.UseSound = SoundID.Item43;
         }
 

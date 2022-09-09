@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.Items.PurpleComet.Critters
         public override void SetDefaults()
         {
             Item.width = 16;
-            Item.height = 26;
+            Item.height = 24;
             Item.rare = ItemRarityID.Blue;
             Item.maxStack = 99;
             Item.value = Item.sellPrice(0, 0, 5, 5);
