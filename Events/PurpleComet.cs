@@ -9,7 +9,8 @@ using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 using MythosOfMoonlight.NPCs.Critters.PurpleComet;
 using MythosOfMoonlight.NPCs.Enemies.Starine;
-using MythosOfMoonlight.NPCs.Enemies.StrandedMartian;
+using MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian;
+using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using Terraria.Chat;
 using MythosOfMoonlight.NPCs.Enemies;
 
