@@ -113,9 +113,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             }
             NPC.frame.Y = f * frameHeight;
         }
+        public bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<Starine_Skipper>());
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return SpawnCondition.OverworldNight.Chance * .05f;
+            return HasStarineEnemies?0: SpawnCondition.OverworldNight.Chance * .05f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -558,9 +559,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 }
             }
         }
+        public bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<Starine_Skipper>());
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return SpawnCondition.OverworldNight.Chance * .05f;
+            return HasStarineEnemies ? 0 : SpawnCondition.OverworldNight.Chance * .05f;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

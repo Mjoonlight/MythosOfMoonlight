@@ -133,8 +133,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                     if (NPC.Center.Y < target.Center.Y - 100) NPC.noTileCollide = true;
                     else NPC.noTileCollide = false;
                     NPC.velocity.Y += .5f;
-                    if ((NPC.collideY || NPC.position.Y <= NPC.oldPos[1].Y) && PhaseTimer > 1)
+                    if (NPC.collideY || NPC.collideX)
                     {
+                        NPC.life = 0;
                         NPC.checkDead();
                     }
                     break;
@@ -170,7 +171,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         public override bool CheckDead()
         {
             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 20, .1f, Main.myPlayer);
-            return base.CheckDead();
+            return true;
         }
     }
 }

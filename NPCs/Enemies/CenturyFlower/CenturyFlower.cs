@@ -87,16 +87,23 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			get => NPC.ai[1];
 			set => NPC.ai[1] = value;
 		}
+		float Jump
+        {
+			get => NPC.ai[3];
+			set => NPC.ai[3] = value;
+        }
 		void ManageMovement()
 		{
 			NPC.TargetClosest(false);
 			Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
 			var player = Main.player[NPC.target];
 			// var sqrDistance = player.DistanceSQ(NPC.position);
-			if (NPC.collideX && NPC.frameCounter > 2)
+			if (NPC.collideX && NPC.frameCounter > 2 && Jump<=0)
 			{
 				NPC.velocity.Y = -jumpHeight;
+				Jump = 1;
 			}
+			if (NPC.collideY) Jump = 0;
 
 			FitVelocityXToTarget(strideSpeed * NPC.direction);
 			var horizontalDistance = Math.Abs(NPC.Center.X - player.Center.X);

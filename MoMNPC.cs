@@ -67,6 +67,7 @@ namespace MythosOfMoonlight
 
             if (PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight)
             {
+                bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Starine.Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Starine.Starine_Skipper>());
                 pool.Clear();
                 for (int i = 0; i < PurpleCometEvent.PurpleCometCritters.Length; i++)
                 {
@@ -81,7 +82,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.StarineEntities[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, .05f);
+                        pool.Add(type, HasStarineEnemies?0:.04f);
                     }
                 }
                 for (int i = 0; i < PurpleCometEvent.RarePurpleCometEnemies.Length; i++)
@@ -89,7 +90,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.RarePurpleCometEnemies[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, .025f);
+                        pool.Add(type, HasStarineEnemies ? 0 : .015f);
                     }
                 }
                 for (int i = 0; i < PurpleCometEvent.NotThatRareEnemies.Length; i++)
@@ -97,7 +98,7 @@ namespace MythosOfMoonlight
                     var type = PurpleCometEvent.NotThatRareEnemies[i];
                     if (!pool.ContainsKey(type))
                     {
-                        pool.Add(type, .035f);
+                        pool.Add(type, HasStarineEnemies ? 0 : .0275f);
                     }
                 }
             }
