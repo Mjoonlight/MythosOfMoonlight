@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.BiomeManager;
+using MythosOfMoonlight.Items.IridicSet;
 using MythosOfMoonlight.Items.Materials;
 using Terraria;
 using Terraria.Audio;
@@ -134,6 +135,21 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PurpurineQuartz>(), 1, 3, 6));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MOCIris>(), 20, 1, 1));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CommunicatorIris>(), 40, 1, 1));
+        }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if(NPC.life <= 0)
+            {
+                for (int i = 1; i <= 20; i++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit,0,-1);
+                }
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 1, 3);
+            }
         }
     }
 }
