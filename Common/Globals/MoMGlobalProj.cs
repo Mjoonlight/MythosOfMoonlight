@@ -67,6 +67,9 @@ namespace MythosOfMoonlight.Common.Globals
                     Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center + vel * 5, vel.RotatedBy(MathHelper.ToRadians(randRot)), ModContent.ProjectileType<IrisStar>(), 10, 1f, projectile.owner);
                     proj.DamageType = DamageClass.Summon;
                     plr.CommunicatorCD = 300;
+                    MoMGlobalProj pro = proj.GetGlobalProjectile<MoMGlobalProj>();
+                    pro.HasTarget = true;
+                    pro.TargetIndex = target.whoAmI;
                 }
             }
         }
@@ -101,7 +104,7 @@ namespace MythosOfMoonlight.Common.Globals
                 if (target == null || !target.active) HasTarget = false;
                 else
                 {
-                    if (Vector2.Distance(target.Center, proj.Center) > radius) HasTarget = false;
+                    if (Vector2.Distance(target.Center, proj.Center) > radius * 2f) HasTarget = false;
                 }
                 if (!HasTarget)
                 {
