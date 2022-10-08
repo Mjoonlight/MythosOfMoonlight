@@ -17,25 +17,6 @@ namespace MythosOfMoonlight
         //    var purpleComet = PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight;
         //    player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
         //}
-<<<<<<< Updated upstream
-        public override void OnEnterWorld(Player player)
-        {
-            Starine_Symbol.symbol = null;
-            if (SymbolRespawnSystem.SymbolHome != Vector2.Zero)
-            {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
-                    {
-                        NPC symbol = NPC.NewNPCDirect(null, SymbolRespawnSystem.SymbolHome + new Vector2(0, 16), ModContent.NPCType<Starine_Symbol>());
-                        symbol.homeTileX = (int)SymbolRespawnSystem.SymbolHome.X;
-                        symbol.homeTileY = (int)SymbolRespawnSystem.SymbolHome.Y + 16;
-                    }
-                }
-            }
-        }
-=======
->>>>>>> Stashed changes
         public bool CommunicatorEquip = false;
         public float CommunicatorCD;
         public Vector2 targetCameraPosition = new(-1, -1);

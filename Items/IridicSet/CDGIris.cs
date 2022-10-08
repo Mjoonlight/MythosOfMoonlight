@@ -21,11 +21,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override void SetDefaults()
         {
-<<<<<<< Updated upstream
-            Item.damage = 5;
-=======
             Item.damage = 4;
->>>>>>> Stashed changes
             Item.DamageType = DamageClass.Ranged;
             Item.noUseGraphic = false;
             Item.noMelee = true;
@@ -36,11 +32,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             SoundStyle style = SoundID.Item31;
             style.Volume = .5f;
             Item.UseSound = style;
-<<<<<<< Updated upstream
-            Item.useAnimation = 10;
-=======
             Item.useAnimation = 15;
->>>>>>> Stashed changes
             Item.reuseDelay = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Bullet;
@@ -48,29 +40,12 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.value = Item.buyPrice(0, 0, 0, 1);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<FragmentBullet>();
-<<<<<<< Updated upstream
-            Item.shootSpeed = 15f;
-=======
             Item.shootSpeed = 16f;
->>>>>>> Stashed changes
         }
         public override bool RangedPrefix()
         {
             return true;
         }
-<<<<<<< Updated upstream
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            if (type == ProjectileID.Bullet)
-            {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI);
-            }
-            else
-            {
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            }
-            return false;
-=======
         public override bool AllowPrefix(int pre)
         {
             if (pre == PrefixID.Unreal) return true;
@@ -84,7 +59,6 @@ namespace MythosOfMoonlight.Items.IridicSet
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<FragmentBullet>();
->>>>>>> Stashed changes
         }
         public override void AddRecipes()
         {

@@ -20,10 +20,7 @@ namespace MythosOfMoonlight.Common.Globals
         public bool HasTarget = false;
         public int TargetIndex = -1;
         public bool CommunicatorEffect = false;
-<<<<<<< Updated upstream
-=======
         public float CommunicatorCD;
->>>>>>> Stashed changes
         public override bool InstancePerEntity => true;
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
@@ -37,25 +34,6 @@ namespace MythosOfMoonlight.Common.Globals
         {
             if (projectile.minion || projectile.sentry)
             {
-<<<<<<< Updated upstream
-                Player player = Main.player[projectile.owner];
-                MoMPlayer plr = player.GetModPlayer<MoMPlayer>();
-                if (plr.CommunicatorCD <= 0)
-                {
-                    CommunicatorEffect = true;
-                }
-                else
-                {
-                    CommunicatorEffect = false;
-                }
-            }
-            if (CommunicatorEffect)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<PurpurineDust>());
-                    // dust.noGravity = true;
-=======
                 if (Main.player[projectile.owner].GetModPlayer<MoMPlayer>().CommunicatorEquip)
                 {
                     if (CommunicatorCD <= 0)
@@ -75,36 +53,23 @@ namespace MythosOfMoonlight.Common.Globals
                             // dust.noGravity = true;
                         }
                     }
->>>>>>> Stashed changes
                 }
             }
             return base.PreAI(projectile);
         }
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
-<<<<<<< Updated upstream
-            if (projectile.DamageType == DamageClass.Summon)
-            {
-                Player player = Main.player[projectile.owner];
-                MoMPlayer plr = player.GetModPlayer<MoMPlayer>();
-                if (plr.CommunicatorCD <= 0)
-=======
             if (projectile.DamageType == DamageClass.Summon && projectile.type != ModContent.ProjectileType<IrisStar>())
             {
                 Player player = Main.player[projectile.owner];
                 if (CommunicatorCD <= 0)
->>>>>>> Stashed changes
                 {
                     Vector2 vel = Utils.SafeNormalize(projectile.Center - target.Center, Vector2.Zero) * 8f;
                     float randRot = Main.rand.Next<int>(new int[4] { -90, 90, -45, 45 });
                     Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center + vel * 5, vel.RotatedBy(MathHelper.ToRadians(randRot)), ModContent.ProjectileType<IrisStar>(), 10, 1f, projectile.owner);
                     proj.DamageType = DamageClass.Summon;
-<<<<<<< Updated upstream
-                    plr.CommunicatorCD = 300;
-=======
                     proj.tileCollide = false;
                     CommunicatorCD = 300;
->>>>>>> Stashed changes
                     MoMGlobalProj pro = proj.GetGlobalProjectile<MoMGlobalProj>();
                     pro.HasTarget = true;
                     pro.TargetIndex = target.whoAmI;
