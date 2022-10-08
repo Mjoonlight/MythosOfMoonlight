@@ -25,8 +25,8 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 5;
-            NPC.width = 30;
-            NPC.height = 22;
+            NPC.width = 26;
+            NPC.height = 20;
             NPC.defense = 0;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
