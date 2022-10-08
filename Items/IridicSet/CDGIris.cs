@@ -54,7 +54,6 @@ namespace MythosOfMoonlight.Items.IridicSet
         public override void UseAnimation(Player player)
         {
             Item.useAnimation = Item.useTime * 3;
-            Main.NewText(Item.useAnimation);
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
