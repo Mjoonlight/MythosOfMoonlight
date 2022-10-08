@@ -165,7 +165,6 @@ namespace MythosOfMoonlight
             On.Terraria.Player.SetTalkNPC += Player_SetTalkNPC;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
         }
-
         private void Player_SetTalkNPC(On.Terraria.Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
         {
             if (npcIndex == NPCType<Starine_Symbol>())

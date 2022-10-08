@@ -17,6 +17,7 @@ namespace MythosOfMoonlight
         //    var purpleComet = PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight;
         //    player.ManageSpecialBiomeVisuals("PurpleComet", purpleComet);
         //}
+<<<<<<< Updated upstream
         public override void OnEnterWorld(Player player)
         {
             Starine_Symbol.symbol = null;
@@ -33,6 +34,8 @@ namespace MythosOfMoonlight
                 }
             }
         }
+=======
+>>>>>>> Stashed changes
         public bool CommunicatorEquip = false;
         public float CommunicatorCD;
         public Vector2 targetCameraPosition = new(-1, -1);

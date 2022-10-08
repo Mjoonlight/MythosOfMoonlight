@@ -374,7 +374,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             NPC.height = 30;
             NPC.aiStyle = -1;
             NPC.defense = 4;
-            NPC.lifeMax = 270;
+            NPC.lifeMax = 135;
             NPC.knockBackResist = .5f;
             NPC.HitSound = SoundID.NPCHit19;
             NPC.DeathSound = SoundID.NPCDeath1;
@@ -503,7 +503,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                     NPC.FaceTarget();
                     NPC.spriteDirection = NPC.direction;
                     NPC.ai[0]++;
-                    if (NPC.ai[0] % 60 <= 0)// && NPC.collideY)
+                    if (NPC.ai[0] % 60 <= 0 && NPC.collideY)
                     {
                         for (int i = 0; i < 3; i++)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * NPC.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 10, 1f);

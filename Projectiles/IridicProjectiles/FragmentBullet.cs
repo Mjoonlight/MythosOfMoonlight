@@ -34,15 +34,29 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Projectile.netImportant = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
+<<<<<<< Updated upstream
         }
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, new Vector3(.4f, 0, .6f));
+=======
+            Projectile.alpha = 255;
+        }
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, new Vector3(.4f, .4f, .4f));
+            if (Projectile.alpha > 0) Projectile.alpha -= 15;
+>>>>>>> Stashed changes
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         public override Color? GetAlpha(Color lightColor)
         {
+<<<<<<< Updated upstream
             return Color.Lerp(lightColor, Color.White, .4f);
+=======
+            float p = (255 - (float)Projectile.alpha) / 255f;
+            return Color.Lerp(lightColor, Color.White, .5f * p);
+>>>>>>> Stashed changes
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

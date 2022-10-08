@@ -96,7 +96,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                     else
                         NPC.frame = new Rectangle(0, 46, 38, 46);
 
-                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 8, 1.8f, true);
+                    if (Timer > 20) NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 8, 1.8f, true);
                     break;
                 case NState.Shoot:
                     Timer++;
@@ -133,6 +133,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         {
             return base.SpawnChance(spawnInfo);
         }
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+            if (State == NState.Shoot)
+            {
+                Timer = 0;
+                NPC.target = player.whoAmI;
+                SwitchTo(NState.Wander);
+            }
+        }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PurpurineQuartz>(), 1, 3, 6));
@@ -141,6 +150,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         }
         public override void HitEffect(int hitDirection, double damage)
         {
+<<<<<<< Updated upstream
  		for (int i = 1; i <= 5; i++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit,0,-1);
@@ -152,6 +162,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit,0,-1);
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(),0,-1);	
+=======
+            for (int i = 1; i <= 5; i++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit, 0, -1);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 0, -1);
+            }
+            if (NPC.life <= 0)
+            {
+                for (int i = 1; i <= 20; i++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit, 0, -1);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 0, -1);
+>>>>>>> Stashed changes
                 }
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2);

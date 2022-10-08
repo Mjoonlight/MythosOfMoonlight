@@ -95,7 +95,6 @@ namespace MythosOfMoonlight
                         WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 3, TileID.TeamBlockBluePlatform, false, true, -1, 0);
                         WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 2, TileID.PlatinumCandle, false, true, -1, 0);
                         WorldGen.PlaceTile(baseCheckX + 5, baseCheckY + 3, TileID.Beds, false, true, -1, 0);
-                        placed = true;
                         SpawnX.Add(baseCheckX + 8);
                         SpawnY.Add(baseCheckY + 3);
                         int num = NPC.NewNPC(new EntitySource_WorldGen(), SpawnX[0] * 16, (SpawnY[0] - 2) * 16, ModContent.NPCType<Starine_Symbol>());
@@ -103,6 +102,7 @@ namespace MythosOfMoonlight
                         Main.npc[num].homeTileY = SpawnY[0] - 2;
                         Main.npc[num].direction = 1;
                         SymbolRespawnSystem.SymbolHome = new Vector2(SpawnX[0], SpawnY[0] - 2);
+                        placed = true;
                         break;
                     }
                 }
@@ -120,6 +120,22 @@ namespace MythosOfMoonlight
             if (SymbolHome != Vector2.Zero)
             {
                 home.Add(SymbolHome);
+            }
+        }
+        public override void OnWorldLoad()
+        {
+           // Starine_Symbol.symbol = null;
+            if (SymbolHome != Vector2.Zero)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                    {
+                        NPC symbol = NPC.NewNPCDirect(null, SymbolHome + new Vector2(0, 16), ModContent.NPCType<Starine_Symbol>());
+                        symbol.homeTileX = (int)SymbolHome.X;
+                        symbol.homeTileY = (int)SymbolHome.Y + 16;
+                    }
+                }
             }
         }
         public override void LoadWorldData(TagCompound tag)
