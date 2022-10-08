@@ -31,7 +31,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 			NPC.width = 30;
 			NPC.height = 70;
 			NPC.damage = 12;
-			NPC.lifeMax = 150;
+			NPC.lifeMax = 50;
 			NPC.defense = 5;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath32;
@@ -42,7 +42,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.675f * bossLifeScale);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
 		}
 		private void SetState(int newState)
 		{
@@ -61,7 +61,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
 		public override bool PreAI()
 		{
 			NPC.frameCounter++;
-			if (Main.rand.NextFloat() <= .05f && NPC.frameCounter > 150 && NPC.ai[0] == 0)
+			if (Main.rand.NextFloat() <= .05f && NPC.frameCounter > 250 && NPC.ai[0] == 0)
 			{
 				RealFrame = ScaleFrame(5);
 				SetState(1);
@@ -124,7 +124,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         }
 
 		public void OpenPetals()
-        {
+        {		
+			NPC.knockBackResist = 0.5f;
 			if (NPC.frameCounter == 1)
 				NPC.velocity.X = 0;
 			else if (NPC.frameCounter > 75 && NPC.frameCounter % 10 == 0)

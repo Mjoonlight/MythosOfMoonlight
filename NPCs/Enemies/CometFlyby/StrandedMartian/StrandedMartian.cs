@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.BiomeManager;
 using MythosOfMoonlight.Items.IridicSet;
+using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.Materials;
 using Terraria;
 using Terraria.Audio;
@@ -140,11 +141,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         }
         public override void HitEffect(int hitDirection, double damage)
         {
+ 		for (int i = 1; i <= 5; i++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit,0,-1);
+		    Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(),0,-1);	
+                }
             if(NPC.life <= 0)
             {
                 for (int i = 1; i <= 20; i++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit,0,-1);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(),0,-1);	
                 }
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2);

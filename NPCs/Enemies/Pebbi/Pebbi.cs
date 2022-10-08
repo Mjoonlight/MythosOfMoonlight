@@ -37,6 +37,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath43;
             NPC.aiStyle = -1;
+            NPC.knockBackResist = 1.5f;
             NPC.netAlways = true;
         }
 

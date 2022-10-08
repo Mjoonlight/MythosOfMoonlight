@@ -47,7 +47,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
             NPC.aiStyle = -1;
             NPC.damage = 15;
             NPC.defense = 10;
-            NPC.lifeMax = 260;
+            NPC.lifeMax = 120;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit7;
@@ -55,7 +55,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.650f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
         }
 
         const float SPEED = 4.2f, MINIMUM_DISTANCE = 60f;
