@@ -36,18 +36,30 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.damage = 12;
             NPC.lifeMax = 30;
             NPC.defense = 2;
+            NPC.knockBackResist = 1f;
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath43;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
         }
 
-        const float JUMP_HEIGHT = 6, STRIDE_SPEED = 2.5f;
-        int fighterFC = 0;
+        const float JUMP_HEIGHT = 6, STRIDE_SPEED = 2f;
         public override void AI()
         {
-            NPC.TargetClosest(true);
-            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, JUMP_HEIGHT, STRIDE_SPEED, NPC.collideY);
+            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, JUMP_HEIGHT, STRIDE_SPEED, true, 2, 0);
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            NPC.life = 30;
+            NPC.lifeMax = 30;
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.ai[0]++;
+            if (!NPC.GetGlobalNPC<FighterGlobalAI>().Jump)
+            {
+                NPC.frame.Y = (int)((int)(NPC.ai[0] / 6) % 4) * frameHeight;
+            }
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -93,14 +105,26 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.defense = 6;
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath43;
-            NPC.knockBackResist = 0.5f;
+            NPC.knockBackResist = .6f;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            NPC.life = 30;
+            NPC.lifeMax = 30;
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.ai[0]++;
+            if (!NPC.GetGlobalNPC<FighterGlobalAI>().Jump)
+            {
+                NPC.frame.Y = (int)((int)(NPC.ai[0] / 6) % 4) * frameHeight;
+            }
+        }
         public override void AI()
         {
-            NPC.TargetClosest(true);
-            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 3, 1.75f, NPC.collideY);
+            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 4, 1f, true, 1, 0);
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -120,7 +144,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
     public class Pebbi3 : ModNPC
     {
         public bool Jump = false;
-        public float strideSpeed = 7.2f;
+        public float strideSpeed = 4f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Geode Pebbi");
@@ -146,7 +170,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.damage = 12;
             NPC.lifeMax = 30;
             NPC.defense = 2;
-            NPC.knockBackResist = 1.5f;
+            NPC.knockBackResist = 2f;
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath43;
             NPC.buffImmune[BuffID.Confused] = true;
@@ -156,31 +180,40 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.aiStyle = -1;
             NPC.netAlways = true;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            NPC.life = 30;
+            NPC.lifeMax = 30;
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.ai[0]++;
+            NPC.frame.Y = (int)((int)(NPC.ai[0] / 6) % 5) * frameHeight;
+        }
         public override void AI()
         {
             NPC.TargetClosest(false);
             if (strideSpeed * NPC.direction >= 0)
             {
-                if (NPC.velocity.X < strideSpeed * NPC.direction) NPC.velocity.X += .06f;
+                if (NPC.velocity.X < strideSpeed * NPC.direction) NPC.velocity.X += .025f;
             }
             else
             {
-                if (NPC.velocity.X > strideSpeed * NPC.direction) NPC.velocity.X -= .06f;
+                if (NPC.velocity.X > strideSpeed * NPC.direction) NPC.velocity.X -= .025f;
             }
             var player = Main.player[NPC.target];
-            if (NPC.collideX && NPC.collideY)
+            if (NPC.collideX && !Jump)
             {
                 NPC.velocity.Y = -7.5f;
                 Jump = true;
             }
             if (NPC.collideY && NPC.velocity.Y >= 0) Jump = false;
-            if (Jump) NPC.frame = new Rectangle(0, NPC.height, NPC.width, NPC.height);
             var horizontalDistance = Math.Abs(NPC.Center.X - player.Center.X);
             if (horizontalDistance >= 66f)
             {
                 NPC.FaceTarget();
             }
-            NPC.spriteDirection = NPC.direction;
+            NPC.spriteDirection = -NPC.direction;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
