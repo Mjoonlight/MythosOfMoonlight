@@ -62,17 +62,20 @@ namespace MythosOfMoonlight.Common.Globals
             if (projectile.DamageType == DamageClass.Summon && projectile.type != ModContent.ProjectileType<IrisStar>())
             {
                 Player player = Main.player[projectile.owner];
-                if (CommunicatorCD <= 0)
+                if (player.GetModPlayer<MoMPlayer>().CommunicatorEquip)
                 {
-                    Vector2 vel = Utils.SafeNormalize(projectile.Center - target.Center, Vector2.Zero) * 8f;
-                    float randRot = Main.rand.Next<int>(new int[4] { -90, 90, -45, 45 });
-                    Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center + vel * 5, vel.RotatedBy(MathHelper.ToRadians(randRot)), ModContent.ProjectileType<IrisStar>(), 10, 1f, projectile.owner);
-                    proj.DamageType = DamageClass.Summon;
-                    proj.tileCollide = false;
-                    CommunicatorCD = 300;
-                    MoMGlobalProj pro = proj.GetGlobalProjectile<MoMGlobalProj>();
-                    pro.HasTarget = true;
-                    pro.TargetIndex = target.whoAmI;
+                    if (CommunicatorCD <= 0)
+                    {
+                        Vector2 vel = Utils.SafeNormalize(projectile.Center - target.Center, Vector2.Zero) * 8f;
+                        float randRot = Main.rand.Next<int>(new int[4] { -90, 90, -45, 45 });
+                        Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center + vel * 5, vel.RotatedBy(MathHelper.ToRadians(randRot)), ModContent.ProjectileType<IrisStar>(), 10, 1f, projectile.owner);
+                        proj.DamageType = DamageClass.Summon;
+                        proj.tileCollide = false;
+                        CommunicatorCD = 300;
+                        MoMGlobalProj pro = proj.GetGlobalProjectile<MoMGlobalProj>();
+                        pro.HasTarget = true;
+                        pro.TargetIndex = target.whoAmI;
+                    }
                 }
             }
         }
