@@ -11,6 +11,7 @@ using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using System.IO;
 using MythosOfMoonlight.Gores.Enemies;
+using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Desert
 {
@@ -31,6 +32,15 @@ and whips count as melee!  ! ! !
 LITERALLY
 THEIR DAMAGE IS LITERALLY CALLED
 SUMMONERMELEE */
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Visuals.Sun,
+                new FlavorTextBestiaryInfoElement("Horned lizard distantly related to spiny devils. Able to concoct a nasty sand twister to cloak themselves from predators, and to daze prey. While attacks are feared by many nomads, in reality, they very rarely cause any serious harm."),
+            });
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 9;
