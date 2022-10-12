@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
-using MythosOfMoonLight.Items.IridicSet;
+using MythosOfMoonlight.Items.IridicSet;
 
-namespace MythosOfMoonLight.Projectiles.IridicProjectiles
+namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {
     public class PurpurineSaberSlice : ModProjectile
     {
@@ -29,7 +29,7 @@ namespace MythosOfMoonLight.Projectiles.IridicProjectiles
             Projectile.timeLeft = 30;
             Projectile.netUpdate = true;
             Projectile.netUpdate2 = true;
-            Projectile.netImportant = true; 
+            Projectile.netImportant = true;
             Projectile.ownerHitCheck = true;
         }
         public override void AI()

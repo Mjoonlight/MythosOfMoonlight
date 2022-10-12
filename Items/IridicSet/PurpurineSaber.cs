@@ -1,13 +1,13 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using MythosOfMoonLight.Projectiles.IridicProjectiles;
+using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 
-namespace MythosOfMoonLight.Items.IridicSet
+namespace MythosOfMoonlight.Items.IridicSet
 {
     public class PurpurineSaber : ModItem
     {

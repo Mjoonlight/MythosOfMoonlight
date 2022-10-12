@@ -10,11 +10,54 @@ using MythosOfMoonlight.Dusts;
 using System;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
 using ReLogic.Content;
+using System.Reflection;
 
 namespace MythosOfMoonlight
 {
     public static class Helper
     {
+        public static void Reload(this SpriteBatch spriteBatch, SpriteSortMode sortMode = SpriteSortMode.Deferred)
+        {
+            if ((bool)spriteBatch.GetType().GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch))
+            {
+                spriteBatch.End();
+            }
+            BlendState blendState = (BlendState)spriteBatch.GetType().GetField("blendState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            SamplerState samplerState = (SamplerState)spriteBatch.GetType().GetField("samplerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            DepthStencilState depthStencilState = (DepthStencilState)spriteBatch.GetType().GetField("depthStencilState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            RasterizerState rasterizerState = (RasterizerState)spriteBatch.GetType().GetField("rasterizerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            Effect effect = (Effect)spriteBatch.GetType().GetField("customEffect", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            Matrix matrix = (Matrix)spriteBatch.GetType().GetField("transformMatrix", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            spriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, matrix);
+        }
+        public static void Reload(this SpriteBatch spriteBatch, BlendState blendState = default)
+        {
+            if ((bool)spriteBatch.GetType().GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch))
+            {
+                spriteBatch.End();
+            }
+            SpriteSortMode sortMode = SpriteSortMode.Deferred;
+            SamplerState samplerState = (SamplerState)spriteBatch.GetType().GetField("samplerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            DepthStencilState depthStencilState = (DepthStencilState)spriteBatch.GetType().GetField("depthStencilState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            RasterizerState rasterizerState = (RasterizerState)spriteBatch.GetType().GetField("rasterizerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            Effect effect = (Effect)spriteBatch.GetType().GetField("customEffect", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            Matrix matrix = (Matrix)spriteBatch.GetType().GetField("transformMatrix", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            spriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, matrix);
+        }
+        public static void Reload(this SpriteBatch spriteBatch, Effect effect = null)
+        {
+            if ((bool)spriteBatch.GetType().GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch))
+            {
+                spriteBatch.End();
+            }
+            SpriteSortMode sortMode = SpriteSortMode.Deferred;
+            BlendState blendState = (BlendState)spriteBatch.GetType().GetField("blendState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            SamplerState samplerState = (SamplerState)spriteBatch.GetType().GetField("samplerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            DepthStencilState depthStencilState = (DepthStencilState)spriteBatch.GetType().GetField("depthStencilState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            RasterizerState rasterizerState = (RasterizerState)spriteBatch.GetType().GetField("rasterizerState", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            Matrix matrix = (Matrix)spriteBatch.GetType().GetField("transformMatrix", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch);
+            spriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, matrix);
+        }
         public static Rectangle GetFrame(this NPC NPC) => new(0, NPC.frame.Y, NPC.width, NPC.height);
         public static float RandomRotation() => Main.rand.NextFloat() * MathHelper.TwoPi;
         public static float Squared(float flt) => flt * flt;
@@ -73,7 +116,7 @@ namespace MythosOfMoonlight
                 Dust.NewDust(position, (int)size.X, (int)size.Y, type, velocity.X, velocity.Y);
             }
         }
-        public static void SpawnGore(NPC NPC, string gore, int amount = 1, int type = -1)
+        public static void SpawnGore(NPC NPC, string gore, int amount = 1, int type = -1, Vector2 vel = default)
         {
             var position = NPC.Center;
             if (type != -1)
@@ -82,7 +125,7 @@ namespace MythosOfMoonlight
             }
             for (int i = 0; i < amount; i++)
             {
-                Gore.NewGore(NPC.GetSource_OnHit(NPC), position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, Find<ModGore>(gore).Type);
+                Gore.NewGore(NPC.GetSource_OnHit(NPC), position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type);
             }
         }
         public static float HorizontalDistance(Vector2 one, Vector2 two) => System.Math.Abs(one.X - two.X);
@@ -171,7 +214,7 @@ namespace MythosOfMoonlight
             {
                 self.currentShoppingSettings.HappinessReport = "";
             }
-            orig.Invoke(self,npcIndex,fromNet);
+            orig.Invoke(self, npcIndex, fromNet);
         }
 
         private void Main_OnResolutionChanged(Vector2 obj)

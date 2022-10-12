@@ -134,10 +134,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
                 if (Main.netMode == NetmodeID.Server)
                     return;
 
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 1, 1);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 8, 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 3, 3);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 6, 4);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 1, 1, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 8, 2, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 3, 3, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 6, 4, Vector2.One * hitDirection);
                 Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<EntropicTotemProjectileDust>(), new Vector2(-hitDirection * Math.Abs(NPC.oldVelocity.X), -1.5f), dustAmount);
                 dustAmount = 10;
 

@@ -162,9 +162,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit, 0, -1);
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 0, -1);
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 1, 3);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 1, 3, Vector2.One * hitDirection);
             }
         }
     }
