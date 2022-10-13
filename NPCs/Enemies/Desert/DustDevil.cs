@@ -128,9 +128,9 @@ SUMMONERMELEE */
             NPC.width = 32;
             NPC.height = 32;
             NPC.lifeMax = 50;
-            NPC.defense = 10;
+            NPC.defense = 2;
             NPC.damage = 35;
-            NPC.knockBackResist = 1.5f;
+            NPC.knockBackResist = 1.1f;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = 0;
@@ -157,7 +157,7 @@ SUMMONERMELEE */
         const int Sandnado = 2;
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneDesert ? 0.010f : 0f;
+            return spawnInfo.Player.ZoneDesert ? 0.075f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -180,7 +180,8 @@ SUMMONERMELEE */
                 AIState = Sleep;
             if (AIState == Sleep)
             {
-                AITimer++;
+                if (AIState == None && NPC.Center.Distance(player.Center) < 500f)
+                    AITimer++;
                 NPC.dontTakeDamage = false;
                 if (AITimer >= 300)
                 {
@@ -259,6 +260,8 @@ SUMMONERMELEE */
             Vector2 b = (Projectile.Center - Main.player[npc.target].Center);
             b.Normalize();
             Main.player[npc.target].velocity = new Vector2((b.X * 0.15f) + Main.player[npc.target].velocity.X, Main.player[npc.target].velocity.Y);
+            if (Main.player[npc.target].Center.Distance(Projectile.Center) > 750f)
+                Projectile.Kill();
 
         }
 
