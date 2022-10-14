@@ -180,7 +180,7 @@ SUMMONERMELEE */
                 AIState = Sleep;
             if (AIState == Sleep)
             {
-                if (AIState == None && NPC.Center.Distance(player.Center) < 500f)
+                if (NPC.Center.Distance(player.Center) < 500f)
                     AITimer++;
                 NPC.dontTakeDamage = false;
                 if (AITimer >= 300)
