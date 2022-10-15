@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.autoReuse = false;
+            Item.autoReuse = true;
             Item.channel = true;
             Item.value = Item.buyPrice(0, 0, 0, 1);
             Item.rare = ItemRarityID.Green;

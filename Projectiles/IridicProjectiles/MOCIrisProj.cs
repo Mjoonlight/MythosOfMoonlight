@@ -62,7 +62,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                         Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX);
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
                         if (ExistingTime > 215) player.channel = false;
-                        if (!player.channel) Projectile.Kill();
+                        if (!player.channel || player.statMana <= 0) Projectile.Kill();
                     }
                 }
             }
