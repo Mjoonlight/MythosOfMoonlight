@@ -83,6 +83,10 @@ namespace MythosOfMoonlight
             NPC.Center = finalPos;
             return NPC.Center == finalPos;
         }
+        public static Texture2D GetTex(string fullPath, bool immediate=false)
+        {
+            return Request<Texture2D>(fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
+        }
         public static Vector2 GetWarpPosition(this NPC NPC, Vector2 center, float sqrMinDistFromCenter, float radius)
         {
             Vector2 finalPos = center + Main.rand.NextVector2Circular(radius, radius);

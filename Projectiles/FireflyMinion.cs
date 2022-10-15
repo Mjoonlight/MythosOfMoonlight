@@ -1,0 +1,172 @@
+﻿using MythosOfMoonlight.BaseClasses.BaseProj;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Items;
+using System.Collections.Generic;
+using Terraria.DataStructures;
+
+namespace MythosOfMoonlight.Projectiles
+{
+    public class FireflyMinion : BaseMinion
+    {
+        public float fireflyTimer = 0;
+        public override void SetStaticDefaults()
+        {
+            StaticDefaults("Firefly", 2);
+        }
+        public override void SetDefaults()
+        {
+            Defaults(16, 16, 4, -1, false, 2, 0);
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.DamageType = DamageClass.Magic;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            rotateRadian = float.NaN;
+            fireflyTimer = 0;
+        }
+        public float rotateRadian;
+        public Vector2 desirePos;
+        public Vector2 targetPos;
+        public float dashTimer;
+        public int drawLayer
+        {
+            get
+            {
+                return (int)(Math.Sin(rotateRadian) * 3);
+            }
+        }
+        public enum State
+        {
+            rotate,
+            dash,
+            back
+        }
+        public State state
+        {
+            get => (State)Projectile.ai[0];
+            set => Projectile.ai[0] = (float)value;
+        }
+        public override void AI()
+        {
+            fireflyTimer++;
+            if (fireflyTimer >= 99999) fireflyTimer = 0;
+            Projectile.frame = fireflyTimer % 20 < 10 ? 0 : 1;
+            Glow(new Vector3(.6f, .6f, .2f));
+            Player owner = Main.player[Projectile.owner];
+            OwnerCheckMinions(4, (float)ModContent.ItemType<FireflyStick>());
+            MinionSort();
+            if (owner.ownedProjectileCounts[Type] > 0)
+            {
+                if (fireflyTimer > 0)
+                {
+                    if (rotateRadian is float.NaN)
+                    {
+                        rotateRadian = MathHelper.ToRadians((360f / owner.ownedProjectileCounts[Type]) * MinionOrderNum);
+                    }
+                    else rotateRadian += MathHelper.ToRadians(-owner.direction);
+                    switch (state)
+                    {
+                        case State.rotate:
+                            {
+                                Glow(new Vector3(.6f, .6f, .2f));
+                                desirePos = owner.Center;
+                                desirePos += rotateRadian.ToRotationVector2() * new Vector2(70, 15);
+                                Projectile.velocity = desirePos - Projectile.Center;
+                                break;
+                            }
+                        case State.dash:
+                            {
+                                Glow(new Vector3(.9f, .9f, .3f));
+                                targetPos = Main.MouseWorld;
+                                dashTimer++;
+                                Vector2 dashProgress = ((MathHelper.ToRadians(dashTimer * 3).ToRotationVector2() * (Vector2.Distance(targetPos, desirePos) / 2) - new Vector2(Vector2.Distance(targetPos, desirePos) / 2, 0)) * new Vector2(1, .33f)).RotatedBy((desirePos - targetPos).ToRotation());
+                                Projectile.velocity = desirePos + dashProgress - Projectile.Center;
+                                if (dashTimer > 60)
+                                {
+                                    dashTimer = 0;
+                                    state = State.back;
+                                }
+                                break;
+                            }
+                        case State.back:
+                            {
+                                Glow(new Vector3(.9f, .9f, .3f));
+                                desirePos = owner.Center;
+                                desirePos += rotateRadian.ToRotationVector2() * new Vector2(70, 15);
+                                dashTimer++;
+                                Vector2 dashProgress = ((MathHelper.ToRadians(dashTimer * 3 + 180).ToRotationVector2() * (Vector2.Distance(targetPos, desirePos) / 2) + new Vector2(Vector2.Distance(targetPos, desirePos) / 2, 0)) * new Vector2(1, .33f)).RotatedBy((desirePos - targetPos).ToRotation());
+                                Projectile.velocity = targetPos + dashProgress - Projectile.Center;
+                                if (dashTimer > 60 || Vector2.Distance(Projectile.Center, desirePos) <= 32)
+                                {
+                                    dashTimer = 0;
+                                    state = State.rotate;
+                                }
+                                break;
+                            }
+                    }
+                }
+            }
+        }
+        public override bool? CanDamage()
+        {
+            return state != State.rotate;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (state == State.dash)
+            {
+                targetPos = Projectile.Center;
+                dashTimer = 0;
+                state = State.back;
+            }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            float light = Math.Max(0, -Math.Abs(60 - fireflyTimer % 120) + 20) / 15f;
+            Texture2D tex = ModContent.Request<Texture2D>(Projectile.ModProjectile.Texture).Value;
+            Texture2D glow = ModContent.Request<Texture2D>(Projectile.ModProjectile.Texture + "_Glow").Value;
+            SpriteEffects effect = Projectile.velocity.X >= 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 16, 16, 16), lightColor, Projectile.rotation, new Vector2(8), 1f, effect, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 16, 16, 16), Color.White * light, Projectile.rotation, new Vector2(8), 1f, effect, 0);
+            return false;
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            switch (drawLayer)
+            {
+                case -2:
+                    {
+                        behindNPCsAndTiles.Add(index);
+                        break;
+                    }
+                case -1:
+                    {
+                        behindNPCs.Add(index);
+                        break;
+                    }
+                case 0:
+                    {
+                        behindProjectiles.Add(index);
+                        break;
+                    }
+                case 1:
+                    {
+                        overPlayers.Add(index);
+                        break;
+                    }
+                case 2:
+                    {
+                        overWiresUI.Add(index);
+                        break;
+                    }
+            }
+        }
+    }
+}
