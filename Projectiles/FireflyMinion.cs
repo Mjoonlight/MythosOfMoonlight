@@ -82,6 +82,7 @@ namespace MythosOfMoonlight.Projectiles
                     {
                         case State.rotate:
                             {
+                                baseMousePos = Main.MouseWorld;
                                 desirePos = owner.Center;
                                 desirePos += rotateRadian.ToRotationVector2() * new Vector2(70, 15);
                                 Projectile.velocity = desirePos - Projectile.Center;
@@ -106,7 +107,6 @@ namespace MythosOfMoonlight.Projectiles
                             }
                         case State.back:
                             {
-                                baseMousePos = Main.MouseWorld;
                                 desirePos = owner.Center;
                                 desirePos += rotateRadian.ToRotationVector2() * new Vector2(70, 15);
                                 dashTimer++;

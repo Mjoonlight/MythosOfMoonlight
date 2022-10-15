@@ -37,6 +37,7 @@ namespace MythosOfMoonlight.Items
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.noUseGraphic = false;
+            Item.useTurn = false;
             Item.autoReuse = true;
             Item.shootSpeed = 0f;
             Item.shoot = ModContent.ProjectileType<FireflyMinion>();
@@ -45,7 +46,7 @@ namespace MythosOfMoonlight.Items
         {
             if (Main.myPlayer == player.whoAmI)
             {
-                player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
+                //player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
                 float itemRotation = player.compositeFrontArm.rotation - MathHelper.ToRadians(40) * player.gravDir;
                 player.itemRotation = itemRotation * player.direction;
                 Vector2 itemPosition = player.MountedCenter + new Vector2(0, 10 * player.gravDir) + Utils.ToRotationVector2(player.direction > 0 ? 0 : (float)Math.PI) * 3f;
@@ -119,7 +120,7 @@ namespace MythosOfMoonlight.Items
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Wood,20)
+                .AddIngredient(ItemID.Wood, 20)
                 .AddIngredient(ItemID.FallenStar)
                 .AddIngredient(ItemID.FireflyinaBottle)
                 .AddTile(TileID.Anvils)
