@@ -53,8 +53,15 @@ namespace MythosOfMoonlight.Projectiles
             get => (State)Projectile.ai[0];
             set => Projectile.ai[0] = (float)value;
         }
+        Vector2 baseMousePos;
+        bool yes;
         public override void AI()
         {
+            if (!yes)
+            {
+                baseMousePos = Main.MouseWorld;
+                yes = true;
+            }
             fireflyTimer++;
             if (fireflyTimer >= 99999) fireflyTimer = 0;
             Projectile.frame = fireflyTimer % 20 < 10 ? 0 : 1;
@@ -82,10 +89,10 @@ namespace MythosOfMoonlight.Projectiles
                             }
                         case State.dash:
                             {
-                                targetPos = Main.MouseWorld;
+                                targetPos = baseMousePos;
                                 if (Vector2.Distance(targetPos, owner.Center) > 600f)
                                 {
-                                    targetPos=Vector2.Normalize(targetPos-owner.Center)*600f+owner.Center;
+                                    targetPos = Vector2.Normalize(targetPos - owner.Center) * 600f + owner.Center;
                                 }
                                 dashTimer++;
                                 Vector2 dashProgress = ((MathHelper.ToRadians(dashTimer * 3).ToRotationVector2() * (Vector2.Distance(targetPos, desirePos) / 2) - new Vector2(Vector2.Distance(targetPos, desirePos) / 2, 0)) * new Vector2(1, .33f)).RotatedBy((desirePos - targetPos).ToRotation());
@@ -99,6 +106,7 @@ namespace MythosOfMoonlight.Projectiles
                             }
                         case State.back:
                             {
+                                baseMousePos = Main.MouseWorld;
                                 desirePos = owner.Center;
                                 desirePos += rotateRadian.ToRotationVector2() * new Vector2(70, 15);
                                 dashTimer++;
