@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile
         {
             Projectile.damage = Main.expertMode ? Main.npc[Parent].damage / 2 : Main.npc[Parent].damage;
             var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
-            var dust = Dust.NewDustPerfect(Projectile.Center, dustType, -Projectile.velocity);
+            var dust = Dust.NewDustPerfect(Projectile.Center, dustType, -Projectile.velocity, Scale: 2f);
 
             Projectile.velocity = Projectile.velocity.RotatedBy(RotationalIncrement);
             Projectile.position += Main.npc[Parent].position - Main.npc[Parent].oldPosition; // move to NPC's position constantly

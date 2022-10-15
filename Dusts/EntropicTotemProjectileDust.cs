@@ -10,7 +10,8 @@ namespace MythosOfMoonlight.Dusts
         {
             dust.noGravity = true;
             dust.noLight = true;
-            dust.scale = 2f;
+            if (dust.scale == 1)
+                dust.scale = 2f;
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {

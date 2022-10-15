@@ -9,6 +9,8 @@ using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
+using MythosOfMoonlight.Items.Weapons.Melee;
 
 namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
 {
@@ -31,6 +33,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            IItemDropRule a = ItemDropRule.Common(ModContent.ItemType<TotemsHead>(), 7);
+            npcLoot.Add(a);
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
