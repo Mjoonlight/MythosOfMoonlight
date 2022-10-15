@@ -17,7 +17,8 @@ namespace MythosOfMoonlight.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Firefly Stick");
-            Tooltip.SetDefault("Fireflies ggggggggggg");
+            Tooltip.SetDefault("Launches loyal fireflies to the cursor and back\n" +
+                "Increase their number by catching more fireflies");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             Item.staff[Type] = true;
         }
@@ -31,7 +32,7 @@ namespace MythosOfMoonlight.Items
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.knockBack = 2f;
-            Item.damage = 12;
+            Item.damage = 4;
             Item.rare = ItemRarityID.Green;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
@@ -61,6 +62,8 @@ namespace MythosOfMoonlight.Items
                     }
                 }
             }
+            fireflyCount /= 5;
+            fireflyCount++;
             if (fireflyCount > 5) fireflyCount = 5;
             ownedFireflyCount = 0;
             for (int i = 0; i < Main.projectile.Length; i++)
@@ -84,6 +87,7 @@ namespace MythosOfMoonlight.Items
                 {
                     int p = Projectile.NewProjectile(null, player.Center, Vector2.Zero, Item.shoot, Item.damage, Item.knockBack, player.whoAmI);
                     Main.projectile[p].CritChance = Item.crit;
+                    Main.projectile[p].ArmorPenetration += 10;
                 }
             }
         }
@@ -111,6 +115,15 @@ namespace MythosOfMoonlight.Items
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Wood,20)
+                .AddIngredient(ItemID.FallenStar)
+                .AddIngredient(ItemID.FireflyinaBottle)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
