@@ -40,14 +40,20 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.CloneDefaults(ProjectileID.Shroomerang);
-            Projectile.Size = new Vector2(18, 42);
+            Projectile.CloneDefaults(ProjectileID.EnchantedBoomerang);
+            Projectile.Size = new Vector2(10, 10);
         }
         int b;
         public override void AI()
         {
             var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
             Dust.NewDustPerfect(Projectile.Center, dustType, Projectile.velocity, Scale: 0.9f);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/Weapons/Melee/TotemsHead").Value;
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, glow.Width, glow.Height), lightColor, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            return false;
         }
         /*public override bool PreDraw(ref Color lightColor)
         {
