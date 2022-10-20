@@ -25,6 +25,7 @@ namespace MythosOfMoonlight.Projectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
         }
         public override void OnSpawn(IEntitySource source)
         {
