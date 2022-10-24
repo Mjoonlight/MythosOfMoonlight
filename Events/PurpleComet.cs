@@ -74,6 +74,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
          {
             NPCType<SparkleSkittler>(),
             NPCType<CometPeep>(),
+            NPCType<CometPeepLeader>(),
             NPCID.EnchantedNightcrawler,
             NPCID.Firefly
         };
