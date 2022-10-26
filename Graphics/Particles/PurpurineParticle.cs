@@ -19,15 +19,15 @@ namespace MythosOfMoonlight.Graphics.Particles
             IsAdditive = true;
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Alpha = 0f;
-            Frame = new Rectangle(0, 0, 38, 38);
-            Scale = new Vector2(2f*Depth);
+            Frame = new Rectangle(0, 0, 80, 80);
+            Scale = new Vector2(.1f*Depth);
             Origin = Texture.Size() / 2f;
             Color = Color.White;
         }
         public override void Update()
         {
             base.Update();
-            Velocity *= .985f;
+            Velocity *= .85f;
             if (Main.netMode != NetmodeID.Server)
             {
                 Position -= Main.LocalPlayer.velocity * Depth;

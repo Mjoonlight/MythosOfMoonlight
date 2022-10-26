@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purple Comet's Offering");
-            Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet.");
+            Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet./n Not Consumable");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -24,7 +24,6 @@ namespace MythosOfMoonlight.Items.PurpleComet
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.useTime = Item.useAnimation = 10;
             Item.noMelee = true;
-            Item.consumable = true;
             Item.autoReuse = false;
             Item.UseSound = SoundID.Item43;
         }
@@ -33,7 +32,6 @@ namespace MythosOfMoonlight.Items.PurpleComet
         {
             if (Main.dayTime)
             {
-                Main.NewText("With light already shining in the skies, there is no possible way for the Purple Comet to illuminate for all to witness.", 179, 0, 255);
                 return false;
             }
             if (PurpleCometEvent.PurpleComet)
