@@ -34,6 +34,8 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             NPC.lifeMax = 5;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             SpawnModBiomes = new int[]
             {
                 ModContent.GetInstance<PurpleCometBiome>().Type
@@ -50,6 +52,21 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                     NPC.frame.Y = 80 + (int)(20 * NPC.ai[3]);
                 else
                     NPC.frame.Y = (int)(20 * NPC.ai[3]);
+            }
+        }
+        public override void OnKill()
+        {
+            int count1 = Main.rand.Next(6, 8);
+            int count2 = Main.rand.Next(9, 12);
+            for(int a = 0; a < count2; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count2) * (a + 1);
+                Dust.NewDustDirect(NPC.Center, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
+            }
+            for (int a = 0; a < count1; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count1) * (a + 1);
+                Dust.NewDustDirect(NPC.Center, 0, 0, DustID.CrystalPulse, (float)Math.Cos(pi) * 1.75f, (float)Math.Sin(pi) * 1.75f).noGravity = true;
             }
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -88,7 +105,10 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             }
             if (leader == null || !leader.NPC.active)
             {
-                NPC.noTileCollide = false;
+                if (friends.Count < 1)
+                    NPC.noTileCollide = false;
+                else
+                    NPC.noTileCollide = true;
                 if (friends.Count > 0)
                     rotate += (float)Math.PI / 90; NPC.spriteDirection = NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
                 if (lookTowards[0] != new Vector2() && lookTowards[1] != new Vector2())
@@ -100,8 +120,9 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                     usage += NPC.Center;
                     Vector2 tileDetect = (NPC.velocity * 16) + NPC.Center;
                     Tile tile = Main.tile[(int)tileDetect.X / 16, (int)tileDetect.Y / 16];
-                    if (Main.tileSolid[tile.TileType] && !WorldGen.TileEmpty((int)tileDetect.X / 16, (int)tileDetect.Y / 16))
-                        NPC.velocity *= -0.5f;
+                    if(friends.Count < 1)
+                        if (Main.tileSolid[tile.TileType] && !WorldGen.TileEmpty((int)tileDetect.X / 16, (int)tileDetect.Y / 16))
+                            NPC.velocity *= -0.5f;
                     if (!Main.rand.NextBool((int)(NPC.velocity.Length() / 2) + 1))
                         Dust.NewDustPerfect(NPC.Center + new Vector2(Main.rand.Next(0, NPC.width / 2) * -NPC.direction, Main.rand.Next(NPC.height / -4, NPC.height / 4)), ModContent.DustType<Dusts.PurpurineDust>(), new Vector2(NPC.velocity.X / -2, 0)).noGravity = true;
                     //Dust.NewDustPerfect(usage, DustID.CrystalSerpent, Vector2.Zero).noGravity = true;
