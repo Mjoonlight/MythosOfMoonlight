@@ -6,7 +6,7 @@ using Terraria.GameContent.Creative;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.Items;
+using MythosOfMoonlight.Items.Weapons;
 using System.Collections.Generic;
 using Terraria.DataStructures;
 
