@@ -4,31 +4,70 @@ using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using System.Collections.Generic;
 
 namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
 {
     public class CometPeep : ModNPC
     {
+        public Vector2[] lookTowards = new Vector2[2];
+        public List<CometPeep> friends = new List<CometPeep>();
+        public float rotate;
+        public CometPeep leader;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Peep");
-            Main.npcFrameCount[NPC.type] = 4;
+            Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPCID.Sets.CountsAsCritter[Type] = true;
         }
         public override void SetDefaults()
         {
-            NPC.width = NPC.height = 22;
-            NPC.friendly = true;
+            NPC.width = 32;
+            NPC.height = 20;
+            NPC.catchItem = ModContent.ItemType<Items.PurpleComet.Critters.CometPeepItem>();
+            //NPC.friendly = true;
             NPC.aiStyle = -1;
             NPC.defense = 0;
             NPC.lifeMax = 5;
-            NPC.noGravity = false;
+            NPC.noGravity = true;
             NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             SpawnModBiomes = new int[]
             {
                 ModContent.GetInstance<PurpleCometBiome>().Type
             };
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            if (NPC.ai[2]++ > 6)
+            {
+                NPC.ai[2] = 0;
+                if (NPC.ai[3]++ > 1)
+                    NPC.ai[3] = 0;
+                if ((leader != null && leader.NPC.active && leader.NPC.velocity.Length() > 5) || (leader == null && NPC.velocity.Length() > 5))
+                    NPC.frame.Y = 80 + (int)(20 * NPC.ai[3]);
+                else
+                    NPC.frame.Y = (int)(20 * NPC.ai[3]);
+            }
+        }
+        public override void OnKill()
+        {
+            int count1 = Main.rand.Next(6, 8);
+            int count2 = Main.rand.Next(9, 12);
+            for(int a = 0; a < count2; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count2) * (a + 1);
+                Dust.NewDustDirect(NPC.Center, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
+            }
+            for (int a = 0; a < count1; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count1) * (a + 1);
+                Dust.NewDustDirect(NPC.Center, 0, 0, DustID.CrystalPulse, (float)Math.Cos(pi) * 1.75f, (float)Math.Sin(pi) * 1.75f).noGravity = true;
+            }
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -43,80 +82,84 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             return Color.White;
         }
 
-        const float RecoverySpeed = -3f;
-        const int VerticalTileRange = 7, HorizontalTileRange = 3;
-        float horizontalSpeed = 1f;
-        bool IsFirstFrame
-        {
-            get
-            {
-                if (NPC.ai[0] < 1)
-                {
-                    NPC.ai[0]++;
-                    return true;
-                }
-                return false;
-            }
-        }
-        /*
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            var texture = mod.GetTexture("NPCs/Critters/PurpleComet/CometPeep_Trail");
-            var frame = texture.Bounds;
-            var clr = Color.White;
-
-            // Main.spriteBatch.End();
-            // Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, frame, clr, 0f, frame.Size() / 2, 1f, SpriteEffects.None, 0f);
-            return false;
-        }
-        */
         public override void AI()
         {
-            if (IsFirstFrame)
+            if (NPC.ai[0]++ > 60 || lookTowards[1] == new Vector2())
             {
-                NPC.direction = NPC.Center.X < Helper.CoordToTile(Main.LocalPlayer.Center).X ? 1 : -1;
-                horizontalSpeed = Main.rand.NextFloat(9, 12);
-            }
-
-            NPC.noGravity = false; // initialize gravity
-            var tilePos = Helper.CoordToTile(NPC.Center); // first convert position to be used for tile coordinates
-            for (int y = (int)tilePos.Y; y < tilePos.Y + VerticalTileRange; y++) // go from the y position of the tile coordinates to 3 tiles below the y position of the tile coordinates
-            {
-                var tileY = Framing.GetTileSafely((int)tilePos.X, y);
-                var tileX = Helper.GetTileInHorizontalRange(tilePos.X, y, HorizontalTileRange);
-                if (!tileX.HasTile)
+                NPC.ai[0] = 0;
+                if (lookTowards[1] != new Vector2())
+                    lookTowards[0] = lookTowards[1];
+                else
                 {
-                    if (tileX.TileFrameX - (int)tilePos.X == 1)
-                    {
-                        NPC.direction = -NPC.direction;
-                        break;
-                    }
+                    Set();
+                    lookTowards[0] = new Vector2(NPC.width * 2 * (Main.rand.NextBool(2) ? -1 : 1));
                 }
-                else if (!tileX.HasTile) // if the tile at the y coordinate in the loop and the tilePos x coordinate  position is not active
+                Set();
+                void Set()
                 {
-                    var getTile = Framing.GetTileSafely((int)tilePos.X, (int)tilePos.Y - 1);
-                    if (!tileX.HasTile)
-                    {
-                        if (Main.tileSolid[getTile.TileType])
-                            NPC.direction = -NPC.direction;
-                    }
+                    if (friends.Count > 0)
+                        lookTowards[1] = new Vector2(Main.rand.Next(0, NPC.width) * NPC.direction, Main.rand.Next(0, NPC.height) * NPC.direction) - NPC.velocity;
                     else
-                    {
-                        NPC.noGravity = true; // turn off gravity to overcome acceleration
-                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, RecoverySpeed, 0.1f); // increase (decrease) vertical velocity by recovery speed
-                    }
-                    break;
+                        lookTowards[1] = (new Vector2(Main.rand.Next(-NPC.width, NPC.width), Main.rand.Next(-NPC.height, NPC.height)) * 2) - (NPC.velocity * 2);
                 }
             }
-            NPC.velocity.X = horizontalSpeed * NPC.direction; // move forward/backward according to direction
+            if (leader == null || !leader.NPC.active)
+            {
+                if (friends.Count < 1)
+                    NPC.noTileCollide = false;
+                else
+                    NPC.noTileCollide = true;
+                if (friends.Count > 0)
+                    rotate += (float)Math.PI / 90; NPC.spriteDirection = NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
+                if (lookTowards[0] != new Vector2() && lookTowards[1] != new Vector2())
+                    FindObstruction();
+                void FindObstruction()
+                {
+                    Vector2 usage = DynamicTowards();
+                    NPC.velocity += new Vector2(usage.X * 0.001f, usage.Y * 0.0001f);
+                    usage += NPC.Center;
+                    Vector2 tileDetect = (NPC.velocity * 16) + NPC.Center;
+                    Tile tile = Main.tile[(int)tileDetect.X / 16, (int)tileDetect.Y / 16];
+                    if(friends.Count < 1)
+                        if (Main.tileSolid[tile.TileType] && !WorldGen.TileEmpty((int)tileDetect.X / 16, (int)tileDetect.Y / 16))
+                            NPC.velocity *= -0.5f;
+                    if (!Main.rand.NextBool((int)(NPC.velocity.Length() / 2) + 1))
+                        Dust.NewDustPerfect(NPC.Center + new Vector2(Main.rand.Next(0, NPC.width / 2) * -NPC.direction, Main.rand.Next(NPC.height / -4, NPC.height / 4)), ModContent.DustType<Dusts.PurpurineDust>(), new Vector2(NPC.velocity.X / -2, 0)).noGravity = true;
+                    //Dust.NewDustPerfect(usage, DustID.CrystalSerpent, Vector2.Zero).noGravity = true;
+                    //Dust.NewDustPerfect(tileDetect, DustID.UltraBrightTorch, Vector2.Zero).noGravity = true;
+                }
+            }
+            else
+            {
+                Vector2 usage = new Vector2();
+                float rot = (float)((2 * Math.PI) / (leader.friends.Count)) * NPC.ai[1];
+                if (lookTowards[0] != Vector2.Zero)
+                    usage = DynamicTowards();
+                if (Main.rand.NextBool(3))
+                    Dust.NewDustPerfect(NPC.Center + new Vector2(Main.rand.Next(0, NPC.width / 2) * -NPC.direction, Main.rand.Next(NPC.height / -4, NPC.height / 4)), ModContent.DustType<Dusts.PurpurineDust>(), new Vector2(-NPC.direction * 4, 0)).noGravity = true;
+                NPC.noTileCollide = true;
+                NPC.position = leader.NPC.Center + new Vector2(36 * (float)Math.Cos((leader.rotate + rot) * leader.NPC.direction), 36 * (float)Math.Sin((leader.rotate + rot) * leader.NPC.direction)) + new Vector2(leader.NPC.width / -2, leader.NPC.height / -2) + usage;
+                NPC.direction = NPC.spriteDirection = leader.NPC.direction;
+            }
+            Vector2 DynamicTowards()
+            {
+                float rot = (float)Math.Atan(lookTowards[1].Y / lookTowards[1].X) + (lookTowards[1].X < 0 ? (float)Math.PI : 0);
+                float dist = lookTowards[1].Length();
+                float rot2 = (float)Math.Atan(lookTowards[0].Y / lookTowards[0].X) + (lookTowards[0].X < 0 ? (float)Math.PI : 0);
+                float dist2 = lookTowards[0].Length();
+                Vector2[] lerpTowards = new Vector2[2] { new Vector2(dist * (float)Math.Cos(rot), dist * (float)Math.Sin(rot)), new Vector2(dist2 * (float)Math.Cos(rot2), dist2 * (float)Math.Sin(rot2)) };
+                return new Vector2(MathHelper.Lerp(lerpTowards[1].X, lerpTowards[0].X, (float)Math.Sin((float)Math.PI * (NPC.ai[0] / 120f))), MathHelper.Lerp(lerpTowards[1].Y, lerpTowards[0].Y, (float)Math.Sin((float)Math.PI * (NPC.ai[0] / 120f))));
+            }
+            /*
+            public override float SpawnChance(NPCSpawnInfo spawnInfo)
+            {
+                return 0.2f;
+            }
+            */
         }
-
-        /*
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return 0.2f;
+            return !PurpleCometEvent.PurpleComet ? 0 : 0.37f;
         }
-        */
     }
 }

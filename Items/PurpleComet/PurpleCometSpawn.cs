@@ -12,7 +12,8 @@ namespace MythosOfMoonlight.Items.PurpleComet
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purple Comet's Offering");
-            Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet.");
+            Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet\n" +
+                "Not Consumable");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -24,19 +25,13 @@ namespace MythosOfMoonlight.Items.PurpleComet
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.useTime = Item.useAnimation = 10;
             Item.noMelee = true;
-            Item.consumable = true;
             Item.autoReuse = false;
             Item.UseSound = SoundID.Item43;
         }
 
         public override bool CanUseItem(Player player)
         {
-            if (Main.dayTime)
-            {
-                Main.NewText("With light already shining in the skies, there is no possible way for the Purple Comet to illuminate for all to witness.", 179, 0, 255);
-                return false;
-            }
-            if (PurpleCometEvent.PurpleComet)
+            if (PurpleCometEvent.PurpleComet || Main.dayTime)
                 return false;
 
             return true;
@@ -44,7 +39,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
 
         public override bool? UseItem(Player player)
         {
-            Main.NewText("You start to feel like levitating...", 179, 0, 255);
+            Main.NewText("You feel like you're levitating...", 179, 0, 255);
             SoundEngine.PlaySound(SoundID.Roar, new Vector2((int)player.position.X, (int)player.position.Y));
             PurpleCometEvent.PurpleComet = true;
 

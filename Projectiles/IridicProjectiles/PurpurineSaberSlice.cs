@@ -88,7 +88,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/PurpurineSaberSlice/PurpurineSaberSlice").Value;
+                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/IridicProjectiles/PurpurineSaberSlice").Value;
                 Vector2 ori = new(20, 21);
                 Rectangle rec = new(0, (int)Projectile.ai[0] * 42, 40, 42);
                 float rot = Projectile.rotation;
