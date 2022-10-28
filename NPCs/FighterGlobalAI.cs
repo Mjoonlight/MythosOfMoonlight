@@ -14,6 +14,7 @@ namespace MythosOfMoonlight.NPCs
         {
             // var sqrDistance = player.DistanceSQ(NPC.position);
             NPC.TargetClosest(false);
+
             if (strideSpeed * NPC.direction >= 0)
             {
                 if (NPC.velocity.X < strideSpeed * NPC.direction) NPC.velocity.X += turningVel;
@@ -22,7 +23,7 @@ namespace MythosOfMoonlight.NPCs
             {
                 if (NPC.velocity.X > strideSpeed * NPC.direction) NPC.velocity.X -= turningVel;
             }
-            var player = Main.player[NPC.target]; 
+            var player = Main.player[NPC.target];
             if (NPC.collideX && canJump && !Jump)
             {
                 NPC.velocity.Y = -jumpHeight;
@@ -34,7 +35,7 @@ namespace MythosOfMoonlight.NPCs
                 if (jumpFrame >= 0) NPC.frame = new Rectangle(0, NPC.height * jumpFrame + jumpOffset, NPC.width, NPC.height + jumpOffset);
             }
             Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
-            
+
             var horizontalDistance = Math.Abs(NPC.Center.X - player.Center.X);
             if (horizontalDistance >= StrideLimit)
             {

@@ -106,6 +106,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Balledonna", 1, 2, Vector2.One * hitDirection);
             }
         }
+        public override bool? CanFallThroughPlatforms()
+        {
+            Player player = Main.player[NPC.target];
+            return player.Center.Y > NPC.Center.Y;
+        }
         public override void AI()
         {
             NPC.TargetClosest();
