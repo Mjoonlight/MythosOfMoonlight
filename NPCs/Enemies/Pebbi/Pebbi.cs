@@ -242,9 +242,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
             NPC.width = 40;
             NPC.height = 40;
             NPC.damage = 0;
-            NPC.lifeMax = 5;
+            NPC.lifeMax = 1;
             NPC.defense = 0;
-            NPC.knockBackResist = 1.5f;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
         }
@@ -260,6 +259,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
                 int type = Main.rand.Next(new int[3] { ModContent.NPCType<Pebbi1>(), ModContent.NPCType<Pebbi2>(), ModContent.NPCType<Pebbi3>() });
                 NPC.NewNPC(source, (int)NPC.position.X + Main.rand.Next(NPC.width), (int)NPC.position.Y + Main.rand.Next(NPC.height), type);
             }
+            NPC.life = 0;
+            NPC.checkDead();
         }
     }
 }

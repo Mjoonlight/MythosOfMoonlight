@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             NPC.lifeMax = 75;
             NPC.defense = 3;
             NPC.damage = 0;
-            NPC.knockBackResist = 1.1f;
+            NPC.knockBackResist = 0.8f;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = -1;
@@ -102,8 +102,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Balledonna", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Balledonna", 1, 2, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection);
             }
         }
         public override bool? CanFallThroughPlatforms()
@@ -129,7 +129,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             else if (AIState == Move)
             {
                 AITimer++;
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 2, true, -1);
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, 1);
                 if (AITimer >= 400)
                 {
                     AITimer = 0;
