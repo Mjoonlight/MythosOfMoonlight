@@ -11,7 +11,6 @@ using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using System.IO;
 using MythosOfMoonlight.Gores.Enemies;
-using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld
 {
@@ -99,12 +98,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                 for (int i = 0; i < 5; i++)
                 {
                     Dust.NewDust(NPC.Center, 32, 32, DustID.Grass, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
+                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
                 }
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection);
             }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            int num = 0;
+            for(int i =0; i < Main.npc.Length; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].type == Type) num++;
+            }
+            float rate = (float)Math.Max(.05f, 1f / (num + 1));
+            return SpawnCondition.OverworldNight.Chance * rate;
         }
         public override bool? CanFallThroughPlatforms()
         {
@@ -119,6 +128,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             NPC.spriteDirection = NPC.direction;
             if (AIState == Idle)
             {
+                NPC.velocity.X *= .9f;
+                NPC.knockBackResist = 0.8f;
                 AITimer++;
                 if (AITimer >= 100)
                 {
@@ -128,6 +139,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             }
             else if (AIState == Move)
             {
+                NPC.knockBackResist = 0.8f;
                 AITimer++;
                 NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, 1);
                 if (AITimer >= 400)
@@ -139,6 +151,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             }
             else if (AIState == Plant)
             {
+                NPC.velocity.X *= 0;
+                NPC.knockBackResist = 0f;
                 if (NPC.frame.Y == 15 * NPC.height && AITimer == 0)
                 {
                     AITimer = 1;
@@ -223,9 +237,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                 {
                     if (!npc.friendly && npc.type != ModContent.NPCType<Belladonna>() && npc.Center.Distance(Projectile.Center) < 50)
                     {
-                        CombatText.NewText(npc.getRect(), CombatText.HealLife, 10);
-                        npc.life += 10;
-                        Projectile.Kill();
+                        if (npc.life < npc.lifeMax)
+                        {
+                            CombatText.NewText(npc.getRect(), CombatText.HealLife, Math.Min(10, npc.lifeMax - npc.life));
+                            npc.life += Math.Min(10, npc.lifeMax - npc.life);
+                            Projectile.Kill();
+                        }
                     }
                 }
             }

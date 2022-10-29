@@ -6,6 +6,7 @@ using System;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.Items.Weapons
 {

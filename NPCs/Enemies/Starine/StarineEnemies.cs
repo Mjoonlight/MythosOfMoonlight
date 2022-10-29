@@ -152,67 +152,69 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            switch (State)
-            {
-                //Falling waiting to be grounded
-                case 0:
-                    {
-                        Timer++;
-                        if (NPC.velocity.Y == 0)
+            if (NPC.collideY) {
+                switch (State)
+                {
+                    //Falling waiting to be grounded
+                    case 0:
                         {
-                            if (NPC.velocity.X == 0)
+                            Timer++;
+                            if (NPC.velocity.Y == 0)
                             {
-                                if (NumZeroes++ < 1)
-                                    State = 1;
-                                else
+                                if (NPC.velocity.X == 0)
                                 {
-                                    State = 3;
-                                    NumZeroes = 0;
+                                    if (NumZeroes++ < 1)
+                                        State = 1;
+                                    else
+                                    {
+                                        State = 3;
+                                        NumZeroes = 0;
+                                    }
                                 }
+                                else State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
+                                Timer = (JumpsElapsed % 4f == 0) ? 30f : (8f * ((NPC.life < NPC.lifeMax / 2) ? (NPC.life / NPC.lifeMax) : 1f));
+                                NPC.velocity.X = 0;
                             }
-                            else State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
-                            Timer = (JumpsElapsed % 4f == 0) ? 30f : (8f * ((NPC.life < NPC.lifeMax / 2) ? (NPC.life / NPC.lifeMax) : 1f));
-                            NPC.velocity.X = 0;
+                            else
+                                NPC.velocity.X = 4f * NPC.direction;
+                            break;
                         }
-                        else
-                            NPC.velocity.X = 4f * NPC.direction;
-                        break;
-                    }
-                //Jumping for joy
-                case 1:
-                    {
+                    //Jumping for joy
+                    case 1:
+                        {
+                            Timer--;
+                            if (Timer <= 0)
+                            {
+                                NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? 1 : -1;
+                                NPC.velocity = new Vector2(4f * NPC.direction, -7f);
+                                JumpsElapsed++;
+                                State = 0;
+                            }
+                            break;
+                        }
+                    //ZZZ...
+                    case 2:
+                        {
+                            Timer--;
+                            if (Timer <= 0)
+                            {
+                                JumpsElapsed++;
+                                State = 1;
+                            }
+                            break;
+                        }
+                    //Jump backwards to fix psotion
+                    case 3:
                         Timer--;
                         if (Timer <= 0)
                         {
-                            NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? 1 : -1;
-                            NPC.velocity = new Vector2(4f * NPC.direction, -7f);
+                            NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? -1 : 1;
+                            NPC.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * NPC.direction, -7f);
                             JumpsElapsed++;
                             State = 0;
                         }
                         break;
-                    }
-                //ZZZ...
-                case 2:
-                    {
-                        Timer--;
-                        if (Timer <= 0)
-                        {
-                            JumpsElapsed++;
-                            State = 1;
-                        }
-                        break;
-                    }
-                //Jump backwards to fix psotion
-                case 3:
-                    Timer--;
-                    if (Timer <= 0)
-                    {
-                        NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? -1 : 1;
-                        NPC.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * NPC.direction, -7f);
-                        JumpsElapsed++;
-                        State = 0;
-                    }
-                    break;
+                }
             }
         }
     }

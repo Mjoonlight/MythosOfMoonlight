@@ -36,7 +36,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
             NPC.DeathSound = SoundID.Item74;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
-            NPC.noTileCollide = true;
+            NPC.noTileCollide = false;
             NPC.noGravity = true;
             NPC.knockBackResist = 0f;
             SpawnModBiomes = new int[]
@@ -117,21 +117,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                 case NState.Hover:
                     Opaque = 2f - (float)Math.Pow(.985f, (float)Math.Abs(target.Center.X - NPC.Center.X));
                     PhaseTimer++;
-                    if (PhaseTimer > 30)
-                    {
-                        MoMNPC.EscapeCheck(1200f, 1200f, NPC);
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, (target.Center - new Vector2(0, 300) - NPC.Center) / 50f, .1f);
-                    }
-                    else
-                    {
-                        NPC.velocity.Y = (float)Math.Sin(MathHelper.ToRadians(Timer * 1.33f));
-                    }
+                    if(PhaseTimer>=180)SwitchTo(NState.Stomp);
+                    MoMNPC.EscapeCheck(1200f, 1200f, NPC);
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, (target.Center - new Vector2(0, 300) - NPC.Center) / 10f, .33f);
                     break;
                 case NState.Stomp:
                     Opaque = 1f;
                     PhaseTimer++;
-                    if (NPC.Center.Y < target.Center.Y - 100) NPC.noTileCollide = true;
-                    else NPC.noTileCollide = false;
+                    NPC.velocity.X *= 0;
+                    if (NPC.Center.Y >= target.Center.Y - 50) NPC.noTileCollide = false;
+                    else NPC.noTileCollide = true;
                     NPC.velocity.Y += .5f;
                     if (NPC.collideY || NPC.collideX)
                     {
@@ -139,6 +134,42 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                         NPC.checkDead();
                     }
                     break;
+            }
+        }
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+            if (State == NState.Wander)
+            {
+                PhaseTimer = 0;
+                NPC.target = player.whoAmI;
+                for (int i = 6; i <= 360; i += 6)
+                {
+                    Vector2 pos = MathHelper.ToRadians(i).ToRotationVector2() * 70f;
+                    Dust dust = Dust.NewDustDirect(NPC.Center + pos, 1, 1, ModContent.DustType<PurpurineDust>());
+                    dust.velocity *= 0;
+                    dust.noGravity = true;
+                    dust.scale = 1.5f;
+                }
+                SoundEngine.PlaySound(SoundID.NPCDeath7, NPC.Center);
+                SwitchTo(NState.Hover);
+            }
+        }
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            if (State == NState.Wander)
+            {
+                PhaseTimer = 0;
+                NPC.target = projectile.owner;
+                for (int i = 6; i <= 360; i += 6)
+                {
+                    Vector2 pos = MathHelper.ToRadians(i).ToRotationVector2() * 70f;
+                    Dust dust = Dust.NewDustDirect(NPC.Center + pos, 1, 1, ModContent.DustType<PurpurineDust>());
+                    dust.velocity *= 0;
+                    dust.noGravity = true;
+                    dust.scale = 1.5f;
+                }
+                SoundEngine.PlaySound(SoundID.NPCDeath7, NPC.Center);
+                SwitchTo(NState.Hover);
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
