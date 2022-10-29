@@ -102,8 +102,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Balledonna", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Balledonna", 1, 2, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection);
             }
         }
         public override bool? CanFallThroughPlatforms()
