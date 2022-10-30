@@ -108,12 +108,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             int num = 0;
-            for(int i =0; i < Main.npc.Length; i++)
+            for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type == Type) num++;
             }
             float rate = (float)Math.Max(.05f, 1f / (num + 1));
-            return SpawnCondition.OverworldNight.Chance * rate;
+            if (spawnInfo.Player.ZonePurity)
+                return SpawnCondition.OverworldNight.Chance * rate;
+            return 0;
         }
         public override bool? CanFallThroughPlatforms()
         {

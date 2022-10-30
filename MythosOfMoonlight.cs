@@ -41,6 +41,20 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+        public static Vector2 FromAToB(Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
+        {
+            Vector2 baseVel = b - a;
+            if (normalize)
+                baseVel.Normalize();
+            if (reverse)
+            {
+                Vector2 baseVelReverse = a - b;
+                if (normalize)
+                    baseVelReverse.Normalize();
+                return baseVelReverse;
+            }
+            return baseVel;
+        }
         public static void Reload(this SpriteBatch spriteBatch, SpriteSortMode sortMode = SpriteSortMode.Deferred)
         {
             if ((bool)spriteBatch.GetType().GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch))

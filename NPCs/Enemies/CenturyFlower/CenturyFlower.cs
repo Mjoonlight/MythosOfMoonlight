@@ -181,7 +181,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         void FitVelocityYToTarget(float newY) => NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, newY, 0.1f);
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return SpawnCondition.OverworldDay.Chance * 0.2f;
+            if (spawnInfo.Player.ZonePurity)
+                return SpawnCondition.OverworldDay.Chance * 0.2f;
+            return 0;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
