@@ -29,7 +29,29 @@ namespace MythosOfMoonlight.NPCs
                 NPC.velocity.Y = -jumpHeight;
                 Jump = true;
             }
-            if (NPC.collideY && NPC.velocity.Y >= 0) Jump = false;
+            Tile bot = Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16];
+            Tile exBot = Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16 + 1];
+            if (bot.HasTile)
+            {
+                if (bot.LeftSlope || bot.BottomSlope || bot.RightSlope)
+                {
+                    NPC.velocity.Y = -jumpHeight;
+                    Jump = true;
+                }
+                else Jump = false;
+            }
+            else
+            {
+                if (exBot.HasTile)
+                {
+                    if (exBot.LeftSlope || exBot.BottomSlope || exBot.RightSlope)
+                    {
+                        NPC.velocity.Y = -jumpHeight;
+                        Jump = true;
+                    }
+                    else Jump = false;
+                }
+            }
             if (Jump)
             {
                 if (jumpFrame >= 0) NPC.frame = new Rectangle(0, NPC.height * jumpFrame + jumpOffset, NPC.width, NPC.height + jumpOffset);

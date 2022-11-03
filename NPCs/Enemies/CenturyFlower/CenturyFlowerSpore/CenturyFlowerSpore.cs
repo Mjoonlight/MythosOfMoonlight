@@ -117,15 +117,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
         }
         public override void AI()
         {
-            for (int num613 = 0; num613 < 5; num613++)
+            if(Main.rand.NextBool(5))
             {
-                Dust.NewDustDirect(Projectile.position, (int)(Projectile.width * Projectile.scale), (int)(Projectile.height * Projectile.scale), DustID.Frost, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default(Color), 0.8f);
+                Dust d = Dust.NewDustDirect(Projectile.Center, (int)(Projectile.width * Projectile.scale), (int)(Projectile.height * Projectile.scale), DustID.Frost, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default(Color), 0.8f);
+                d.noGravity = true;
             }
             Projectile.knockBack = 0;
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Zero, 0.05f);
             Projectile.rotation += .01f;
             if (Projectile.ai[0]++ == 100)
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, new(Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center).X * (1 + Main.rand.Next(3)), -10), ModContent.ProjectileType<IceShard>(), 0, 0);
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, new(Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center).X * (1 + Main.rand.Next(3)), -6), ModContent.ProjectileType<IceShard>(), Helper.HostileProjDmg(15, 25, 35), 0);
             var currentTime = (float)(MAX_TIMELEFT - Projectile.timeLeft);
             Projectile.alpha = (int)(currentTime / MAX_TIMELEFT * 255);
             Projectile.scale = currentTime / MAX_TIMELEFT + .1f;

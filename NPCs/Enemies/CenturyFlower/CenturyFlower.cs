@@ -104,7 +104,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
                 NPC.velocity.Y = -jumpHeight;
                 Jump = 1;
             }
-            if (NPC.collideY) Jump = 0;
+            if (Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].HasTile)
+            {
+                if (Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].LeftSlope || Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].BottomSlope || Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].RightSlope)
+                {
+                    NPC.velocity.Y = -jumpHeight;
+                    Jump = 1;
+                }
+                else Jump = 0;
+            }
 
             FitVelocityXToTarget(strideSpeed * NPC.direction);
             var horizontalDistance = Math.Abs(NPC.Center.X - player.Center.X);

@@ -55,6 +55,11 @@ namespace MythosOfMoonlight
             }
             return baseVel;
         }
+        public static int HostileProjDmg( int normal, int expert, int master)
+        {
+            int d = Main.masterMode ? master / 6 : (Main.expertMode ? expert / 4 : normal / 2);
+            return d;
+        }
         public static void Reload(this SpriteBatch spriteBatch, SpriteSortMode sortMode = SpriteSortMode.Deferred)
         {
             if ((bool)spriteBatch.GetType().GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(spriteBatch))
