@@ -167,6 +167,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem
         }
         public override void AI()
         {
+            Lighting.AddLight(NPC.Center, new Vector3(1) * 0.3f);
             IncreaseFrameCounter();
             GetTarget();
             MovementLogic();

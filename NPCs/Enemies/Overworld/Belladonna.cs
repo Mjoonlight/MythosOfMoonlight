@@ -56,22 +56,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         const int Idle = 0, Move = 1, Plant = 2;
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.velocity.Y > .1f || NPC.velocity.Y < -.1f)
+            {
+                NPC.frameCounter = 1;
+                NPC.frame.Y = 1 * NPC.height;
+            }
             if (AIState == Idle)
                 NPC.frame.Y = 0;
             else if (AIState == Move)
             {
-                if (NPC.velocity.Y > 1 || NPC.velocity.Y < -1)
-                    NPC.frame.Y = 1 * NPC.height;
-                else
+                NPC.frameCounter++;
+                if (NPC.frameCounter % 5 == 0)
                 {
-                    NPC.frameCounter++;
-                    if (NPC.frameCounter % 5 == 0)
-                    {
-                        if (NPC.frame.Y < 7 * NPC.height)
-                            NPC.frame.Y += NPC.height;
-                        else
-                            NPC.frame.Y = 2 * NPC.height;
-                    }
+                    if (NPC.frame.Y < 7 * NPC.height)
+                        NPC.frame.Y += NPC.height;
+                    else
+                        NPC.frame.Y = 2 * NPC.height;
                 }
             }
             else if (AIState == Plant)
@@ -114,7 +114,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             }
             float rate = (float)Math.Max(.05f, 1f / (num + 1));
             if (spawnInfo.Player.ZonePurity)
-                return SpawnCondition.OverworldNight.Chance * rate;
+                return SpawnCondition.OverworldNight.Chance * rate * 0.75f;
             return 0;
         }
         public override bool? CanFallThroughPlatforms()
@@ -124,6 +124,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         }
         public override void AI()
         {
+            Lighting.AddLight(NPC.Center, new Vector3(1, 1, 1) * 0.3f);
             NPC.TargetClosest();
             Player player = Main.player[NPC.target];
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -137,17 +138,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                 {
                     AITimer = 0;
                     AIState = Move;
+                    NPC.frame.Y = NPC.height * 2;
                 }
             }
             else if (AIState == Move)
             {
                 NPC.knockBackResist = 0.8f;
                 AITimer++;
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, 1);
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, -1, 0/*, 1, 0*/);
                 if (AITimer >= 400)
                 {
                     AITimer = 0;
                     AIState = Plant;
+                    NPC.frame.Y = NPC.height * 8;
                     NPC.velocity = Vector2.Zero;
                 }
             }
@@ -190,7 +193,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         {
             SpriteEffects effects = Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (Projectile.frame == 11 && Projectile.timeLeft > 60)
-                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White, 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
+            {
+                if (Projectile.ai[1] < 1)
+                    Projectile.ai[1] += 0.05f;
+                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[1], 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
+            }
         }
         public override void AI()
         {
@@ -225,11 +232,18 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 14;
+            Projectile.timeLeft = 300;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override void PostDraw(Color lightColor)
+        {
+            Color color = Color.White * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5)) * 2);
+            Texture2D a = TextureAssets.Projectile[Type].Value;
+            Main.EntitySpriteDraw(a, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, a.Size() / 2, 1, SpriteEffects.None, 0);
         }
         public override void AI()
         {
@@ -259,11 +273,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 14;
+            Projectile.timeLeft = 300;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override void PostDraw(Color lightColor)
+        {
+            Color color = Color.White * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5)) * 2);
+            Texture2D a = TextureAssets.Projectile[Type].Value;
+            Main.EntitySpriteDraw(a, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, a.Size() / 2, 1, SpriteEffects.None, 0);
+        }
+        public override void Kill(int timeLeft)
+        {
+            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Nightshade2>(), 10, 0);
         }
         public override void AI()
         {
@@ -297,7 +322,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         public override void OnSpawn(IEntitySource source)
         {
             for (int i = 0; i < 10; ++i)
-                Dust.NewDust(Projectile.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BelladonnaD2>(), Main.rand.NextVector2Unit());
         }
         public override void AI()
         {
