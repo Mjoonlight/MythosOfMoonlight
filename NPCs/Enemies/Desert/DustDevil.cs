@@ -157,7 +157,7 @@ SUMMONERMELEE */
         const int Sandnado = 2;
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneDesert ? 0.075f : 0f;
+            return spawnInfo.Player.ZoneDesert ? 0.3f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
