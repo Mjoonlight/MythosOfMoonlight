@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             NPC.lifeMax = 75;
             NPC.defense = 3;
             NPC.damage = 0;
-            NPC.knockBackResist = 0.8f;
+            NPC.knockBackResist = 0.6f;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = -1;
@@ -136,7 +136,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             }
             float rate = (float)Math.Max(.05f, 1f / (num + 1));
             if (spawnInfo.Player.ZonePurity)
-                return SpawnCondition.OverworldNight.Chance * rate * 0.75f;
+                return SpawnCondition.OverworldNight.Chance * rate * 0.1f;
             return 0;
         }
         public override bool? CanFallThroughPlatforms()
