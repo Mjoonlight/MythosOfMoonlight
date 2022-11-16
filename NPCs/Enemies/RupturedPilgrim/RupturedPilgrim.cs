@@ -26,6 +26,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
+            //bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Starine_Symbol>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
@@ -236,6 +237,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                     owner.ai[0] = 3;
                     Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 100, 100);
                     NPC.life = 0;
+                    NPC.checkDead();
                     if (Main.netMode != NetmodeID.Server)
                     {
                         Helper.SpawnGore(NPC, "MythosOfMoonlight/Starine", Main.rand.Next(4, 5));

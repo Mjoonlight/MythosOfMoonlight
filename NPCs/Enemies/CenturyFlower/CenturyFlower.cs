@@ -51,7 +51,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         }
         public override void FindFrame(int frameHeight)
         {
-            NPC.frame.Y = GetFrame() * frameHeight;
+            if (!NPC.IsABestiaryIconDummy)
+                NPC.frame.Y = GetFrame() * frameHeight;
+            else
+            {
+                NPC.frameCounter++;
+                if (NPC.frameCounter % 5 == 0)
+                {
+                    if (NPC.frame.Y < NPC.height * 4)
+                        NPC.frame.Y += NPC.height;
+                    else
+                        NPC.frame.Y = 0;
+                }
+            }
         }
         private void SetFrame(int frame)
         {

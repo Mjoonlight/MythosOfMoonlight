@@ -20,12 +20,13 @@ namespace MythosOfMoonlight.NPCs.Critters
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
             {
                 ImmuneToAllBuffsThatAreNotWhips = true
             });
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
+            //NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }
         public override void SetDefaults()
         {
@@ -126,7 +127,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             if (Collision.TileCollision(NPC.position, new Vector2(0, 16), NPC.width, NPC.height - 17) != new Vector2(0, 16) && NPC.velocity.Y > 1.06) //Stuff that happens when chunk collides with tile.
             {
                 NPC.velocity.Y = 0;
-                NPC.life = 0;
+                NPC.StrikeNPC(NPC.lifeMax, 0, 0, true);
                 for (int i = 0; i < 4; i++)
                 {
                     SoundEngine.PlaySound(SoundID.Item10, NPC.Center); //Sound on collision with tile.
@@ -141,7 +142,7 @@ namespace MythosOfMoonlight.NPCs.Critters
                 // This is part of "public override void AI()" which is a void, so using a return keyword doesn't do nothing but cause an error.
                 if (NPC.velocity.Y < 0)
                 {
-                    NPC.life = 0;
+                    NPC.StrikeNPC(NPC.lifeMax, 0, 0, true);
                 }
             }
         }

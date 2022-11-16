@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+/*Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -263,9 +263,9 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
                     }
 					break;
 			}
-			*/
+			*//*
         }
 
         int fireTime = 0;
     }
-}
+}*/

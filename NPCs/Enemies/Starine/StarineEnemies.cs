@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0)
             {
-                Frame = (int)(NPC.frameCounter / 5),
+                //Frame = (int)(NPC.frameCounter / 5),
                 Velocity = 1f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
@@ -84,39 +84,49 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         float Timer = 0;
         public override void FindFrame(int frameHeight)
         {
-            switch (State)
+            if (NPC.IsABestiaryIconDummy)
             {
-                case 0:
-                    if (NPC.velocity.Y > 0)
-                        f = 7;
-                    else
-                    {
-                        if (Timer < 8)
-                            f = 5;
-                        else
-                            f = 4;
-                    }
-                    break;
-                case 1:
-                    if (Timer % 4 == 0)
-                    {
-                        f++;
-                    }
-                    if (f > 3)
-                        f = 0;
-                    break;
-                case 2:
-                    if (Timer % 4 == 0) f++;
-                    if (f > 3)
-                        f = 0;
-                    break;
+                if (++Timer % 4 == 0)
+                {
+                    f++;
+                }
+                if (f > 3)
+                    f = 0;
             }
+            else
+                switch (State)
+                {
+                    case 0:
+                        if (NPC.velocity.Y > 0)
+                            f = 7;
+                        else
+                        {
+                            if (Timer < 8)
+                                f = 5;
+                            else
+                                f = 4;
+                        }
+                        break;
+                    case 1:
+                        if (Timer % 4 == 0)
+                        {
+                            f++;
+                        }
+                        if (f > 3)
+                            f = 0;
+                        break;
+                    case 2:
+                        if (Timer % 4 == 0) f++;
+                        if (f > 3)
+                            f = 0;
+                        break;
+                }
             NPC.frame.Y = f * frameHeight;
         }
         public bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<Starine_Skipper>());
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return HasStarineEnemies?0: SpawnCondition.OverworldNight.Chance * .05f;
+            return HasStarineEnemies ? 0 : SpawnCondition.OverworldNight.Chance * .05f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -152,7 +162,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (NPC.collideY) {
+            if (NPC.collideY)
+            {
                 switch (State)
                 {
                     //Falling waiting to be grounded
@@ -401,7 +412,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         readonly float ClimbSpeed = 2f;
         void NormalStateAnimation()
         {
-            if (NPC.velocity.Y == 0 || NPC.collideX)
+            if (NPC.velocity.Y == 0 || NPC.collideX || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter > 4) NPC.frameCounter = 0;
                 else if (NPC.ai[1] % 4 == 0) NPC.frameCounter++;
@@ -419,18 +430,26 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             else
                 NormalStateAnimation();
         }
+        int thing;
         public override void FindFrame(int frameHeight)
         {
-            switch (AIState)
+            if (NPC.IsABestiaryIconDummy)
             {
-                case Normal:
-                    NormalStateAnimation();
-                    break;
-                case Angry:
-                    AngryStateAnimation();
-                    break;
-                case GiveUp: break;
+                thing++;
+                if (NPC.frameCounter > 4) NPC.frameCounter = 0;
+                else if (thing % 4 == 0) NPC.frameCounter++;
             }
+            else
+                switch (AIState)
+                {
+                    case Normal:
+                        NormalStateAnimation();
+                        break;
+                    case Angry:
+                        AngryStateAnimation();
+                        break;
+                    case GiveUp: break;
+                }
             NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
         }
 
@@ -445,8 +464,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         const float MinimumPlayerHeightDistance = 10f;
         void WalkAndCrawlLogic()
         {
-            if (NPC.collideX) // if colliding with wall
+            if (NPC.collideX && cooldown <= 0) // if colliding with wall
             {
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1.75f, false, -1, 0);
                 if (NPC.collideY && NPC.velocity.Y != 0)
                     AIState = GiveUp;
 
@@ -454,32 +474,39 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 NPC.velocity.X = NPC.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
                 targetRotation = -NPC.direction * MathHelper.PiOver2; // rotate
             }
-            else // if not colliding anymore
-                targetRotation = 0; // fix rotation to 0
-
-            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1.75f, false); // hustle ass
+            else
+            { // if not colliding anymore {
+                if (cooldown <= 0)
+                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 5, 1.75f, true, -1, 0);
+                else
+                    NPC.velocity.X *= 0.98f;
+                targetRotation = 0;
+            }// fix rotation to 0
+             // hustle ass
             NPC.ai[0] = 0;
         }
         void WalkAndCrawlLogicGivenUp()
         {
             if (NPC.collideX) // if colliding with wall
             {
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1.75f, false, -1);
                 NPC.velocity.Y = -ClimbSpeed; // climb upwards
                 NPC.velocity.X = -NPC.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
                 targetRotation = NPC.direction * MathHelper.PiOver2; // rotate
             }
             else // if not colliding anymore
             {
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 5, -1.75f, true, -1, 0);
                 targetRotation = 0; // fix rotation to 0
-            }
-            NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, -1.75f, false); // hustle ass
+            } // hustle ass
             NPC.ai[0] = 0;
         }
         void GiveUpState()
         {
             WalkAndCrawlLogicGivenUp();
-            if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, NPC.PlayerTarget().position, NPC.PlayerTarget().width, NPC.PlayerTarget().height))
-                AIState = Normal;
+            //if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, NPC.PlayerTarget().position, NPC.PlayerTarget().width, NPC.PlayerTarget().height))
+            cooldown = 200;
+            AIState = Normal;
         }
         void NormalState()
         {
@@ -490,6 +517,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             else // finished crawling
                 AIState = Angry;
         }
+        int cooldown, numAttacks;
         void AngryState()
         {
             var playerDistance = SqrDistanceFromPlayer;
@@ -501,16 +529,24 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                 {
                     if (!NPC.justHit && NPC.velocity.Y == 0)
                         NPC.velocity.X = 0;
-
+                    NPC.velocity.X *= 0.98f;
                     NPC.FaceTarget();
                     NPC.spriteDirection = NPC.direction;
-                    NPC.ai[0]++;
-                    if (NPC.ai[0] % 60 <= 0 && NPC.collideY)
+                    if (cooldown <= 0)
+                        NPC.ai[0]++;
+                    if (NPC.ai[0] % 60 <= 0 && NPC.collideY && cooldown <= 0)
                     {
+                        numAttacks++;
                         for (int i = 0; i < 3; i++)
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * NPC.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 10, 1f);
 
                         SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
+                    }
+                    if (numAttacks >= 3)
+                    {
+                        cooldown = 300;
+                        NPC.ai[0] = 1;
+                        numAttacks = 0;
                     }
                 }
                 else
@@ -519,6 +555,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         public override void AI()
         {
+            if (cooldown > 0)
+                cooldown--;
             NPC.ai[1]++;
             if (NPC.ai[0] == 52) NPC.ai[1] = 0;
             NPC.TargetClosest(false);

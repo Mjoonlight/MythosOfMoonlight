@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -47,3 +47,4 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
         }
     }
 }
+*/

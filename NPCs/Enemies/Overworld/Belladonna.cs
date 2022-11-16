@@ -33,6 +33,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             NPC.aiStyle = -1;
         }
 
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new FlavorTextBestiaryInfoElement("A type of plant humanoid, resembling a well-dressed botanist. Spends the day hibernating and photosynthesising, and emerges at night to spread her saplings: healing blueberries and explosive nightshades.")
+            });
+        }
         public float AIState
         {
             get => NPC.ai[0];
@@ -56,14 +64,44 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         const int Idle = 0, Move = 1, Plant = 2;
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity.Y > .1f || NPC.velocity.Y < -.1f)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                NPC.frameCounter = 1;
-                NPC.frame.Y = 1 * NPC.height;
+                if (NPC.velocity.Y > .1f || NPC.velocity.Y < -.1f)
+                {
+                    NPC.frameCounter = 1;
+                    NPC.frame.Y = 1 * NPC.height;
+                }
+                if (AIState == Idle)
+                    NPC.frame.Y = 0;
+                else if (AIState == Move)
+                {
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter % 5 == 0)
+                    {
+                        if (NPC.frame.Y < 7 * NPC.height)
+                            NPC.frame.Y += NPC.height;
+                        else
+                            NPC.frame.Y = 2 * NPC.height;
+                    }
+                }
+                else if (AIState == Plant)
+                {
+                    if (NPC.frame.Y < 8 * NPC.height)
+                        NPC.frame.Y = 8 * NPC.height;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter % 5 == 0)
+                    {
+                        if (NPC.frame.Y < 16 * NPC.height)
+                            NPC.frame.Y += NPC.height;
+                        else
+                        {
+                            AITimer = 0;
+                            AIState = Idle;
+                        }
+                    }
+                }
             }
-            if (AIState == Idle)
-                NPC.frame.Y = 0;
-            else if (AIState == Move)
+            else
             {
                 NPC.frameCounter++;
                 if (NPC.frameCounter % 5 == 0)
@@ -72,22 +110,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                         NPC.frame.Y += NPC.height;
                     else
                         NPC.frame.Y = 2 * NPC.height;
-                }
-            }
-            else if (AIState == Plant)
-            {
-                if (NPC.frame.Y < 8 * NPC.height)
-                    NPC.frame.Y = 8 * NPC.height;
-                NPC.frameCounter++;
-                if (NPC.frameCounter % 5 == 0)
-                {
-                    if (NPC.frame.Y < 16 * NPC.height)
-                        NPC.frame.Y += NPC.height;
-                    else
-                    {
-                        AITimer = 0;
-                        AIState = Idle;
-                    }
                 }
             }
         }

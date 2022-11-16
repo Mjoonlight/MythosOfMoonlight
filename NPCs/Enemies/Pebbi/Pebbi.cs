@@ -235,6 +235,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Pebbi
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
             DisplayName.SetDefault("PebbiSwarm");
         }
         public override void SetDefaults()

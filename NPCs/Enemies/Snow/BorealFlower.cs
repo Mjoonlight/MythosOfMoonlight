@@ -70,7 +70,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         const int Move = 0, Plant = 1;
         public override void FindFrame(int frameHeight)
         {
-            if (AIState == Move)
+            if (AIState == Move || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.velocity.Y > 1 || NPC.velocity.Y < -1)
                     NPC.frame.Y = 0 * NPC.height;

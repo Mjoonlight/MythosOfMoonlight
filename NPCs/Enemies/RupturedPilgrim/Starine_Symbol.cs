@@ -25,8 +25,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
                 ImmuneToAllBuffsThatAreNotWhips = true
             });
 
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f, };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
+            //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f, };
+            // NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.ActsLikeTownNPC[Type] = true;
         }
         public override void SetDefaults()

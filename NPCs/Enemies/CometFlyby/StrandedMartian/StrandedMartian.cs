@@ -39,6 +39,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                 ModContent.GetInstance<PurpleCometBiome>().Type
             };
         }
+        public override void FindFrame(int frameHeight)
+        {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter++;
+                NPC.frame = new Rectangle(0, (2 + ((int)(NPC.frameCounter / 6) % 7)) * 46, 38, 46);
+            }
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]

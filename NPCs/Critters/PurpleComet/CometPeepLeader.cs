@@ -10,6 +10,10 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
 {
     public class CometPeepLeader : CometPeep
     {
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
+        }
         public override string Texture => "MythosOfMoonlight/NPCs/Critters/PurpleComet/CometPeep";
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

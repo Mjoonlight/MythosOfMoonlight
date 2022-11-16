@@ -20,8 +20,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Ember");
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
+            //NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.TrailCacheLength[Type] = 12;
             NPCID.Sets.TrailingMode[Type] = 3;
         }
@@ -48,7 +48,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime, //making the bg too dark lol
                 new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
                 new FlavorTextBestiaryInfoElement("//PlaceHolder// The Comet Ember, which spins in place, slowly moving up and down. Once the player is close, it tries to float above them and crash back down, exploding.")
             });
@@ -117,7 +117,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                 case NState.Hover:
                     Opaque = 2f - (float)Math.Pow(.985f, (float)Math.Abs(target.Center.X - NPC.Center.X));
                     PhaseTimer++;
-                    if(PhaseTimer>=180)SwitchTo(NState.Stomp);
+                    if (PhaseTimer >= 180) SwitchTo(NState.Stomp);
                     MoMNPC.EscapeCheck(1200f, 1200f, NPC);
                     NPC.velocity = Vector2.Lerp(NPC.velocity, (target.Center - new Vector2(0, 300) - NPC.Center) / 10f, .33f);
                     break;
@@ -178,25 +178,32 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
             Vector2 drawPos = NPC.Center - screenPos;
             Texture2D origTexture = TextureAssets.Npc[NPC.type].Value;
             Vector2 orig = origTexture.Size() / 2f;
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            for (int j = 0; j <= 10; j += 2)
+            if (!NPC.IsABestiaryIconDummy)
             {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                for (int j = 0; j <= 10; j += 2)
+                {
+                    for (int i = -60; i <= 60; i += 60)
+                    {
+                        float rad = MathHelper.ToRadians(i + (i / 60f) * (Timer - j));
+                        float pulse = 1.5f + .5f * (float)Math.Sin(MathHelper.ToRadians(2 * i + (Timer - j)));
+                        Main.spriteBatch.Draw(origTexture, NPC.oldPos[j] + new Vector2(NPC.width / 2, NPC.height / 2) - screenPos, null, color * (float)((float)(12 - j) / 24), rad, orig, pulse, SpriteEffects.None, 0f);
+                    }
+                }
                 for (int i = -60; i <= 60; i += 60)
                 {
-                    float rad = MathHelper.ToRadians(i + (i / 60f) * (Timer - j));
-                    float pulse = 1.5f + .5f * (float)Math.Sin(MathHelper.ToRadians(2 * i + (Timer - j)));
-                    Main.spriteBatch.Draw(origTexture, NPC.oldPos[j] + new Vector2(NPC.width / 2, NPC.height / 2) - screenPos, null, color * (float)((float)(12 - j) / 24), rad, orig, pulse, SpriteEffects.None, 0f);
+                    float rad = MathHelper.ToRadians(i + (i / 60f) * Timer);
+                    float pulse = 1.5f + .5f * (float)Math.Sin(MathHelper.ToRadians(2 * i + Timer));
+                    Main.spriteBatch.Draw(origTexture, drawPos, null, color, rad, orig, pulse, SpriteEffects.None, 0f);
                 }
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             }
-            for (int i = -60; i <= 60; i += 60)
+            else
             {
-                float rad = MathHelper.ToRadians(i + (i / 60f) * Timer);
-                float pulse = 1.5f + .5f * (float)Math.Sin(MathHelper.ToRadians(2 * i + Timer));
-                Main.spriteBatch.Draw(origTexture, drawPos, null, color, rad, orig, pulse, SpriteEffects.None, 0f);
+                return true;
             }
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
         public override bool CheckDead()

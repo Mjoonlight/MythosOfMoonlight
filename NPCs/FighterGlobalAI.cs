@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.NPCs
             {
                 if (bot.LeftSlope || bot.BottomSlope || bot.RightSlope)
                 {
-                    NPC.velocity.Y = -jumpHeight;
+                    NPC.velocity.Y = -jumpHeight * 0.035f;
                     Jump = true;
                 }
                 else Jump = false;
