@@ -73,7 +73,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
                 new FlavorTextBestiaryInfoElement("Often seen in flocks, known as showers (see: Meteor Shower), these undeniably adorable critters are able to communicate amongst each other, and can even be seen playing, although they do scurry when approached.")
             });
         }

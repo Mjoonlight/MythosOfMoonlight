@@ -38,7 +38,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-                new FlavorTextBestiaryInfoElement("A type of plant humanoid, resembling a well-dressed botanist. Spends the day hibernating and photosynthesising, and emerges at night to spread her saplings: healing blueberries and explosive nightshades.")
+                new FlavorTextBestiaryInfoElement("A type of plant humanoid, resembling a well-dressed botanist. Spends the day hibernating and photosynthesising, and emerges at night to spread her saplings: healing blueberries and explosive nightshades. True to her appearance, she takes great pride in her botany and vibrant complexion.")
             });
         }
         public float AIState

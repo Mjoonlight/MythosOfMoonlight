@@ -50,7 +50,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
             {
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime, //making the bg too dark lol
                 new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
-                new FlavorTextBestiaryInfoElement("//PlaceHolder// The Comet Ember, which spins in place, slowly moving up and down. Once the player is close, it tries to float above them and crash back down, exploding.")
+                new FlavorTextBestiaryInfoElement("An unstable orb of accumulated magic energy. Attempts to extinguish any foreign life to the comet's light by divebombing and exploding.")
             });
         }
         private enum NState
