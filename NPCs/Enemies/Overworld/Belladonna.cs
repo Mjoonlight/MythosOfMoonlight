@@ -115,16 +115,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         }
         public override void HitEffect(int hitDirection, double damage)
         {
+            for (int i = 0; i < 5; i++)
+            {
+                Dust.NewDust(NPC.Center, 32, 32, DustID.Grass, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
+                Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
+            }
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     Dust.NewDust(NPC.Center, 32, 32, DustID.Grass, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
                     Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection * 2);
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

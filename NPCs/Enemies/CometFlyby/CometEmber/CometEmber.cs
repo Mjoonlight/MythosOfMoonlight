@@ -53,6 +53,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                 new FlavorTextBestiaryInfoElement("An unstable orb of accumulated magic energy. Attempts to extinguish any foreign life to the comet's light by divebombing and exploding.")
             });
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
+        }
         private enum NState
         {
             Wander,

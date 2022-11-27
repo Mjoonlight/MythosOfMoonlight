@@ -28,12 +28,12 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.holdStyle = ItemHoldStyleID.HoldFront;
             Item.width = 44;
-            Item.mana = 6;
+            Item.mana = 4;
             Item.height = 50;
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.knockBack = 2f;
-            Item.damage = 4;
+            Item.damage = 9;
             Item.rare = ItemRarityID.Green;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
