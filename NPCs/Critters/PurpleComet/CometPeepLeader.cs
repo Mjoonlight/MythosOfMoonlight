@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         public override string Texture => "MythosOfMoonlight/NPCs/Critters/PurpleComet/CometPeep";
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !PurpleCometEvent.PurpleComet ? 0 : 0.37f;
+            return !PurpleCometEvent.PurpleComet ? 0 : 0.17f;
         }
         public override void PostAI()
         {

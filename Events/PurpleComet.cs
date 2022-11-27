@@ -12,6 +12,7 @@ using MythosOfMoonlight.NPCs.Enemies.Starine;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using Terraria.Chat;
+using System;
 using MythosOfMoonlight.NPCs.Enemies;
 
 namespace MythosOfMoonlight //Every comment is a guess lmao
@@ -72,6 +73,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 
         public static int[] PurpleCometCritters => new[]
          {
+            NPCType<JellyWanderer>(),
             NPCType<SparkleSkittler>(),
             NPCType<CometPeep>(),
             NPCType<CometPeepLeader>(),
@@ -92,6 +94,21 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
         {
             NPCType<CometEmber>()
         };
+        public static void CritterDeath(Vector2 pos)
+        {
+            int count1 = Main.rand.Next(6, 8);
+            int count2 = Main.rand.Next(9, 12);
+            for (int a = 0; a < count2; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count2) * (a + 1);
+                Dust.NewDustDirect(pos, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
+            }
+            for (int a = 0; a < count1; a++)
+            {
+                float pi = (float)((2f * Math.PI) / count1) * (a + 1);
+                Dust.NewDustDirect(pos, 0, 0, DustID.CrystalPulse, (float)Math.Cos(pi) * 1.75f, (float)Math.Sin(pi) * 1.75f).noGravity = true;
+            }
+        }
         public override void PreUpdateWorld()
         {
             if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)

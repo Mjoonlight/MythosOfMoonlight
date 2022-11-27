@@ -56,18 +56,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override void OnKill()
         {
-            int count1 = Main.rand.Next(6, 8);
-            int count2 = Main.rand.Next(9, 12);
-            for(int a = 0; a < count2; a++)
-            {
-                float pi = (float)((2f * Math.PI) / count2) * (a + 1);
-                Dust.NewDustDirect(NPC.Center, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
-            }
-            for (int a = 0; a < count1; a++)
-            {
-                float pi = (float)((2f * Math.PI) / count1) * (a + 1);
-                Dust.NewDustDirect(NPC.Center, 0, 0, DustID.CrystalPulse, (float)Math.Cos(pi) * 1.75f, (float)Math.Sin(pi) * 1.75f).noGravity = true;
-            }
+            PurpleCometEvent.CritterDeath(NPC.Center);
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
