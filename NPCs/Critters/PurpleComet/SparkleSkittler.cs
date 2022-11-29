@@ -91,6 +91,10 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             NPC.spriteDirection = NPC.direction;
         }
         const int FRAME_RATE = 3;
+        public override void OnKill()
+        {
+            PurpleCometEvent.CritterDeath(NPC.Center);
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int i = 0; i < 2; i++)
@@ -100,12 +104,6 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             }
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
-                    Main.dust[dust].scale = 1f;
-                }
-
                 if (Main.netMode == NetmodeID.Server)
                     return;
 

@@ -24,6 +24,6 @@ namespace MythosOfMoonlight.Dusts
             return false;
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
-            => new Color(lightColor.R, lightColor.G, lightColor.B, 25);
+            => new Color(lightColor.R, lightColor.G, lightColor.B, 250);
     }
 }

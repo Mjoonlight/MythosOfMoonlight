@@ -8,12 +8,12 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 using MythosOfMoonlight.NPCs.Critters.PurpleComet;
-using MythosOfMoonlight.NPCs.Enemies.Starine;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using Terraria.Chat;
 using System;
 using MythosOfMoonlight.NPCs.Enemies;
+using MythosOfMoonlight.NPCs.Enemies.Overworld.Starine;
 
 namespace MythosOfMoonlight //Every comment is a guess lmao
 {

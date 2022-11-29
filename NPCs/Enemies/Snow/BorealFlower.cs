@@ -7,10 +7,10 @@ using MythosOfMoonlight.Items.CenturySet;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore;
 using MythosOfMoonlight.Projectiles;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Enemies.Overworld;
+using MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSpore;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Snow
 {
@@ -170,7 +170,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CenturySprayer>(), 20));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CenturySprayer>(), 50));
         }
     }
 }

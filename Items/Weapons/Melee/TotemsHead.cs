@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
-using MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile;
+using MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem.EntropicTotemProjectile;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -77,7 +77,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
     }
     public class EntropicTotemProjectile2 : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
+        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Underground/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Totem Bullet");

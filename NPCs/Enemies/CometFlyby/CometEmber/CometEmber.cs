@@ -32,7 +32,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
             NPC.damage = 28;
             NPC.lifeMax = 70;
             NPC.defense = 2;
-            NPC.HitSound = SoundID.NPCHit39;
+            NPC.HitSound = SoundID.Item45;
             NPC.DeathSound = SoundID.Item74;
             NPC.aiStyle = -1;
             NPC.netAlways = true;
@@ -85,6 +85,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         public float Opaque;
         public override void AI()
         {
+            Lighting.AddLight(NPC.Center, 0.5f, 0.7f, 1f);
+            if (Main.rand.NextBool(10))
+                Dust.NewDustDirect(NPC.Center + (new Vector2(Main.rand.Next(-NPC.width, NPC.width), Main.rand.Next(-NPC.height, NPC.height)) / 2), 0, 0, ModContent.DustType<PurpurineDust>()).velocity = Vector2.Zero;
             Timer++;
             foreach (Player player in Main.player)
             {
@@ -178,7 +181,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Color color = Color.White;
+            Color color = new(255, 255, 255, 50);
             Vector2 drawPos = NPC.Center - screenPos;
             Texture2D origTexture = TextureAssets.Npc[NPC.type].Value;
             Vector2 orig = origTexture.Size() / 2f;
@@ -192,7 +195,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                     {
                         float rad = MathHelper.ToRadians(i + (i / 60f) * (Timer - j));
                         float pulse = 1.5f + .5f * (float)Math.Sin(MathHelper.ToRadians(2 * i + (Timer - j)));
-                        Main.spriteBatch.Draw(origTexture, NPC.oldPos[j] + new Vector2(NPC.width / 2, NPC.height / 2) - screenPos, null, color * (float)((float)(12 - j) / 24), rad, orig, pulse, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(origTexture, NPC.oldPos[j] + new Vector2(NPC.width / 2, NPC.height / 2) - screenPos, null, color * (float)((float)(16 - j) / 24), rad, orig, pulse, SpriteEffects.None, 0f);
                     }
                 }
                 for (int i = -60; i <= 60; i += 60)

@@ -8,7 +8,7 @@ using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 
-namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
+namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
 {
     public class CenturyFlower : ModNPC
     {
@@ -207,7 +207,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CenturySprayer>(), 20));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CenturySprayer>(), 50));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer
 {
     public class CenturySpewerSpore : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
+        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Century Spewer Spore");

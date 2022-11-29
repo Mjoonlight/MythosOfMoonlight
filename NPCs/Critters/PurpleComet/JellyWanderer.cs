@@ -92,7 +92,8 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override void AI()
         {
-            Lighting.AddLight(NPC.Center, new Vector3(255, 125, 255) * 0.01f);
+            // Lighting.AddLight(NPC.Center, new Vector3(255, 125, 255) * 0.01f);
+            Lighting.AddLight(NPC.Center, 0.5f, 0.7f, 1f);
             int check = (int)Math.Round(NPC.velocity.Length() * 60);
             //Main.NewText(check);
             if (check > 1 && Main.rand.NextBool(check))
@@ -134,7 +135,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
                 new FlavorTextBestiaryInfoElement("Jelly Wanderers are constantly on the move, and passively absorb energy from the sun, resulting in them glowing brilliantly at night. Many species of wildlife take advantage of this by using their illuminance for wayfinding.")
             });
         }
