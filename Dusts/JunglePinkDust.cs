@@ -1,4 +1,6 @@
-﻿using Terraria;
+
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.Dusts
@@ -25,6 +27,10 @@ namespace MythosOfMoonlight.Dusts
                 dust.active = false;
 
             return false;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return new Color(255, 255, 255, 100) * dust.scale;
         }
     }
 }

@@ -157,11 +157,12 @@ namespace MythosOfMoonlight
         {
             return GetTileInHorizontalRange(new Vector2(x, y), xRange);
         }
-        public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1)
+        public static void SpawnDust(Vector2 position, Vector2 size, int type, Vector2 velocity = default, int amount = 1, Action<Dust> dustModification = null)
         {
             for (int i = 0; i < amount; i++)
             {
-                Dust.NewDust(position, (int)size.X, (int)size.Y, type, velocity.X, velocity.Y);
+                var dust = Main.dust[Dust.NewDust(position, (int)size.X, (int)size.Y, type, velocity.X, velocity.Y)];
+                dustModification?.Invoke(dust);
             }
         }
         public static void SpawnGore(NPC NPC, string gore, int amount = 1, int type = -1, Vector2 vel = default)

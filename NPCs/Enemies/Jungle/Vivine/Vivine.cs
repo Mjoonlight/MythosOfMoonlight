@@ -12,7 +12,6 @@ using Terraria.GameContent.Bestiary;
 using System.IO;
 using MythosOfMoonlight.Gores.Enemies;
 using Terraria.Audio;
-
 namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
 { 
     public class Vivine : ModNPC
@@ -25,7 +24,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
         {
             NPC.width = 40;
             NPC.height = 58;
-            NPC.lifeMax = 120;
+            NPC.lifeMax = 110;
             NPC.defense = 5;
             NPC.damage = 15;
             NPC.knockBackResist = 0.8f;
@@ -39,7 +38,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
-                new FlavorTextBestiaryInfoElement("Stupid Dumb PLant Idiot I hate you.")
+                new FlavorTextBestiaryInfoElement("A type of tripod carnivorous flower native to the jungle's moist caverns. Spits a pink corrosive substance at prey, approaching only to slurp up the pre-digested slurry.")
             });
         }
         public float AIState
@@ -82,7 +81,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
                         if (NPC.frame.Y < 4 * NPC.height)
                             NPC.frame.Y += NPC.height;
                         else
-                            NPC.frame.Y = 2 * NPC.height;
+                            NPC.frame.Y = 1 * NPC.height;
                     }
                 }
                 else if (AIState == Spit)
@@ -107,10 +106,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
                 NPC.frameCounter++;
                 if (NPC.frameCounter % 5 == 0)
                 {
-                    if (NPC.frame.Y < 7 * NPC.height)
+                    if (NPC.frame.Y < 4 * NPC.height)
                         NPC.frame.Y += NPC.height;
                     else
-                        NPC.frame.Y = 2 * NPC.height;
+                        NPC.frame.Y = 1 * NPC.height;
                 }
             }
         }
@@ -136,9 +135,22 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             Player player = Main.player[NPC.target];
             return player.Center.Y > NPC.Center.Y;
         }
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            //3hi31mg
+            var clr = new Color(255, 255, 255, 100); // full white
+            var drawPos = NPC.Center - screenPos;
+            var texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Glow").Value;
+            var origTexture = TextureAssets.Npc[NPC.type].Value;
+            var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
+            var orig = frame.Size() / 2f - new Vector2(0, 3);
+            Main.spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, NPC.direction < 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Main.spriteBatch.Draw(texture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, NPC.direction < 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            return false;
+        }
         public override void AI()
         {
-            Lighting.AddLight(NPC.Center, new Vector3(19, 8, 11) * 0.3f);
+            Lighting.AddLight(NPC.Center, new Vector3(.19f, .08f, .11f));
             NPC.TargetClosest();
             Player player = Main.player[NPC.target];
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -148,7 +160,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
                 NPC.velocity.X *= .9f;
                 NPC.knockBackResist = 0.8f;
                 AITimer++;
-                if (AITimer >= 100)
+                if (AITimer >= 50)
                 {
                     AITimer = 0;
                     AIState = Move;
@@ -157,14 +169,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             }
             else if (AIState == Move)
             {
+                var Distance = Vector2.Distance(player.Center, NPC.Center);
                 NPC.knockBackResist = 0.8f;
                 AITimer++;
                 NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, -1, 0/*, 1, 0*/);
-                if (AITimer >= 400)
+                if (AITimer >= 200 && Distance < 500)
                 {
                     AITimer = 0;
                     AIState = Spit;
-                    NPC.frame.Y = NPC.height * 8;
+                    NPC.frame.Y = NPC.height * 5;
                     NPC.velocity = Vector2.Zero;
                 }
             }
@@ -172,12 +185,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             {
                 NPC.velocity.X *= 0;
                 NPC.knockBackResist = 0f;
-                if (NPC.frame.Y == 15 * NPC.height && AITimer == 0)
+                if (NPC.frame.Y == 9 * NPC.height && AITimer == 0)
                 {
-                    AITimer = 1;
+                    AITimer = 1;        
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(1, 19), Vector2.Normalize(Main.player[NPC.target].Center + new Vector2(0, -150) - NPC.Center) * 10f, ModContent.ProjectileType<VivineSpit>(), 0, 0);
-                    }
+                        SoundEngine.PlaySound(SoundID.Item17);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(1, 19), Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 10f, ModContent.ProjectileType<VivineSpit>(), 15, 0);
+                    }   
                 }
             }
         }
@@ -193,9 +207,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 300;
         }
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, new Vector3(.19f, .08f, .11f) * .5f);
+            Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<JunglePinkDust>(), Vector2.Zero, 1, dust => dust.noGravity = true);
+        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 100);
         public override void Kill(int timeleft)
         {
-            Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<JunglePinkDust>(), Projectile.velocity * .5f, 8);
+            Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<JunglePinkDust>(), -Projectile.velocity * .5f, 20, dust => dust.scale = 1.5f);
+            SoundEngine.PlaySound(SoundID.NPCHit18);
         }
     }
 }
