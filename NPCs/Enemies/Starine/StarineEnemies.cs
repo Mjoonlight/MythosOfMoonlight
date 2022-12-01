@@ -421,7 +421,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         }
         void AngryStateAnimation()
         {
-            if (SqrDistanceFromPlayer <= aggrorange)
+            if (SqrDistanceFromPlayer <= aggrorange && cooldown <= 0 && !NPC.collideX)
             {
                 if (NPC.frameCounter == 11 && (NPC.ai[1]) % 4 == 0) NPC.ai[0] = 0;
                 if (NPC.ai[0] < 50) NPC.frameCounter = 5;

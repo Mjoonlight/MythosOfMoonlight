@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Starine
 {
@@ -25,12 +26,19 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.damage = 30;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.timeLeft = MAX_TIMELEFT;
             Projectile.penetrate = -1;
         }
+        Vector2 basePos;
+        public override void OnSpawn(IEntitySource source)
+        {
+            basePos = Projectile.Center;
+        }
         public override void AI()
         {
+            if (Projectile.Center.Y < basePos.Y - 16)
+                Projectile.tileCollide = true;
             var dustType = ModContent.DustType<StarineDust>();
             var dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
             Main.dust[dust].velocity = Vector2.Zero;
@@ -52,7 +60,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         bool HasCollided = false;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (HasCollided == false)
+            if (!HasCollided)
             {
                 SoundEngine.PlaySound(SoundID.Item10.WithVolumeScale(.8f), Projectile.Center);
                 HasCollided = true;
