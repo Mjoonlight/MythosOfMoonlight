@@ -8,7 +8,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.DataStructures;
 
-namespace MythosOfMoonlight.NPCs.Enemies.Starine
+namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {
     public class Starine_Sparkle : ModProjectile
     {

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 
-namespace MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile
+namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem.EntropicTotemProjectile
 {
     public class EntropicTotemProjectile : ModProjectile
     {

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using System.Collections.Generic;
+using Terraria.Audio;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -35,6 +36,7 @@ namespace MythosOfMoonlight.Projectiles
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Frost, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default(Color), 0.8f);
             }
+            SoundEngine.PlaySound(SoundID.Item48, Projectile.Center);
         }
         public override bool ShouldUpdatePosition()
         {

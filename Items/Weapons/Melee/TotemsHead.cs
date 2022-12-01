@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
-using MythosOfMoonlight.NPCs.Enemies.EntropicTotem.EntropicTotemProjectile;
+using MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem.EntropicTotemProjectile;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         {
             Item.CloneDefaults(ItemID.Shroomerang);
             Item.Size = new Vector2(18, 42);
-            Item.damage = 12;
+            Item.damage = 16;
             Item.shoot = ModContent.ProjectileType<TotemsHeadP>();
         }
         public override bool CanUseItem(Player player)
@@ -71,22 +71,18 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         }*/
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (b == 0)
-            {
                 Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.One, ModContent.ProjectileType<EntropicTotemProjectile2>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
                 a.ai[0] = 10f;
-                b = 1;
-            }
         }
     }
     public class EntropicTotemProjectile2 : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
+        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Underground/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Totem Bullet");
         }
-        public const int MAX_TIMELEFT = 35;
+        public const int MAX_TIMELEFT = 50;
         public override void SetDefaults()
         {
             Projectile.height = Projectile.width = 10;

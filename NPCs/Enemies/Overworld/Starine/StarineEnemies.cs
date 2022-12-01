@@ -11,7 +11,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.DataStructures;
 using MythosOfMoonlight.BiomeManager;
 
-namespace MythosOfMoonlight.NPCs.Enemies.Starine
+namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {
     public class Starine_Skipper : ModNPC
     {
@@ -182,8 +182,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                                         NumZeroes = 0;
                                     }
                                 }
-                                else State = (JumpsElapsed % 4f == 0) ? 2f : 1f;
-                                Timer = (JumpsElapsed % 4f == 0) ? 30f : (8f * ((NPC.life < NPC.lifeMax / 2) ? (NPC.life / NPC.lifeMax) : 1f));
+                                else State = JumpsElapsed % 4f == 0 ? 2f : 1f;
+                                Timer = JumpsElapsed % 4f == 0 ? 30f : 8f * (NPC.life < NPC.lifeMax / 2 ? NPC.life / NPC.lifeMax : 1f);
                                 NPC.velocity.X = 0;
                             }
                             else
@@ -196,7 +196,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                             Timer--;
                             if (Timer <= 0)
                             {
-                                NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? 1 : -1;
+                                NPC.direction = NPC.spriteDirection = target.position.X > NPC.position.X ? 1 : -1;
                                 NPC.velocity = new Vector2(4f * NPC.direction, -7f);
                                 JumpsElapsed++;
                                 State = 0;
@@ -219,7 +219,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
                         Timer--;
                         if (Timer <= 0)
                         {
-                            NPC.direction = NPC.spriteDirection = (target.position.X > NPC.position.X) ? -1 : 1;
+                            NPC.direction = NPC.spriteDirection = target.position.X > NPC.position.X ? -1 : 1;
                             NPC.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * NPC.direction, -7f);
                             JumpsElapsed++;
                             State = 0;
@@ -320,9 +320,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
             {
                 TargetY = Main.player[NPC.target].position.Y;
                 if (!exceedMin || NPC.direction == 0)
-                    NPC.direction = (Main.player[NPC.target].position.X > NPC.position.X) ? 1 : -1;
+                    NPC.direction = Main.player[NPC.target].position.X > NPC.position.X ? 1 : -1;
 
-                NPC.spriteDirection = (Main.player[NPC.target].position.X > NPC.position.X) ? 1 : -1;
+                NPC.spriteDirection = Main.player[NPC.target].position.X > NPC.position.X ? 1 : -1;
                 sineTime = MathHelper.Lerp(sineTime, 110f, 0.01f);
             }
 
@@ -423,7 +423,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Starine
         {
             if (SqrDistanceFromPlayer <= aggrorange && cooldown <= 0 && !NPC.collideX)
             {
-                if (NPC.frameCounter == 11 && (NPC.ai[1]) % 4 == 0) NPC.ai[0] = 0;
+                if (NPC.frameCounter == 11 && NPC.ai[1] % 4 == 0) NPC.ai[0] = 0;
                 if (NPC.ai[0] < 50) NPC.frameCounter = 5;
                 else if (NPC.ai[1] % 4 == 0) NPC.frameCounter++;
             }

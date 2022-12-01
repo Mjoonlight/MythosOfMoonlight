@@ -167,9 +167,9 @@ SUMMONERMELEE */
                 {
                     Dust.NewDust(NPC.Center, 32, 32, DustID.Blood, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 2, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 3, Vector2.One * hitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 1, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 2, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 3, Vector2.One * hitDirection * 2);
             }
         }
         public override void AI()

@@ -1,0 +1,7 @@
+- Uses the semi-circle trailing system, except each time, it does a full circle
+- The squidling can accelerate and decelerate, and each time a full cicle is done, it will
+branch to another circle from the starting position, with a randomly sized circuit; its speed
+is inversely relative to the size of the circle
+- The squidling may randomly stop for a few seconds, then spontaneously boost at a constant high
+speed; this will leave a trail of dust and ink for a few seconds; the same event can happen
+if hurt

@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             NPC.width = 32;
             NPC.height = 20;
-            NPC.catchItem = ModContent.ItemType<Items.PurpleComet.Critters.CometPeepItem>();
+            NPC.catchItem = ModContent.ItemType<Items.Critters.CometPeepItem>();
             //NPC.friendly = true;
             NPC.aiStyle = -1;
             NPC.defense = 0;
@@ -56,24 +56,13 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override void OnKill()
         {
-            int count1 = Main.rand.Next(6, 8);
-            int count2 = Main.rand.Next(9, 12);
-            for(int a = 0; a < count2; a++)
-            {
-                float pi = (float)((2f * Math.PI) / count2) * (a + 1);
-                Dust.NewDustDirect(NPC.Center, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
-            }
-            for (int a = 0; a < count1; a++)
-            {
-                float pi = (float)((2f * Math.PI) / count1) * (a + 1);
-                Dust.NewDustDirect(NPC.Center, 0, 0, DustID.CrystalPulse, (float)Math.Cos(pi) * 1.75f, (float)Math.Sin(pi) * 1.75f).noGravity = true;
-            }
+            PurpleCometEvent.CritterDeath(NPC.Center);
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+                new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
                 new FlavorTextBestiaryInfoElement("Often seen in flocks, known as showers (see: Meteor Shower), these undeniably adorable critters are able to communicate amongst each other, and can even be seen playing, although they do scurry when approached.")
             });
         }

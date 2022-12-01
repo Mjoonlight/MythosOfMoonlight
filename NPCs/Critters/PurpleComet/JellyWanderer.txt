@@ -1,0 +1,3 @@
+- Slowly leaps midair in parabolic arcs, tilts based on its velocity, towards the direction it is heading
+- After a leap, it will stop moving and slowly descent, then anticipate another leap
+- Every leap creates small amounts of dust in its trail

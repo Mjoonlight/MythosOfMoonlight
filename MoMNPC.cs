@@ -67,7 +67,7 @@ namespace MythosOfMoonlight
 
             if (PurpleCometEvent.PurpleComet && Main.LocalPlayer.ZoneOverworldHeight)
             {
-                bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Starine.Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Starine.Starine_Skipper>());
+                bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Overworld.Starine.Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<NPCs.Enemies.Overworld.Starine.Starine_Skipper>());
                 pool.Clear();
                 for (int i = 0; i < PurpleCometEvent.PurpleCometCritters.Length; i++)
                 {

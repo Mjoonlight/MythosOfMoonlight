@@ -1,0 +1,3 @@
+- Walks and can jump over a max of two tile walls and pits
+- Runs away from nearby players
+- Has a shining aura, and dust particles on the exact pixels of its current frame

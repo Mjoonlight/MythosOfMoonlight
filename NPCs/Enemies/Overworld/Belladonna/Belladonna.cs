@@ -11,8 +11,9 @@ using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using System.IO;
 using MythosOfMoonlight.Gores.Enemies;
+using Terraria.Audio;
 
-namespace MythosOfMoonlight.NPCs.Enemies.Overworld
+namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
 {
     public class Belladonna : ModNPC
     {
@@ -38,7 +39,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
-                new FlavorTextBestiaryInfoElement("A type of plant humanoid, resembling a well-dressed botanist. Spends the day hibernating and photosynthesising, and emerges at night to spread her saplings: healing blueberries and explosive nightshades.")
+                new FlavorTextBestiaryInfoElement("A type of plant humanoid, resembling a well-dressed botanist. Spends the day hibernating and photosynthesising, and emerges at night to spread her saplings: healing blueberries and explosive nightshades. True to her appearance, she takes great pride in her botany and vibrant complexion.")
             });
         }
         public float AIState
@@ -115,16 +116,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         }
         public override void HitEffect(int hitDirection, double damage)
         {
+            Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 2);
+            Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<BelladonnaD1>(), new Vector2(2 * hitDirection, -1.5f), 2);
+            Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<BelladonnaD2>(), new Vector2(2 * hitDirection, -1.5f), 2);
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    Dust.NewDust(NPC.Center, 32, 32, DustID.Grass, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD1>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
-                    Dust.NewDust(NPC.Center, 32, 32, ModContent.DustType<BelladonnaD2>(), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), 0, default, 2);
-                }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection);
+                Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 8);
+                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<BelladonnaD1>(), new Vector2(2 * hitDirection, -1.5f), 8);
+                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<BelladonnaD2>(), new Vector2(2 * hitDirection, -1.5f), 8);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 1, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Belladonna", 1, 2, Vector2.One * hitDirection * 2);
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -218,7 +219,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
             {
                 if (Projectile.ai[1] < 1)
                     Projectile.ai[1] += 0.05f;
-                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[1], 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
+                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[1], 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
             }
         }
         public override void AI()
@@ -238,9 +239,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                 for (int i = 0; i < 3; ++i)
                 {
                     if (Projectile.ai[0] == 0)
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<Blueberry>(), 0, 0);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<Blueberry>(), 0, 0);
                     else
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<Nightshade>(), 0, 0);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<Nightshade>(), 0, 0);
                 }
             }
         }
@@ -263,7 +264,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         }
         public override void PostDraw(Color lightColor)
         {
-            Color color = Color.White * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5)) * 2);
+            Color color = Color.White * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5) * 2);
             Texture2D a = TextureAssets.Projectile[Type].Value;
             Main.EntitySpriteDraw(a, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, a.Size() / 2, 1, SpriteEffects.None, 0);
         }
@@ -304,13 +305,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
         }
         public override void PostDraw(Color lightColor)
         {
-            Color color = Color.White * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5)) * 2);
+            Color color = Color.White * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5) * 2);
             Texture2D a = TextureAssets.Projectile[Type].Value;
             Main.EntitySpriteDraw(a, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, a.Size() / 2, 1, SpriteEffects.None, 0);
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Nightshade2>(), 10, 0);
+            Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Nightshade2>(), 10, 0);
         }
         public override void AI()
         {
@@ -321,7 +322,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld
                     if (npc.Center.Distance(Projectile.Center) < 50)
                     {
                         Projectile.Kill();
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Nightshade2>(), 10, 0);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Nightshade2>(), 10, 0);
                     }
                 }
             }

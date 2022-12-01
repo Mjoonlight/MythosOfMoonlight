@@ -4,11 +4,11 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles;
 
-namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
+namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSpore
 {
     public class CenturyFlowerSpore : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
+        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Century Flower Spore");
@@ -68,7 +68,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
     }
     public class ChillyCenturyFlowerSpore : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore3";
+        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore3";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Century Flower Spore");
@@ -117,9 +117,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CenturyFlower.CenturyFlowerSpore
         }
         public override void AI()
         {
-            if(Main.rand.NextBool(5))
+            if (Main.rand.NextBool(5))
             {
-                Dust d = Dust.NewDustDirect(Projectile.Center, (int)(Projectile.width * Projectile.scale), (int)(Projectile.height * Projectile.scale), DustID.Frost, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default(Color), 0.8f);
+                Dust d = Dust.NewDustDirect(Projectile.Center, (int)(Projectile.width * Projectile.scale), (int)(Projectile.height * Projectile.scale), DustID.Frost, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default, 0.8f);
                 d.noGravity = true;
             }
             Projectile.knockBack = 0;
