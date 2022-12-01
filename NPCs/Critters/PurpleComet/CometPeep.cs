@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             NPC.width = 32;
             NPC.height = 20;
-            NPC.catchItem = ModContent.ItemType<Items.PurpleComet.Critters.CometPeepItem>();
+            NPC.catchItem = ModContent.ItemType<Items.Critters.CometPeepItem>();
             //NPC.friendly = true;
             NPC.aiStyle = -1;
             NPC.defense = 0;

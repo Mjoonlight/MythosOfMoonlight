@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.Items.PurpleComet.Critters;
+using MythosOfMoonlight.Items.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

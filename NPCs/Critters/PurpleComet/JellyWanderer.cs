@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MythosOfMoonlight.BiomeManager;
 using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.Items.PurpleComet.Critters;
+using MythosOfMoonlight.Items.Critters;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using MythosOfMoonlight.Utilities;

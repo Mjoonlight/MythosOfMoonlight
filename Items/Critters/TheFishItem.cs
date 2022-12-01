@@ -1,24 +1,24 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MythosOfMoonlight.NPCs.Critters.PurpleComet;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
+using MythosOfMoonlight.NPCs.Critters;
 
-namespace MythosOfMoonlight.Items.PurpleComet.Critters
+namespace MythosOfMoonlight.Items.Critters
 {
-    public class SparkleSkittlerItem : ModItem
+    public class TheFishItem : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkle Skittler");
+            DisplayName.SetDefault("Yellow Boxfish");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 16;
-            Item.height = 24;
+            Item.width = 22;
+            Item.height = 20;
             Item.rare = ItemRarityID.Blue;
             Item.maxStack = 99;
             Item.value = Item.sellPrice(0, 0, 5, 5);
@@ -33,7 +33,7 @@ namespace MythosOfMoonlight.Items.PurpleComet.Critters
 
         public override bool? UseItem(Player player)
         {
-            int index = NPC.NewNPC(new EntitySource_SpawnNPC(), (int)(player.position.X + Main.rand.Next(-20, 20)), (int)(player.position.Y - 0f), ModContent.NPCType<SparkleSkittler>());
+            int index = NPC.NewNPC(new EntitySource_SpawnNPC(), (int)(player.position.X + Main.rand.Next(-20, 20)), (int)(player.position.Y - 0f), ModContent.NPCType<TheFish>());
 
             if (Main.netMode == NetmodeID.Server && index < Main.maxNPCs)
                 NetMessage.SendData(MessageID.SyncNPC, number: index);
