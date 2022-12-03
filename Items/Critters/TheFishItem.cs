@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.Items.Critters
         {
             Recipe recipe = Recipe.Create(ItemID.Sashimi)
                .AddIngredient(ModContent.ItemType<TheFishItem>())
-               .AddTile(TileID.CookingPots)
+               .AddTile(TileID.WorkBenches)
                .Register();
         }
     }
