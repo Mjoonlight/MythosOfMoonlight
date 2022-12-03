@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
 using MythosOfMoonlight.NPCs.Critters;
+using MythosOfMoonlight.Items.Materials;
 
 namespace MythosOfMoonlight.Items.Critters
 {
@@ -38,6 +39,13 @@ namespace MythosOfMoonlight.Items.Critters
             if (Main.netMode == NetmodeID.Server && index < Main.maxNPCs)
                 NetMessage.SendData(MessageID.SyncNPC, number: index);
             return true;
+        }
+        public override void AddRecipes()
+        {
+            Recipe recipe = Recipe.Create(ItemID.Sashimi)
+               .AddIngredient(ModContent.ItemType<TheFishItem>())
+               .AddTile(TileID.CookingPots)
+               .Register();
         }
     }
 }
