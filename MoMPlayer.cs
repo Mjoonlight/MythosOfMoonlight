@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
+using MythosOfMoonlight.Tiles;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -24,6 +25,26 @@ namespace MythosOfMoonlight
         public int source = -1;
         public float lerpSpeed;
         public float LerpTimer;
+        public override void OnEnterWorld(Player player)
+        {
+            for (int i = 1; i < Main.maxTilesX; i++)
+            {
+                for (int j = 1; j < Main.maxTilesY; j++)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile.TileType == ModContent.TileType<SymbolPointTile>())
+                    {
+                        if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                        {
+                            NPC npc = NPC.NewNPCDirect(null, (i - 1) * 16, (j - 2) * 16, ModContent.NPCType<Starine_Symbol>());
+                            npc.homeTileX = i;
+                            npc.homeTileY = j - 1;
+                            if (Main.netMode == NetmodeID.Server) NetMessage.SendData(MessageID.SyncNPC);
+                        }
+                    }
+                }
+            }
+        }
         public override void ResetEffects()
         {
             CommunicatorEquip = false;
