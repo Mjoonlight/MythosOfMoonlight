@@ -21,8 +21,13 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void GenTask(Point16 topLeft)
         {
+<<<<<<< Updated upstream
             int baseCheckX = topLeft.X - 10;
             int baseCheckY = topLeft.Y - 4;
+=======
+            int baseCheckX = topLeft.X;
+            int baseCheckY = topLeft.Y;
+>>>>>>> Stashed changes
             for (int l = 0; l < 10; l++)
             {
                 for (int m = 0; m < 4; m++)
@@ -46,7 +51,11 @@ namespace MythosOfMoonlight.Common.Systems
             {
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Generating Starine Symbol Spawnpoint", delegate (GenerationProgress progress, GameConfiguration configuration)
                 {
+<<<<<<< Updated upstream
                     StructureGenCheck(.05f, new List<int> { TileID.Dirt, TileID.Grass }, .45f, .55f, .2f, (float)(Main.worldSurface / Main.maxTilesY), 1);
+=======
+                    StructureGenCheck(.1f, new List<int> { TileID.Grass }, new List<int> { TileID.Grass, TileID.Dirt }, .45f, .55f, .2f, (float)(Main.worldSurface / Main.maxTilesY), 2);
+>>>>>>> Stashed changes
                 }));
             }
         }
