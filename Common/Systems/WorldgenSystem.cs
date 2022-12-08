@@ -94,9 +94,6 @@ namespace MythosOfMoonlight.Common.Systems
                 }
             }
         }
-<<<<<<< Updated upstream
-        public void StructureGenCheck(float chance, List<int> ProperBlock, float left = 0, float right = 1, float mindepth = 0, float maxdepth = 1, int depthOffset = 10)
-=======
         private bool BasementCheck(List<int> BaseBlock,Point tile,int halfWidth, int halfHeight)
         {
             bool canSpawn = false;
@@ -123,7 +120,6 @@ namespace MythosOfMoonlight.Common.Systems
             return canSpawn;
         }
         public void StructureGenCheck(float chance, List<int> BaseBlock, List<int> ProperBlock, float left = 0, float right = 1, float mindepth = 0, float maxdepth = 1, int depthOffset = 10)
->>>>>>> Stashed changes
         /*
          * chance: the chance of each block in world get checked. ProperBlock: a list containing the TileIDs of the blocks that can be used as its base.
          * depthOffset: the foundation thickness of the structure.
@@ -164,18 +160,11 @@ namespace MythosOfMoonlight.Common.Systems
                         //If there's tile above it and is not trees, this is not a proper place for generation.
                     }
                     Tile tile1 = Main.tile[tileX, tileY];
-<<<<<<< Updated upstream
-                    if (!ProperBlock.Contains(tile1.TileType) || !tile1.HasTile)
-                    {
-                        canplace = false;
-                    }
-=======
                     if (!BaseBlock.Contains(tile1.TileType) || !tile1.HasTile)
                     {
                         canplace = false;
                     }
                     if (!BasementCheck(BaseBlock, new Point(tileX, tileY), (int)StructureSize.X / 2, depthOffset)) canplace = false;
->>>>>>> Stashed changes
                     /*
                      * If the place has no solid tiles or the type doesn't meet the need, this is not a proper place for generation.
                      */
@@ -184,35 +173,20 @@ namespace MythosOfMoonlight.Common.Systems
                      * Check the area right to the position.
                      */
                     {
-<<<<<<< Updated upstream
-                        bool can1 = true;
-=======
                         bool can1 = false;
->>>>>>> Stashed changes
                         bool can2 = true;
                         for (int d = 0; d <= depthOffset; d += (int)Math.Min(depthOffset, 2))
                         {
-                            Tile tile = Main.tile[tileX + b, tileY + d];
-<<<<<<< Updated upstream
-                            if (!tile.HasTile || (!ProperBlock.Contains(tile.TileType) && !SafeBlock.Contains(tile.TileType)))
-                            {
-                                can1 = false;
-=======
-                            if (tile.HasTile && (BaseBlock.Contains(tile.TileType) || SafeBlock.Contains(tile.TileType)))
+                            Tile tile = Main.tile[tileX + b, tileY + d];                            if (tile.HasTile && (BaseBlock.Contains(tile.TileType) || SafeBlock.Contains(tile.TileType)))
                             {
                                 can1 = true;
->>>>>>> Stashed changes
                                 break;
                             }
                         }
                         /*
                          * Check if there's solid tiles of certain types below the right side of structure bottom. If false, this is not a proper place for it.
                          */
-<<<<<<< Updated upstream
-                        for (int e = 0; e <= depthOffset; e += (int)Math.Min(depthOffset, 2))
-=======
                         for (int e = 0; e <= depthOffset; e += (int)Math.Min(depthOffset, 1))
->>>>>>> Stashed changes
                         {
                             Tile tile = Main.tile[tileX + b, tileY - e];
                             if (tile.HasTile && tile.TileType != TileID.Trees)
@@ -270,21 +244,6 @@ namespace MythosOfMoonlight.Common.Systems
                      */
                     if (canplace)
                     {
-<<<<<<< Updated upstream
-                        Point16 pos = new(tileX - (int)(StructureSize.X / 2), tileY - (int)StructureSize.Y + depthOffset + 4);
-                        for (int x = 0; x < (int)StructureSize.X; x++)
-                        {
-                            for (int y = 0; y < (int)StructureSize.Y; y++)
-                            {
-                                Main.tile[pos.X - x, pos.Y - y].ClearEverything();
-                                Main.tile[pos.X - x, pos.Y - y].LiquidAmount = 0;
-                            }
-                        }
-                        /*
-                         * Clear liquid in the area before actually generating.
-                         */
-                        GenTask(pos);
-=======
                         Point16 pos = new(tileX, tileY - (int)StructureSize.Y);
                         for (int x = -(int)StructureSize.X / 2; x <= (int)StructureSize.X / 2; x++)
                         {
@@ -299,7 +258,6 @@ namespace MythosOfMoonlight.Common.Systems
                          * Clear liquid in the area before actually generating.
                          */
                         GenTask(pos2);
->>>>>>> Stashed changes
                         place = true;
                     }
                     if (place)
@@ -310,11 +268,7 @@ namespace MythosOfMoonlight.Common.Systems
                     {
                         if (a >= trial - 2)
                         {
-<<<<<<< Updated upstream
-                            StructureGenCheckAgain(chance, ProperBlock, left, right, mindepth, maxdepth, depthOffset);
-=======
                             StructureGenCheckAgain(chance, BaseBlock, ProperBlock, left, right, mindepth, maxdepth, depthOffset);
->>>>>>> Stashed changes
                             break;
                         }
                     }
@@ -325,11 +279,7 @@ namespace MythosOfMoonlight.Common.Systems
                 }
             }
         }
-<<<<<<< Updated upstream
-        public void StructureGenCheckAgain(float chance, List<int> ProperBlock, float left = 0, float right = 1, float mindepth = 0, float maxdepth = 1, int depthOffset = 10)
-=======
         public void StructureGenCheckAgain(float chance, List<int> BaseBlock, List<int> ProperBlock, float left = 0, float right = 1, float mindepth = 0, float maxdepth = 1, int depthOffset = 10)
->>>>>>> Stashed changes
         /*
          * chance: the chance of each block in world get checked. ProperBlock: a list containing the TileIDs of the blocks that can be used as its base.
          * depthOffset: the foundation thickness of the structure.
@@ -368,11 +318,7 @@ namespace MythosOfMoonlight.Common.Systems
                         //If there's tile above it and is not trees, this is not a proper place for generation.
                     }
                     Tile tile1 = Main.tile[tileX, tileY];
-<<<<<<< Updated upstream
-                    if (!ProperBlock.Contains(tile1.TileType) || !tile1.HasTile)
-=======
                     if (!BaseBlock.Contains(tile1.TileType) || !tile1.HasTile)
->>>>>>> Stashed changes
                     {
                         canplace = false;
                     }
@@ -384,21 +330,6 @@ namespace MythosOfMoonlight.Common.Systems
                      */
                     if (canplace)
                     {
-<<<<<<< Updated upstream
-                        Point16 pos = new(tileX - (int)(StructureSize.X / 2), tileY - (int)StructureSize.Y + depthOffset + 4);
-                        for (int x = 0; x < (int)StructureSize.X; x++)
-                        {
-                            for (int y = 0; y < (int)StructureSize.Y; y++)
-                            {
-                                Main.tile[pos.X - x, pos.Y - y].ClearEverything();
-                                Main.tile[pos.X - x, pos.Y - y].LiquidAmount = 0;
-                            }
-                        }
-                        /*
-                         * Clear liquid in the area before actually generating.
-                         */
-                        GenTask(pos);
-=======
                         Point16 pos = new(tileX, tileY - (int)StructureSize.Y);
                         for (int x = -(int)StructureSize.X / 2; x <= (int)StructureSize.X / 2; x++)
                         {
@@ -413,7 +344,6 @@ namespace MythosOfMoonlight.Common.Systems
                          * Clear liquid in the area before actually generating.
                          */
                         GenTask(pos2);
->>>>>>> Stashed changes
                         place = true;
                     }
                     if (place)
