@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //3hi31mg
-            var off = new Vector2(NPC.width / 2, NPC.height / 2 + 2);
+            var off = new Vector2(NPC.width / 2, NPC.height / 2);
             var clr = new Color(255, 255, 255, 255); // full white
             Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Trail").Value;
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
@@ -62,8 +62,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         }
         public override void SetDefaults()
         {
-            NPC.width = 46;
-            NPC.height = 38;
+            NPC.width = 40;
+            NPC.height = 36;
             NPC.aiStyle = -1;
             NPC.damage = 15;
             NPC.defense = 2;
@@ -362,7 +362,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         {
             NPC.frameCounter++;
             if (NPC.frameCounter >= (NPC.life >= NPC.lifeMax / 2 ? 17 : 11)) NPC.frameCounter = 0;
-
             NPC.frame.Y = (int)(NPC.frameCounter / (NPC.life >= NPC.lifeMax / 2 ? 6 : 4)) * frameHeight;
         }
     }
