@@ -66,7 +66,7 @@ SUMMONERMELEE */
                 {
                     NPC.frame.Y = 32 * 7;
                 }
-                else if (NPC.frameCounter < 20)
+                else if (NPC.frameCounter < 25)
                 {
                     NPC.frame.Y = 32 * 8;
                 }
@@ -75,21 +75,13 @@ SUMMONERMELEE */
             {
                 if (NPC.frameCounter < 5)
                 {
-                    NPC.frame.Y = 32 * 8;
-                }
-                else if (NPC.frameCounter < 10)
-                {
-                    NPC.frame.Y = 32 * 7;
-                }
-                else if (NPC.frameCounter < 15)
-                {
                     NPC.frame.Y = 32 * 6;
                 }
                 else if (NPC.frameCounter < 20)
                 {
                     NPC.frame.Y = 32 * 5;
                 }
-                else if (NPC.frameCounter < 20)
+                else if (NPC.frameCounter < 25)
                 {
                     NPC.frame.Y = 32 * 4;
                 }
@@ -127,9 +119,9 @@ SUMMONERMELEE */
         {
             NPC.width = 32;
             NPC.height = 32;
-            NPC.lifeMax = 50;
-            NPC.defense = 2;
-            NPC.damage = 35;
+            NPC.lifeMax = 80;
+            NPC.defense = 5;
+            NPC.damage = 0;
             NPC.knockBackResist = 1.1f;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
@@ -171,6 +163,11 @@ SUMMONERMELEE */
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 2, Vector2.One * hitDirection * 2);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 3, Vector2.One * hitDirection * 2);
             }
+            for (int i = 0; i < 5; i++)
+            {
+                Dust.NewDust(NPC.Center, 32, 32, DustID.Blood, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+            }
+
         }
         public override void AI()
         {
@@ -183,7 +180,7 @@ SUMMONERMELEE */
                 if (NPC.Center.Distance(player.Center) < 500f)
                     AITimer++;
                 NPC.dontTakeDamage = false;
-                if (AITimer >= 300)
+                if (AITimer >= 400)
                 {
                     AIState = Wake;
                     AITimer = 0;
@@ -199,9 +196,9 @@ SUMMONERMELEE */
                     Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center - Vector2.UnitY * 75f, Vector2.Zero, ModContent.ProjectileType<DustDevilP>(), 2, 0f, player.whoAmI, ai1: NPC.whoAmI);
                 }
                 AITimer2 += 0.0110f;
-                if (AITimer >= 900)
+                if (AITimer >= 800)
                     NPC.velocity *= 0.98f;
-                if (AITimer >= 950)
+                if (AITimer >= 850)
                 {
                     AIState = Sleep;
                     AITimer = 0;

@@ -167,7 +167,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 
                     if (StateTimer == 120)
                     {
-                        SymbolRespawnSystem.SymbolHome = CircleCenter;
                         NPC.life = 0;
                         NPC.checkDead();
                     }
@@ -211,13 +210,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         {
             if (!Main.dayTime)
             {
-                NPC.townNPC = false;
-                int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
-                Main.npc[pil].ai[0] = 6;
-                if (symbol == null || !symbol.active)
-                    symbol = NPC;
+                if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death)
+                {
+                    NPC.townNPC = false;
+                    int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
+                    Main.npc[pil].ai[0] = 6;
+                    if (symbol == null || !symbol.active)
+                        symbol = NPC;
 
-                SwitchTo(NState.Invulerable);
+                    SwitchTo(NState.Invulerable);
+                }
             }
             else
             {
