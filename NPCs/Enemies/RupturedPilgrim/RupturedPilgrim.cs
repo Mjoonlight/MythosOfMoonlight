@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using System;
 
 namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
 {
@@ -304,15 +305,20 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
             var trailLength = NPCID.Sets.TrailCacheLength[NPC.type];
             SpriteEffects flipType = NPC.spriteDirection == -1 /* or 1, idf  */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            if (NPC.life <= NPC.lifeMax / 2)
+            //if (NPC.life <= NPC.lifeMax / 2)
             {
                 for (int i = 1; i < trailLength; i++)
                 {
-                    float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                    float _scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                     var fadeMult = 1f / trailLength;
-                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.oldRot[i], orig, scale, flipType, 0f);
+                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.oldRot[i], orig, _scale, flipType, 0f);
                 }
             }
+            const float TwoPi = (float)Math.PI * 2f;
+            float scale = (float)Math.Sin(Main.GlobalTimeWrappedHourly * TwoPi / 2f) * 0.3f + 0.7f;
+            if (NPC.life <= NPC.lifeMax / 2)
+                for (int i = 0; i < 4; i++)
+                    spriteBatch.Draw(texture, drawPos + (Vector2.UnitX * 10 * scale).RotatedBy(MathHelper.ToRadians((90) * i)), frame, Color.Cyan * 0.5f * scale, NPC.rotation, orig, NPC.scale, flipType, 0);
             spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, flipType, 0f);
             spriteBatch.Draw(glowTexture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, flipType, 0f);
             return false;
@@ -332,6 +338,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim
         }
         public override void AI()
         {
+            if (NPC.life <= NPC.lifeMax / 2)
+            {
+                if (Main.rand.NextBool(5))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Dust a = Dust.NewDustPerfect(NPC.Center - Vector2.UnitY * 20, ModContent.DustType<Dusts.StarineDust>(), Main.rand.NextVector2Unit());
+                        a.noGravity = false;
+                    }
+                }
+            }
             NPC.TargetClosest(false);
             if (State != AIState.TentacleP1 && State != AIState.TentacleP2)
             {

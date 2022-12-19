@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
-using MythosOfMoonlight.Effects;
 using Terraria.GameContent;
 
 namespace MythosOfMoonlight.NPCs.Critters
