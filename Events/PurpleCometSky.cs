@@ -58,7 +58,7 @@ namespace MythosOfMoonlight.Events
                 Texture2D comet2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
                 //int cometX = (int)(Main.time / 32400.0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
-                Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-300, Main.screenHeight + 100), (float)Main.time / 32400);
+                Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
                 //new(Main.screenWidth / 4, MathHelper.Lerp(-200, Main.screenHeight + comet.Height * 0.5f, (float)Main.time / 32400));
                 if (Main.screenWidth > Tex.Width || Main.screenHeight > Tex.Height)
                     spriteBatch.Draw(Tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * Intensity * 0.5f, 0, Vector2.Zero, SpriteEffects.None, 0);
