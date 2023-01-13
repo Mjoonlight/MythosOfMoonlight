@@ -13,7 +13,7 @@ using System.IO;
 using MythosOfMoonlight.Gores.Enemies;
 using Terraria.Audio;
 namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
-{ 
+{
     public class Vivine : ModNPC
     {
         public override void SetStaticDefaults()
@@ -114,7 +114,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             }
         }
         public override void HitEffect(int hitDirection, double damage)
-        {   
+        {
             Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 4);
             Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<JunglePinkDust>(), Vector2.One * hitDirection * 2, 4);
             if (NPC.life <= 0)
@@ -128,7 +128,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-                return SpawnCondition.UndergroundJungle.Chance * 0.2f;
+            return SpawnCondition.UndergroundJungle.Chance * 0.2f;
         }
         public override bool? CanFallThroughPlatforms()
         {
@@ -187,11 +187,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
                 NPC.knockBackResist = 0f;
                 if (NPC.frame.Y == 9 * NPC.height && AITimer == 0)
                 {
-                    AITimer = 1;        
+                    AITimer = 1;
                     {
                         SoundEngine.PlaySound(SoundID.Item17);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(1, 19), Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 10f, ModContent.ProjectileType<VivineSpit>(), 15, 0);
-                    }   
+                    }
                 }
             }
         }

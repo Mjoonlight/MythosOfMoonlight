@@ -24,13 +24,17 @@ namespace MythosOfMoonlight.NPCs.Critters
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             DisplayName.SetDefault("Gulpie");
         }
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return false;
+        }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 5;
             NPC.noGravity = false;
             NPC.width = 20;
-            NPC.height = 18;
+            NPC.height = 8;
             NPC.defense = 0;
             NPC.catchItem = ModContent.ItemType<Items.Critters.TheFishItem>();
             NPC.HitSound = SoundID.NPCHit1;
@@ -56,6 +60,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             Texture2D b = Helper.GetTex("MythosOfMoonlight/NPCs/Critters/GulperEel_Tail");
             Texture2D c = Helper.GetTex("MythosOfMoonlight/NPCs/Critters/GulperEel");
             Texture2D d = Helper.GetTex("MythosOfMoonlight/NPCs/Critters/GulperEel_Tail2");
+            Texture2D e = Helper.GetTex("MythosOfMoonlight/NPCs/Critters/GulperEel_fat");
             Vector2 posA = NPC.Bottom.RotatedBy(tailRot);
             tailRot = MathHelper.Lerp(tailRot, NPC.rotation, 0.35f);
             SpriteEffects effects = NPC.direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
@@ -91,7 +96,10 @@ namespace MythosOfMoonlight.NPCs.Critters
                     Vector2 origin = new(value59.Width / 2, aaa);
                     if (value59 == a)
                         origin = new(value59.Width - 4, aaa);
-                    spriteBatch.Draw(value59, position21, null, rCurrentNPC.GetAlpha(drawColor), rotation10, new(value59.Width / 2, aaa), NPC.scale, value59 == a ? effects2 : SpriteEffects.None, 0f);
+                    if (value59 == b)
+                        spriteBatch.Draw(value59, position21, null, rCurrentNPC.GetAlpha(drawColor), rotation10, new(value59.Width / 2, value59.Height / 2), NPC.scale, SpriteEffects.None /*value59 == a ? effects2 : SpriteEffects.None*/, 0f);
+                    else
+                        spriteBatch.Draw(value59, position21, null, rCurrentNPC.GetAlpha(drawColor), rotation10, new(value59.Width / 2, aaa), NPC.scale, value59 == a ? effects2 : SpriteEffects.None, 0f);
                     //value59 = ((iteration != 0) ? TextureAssets.GlowMask[133].Value : TextureAssets.GlowMask[134].Value);
                     //spriteBatch.Draw(value59, position21, null, new Microsoft.Xna.Framework.Color(255, 255, 255, 0) * (1f - num215 * (float)oldposShit / 2f) * nofuckingcluetbh, rotation10, NPC.Size / 2, scale7, effects, 0f);
                     iteration++;

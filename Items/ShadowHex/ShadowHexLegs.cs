@@ -12,6 +12,7 @@ namespace MythosOfMoonlight.Items.ShadowHex
         {
             DisplayName.SetDefault("Shadow-Hexer Pants");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
         }
 
         public override void SetDefaults()

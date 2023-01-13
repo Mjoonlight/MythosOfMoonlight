@@ -2,6 +2,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.Items.ShadowHex
 {
