@@ -74,7 +74,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            if (Projectile.timeLeft < (Projectile.DamageType == DamageClass.Summon ? 295 : 270)) Projectile.GetGlobalProjectile<MoMGlobalProj>().HomingActions(Projectile, .125f, 20f, 300f);
+            if (Projectile.timeLeft < (Projectile.DamageType == DamageClass.Summon ? 300 : 300)) Projectile.GetGlobalProjectile<MoMGlobalProj>().HomingActions(Projectile, .125f, 20f, 300f);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

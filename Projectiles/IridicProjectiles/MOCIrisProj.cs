@@ -61,14 +61,14 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                         player.heldProj = Projectile.whoAmI;
                         Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX);
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
-                        if (ExistingTime > 215) player.channel = false;
+                        if (ExistingTime > 100) player.channel = false;
                         if (!player.channel || player.statMana <= 0) Projectile.Kill();
                     }
                 }
             }
             for (int i = 0; i <= 20; i += 5)
             {
-                if (ExistingTime == 180 + i)
+                if (ExistingTime == 90 + i)
                 {
                     Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 18f;
                     SoundEngine.PlaySound(SoundID.Item68, Projectile.Center + shoot * 2f);
@@ -78,7 +78,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                if (ExistingTime < 180)
+                if (ExistingTime < 90)
                 {
                     int DustCooldown = Math.Max((int)((190 - ExistingTime) / 10f), 2);
                     if (DustTimer >= DustCooldown)
