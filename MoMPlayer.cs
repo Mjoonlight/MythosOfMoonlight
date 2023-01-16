@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
+using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
 using System;
 using Terraria;

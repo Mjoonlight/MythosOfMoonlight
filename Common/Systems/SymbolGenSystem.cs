@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
+using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
 using System;
 using System.Collections.Generic;

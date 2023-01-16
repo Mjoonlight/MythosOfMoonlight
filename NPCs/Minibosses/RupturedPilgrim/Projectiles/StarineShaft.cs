@@ -7,13 +7,13 @@ using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 
-namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
+namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
     public class StarineShaft : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starine Shaft");
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Starine Shaft");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
         }
@@ -44,8 +44,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
-			Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
-			Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White, Projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+            Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
+            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White, Projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
 
             //3hi31mg
             var off = new Vector2(Projectile.width / 2, Projectile.height / 2);

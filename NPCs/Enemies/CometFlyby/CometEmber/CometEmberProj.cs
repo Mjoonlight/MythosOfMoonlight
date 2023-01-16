@@ -8,7 +8,7 @@ using ReLogic.Content;
 using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
-{   
+{
     public class CometEmberProj : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
@@ -59,7 +59,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Enemies/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra", AssetRequestMode.ImmediateLoad).Value;
             Vector2 pos = Projectile.Center - Main.screenPosition;
             BlendState blend = BlendState.Additive;
             float sc = 10 * Scale / tex.Width;

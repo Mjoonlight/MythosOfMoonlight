@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
 using System;
-using MythosOfMoonlight.NPCs.Enemies.RupturedPilgrim;
+using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using ReLogic.Content;
 using System.Reflection;
 
@@ -41,6 +41,10 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+        public static float CircleDividedEqually(float i, float max)
+        {
+            return 2f * (float)Math.PI / max * i;
+        }
         public static Vector2 FromAToB(Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
         {
             Vector2 baseVel = b - a;

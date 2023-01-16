@@ -48,7 +48,7 @@ namespace MythosOfMoonlight.Common.Systems
                 {
                     SkyManager.Instance.Deactivate("PurpleComet");
                 }
-                player.ManageSpecialBiomeVisuals("PurpleComet", false); 
+                player.ManageSpecialBiomeVisuals("PurpleComet", false);
             }
         }
     }
