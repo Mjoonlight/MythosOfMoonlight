@@ -39,9 +39,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         {
             NPC.width = 54;
             NPC.height = 70;
-            NPC.lifeMax = 1100;
+            NPC.lifeMax = 1600;
             NPC.boss = true;
-            NPC.defense = 12;
+            NPC.defense = 18;
             NPC.damage = 0;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
