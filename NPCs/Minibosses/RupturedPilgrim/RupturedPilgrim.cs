@@ -45,6 +45,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.damage = 0;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
+            NPC.npcSlots = 7f;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit49;
             NPC.DeathSound = SoundID.NPCDeath52;

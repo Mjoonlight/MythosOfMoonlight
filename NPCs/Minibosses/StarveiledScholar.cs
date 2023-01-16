@@ -36,12 +36,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses
         {
             NPC.width = 68;
             NPC.height = 74;
-            NPC.lifeMax = 1200;
+            NPC.lifeMax = 2300;
             NPC.boss = true;
-            NPC.defense = 16;
+            NPC.defense = 22;
             NPC.damage = 0;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
+            NPC.npcSlots = 7f;
             NPC.HitSound = SoundID.NPCHit49;
             NPC.noTileCollide = true;
             NPC.noGravity = true;
