@@ -160,8 +160,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
     {
         public override void SetDefaults()
         {
-            Projectile.width = 65;
-            Projectile.height = 33;
+            Projectile.width = 10;
+            Projectile.height = 10;
             Projectile.aiStyle = 0;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -185,15 +185,31 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
     }
     public class ScholarBolt2 : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 5;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 22;
             Projectile.height = 22;
-            Projectile.aiStyle = 0;
+            Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.timeLeft = 120;
             Projectile.tileCollide = false;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < 5; i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
+                var fadeMult = 1f / 5;
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.Pink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+            }
+            return true;
         }
         public override Color? GetAlpha(Color lightColor)
         {
@@ -201,28 +217,57 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
         }
         public override void AI()
         {
-            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3)) * (Projectile.timeLeft < 20 ? 0.98f : 1);
         }
     }
     public class ScholarBolt3 : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 33;
             Projectile.height = 33;
-            Projectile.aiStyle = 0;
+            Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.timeLeft = 120;
             Projectile.tileCollide = false;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < 10; i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(10 - i) / 10);
+                var fadeMult = 1f / 10;
+                for (int j = -1; j < 2; j++)
+                {
+                    if (j == 0)
+                        continue;
+                    Vector2 offset = new Vector2((float)Math.Sin(3 * sinething[i]) * 15 * j * i * 0.1f, 0).RotatedBy(Projectile.oldRot[i]);
+                    Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2 + offset, null, Color.Pink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+                }
+            }
+            return true;
+        }
         public override Color? GetAlpha(Color lightColor)
         {
             return Color.White;
         }
+        float[] sinething = new float[10];
         public override void AI()
         {
-            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3));
+
+            for (int num25 = sinething.Length - 1; num25 > 0; num25--)
+            {
+                sinething[num25] = sinething[num25 - 1];
+            }
+            sinething[0]++;
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3)) * (Projectile.timeLeft < 20 ? 0.98f : 1);
         }
     }
 }

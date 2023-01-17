@@ -55,9 +55,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/thingy_transparent").Value;
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
-                DrawData a = new(tex, NPC.Center - screenPos, null, Color.White, Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                float riftAlpha2 = MathHelper.Lerp(1, 0, riftAlpha);
+                DrawData a = new(tex, NPC.Center - screenPos, null, Color.White * riftAlpha2, Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
                 DrawData colored = new(tex, NPC.Center - screenPos, null, Color.White * riftAlpha, Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
-                DrawData b = new(tex, NPC.Center - screenPos, null, Color.White * 0.85f, Main.GameUpdateCount * 0.0055f, tex.Size() / 2, 0.75f, SpriteEffects.None, 0);
+                DrawData b = new(tex, NPC.Center - screenPos, null, Color.White * 0.85f * riftAlpha2, Main.GameUpdateCount * 0.0055f, tex.Size() / 2, 0.75f, SpriteEffects.None, 0);
                 //int shader = ContentSamples.CommonlyUsedContentSamples.ColorOnlyShaderIndex;
                 GameShaders.Armor.GetShaderFromItemId(3978).Apply(null, colored);
                 GameShaders.Armor.GetShaderFromItemId(ItemID.TwilightDye).Apply(null, a);
@@ -315,14 +316,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             NPC.spriteDirection = NPC.direction;
             if (riftAlpha > 0)
                 riftAlpha -= 0.025f;
-            if (NPC.life < NPC.lifeMax / 2)
-            {
-
-                int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
-                Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
-                Dust dust2 = Main.dust[num904];
-                dust2.velocity = Helper.FromAToB(dust2.position, NPC.position);
-            }
             if (AIState == Intro)
             {
                 AIState = Orb;
@@ -340,7 +333,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 }
                 if (AITimer == 60 || AITimer == 120 || AITimer == 180)
                 {
-                    NPC.Center = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
+                    Vector2 rand = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
+                    int attempts = 0;
+                    while ((Main.tile[rand.ToTileCoordinates()].HasTile || rand.Distance(player.Center) < 100) && attempts < 250)
+                    {
+                        attempts++;
+                        rand = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
+                    }
+                    NPC.Center = rand;
                 }
                 if (AITimer >= 270)
                 {
@@ -356,6 +356,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     riftAlpha = 1f;
                     for (int i = 0; i < 5; i++)
                     {
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
+                        Dust dust2 = Main.dust[num904];
+                        dust2.velocity = Helper.FromAToB(dust2.position, NPC.position);
+
                         float angle = Helper.CircleDividedEqually(i, 5);
                         Vector2 vel = angle.ToRotationVector2() * 15;
                         Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt3>(), 10, 0);
