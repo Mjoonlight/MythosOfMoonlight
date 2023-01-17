@@ -11,6 +11,8 @@ using System;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using ReLogic.Content;
 using System.Reflection;
+using Terraria.GameContent;
+using MythosOfMoonlight.Items.BossSummons;
 
 namespace MythosOfMoonlight
 {

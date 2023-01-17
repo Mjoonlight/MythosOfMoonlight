@@ -20,19 +20,23 @@ namespace MythosOfMoonlight.Common.Systems
             {
                 if (Main.dayTime)
                 {
-                    for (int i = 1; i < Main.maxTilesX; i++)
+                    if (Main.time > 32399.0)
                     {
-                        for (int j = 1; j < Main.maxTilesY; j++)
+                        for (int i = 1; i < Main.maxTilesX; i++)
                         {
-                            Tile tile = Main.tile[i, j];
-                            if (tile.TileType == ModContent.TileType<SymbolPointTile>())
+                            for (int j = 1; j < Main.maxTilesY; j++)
                             {
-                                if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                                Tile tile = Main.tile[i, j];
+                                if (tile.TileType == ModContent.TileType<SymbolPointTile>())
                                 {
-                                    NPC npc = NPC.NewNPCDirect(null, (i - 1) * 16, (j - 2) * 16, ModContent.NPCType<Starine_Symbol>());
-                                    npc.homeTileX = i;
-                                    npc.homeTileY = j - 1;
-                                    if (Main.netMode == NetmodeID.Server) NetMessage.SendData(MessageID.SyncNPC);
+                                    if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
+                                    {
+                                        NPC npc = NPC.NewNPCDirect(null, (i - 1) * 16, (j - 2) * 16, ModContent.NPCType<Starine_Symbol>());
+                                        npc.homeTileX = i;
+                                        npc.homeTileY = j - 1;
+                                        if (Main.netMode == NetmodeID.Server) NetMessage.SendData(MessageID.SyncNPC);
+                                    }
+                                    break;
                                 }
                             }
                         }

@@ -200,6 +200,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             Projectile.timeLeft = 120;
             Projectile.tileCollide = false;
         }
+        float alpha = 1;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
@@ -207,17 +208,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             {
                 float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
                 var fadeMult = 1f / 5;
-                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.Pink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.Pink * (1f - fadeMult * i) * 0.5f * alpha, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
             }
             return true;
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return Color.White * alpha;
         }
         public override void AI()
         {
-            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3)) * (Projectile.timeLeft < 20 ? 0.98f : 1);
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));
+            if (Projectile.timeLeft < 20)
+                alpha -= 0.05f;
         }
     }
     public class ScholarBolt3 : ModProjectile
@@ -249,16 +252,17 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
                     if (j == 0)
                         continue;
                     Vector2 offset = new Vector2((float)Math.Sin(3 * sinething[i]) * 15 * j * i * 0.1f, 0).RotatedBy(Projectile.oldRot[i]);
-                    Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2 + offset, null, Color.Pink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2 + offset, null, Color.Pink * (1f - fadeMult * i) * 0.5f * alpha, Projectile.oldRot[i], Projectile.Size / 2, (1f - fadeMult * i), SpriteEffects.None, 0f);
                 }
             }
             return true;
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return Color.White * alpha;
         }
         float[] sinething = new float[10];
+        float alpha = 1;
         public override void AI()
         {
 
@@ -267,7 +271,57 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
                 sinething[num25] = sinething[num25 - 1];
             }
             sinething[0]++;
-            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3)) * (Projectile.timeLeft < 20 ? 0.98f : 1);
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3));
+            if (Projectile.timeLeft < 20)
+                alpha -= 0.05f;
+        }
+    }
+    public class ScholarBolt_Telegraph : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/NPCs/Minibosses/StarveiledProj/ScholarBolt2";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+        }
+        float alpha = 1;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < 50; i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(50 - i) / 50);
+                var fadeMult = 1f / 50;
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.Pink * (1f - fadeMult * i) * 0.15f * alpha, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.Transparent;
+        }
+        public override void AI()
+        {
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[0]));
+            //          if (Projectile.timeLeft < 20)
+            //                alpha -= 0.05f;
+            Projectile.damage = 0;
+            if (Projectile.timeLeft < 180)
+            {
+                if (alpha > 0)
+                    alpha -= 0.05f;
+                Projectile.velocity = Vector2.Zero;
+            }
         }
     }
 }

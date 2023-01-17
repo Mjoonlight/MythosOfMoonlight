@@ -58,7 +58,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
                 float riftAlpha2 = MathHelper.Lerp(1, 0, riftAlpha);
                 DrawData a = new(tex, NPC.Center - screenPos, null, Color.White * riftAlpha2, Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
-                DrawData colored = new(tex, NPC.Center - screenPos, null, Color.White * riftAlpha, Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                DrawData colored = new(tex, NPC.Center - screenPos, null, Color.White * riftAlpha * (AITimer < 150 ? 1 : 0), Main.GameUpdateCount * 0.0035f, tex.Size() / 2, 1, SpriteEffects.None, 0);
                 DrawData b = new(tex, NPC.Center - screenPos, null, Color.White * 0.85f * riftAlpha2, Main.GameUpdateCount * 0.0055f, tex.Size() / 2, 0.75f, SpriteEffects.None, 0);
                 //int shader = ContentSamples.CommonlyUsedContentSamples.ColorOnlyShaderIndex;
                 GameShaders.Armor.GetShaderFromItemId(3978).Apply(null, colored);
@@ -251,15 +251,31 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                         NPC.frame.Y = 0;
                 }
             }
-            if (AIState == Rift)
+            if (AIState == Idle || idle)
             {
+                NPC.frame.X = 2 * width;
                 NPC.frameCounter++;
                 if (NPC.frameCounter % 5 == 0)
                 {
-                    if (NPC.frame.Y < height * 3)
+                    if (NPC.frame.Y < height * 4)
                         NPC.frame.Y += height;
                     else
                         NPC.frame.Y = 0;
+                }
+            }
+            if (AIState == Rift && !idle)
+            {
+                NPC.frame.X = width * 4;
+                NPC.frameCounter++;
+                if (NPC.frameCounter % 5 == 0)
+                {
+                    if (NPC.frame.Y < height * 10)
+                        NPC.frame.Y += height;
+                    else
+                    {
+                        NPC.frame.Y = 0;
+                        idle = true;
+                    }
                 }
             }
             if (AIState == Death)
@@ -267,6 +283,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 DeathAnim(height, width);
             }
         }
+        bool idle;
         public float AIState
         {
             get => NPC.ai[0];
@@ -315,8 +332,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             NPC.TargetClosest(true);
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
             NPC.spriteDirection = NPC.direction;
-            if (riftAlpha > 0)
-                riftAlpha -= 0.025f;
+            if (player.dead || !PurpleCometEvent.PurpleComet)
+            {
+                NPC.active = false;
+
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 20, .1f, Main.myPlayer);
+            }
             if (AIState == Intro)
             {
                 AIState = Orb;
@@ -352,6 +373,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             else if (AIState == Rift)
             {
                 AITimer++;
+                if (AITimer < 150 && riftAlpha > 0)
+                    riftAlpha -= 0.025f;
+                if (AITimer > 150 && riftAlpha < 1)
+                    riftAlpha += 0.025f;
+                if (AITimer == 1)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 5);
+                        Vector2 vel = angle.ToRotationVector2() * 15;
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, -3);
+                    }
+                }
                 if (AITimer == 30)
                 {
                     riftAlpha = 1f;
@@ -365,6 +399,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                         float angle = Helper.CircleDividedEqually(i, 5);
                         Vector2 vel = angle.ToRotationVector2() * 15;
                         Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt3>(), 10, 0);
+                    }
+
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 10);
+                        Vector2 vel = angle.ToRotationVector2() * 20;
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, 3);
                     }
                 }
                 if (AITimer == 60)
@@ -381,6 +423,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 {
                     AITimer = 0;
                     AIState = Orb;
+                    idle = false;
                 }
             }
         }

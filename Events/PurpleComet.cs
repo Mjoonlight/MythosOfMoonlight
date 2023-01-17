@@ -35,23 +35,21 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
 
             if (downedPurpleComet)
                 downed.Add("downedPurpleComet");
-            //if (PurpleComet)
-            //    downed.Add("PurpleComet");
-            tag.Set("comet", PurpleComet);
-            tag.Set("downed", downed);
+            if (PurpleComet)
+                downed.Add("PurpleComet");
+
+            tag["downed"] = downed;
         }
         public override void LoadWorldData(TagCompound tag)
         {
-            var downed = tag.GetList<string>("lists");
+            var downed = tag.GetList<string>("downed");
             downedPurpleComet = downed.Contains("downedPurpleComet");
-            //PurpleComet = downed.Contains("PurpleComet");
-            PurpleComet = tag.GetBool("comet");
+            PurpleComet = downed.Contains("PurpleComet");
         }
         public override void NetSend(BinaryWriter writer)
         {
             var flags = new BitsByte();
             flags[0] = downedPurpleComet;
-            writer.Write(PurpleComet);
             flags[1] = PurpleComet;
             writer.Write(flags);
         }
