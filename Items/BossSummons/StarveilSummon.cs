@@ -36,24 +36,24 @@ namespace MythosOfMoonlight.Items.BossSummons
             Item.consumable = false;
         }
 
-        /*public override void ModifyTooltips(List<TooltipLine> tooltips)
-         {
-             foreach (TooltipLine a in tooltips)
-             {
-                 if (a.Text == "Light comes from the pages within..." || a.Text == "The ink becomes invisible away from the comet...")
-                 {
-                     a.OverrideColor = Colors.RarityDarkPurple;
-                     if (PurpleCometEvent.PurpleComet)
-                     {
-                         a.Text = "Light comes from the pages within...";
-                     }
-                     else
-                     {
-                         a.Text = "The ink becomes invisible away from the comet...";
-                     }
-                 }
-             }
-         }*/
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            foreach (TooltipLine a in tooltips)
+            {
+                if (a.Text == "Light comes from the pages within..." || a.Text == "The ink becomes invisible away from the comet...")
+                {
+                    a.OverrideColor = Colors.RarityDarkPurple;
+                    if (PurpleCometEvent.PurpleComet)
+                    {
+                        a.Text = "Light comes from the pages within...";
+                    }
+                    else
+                    {
+                        a.Text = "The ink becomes invisible away from the comet...";
+                    }
+                }
+            }
+        }
         public override bool CanUseItem(Player player)
         {
             return PurpleCometEvent.PurpleComet && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Minibosses.StarveiledScholar>());
@@ -64,7 +64,7 @@ namespace MythosOfMoonlight.Items.BossSummons
             NPC.NewNPCDirect(player.GetSource_ItemUse(Item), player.Center - (Microsoft.Xna.Framework.Vector2.UnitY * 200), ModContent.NPCType<NPCs.Minibosses.StarveiledScholar>());
             return true;
         }
-        /*public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/BossSummons/StarveilSummon").Value;
             Texture2D tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/BossSummons/StarveilSummon_Alt").Value;
@@ -81,6 +81,6 @@ namespace MythosOfMoonlight.Items.BossSummons
                 tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/BossSummons/StarveilSummon_Alt").Value;
             spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, lightColor, 0, tex.Size() / 2, scale, SpriteEffects.None, 0);
             return false;
-        }*/
+        }
     }
 }
