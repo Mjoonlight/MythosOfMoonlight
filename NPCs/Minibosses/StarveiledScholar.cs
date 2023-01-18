@@ -326,6 +326,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             }
             return true;
         }
+        int NextAttack = Orb;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -340,7 +341,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             }
             if (AIState == Intro)
             {
-                AIState = Orb;
+                //do intro later!
+                AIState = Idle;
+            }
+            else if (AIState == Idle)
+            {
+                AITimer++;
+                NPC.Center = Vector2.Lerp(NPC.Center, player.Center, 0.015f);
+                if (AITimer >= 120)
+                {
+                    AIState = NextAttack;
+                    NPC.frame.Y = 0;
+                    AITimer = 0;
+                }
             }
             else if (AIState == Orb)
             {
@@ -367,7 +380,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 if (AITimer >= 270)
                 {
                     AITimer = 0;
-                    AIState = Rift;
+                    NextAttack = Rift;
+                    AIState = Idle;
                 }
             }
             else if (AIState == Rift)
@@ -423,6 +437,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 {
                     AITimer = 0;
                     AIState = Orb;
+                    NPC.frame.Y = 0;
                     idle = false;
                 }
             }
