@@ -104,11 +104,11 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/IridicSet/MOCIris").Value;
-            Vector2 ori = new(38, 8);
-            float rot = Projectile.rotation;
+            Vector2 ori = new(0, 8);
+            float rot = Projectile.rotation + MathHelper.Pi;
             Vector2 pos = Projectile.Center - Main.screenPosition;
             Color color = Color.White;
-            Main.EntitySpriteDraw(tex, pos, null, color, rot, ori, -1, Math.Abs(rot) >= MathHelper.PiOver2 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            Main.EntitySpriteDraw(tex, pos, null, color, rot, ori, -1, Math.Abs(rot) <= MathHelper.PiOver2 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
             return true;
         }
     }

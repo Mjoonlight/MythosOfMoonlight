@@ -21,8 +21,8 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override void SetDefaults()
         {
-            Item.width = 12;
-            Item.height = 24;
+            Item.width = 14;
+            Item.height = 30;
             Item.accessory = true;
             Item.rare = ItemRarityID.Green;
         }
