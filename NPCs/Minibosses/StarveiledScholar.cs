@@ -5,14 +5,10 @@ using MythosOfMoonlight.Common.Systems;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
+using rail;
 using SteelSeries.GameSense;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -195,14 +191,16 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     NPC.frame.X += width;
                     NPC.frame.Y = 0;
                 }
-                if (NPC.frame.Y <= 3 * height && NPC.collideY && NPC.frame.X == 5 * width)
+
+                bool fell = TRay.CastLength(NPC.Center, Vector2.UnitY, 1000) < NPC.height * 0.75f || NPC.collideY;
+                if (NPC.frame.Y <= 3 * height && fell && NPC.frame.X == 5 * width)
                     CameraSystem.ChangeCameraPos(NPC.Center, 300, 1);
-                if (NPC.frame.Y < 3 * height && (!NPC.collideY || NPC.velocity.Y > 1) && NPC.frame.X == 5 * width)
+                if (NPC.frame.Y < 3 * height && !fell && NPC.frame.X == 5 * width)
                 {
                     NPC.frame.X = 5 * width;
                     NPC.frame.Y += height;
                 }
-                else if (NPC.frame.Y >= 3 * height && (NPC.collideY || NPC.velocity.Y < 1) && NPC.frame.Y < 7 * height && NPC.frame.X == 5 * width)
+                else if (NPC.frame.Y >= 3 * height && fell && NPC.frame.Y < 7 * height && NPC.frame.X == 5 * width)
                 {
                     NPC.frame.X = 5 * width;
                     NPC.frame.Y += height;
@@ -239,51 +237,55 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             NPC.frame.Height = 74;
             int height = 74;
             int width = 68;
-            if (AIState == Orb)
-            {
-                NPC.frame.X = 3 * width;
-                NPC.frameCounter++;
-                if (NPC.frameCounter % 5 == 0)
-                {
-                    if (NPC.frame.Y < height * 3)
-                        NPC.frame.Y += height;
-                    else
-                        NPC.frame.Y = 0;
-                }
-            }
-            if (AIState == Idle || idle)
-            {
-                NPC.frame.X = 2 * width;
-                NPC.frameCounter++;
-                if (NPC.frameCounter % 5 == 0)
-                {
-                    if (NPC.frame.Y < height * 4)
-                        NPC.frame.Y += height;
-                    else
-                        NPC.frame.Y = 0;
-                }
-            }
-            if (AIState == Rift && !idle)
-            {
-                NPC.frame.X = width * 4;
-                NPC.frameCounter++;
-                if (NPC.frameCounter % 5 == 0)
-                {
-                    if (NPC.frame.Y < height * 10)
-                        NPC.frame.Y += height;
-                    else
-                    {
-                        NPC.frame.Y = 0;
-                        idle = true;
-                    }
-                }
-            }
+
             if (AIState == Death)
             {
                 DeathAnim(height, width);
             }
+            else
+            {
+                if (AIState == Orb || AIState == Serpents)
+                {
+                    NPC.frame.X = 3 * width;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter % 5 == 0)
+                    {
+                        if (NPC.frame.Y < height * 3)
+                            NPC.frame.Y += height;
+                        else
+                            NPC.frame.Y = 0;
+                    }
+                }
+                if (AIState == Idle || doIdleAnimation)
+                {
+                    NPC.frame.X = 2 * width;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter % 5 == 0)
+                    {
+                        if (NPC.frame.Y < height * 4)
+                            NPC.frame.Y += height;
+                        else
+                            NPC.frame.Y = 0;
+                    }
+                }
+                if (AIState == Rift && !doIdleAnimation)
+                {
+                    NPC.frame.X = width * 4;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter % 5 == 0)
+                    {
+                        if (NPC.frame.Y < height * 10)
+                            NPC.frame.Y += height;
+                        else
+                        {
+                            NPC.frame.Y = 0;
+                            doIdleAnimation = true;
+                        }
+                    }
+                }
+            }
         }
-        bool idle;
+        bool doIdleAnimation;
         public float AIState
         {
             get => NPC.ai[0];
@@ -304,17 +306,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Intro = 0, Idle = 1, Orb = 2, Rift = 3;
+        const int Death = -1, Intro = 0, Idle = 1, Orb = 2, Rift = 3, Serpents = 4, P2Transition = 5, Comet = 6;
         bool ded;
         public override bool CheckDead()
         {
             if (NPC.life <= 0 && !ded)
             {
                 NPC.life = 1;
+                riftAlpha = 0;
                 AIState = Death;
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
                 NPC.noGravity = false;
+                doIdleAnimation = false;
                 NPC.noTileCollide = false;
                 NPC.dontTakeDamage = true;
                 ded = true;
@@ -376,6 +380,27 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                         rand = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
                     }
                     NPC.Center = rand;
+                    for (int num901 = 0; num901 < 10; num901++)
+                    {
+                        int num902 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<Dusts.PurpurineDust>(), 0f, 0f, 200, default(Color), 1f);
+                        Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
+                        Main.dust[num902].noGravity = true;
+                        Dust dust2 = Main.dust[num902];
+                        dust2.velocity *= 3f;
+                        num902 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.PurpleTorch, 0f, 0f, 100, default(Color), 0.75f);
+                        Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
+                        dust2 = Main.dust[num902];
+                        dust2.velocity *= 2f;
+                        Main.dust[num902].noGravity = true;
+                        Main.dust[num902].fadeIn = 2.5f;
+                    }
+                    for (int num903 = 0; num903 < 10; num903++)
+                    {
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
+                        Dust dust2 = Main.dust[num904];
+                        dust2.velocity *= 3f;
+                    }
                 }
                 if (AITimer >= 270)
                 {
@@ -436,9 +461,73 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 if (AITimer >= 300)
                 {
                     AITimer = 0;
-                    AIState = Orb;
+                    AIState = Serpents;
+                    NextAttack = Serpents;
                     NPC.frame.Y = 0;
-                    idle = false;
+                    doIdleAnimation = false;
+                }
+            }
+            else if (AIState == Serpents)
+            {
+                AITimer++;
+                if (AITimer == 120)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
+                        Dust dust2 = Main.dust[num904];
+                        dust2.velocity = Helper.FromAToB(dust2.position, NPC.position);
+
+                        float angle = Helper.CircleDividedEqually(i, 3);
+                        Vector2 vel = angle.ToRotationVector2() * 15;
+                        for (int j = -1; j < 2; j++)
+                        {
+                            if (j == 0)
+                                continue;
+                            Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarSerpent>(), 10, 0, player.whoAmI, j * 0.2f);
+                            a.localAI[0] = NPC.whoAmI;
+                        }
+                    }
+                }
+                if (AITimer % 100 == 0 && AITimer < 600)
+                {
+                    Vector2 rand = player.Center - (NPC.Center - player.Center) * 0.75f;
+                    /*Vector2 rand = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
+                    int attempts = 0;
+                    while ((Main.tile[rand.ToTileCoordinates()].HasTile || rand.Distance(player.Center) > 400) && attempts < 250)
+                    {
+                        attempts++;
+                        rand = Main.rand.NextVector2FromRectangle(new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight));
+                    }*/
+                    NPC.Center = rand;
+                    for (int num901 = 0; num901 < 10; num901++)
+                    {
+                        int num902 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<Dusts.PurpurineDust>(), 0f, 0f, 200, default(Color), 1f);
+                        Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
+                        Main.dust[num902].noGravity = true;
+                        Dust dust2 = Main.dust[num902];
+                        dust2.velocity *= 3f;
+                        num902 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.PurpleTorch, 0f, 0f, 100, default(Color), 0.75f);
+                        Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
+                        dust2 = Main.dust[num902];
+                        dust2.velocity *= 2f;
+                        Main.dust[num902].noGravity = true;
+                        Main.dust[num902].fadeIn = 2.5f;
+                    }
+                    for (int num903 = 0; num903 < 10; num903++)
+                    {
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
+                        Dust dust2 = Main.dust[num904];
+                        dust2.velocity *= 3f;
+                    }
+                }
+                if (AITimer >= 630)
+                {
+                    AITimer = 0;
+                    NextAttack = Orb;
+                    AIState = Idle;
                 }
             }
         }

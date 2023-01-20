@@ -1,11 +1,10 @@
-﻿using log4net.Util;
-using Microsoft.Win32;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -135,10 +134,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
                     }
                 }
             }
-            if (++a % 5 == 0 && target && Projectile.timeLeft > 45 && Projectile.timeLeft < 300)
+            if (++a % 2 == 0 && target && Projectile.timeLeft > 45 && Projectile.timeLeft < 300)
             {
                 AdjustMagnitude(ref move);
-                Projectile.velocity = (6.2f * Projectile.velocity + move) / 6.2f;
+                Projectile.velocity = (11f * Projectile.velocity + move) / 11f;
                 AdjustMagnitude(ref Projectile.velocity);
             }
             if (Projectile.timeLeft < 45)
@@ -150,9 +149,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
         private void AdjustMagnitude(ref Vector2 vector)
         {
             float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            if (magnitude > 6.2f)
+            if (magnitude > 11f)
             {
-                vector *= 6.2f / magnitude;
+                vector *= 11f / magnitude;
             }
         }
     }
@@ -321,6 +320,89 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
                 if (alpha > 0)
                     alpha -= 0.05f;
                 Projectile.velocity = Vector2.Zero;
+            }
+        }
+    }
+    public class ScholarSerpent : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
+        }
+        float alpha = 1;
+        public override Color? GetAlpha(Color lightColor) => Color.White * alpha;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < Math.Clamp((int)50 * alpha, 0, 50); i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(50 - i) / 50);
+                var fadeMult = 1f / 50;
+                for (int j = -1; j < 2; j++)
+                {
+                    if (j == 0)
+                        continue;
+                    Vector2 offset = new Vector2((float)Math.Sin(3 * sinething[i]) * 15 * j * i * 0.1f, 0).RotatedBy(Projectile.oldRot[i]);
+                    Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2 + offset, null, Color.Pink * (1f - fadeMult * i) * 0.5f * alpha, Projectile.oldRot[i], Projectile.Size / 2, (1f - fadeMult * i) * 0.65f, SpriteEffects.None, 0f);
+                }
+            }
+            return true;
+        }
+        float[] sinething = new float[50];
+        float acceleration;
+        public override void AI()
+        {
+            NPC npc = Main.npc[(int)Projectile.localAI[0]];
+            for (int num25 = sinething.Length - 1; num25 > 0; num25--)
+            {
+                sinething[num25] = sinething[num25 - 1];
+            }
+            acceleration = MathHelper.Clamp(acceleration, 1, 3);
+            if (Projectile.Center.Distance(npc.Center) > 500)
+                acceleration = MathHelper.SmoothStep(acceleration, 3, 0.02f);
+            else
+                acceleration = MathHelper.SmoothStep(acceleration, 1, 0.02f);
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            sinething[0]++;
+            if (Projectile.timeLeft < 20)
+                alpha -= 0.075f;
+            if (Projectile.timeLeft == 120)
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[npc.target].Center) * 10;
+            if (Projectile.timeLeft < 120)
+                Projectile.velocity *= 1.005f;
+            if (!npc.active || Projectile.timeLeft < 120 || npc.type != ModContent.NPCType<StarveiledScholar>())
+                return;
+            Vector2 move = npc.Center - Projectile.Center;
+            AdjustMagnitude(ref move);
+            Projectile.velocity = (((11f * (acceleration)) * Projectile.velocity + move) / (11f * (acceleration)));
+            AdjustMagnitude(ref Projectile.velocity);
+        }
+        private void AdjustMagnitude(ref Vector2 vector)
+        {
+            NPC npc = Main.npc[(int)Projectile.localAI[0]];
+            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            if (magnitude > (11f * (acceleration)))
+            {
+                vector *= (11f * (acceleration)) / magnitude;
             }
         }
     }

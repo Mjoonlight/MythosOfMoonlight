@@ -43,6 +43,18 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+        public static void SineMovement(this Projectile projectile, Vector2 initialCenter, Vector2 initialVel, float frequencyMultiplier, float amplitude)
+        {
+            projectile.ai[1]++;
+            float wave = (float)Math.Sin(projectile.ai[1] * frequencyMultiplier);
+            Vector2 vector = new Vector2(initialVel.X, initialVel.Y).RotatedBy(MathHelper.ToRadians(90));
+            vector.Normalize();
+            wave *= projectile.ai[0];
+            wave *= amplitude;
+            Vector2 offset = vector * wave;
+            projectile.Center = initialCenter + (projectile.velocity * projectile.ai[1]);
+            projectile.Center = projectile.Center + offset;
+        }
         public static float CircleDividedEqually(float i, float max)
         {
             return 2f * (float)Math.PI / max * i;
