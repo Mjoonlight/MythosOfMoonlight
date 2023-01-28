@@ -45,6 +45,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
             var downed = tag.GetList<string>("downed");
             downedPurpleComet = downed.Contains("downedPurpleComet");
             PurpleComet = downed.Contains("PurpleComet");
+            testedEvents = true;
         }
         public override void NetSend(BinaryWriter writer)
         {
@@ -111,7 +112,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
         }
         public override void PreUpdateWorld()
         {
-            if (!PurpleComet && !testedEvents && !Main.fastForwardTime && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
+            if (!PurpleComet && !testedEvents && !Main.bloodMoon && !Main.dayTime && WorldGen.spawnHardBoss == 0)
             {
                 if ((Main.rand.NextBool(8) && !downedPurpleComet) || (Main.rand.NextBool(16) && downedPurpleComet))
                 {
@@ -128,6 +129,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
                         NetMessage.SendData(MessageID.WorldData);
                 }
                 testedEvents = true;
+
             }
             else if (PurpleComet && Main.dayTime)
             {
@@ -143,6 +145,8 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
                 if (Main.netMode == NetmodeID.Server)
                     NetMessage.SendData(MessageID.WorldData);
             }
+            if (Main.dayTime)
+                testedEvents = false;
         }
         public override void PostUpdateWorld()
         {

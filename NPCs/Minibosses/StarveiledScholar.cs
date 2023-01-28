@@ -47,6 +47,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses
         float riftAlpha;
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            /*if (AIState == Comet)
+            {
+                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_05").Value;
+                spriteBatch.Reload(BlendState.Additive);
+                spriteBatch.Draw(tex, cometPos - screenPos, null, Color.White, Main.GameUpdateCount * 0.0025f, tex.Size() / 2, 0.3f, SpriteEffects.None, 0f);
+                spriteBatch.Reload(BlendState.AlphaBlend);
+            }*/
             if ((AIState == Rift && AITimer >= 30) && !ded)
             {
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/thingy_transparent").Value;
@@ -192,7 +199,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     NPC.frame.Y = 0;
                 }
 
-                bool fell = TRay.CastLength(NPC.Center, Vector2.UnitY, 1000) < NPC.height * 0.75f || NPC.collideY;
+                bool fell = (TRay.CastLength(NPC.Center, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.Left, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.Right, Vector2.UnitY, 1000) < NPC.height) || NPC.collideY;
                 if (NPC.frame.Y <= 3 * height && fell && NPC.frame.X == 5 * width)
                     CameraSystem.ChangeCameraPos(NPC.Center, 300, 1);
                 if (NPC.frame.Y < 3 * height && !fell && NPC.frame.X == 5 * width)
@@ -331,8 +338,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             return true;
         }
         int NextAttack = Orb;
+        bool p2;
         public override void AI()
         {
+            if (NPC.life < NPC.lifeMax / 2 && !p2)
+            {
+                AIState = P2Transition;
+                AITimer = AITimer2 = AITimer3 = 0;
+                p2 = true;
+            }
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(true);
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -342,6 +356,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 NPC.active = false;
 
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 20, .1f, Main.myPlayer);
+            }
+            if (AIState == P2Transition)
+            {
+                p2 = true;
+                AIState = Idle;
+                NextAttack = Comet;
             }
             if (AIState == Intro)
             {
@@ -526,8 +546,48 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 if (AITimer >= 630)
                 {
                     AITimer = 0;
-                    NextAttack = Orb;
+                    NextAttack = p2 ? Comet : Orb;
                     AIState = Idle;
+                }
+            }
+            else if (AIState == Comet)
+            {
+                AITimer++;
+                //if (AITimer < 60)
+                //    cometPos = player.Center + new Vector2(player.velocity.X * 15, 0);
+                //Vector2 pos = (cometPos - Vector2.UnitY * Main.screenHeight) - new Vector2(Main.rand.NextFloat(-100, 100), 0);
+                /*if (AITimer % 5 == 0 && AITimer > 60)
+                {
+                    Projectile.NewProjectile(default, pos, (Helper.FromAToB(pos, cometPos) + new Vector2(Main.rand.NextFloat(-.1f, .1f), 0)) * 1.5f, ModContent.ProjectileType<ScholarCometBig>(), 10, 0);
+                }*/
+                if (AITimer % 10 == 0)
+                {
+                    Vector2 pos2 = new Vector2(Main.screenPosition.X + Main.rand.NextFloat(Main.screenWidth), Main.screenPosition.Y);
+                    Projectile.NewProjectile(default, pos2, Vector2.UnitY * 1.75f, ModContent.ProjectileType<ScholarCometBig>(), 10, 0);
+                }
+                if (AITimer % 15 == 0)
+                {
+                    Vector2 pos2 = new Vector2(Main.screenPosition.X + Main.rand.NextFloat(Main.screenWidth), Main.screenPosition.Y);
+                    Projectile.NewProjectile(default, pos2, Vector2.UnitY * 2, ModContent.ProjectileType<ScholarCometBigger>(), 10, 0);
+                }
+                /*if (AITimer % 20 == 0 && AITimer > 60)
+                {
+                    Projectile.NewProjectile(default, pos, (Helper.FromAToB(pos, cometPos) + new Vector2(Main.rand.NextFloat(-.1f, .1f), 0)) * 3, ModContent.ProjectileType<ScholarCometBigger>(), 10, 0);
+                }
+                */
+                if (AITimer >= 300)
+                {
+                    //AITimer = 0;
+                    //if (++AITimer3 < 3)
+                    //    AIState = Comet;
+                    //else
+                    //{
+                    //cometPos = Vector2.Zero;
+                    AIState = Idle;
+                    AITimer = 0;
+                    AITimer3 = 0;
+                    NextAttack = Orb;
+                    //}
                 }
             }
         }

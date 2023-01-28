@@ -1,9 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
+using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -404,6 +408,222 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             {
                 vector *= (11f * (acceleration)) / magnitude;
             }
+        }
+    }
+    public class ScholarCometBig : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 5;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+            Main.projFrames[Type] = 3;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 28;
+            Projectile.height = 26;
+            Projectile.aiStyle = 0;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < 5; i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
+                var fadeMult = 1f / 5;
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, new Rectangle(0, Projectile.frame * 26, 28, 26), Color.LightPink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
+        public override void Kill(int timeLeft)
+        {
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj2>(), 0, .1f, Main.myPlayer);
+            Helper.SpawnGore(Projectile.Center, "MythosOfMoonlight/PurpChunk" + (Main.rand.Next(4) + 1), 3, -1, Main.rand.NextVector2Unit());
+        }
+        public override void AI()
+        {
+            Projectile.rotation += MathHelper.ToRadians(3);
+            Projectile.velocity *= 1.035f;
+            if (Main.rand.NextBool(3))
+            {
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
+                Main.dust[num904].noGravity = true;
+                Dust dust2 = Main.dust[num904];
+            }
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.frame = Main.rand.Next(3);
+        }
+    }
+    public class ScholarCometBigger : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 5;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 46;
+            Projectile.height = 40;
+            Projectile.aiStyle = 0;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            for (int i = 1; i < 5; i++)
+            {
+                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
+                var fadeMult = 1f / 5;
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.LightPink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
+        public override void AI()
+        {
+            if (Projectile.timeLeft > 40)
+            {
+                Projectile.rotation += MathHelper.ToRadians(3);
+                Projectile.velocity *= 1.05f;
+            }
+            if (Main.rand.NextBool(3))
+            {
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
+                Main.dust[num904].noGravity = true;
+                Dust dust2 = Main.dust[num904];
+            }
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCsAndTiles.Add(index);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.timeLeft > 40)
+                Projectile.timeLeft = 40;
+            Projectile.velocity = Vector2.UnitY * 0.5f;
+            return false;
+        }
+        public override void Kill(int timeLeft)
+        {
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj2>(), 0, .1f, Main.myPlayer);
+            Helper.SpawnGore(Projectile.Center, "MythosOfMoonlight/PurpChunk" + (Main.rand.Next(4) + 1), 5, -1, Main.rand.NextVector2Unit());
+        }
+    }
+    /*public class ScholarCometSmall : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 0;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+        }
+    }
+    public class ScholarCometSmall2 : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/NPCs/Minibosses/StarveiledProj/ScholarCometSmall";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = 1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
+        }
+    }
+
+    */
+    public class CometEmberProj2 : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 1;
+            Projectile.height = 1;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 5;
+        }
+        public float Scale
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+        public float Alpha
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+        public override void AI()
+        {
+            Alpha = Projectile.timeLeft / 5f;
+            Scale = 5f * (2f * (5 - Projectile.timeLeft) + 1f);
+            if (Projectile.timeLeft == 4)
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    Vector2 vel = Main.rand.NextVector2Circular(7.5f, 7.5f);
+                    Dust dust = Dust.NewDustDirect(Projectile.Center, 1, 1, ModContent.DustType<PurpurineDust>());
+                    dust.velocity = vel;
+                    dust.noGravity = true;
+                    dust.scale = Main.rand.NextFloat(1f, 4f);
+                }
+            }
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra", AssetRequestMode.ImmediateLoad).Value;
+            Vector2 pos = Projectile.Center - Main.screenPosition;
+            BlendState blend = BlendState.Additive;
+            float sc = 10 * Scale / tex.Width;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, blend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Draw(tex, pos, null, Color.White * Alpha, 0f, tex.Size() / 2f, sc, SpriteEffects.None, 0f);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+            return false;
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Vector2.Distance(new Vector2(projHitbox.Center.X, projHitbox.Center.Y), new Vector2(targetHitbox.Center.X, targetHitbox.Center.Y)) <= Scale + targetHitbox.Width / 2f;
         }
     }
 }

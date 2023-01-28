@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MythosOfMoonlight.Common.Systems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace MythosOfMoonlight.Graphics.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Alpha = 0f;
             Frame = new Rectangle(0, 0, 80, 80);
-            Scale = new Vector2(.1f*Depth);
+            Scale = new Vector2(.1f * Depth);
             Origin = Texture.Size() / 2f;
             Color = Color.White;
         }
@@ -28,10 +29,6 @@ namespace MythosOfMoonlight.Graphics.Particles
         {
             base.Update();
             Velocity *= .85f;
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Position -= Main.LocalPlayer.velocity * Depth;
-            }
             if (!Fade)
             {
                 Alpha += 0.025f;
@@ -42,6 +39,12 @@ namespace MythosOfMoonlight.Graphics.Particles
                 Scale -= new Vector2(0.005f);
                 Alpha -= 0.005f;
                 if (Alpha <= 0f) Kill();
+            }
+            if (Main.screenPosition == Main.screenLastPosition || CameraSystem.CameraChangeTransition > 0)
+                return;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Position -= Main.LocalPlayer.velocity * Depth;
             }
         }
     }

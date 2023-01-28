@@ -195,6 +195,17 @@ namespace MythosOfMoonlight
                 Gore.NewGore(NPC.GetSource_OnHit(NPC), position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type);
             }
         }
+        public static void SpawnGore(Vector2 position, string gore, int amount = 1, int type = -1, Vector2 vel = default)
+        {
+            if (type != -1)
+            {
+                gore += type;
+            }
+            for (int i = 0; i < amount; i++)
+            {
+                Gore.NewGore(default, position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type);
+            }
+        }
         public static float HorizontalDistance(Vector2 one, Vector2 two) => System.Math.Abs(one.X - two.X);
         public static Vector2 GetPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
         {

@@ -13,14 +13,14 @@ namespace MythosOfMoonlight.Common.Systems
 {
     public class GenericSystem : ModSystem
     {
+        bool hasChecked;
         public override void PostUpdateEverything()
         {
-
             if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
             {
                 if (Main.dayTime)
                 {
-                    if (Main.time > 32399.0)
+                    if (!hasChecked)
                     {
                         for (int i = 1; i < Main.maxTilesX; i++)
                         {
@@ -40,8 +40,11 @@ namespace MythosOfMoonlight.Common.Systems
                                 }
                             }
                         }
+                        hasChecked = true;
                     }
                 }
+                else
+                    hasChecked = false;
             }
         }
     }
