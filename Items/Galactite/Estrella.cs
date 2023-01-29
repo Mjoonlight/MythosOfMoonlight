@@ -24,6 +24,7 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.noUseGraphic = true;
             Item.autoReuse = false;
             Item.noMelee = true;
+            Item.channel = true;
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
@@ -32,9 +33,11 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<EstrellaP>();
         }
+        int dir = 1;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, player.direction);
+            dir = -dir;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, dir);
             return false;
         }
     }
@@ -46,10 +49,19 @@ namespace MythosOfMoonlight.Items.Galactite
         {
             swingTime = 50;
             Projectile.Size = new(66);
+            glowAlpha = 1f;
+            BlendState _blendState = new BlendState();
+            _blendState.AlphaSourceBlend = Blend.SourceAlpha;
+            _blendState.AlphaDestinationBlend = Blend.InverseSourceAlpha;
+
+            _blendState.ColorSourceBlend = Blend.SourceAlpha;
+            _blendState.ColorDestinationBlend = Blend.InverseSourceAlpha;
+            glowBlend = _blendState;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Vector2.UnitY * 900, Vector2.UnitY * Main.rand.NextFloat(10, 20f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Vector2.UnitY * 900, Vector2.UnitY * Main.rand.NextFloat(10, 20f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0, Projectile.owner);
         }
     }
     public class EstrellaP2 : ModProjectile
@@ -61,8 +73,8 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void SetDefaults()
         {
-            Projectile.width = 22;
-            Projectile.height = 22;
+            Projectile.width = 30;
+            Projectile.height = 32;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;

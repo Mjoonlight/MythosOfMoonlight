@@ -328,6 +328,9 @@ namespace MythosOfMoonlight
                 }
                 DustTrail(gd);
             }
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            FireDust.DrawAll(Main.spriteBatch);
+            Main.spriteBatch.End();
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }
         private void DustTrail(GraphicsDevice graphicsDevice)

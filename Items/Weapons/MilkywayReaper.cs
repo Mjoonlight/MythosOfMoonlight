@@ -4,7 +4,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MythosOfMoonlight.Items.Galactite
+namespace MythosOfMoonlight.Items.Weapons
 {
     public class MilkywayReaper : ModItem
     {
