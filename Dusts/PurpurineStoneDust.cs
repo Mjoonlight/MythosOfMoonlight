@@ -8,14 +8,14 @@ namespace MythosOfMoonlight.Dusts
 		public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = false;
-			dust.noLight = true;
+			dust.noLight = false;
 			// dust.scale *= 2f;
 		}
 		public override bool MidUpdate(Dust dust)
 		{
 			if (!dust.noGravity)
 			{
-				dust.velocity.Y += 0.1f;
+				dust.velocity.Y += 0.15f;
 			}
 
 			dust.rotation += 0.1f;

@@ -19,8 +19,8 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.width = Item.height = 76;
             Item.crit = 45;
             Item.damage = 34;
-            Item.useAnimation = 2;
-            Item.useTime = 2;
+            Item.useAnimation = 32;
+            Item.useTime = 32;
             Item.noUseGraphic = true;
             Item.autoReuse = false;
             Item.noMelee = true;

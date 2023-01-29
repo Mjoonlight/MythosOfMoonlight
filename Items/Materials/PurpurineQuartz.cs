@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.Items.Materials
         {
             Item.value = Item.buyPrice(0, 0, 0, 1);
             Item.rare = ItemRarityID.Green;
-            Item.maxStack = 99;
+            Item.maxStack = 9999;
         }
     }
 }
