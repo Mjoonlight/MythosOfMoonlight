@@ -328,7 +328,7 @@ namespace MythosOfMoonlight
                 }
                 DustTrail(gd);
             }
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(Main.spriteBatch);
             Main.spriteBatch.End();
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
