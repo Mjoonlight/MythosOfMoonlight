@@ -35,6 +35,10 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.shoot = ModContent.ProjectileType<NovaBladeP>();
         }
         int dir = 1;
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return false;
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             switch (dir)

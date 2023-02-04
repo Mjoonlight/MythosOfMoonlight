@@ -8,6 +8,7 @@ using Terraria.ID;
 using MythosOfMoonlight.Projectiles;
 using Terraria.GameContent;
 using System.Runtime.InteropServices;
+using Terraria.Audio;
 
 namespace MythosOfMoonlight.Items.Galactite
 {
@@ -27,7 +28,7 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.channel = true;
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Melee;
-            Item.UseSound = SoundID.Item1;
+            //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
@@ -58,7 +59,10 @@ namespace MythosOfMoonlight.Items.Galactite
             _blendState.ColorDestinationBlend = Blend.InverseSourceAlpha;
             glowBlend = _blendState;
         }
-
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(SoundID.Item1);
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Vector2.UnitY * 900, Vector2.UnitY * Main.rand.NextFloat(10, 20f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0, Projectile.owner);
