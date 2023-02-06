@@ -45,6 +45,14 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             ExistingTime = 0;
         }
+        public override void Kill(int timeLeft)
+        {
+            Player player = Main.player[Projectile.owner];
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+            {
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
+            }
+        }
         public override void AI()
         {
             ExistingTime++;
@@ -58,10 +66,12 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     {
                         Projectile.timeLeft++;
                         player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
+                        player.itemTime = 2;
+                        player.itemAnimation = 2;
                         player.heldProj = Projectile.whoAmI;
                         Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX);
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
-                        if (ExistingTime > 100) player.channel = false;
+                        if (ExistingTime > 100) Projectile.Kill();
                         if (!player.channel || player.statMana <= 0) Projectile.Kill();
                     }
                 }
@@ -71,6 +81,12 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 if (ExistingTime == 90 + i)
                 {
                     Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 18f;
+                    for (int j = 0; i < 15; i++)
+                    {
+                        Dust dust;
+                        Vector2 position = Projectile.Center;
+                        dust = Terraria.Dust.NewDustDirect(position, 0, 0, 71, shoot.X, shoot.Y, 0, new Color(255, 255, 255), 1f);
+                    }
                     SoundEngine.PlaySound(SoundID.Item68, Projectile.Center + shoot * 2f);
                     Projectile star = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + shoot * 2f, shoot, ModContent.ProjectileType<IrisStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     star.DamageType = DamageClass.Magic;
@@ -108,7 +124,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             float rot = Projectile.rotation + MathHelper.Pi;
             Vector2 pos = Projectile.Center - Main.screenPosition;
             Color color = Color.White;
-            Main.EntitySpriteDraw(tex, pos, null, color, rot, ori, -1, Math.Abs(rot) <= MathHelper.PiOver2 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+            //Math.Abs(rot) <= MathHelper.PiOver2
+            Main.EntitySpriteDraw(tex, pos, null, color, rot, ori, -1, Main.player[Projectile.owner].direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
             return true;
         }
     }
