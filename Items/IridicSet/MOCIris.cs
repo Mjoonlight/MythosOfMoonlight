@@ -30,8 +30,8 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.knockBack = 3f;
-            Item.width = 40;
-            Item.height = 16;
+            Item.width = 60;
+            Item.height = 20;
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Shoot;

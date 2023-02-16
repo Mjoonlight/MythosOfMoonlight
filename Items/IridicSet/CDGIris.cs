@@ -26,8 +26,8 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.noUseGraphic = false;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
-            Item.width = 38;
-            Item.height = 16;
+            Item.width = 46;
+            Item.height = 22;
             Item.useTime = 5;
             SoundStyle style = SoundID.Item31;
             style.Volume = .5f;
@@ -42,6 +42,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.shoot = ModContent.ProjectileType<FragmentBullet>();
             Item.shootSpeed = 16f;
         }
+        public override Vector2? HoldoutOffset() => new Vector2(0, 0);
         public override bool RangedPrefix()
         {
             return true;
