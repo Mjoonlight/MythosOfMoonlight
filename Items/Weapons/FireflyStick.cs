@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.holdStyle = ItemHoldStyleID.HoldFront;
             Item.width = 44;
-            Item.mana = 4;
+            Item.mana = 0;
             Item.height = 50;
             Item.useAnimation = 8;
             Item.useTime = 8;
@@ -112,6 +112,8 @@ namespace MythosOfMoonlight.Items.Weapons
                     }
                 }
             }
+            player.CheckMana(4, true);
+            player.manaRegen = 0;
             return base.UseItem(player);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

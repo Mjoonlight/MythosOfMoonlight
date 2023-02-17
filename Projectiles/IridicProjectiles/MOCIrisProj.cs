@@ -29,8 +29,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         }
         public override void SetDefaults()
         {
-            Projectile.width = 1;
-            Projectile.height = 1;
+            Projectile.width = 60;
+            Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.tileCollide = true;
@@ -79,12 +79,12 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             for (int i = 0; i <= 20; i += 5)
             {
                 if (ExistingTime == 90 + i)
-                {
-                    Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 18f;
+                {  
+                    Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 16f;
                     for (int j = 0; i < 15; i++)
                     {
                         Dust dust;
-                        Vector2 position = Projectile.Center;
+                        Vector2 position = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.width;
                         dust = Terraria.Dust.NewDustDirect(position, 0, 0, 71, shoot.X, shoot.Y, 0, new Color(255, 255, 255), 1f);
                     }
                     SoundEngine.PlaySound(SoundID.Item68, Projectile.Center + shoot * 2f);
@@ -103,7 +103,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                         DustTimer = 0;
                         for (int i = 1; i <= 3; i++)
                         {
-                            Vector2 Center = Projectile.Center + Projectile.rotation.ToRotationVector2() * 36f;
+                            Vector2 Center = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.width;
                             Vector2 randPos = Main.rand.NextVector2CircularEdge(24, 24);
                             Dust dust = Dust.NewDustDirect(Center + randPos, 1, 1, ModContent.DustType<PurpurineDust>());
                             dust.noGravity = true;

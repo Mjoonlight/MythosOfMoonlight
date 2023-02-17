@@ -66,6 +66,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 dust.noGravity = true;
                 dust.velocity = vel;
             }
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             return base.OnTileCollide(oldVelocity);
         }
     }

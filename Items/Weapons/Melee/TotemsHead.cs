@@ -71,36 +71,39 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         }*/
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.One, ModContent.ProjectileType<EntropicTotemProjectile2>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+            for (int i = 0; i < 4; i++)
+            {
+                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.UnitX.RotatedBy(i * MathHelper.PiOver2) * 3, ModContent.ProjectileType<EntropicTotemProjectile2>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
                 a.ai[0] = 10f;
+            }
         }
-    }
-    public class EntropicTotemProjectile2 : ModProjectile
-    {
-        public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Underground/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
-        public override void SetStaticDefaults()
+        public class EntropicTotemProjectile2 : ModProjectile
         {
-            DisplayName.SetDefault("Totem Bullet");
-        }
-        public const int MAX_TIMELEFT = 50;
-        public override void SetDefaults()
-        {
-            Projectile.height = Projectile.width = 10;
-            Projectile.aiStyle = 0;
-            Projectile.hostile = false;
-            Projectile.friendly = true;
-            Projectile.penetrate = -1;
-            Projectile.damage = 42;
-            Projectile.tileCollide = false;
-            Projectile.timeLeft = MAX_TIMELEFT;
-        }
-        float RotationalIncrement => MathHelper.ToRadians(Projectile.ai[0]);
-        public override void AI()
-        {
-            var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
-            Dust.NewDustPerfect(Projectile.Center, dustType, -Projectile.velocity);
+            public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Underground/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
+            public override void SetStaticDefaults()
+            {
+                DisplayName.SetDefault("Totem Bullet");
+            }
+            public const int MAX_TIMELEFT = 20;
+            public override void SetDefaults()
+            {
+                Projectile.height = Projectile.width = 10;
+                Projectile.aiStyle = 0;
+                Projectile.hostile = false;
+                Projectile.friendly = true;
+                Projectile.penetrate = -1;
+                Projectile.damage = 42;
+                Projectile.tileCollide = false;
+                Projectile.timeLeft = MAX_TIMELEFT;
+            }
+            float RotationalIncrement => MathHelper.ToRadians(Projectile.ai[0]);
+            public override void AI()
+            {
+                var dustType = ModContent.DustType<EntropicTotemProjectileDust>();
+                Dust.NewDustPerfect(Projectile.Center, dustType, -Projectile.velocity);
 
-            Projectile.velocity = Projectile.velocity.RotatedBy(RotationalIncrement);
+                Projectile.velocity = Projectile.velocity.RotatedBy(RotationalIncrement);
+            }
         }
     }
 }
