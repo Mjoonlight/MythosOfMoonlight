@@ -26,7 +26,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.damage = 30;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.timeLeft = MAX_TIMELEFT;
             Projectile.penetrate = -1;
         }
