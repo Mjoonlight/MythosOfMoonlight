@@ -167,10 +167,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
+            {
+                Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY, 910, 0.7f + Main.rand.NextFloat() * 0.6f);
+            }
+            /*for (int i = 0; i < 4; i++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2 * hitDirection, -1.5f);
-            }
+            }*/
             if (NPC.life <= 0)
             {
                 if (Main.netMode == NetmodeID.Server)
@@ -180,7 +184,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 2, Vector2.One * hitDirection);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 3, Vector2.One * hitDirection);
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 4, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/CenturyLeaf", 5, -1, Vector2.One * hitDirection);
+                //Helper.SpawnGore(NPC, "MythosOfMoonlight/CenturyLeaf", 5, -1, Vector2.One * hitDirection);
                 Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 10);
                 /*for (int i = 0; i < 10; i++)
 				{

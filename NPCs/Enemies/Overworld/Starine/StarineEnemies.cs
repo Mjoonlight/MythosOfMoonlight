@@ -10,6 +10,7 @@ using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.DataStructures;
 using MythosOfMoonlight.BiomeManager;
+using Steamworks;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {
@@ -44,7 +45,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //3hi31mg
-            var off = new Vector2(NPC.width / 2, NPC.height / 2);
+            var off = new Vector2(NPC.width / 2, NPC.height / 2 + 2);
             var clr = new Color(255, 255, 255, 255); // full white
             Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Trail").Value;
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
@@ -62,8 +63,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         }
         public override void SetDefaults()
         {
-            NPC.width = 40;
-            NPC.height = 36;
+            NPC.width = 36;
+            NPC.height = 40;
             NPC.aiStyle = -1;
             NPC.damage = 15;
             NPC.defense = 2;
@@ -84,9 +85,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         float Timer = 0;
         public override void FindFrame(int frameHeight)
         {
+            NPC.frameCounter++;
+            Main.NewText(f);
             if (NPC.IsABestiaryIconDummy)
             {
-                if (++Timer % 4 == 0)
+                if (NPC.frameCounter % 4 == 0)
                 {
                     f++;
                 }
@@ -97,26 +100,40 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                 switch (State)
                 {
                     case 0:
-                        if (NPC.velocity.Y > 0)
-                            f = 7;
+                        /*if (Timer % 5 == 0)
+                        {
+                            if (f < 7)
+                                f++;
+                        }*/
+                        if (NPC.velocity.Y > -1)
+                        {
+                            if (NPC.frameCounter % 5 == 0) f++;
+                            if (f > 3)
+                                f = 0;
+                        }
                         else
                         {
-                            if (Timer < 8)
-                                f = 5;
-                            else
-                                f = 4;
+                            if (NPC.frameCounter % 5 == 0)
+                            {
+                                if (f < 4)
+                                    f = 4;
+
+                                else if (f < 7)
+                                    f++;
+                            }
                         }
                         break;
                     case 1:
-                        if (Timer % 4 == 0)
+                        if (NPC.frameCounter % 5 == 0)
                         {
-                            f++;
+                            if (f < 7)
+                                f++;
+                            if (f < 4)
+                                f = 4;
                         }
-                        if (f > 3)
-                            f = 0;
                         break;
                     case 2:
-                        if (Timer % 4 == 0) f++;
+                        if (NPC.frameCounter % 5 == 0) f++;
                         if (f > 3)
                             f = 0;
                         break;
@@ -157,12 +174,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         }
         public override void AI()
         {
-            NPC.frameCounter++;
-            if (NPC.frameCounter >= 39) NPC.frameCounter = 0;
+            //NPC.frameCounter++;
+            //if (NPC.frameCounter >= 39) NPC.frameCounter = 0;
             Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
             Player target = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (NPC.collideY)
+            if (NPC.Grounded())
             {
                 switch (State)
                 {
@@ -170,9 +187,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                     case 0:
                         {
                             Timer++;
-                            if (NPC.velocity.Y == 0)
+                            if (NPC.Grounded())
                             {
-                                if (NPC.velocity.X == 0)
+                                /*if (NPC.velocity.X == 0)
                                 {
                                     if (NumZeroes++ < 1)
                                         State = 1;
@@ -182,12 +199,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                                         NumZeroes = 0;
                                     }
                                 }
-                                else State = JumpsElapsed % 4f == 0 ? 2f : 1f;
-                                Timer = JumpsElapsed % 4f == 0 ? 30f : 8f * (NPC.life < NPC.lifeMax / 2 ? NPC.life / NPC.lifeMax : 1f);
-                                NPC.velocity.X = 0;
+                                else */
+                                State = JumpsElapsed % 4f == 0 ? 2f : 1f;
+                                if (JumpsElapsed % 4f != 0)
+                                    f = 3;
+                                Timer = JumpsElapsed % 4f == 0 ? 100f : 8f * (NPC.life < NPC.lifeMax / 2 ? NPC.life / NPC.lifeMax : 1f);
+                                NPC.velocity.X *= JumpsElapsed % 4f == 0 ? 0f : 0.9f;
+                                if (JumpsElapsed % 4f == 0)
+                                    NPC.velocity.Y = 0;
                             }
                             else
-                                NPC.velocity.X = 4f * NPC.direction;
+                                NPC.velocity.X = 4 * NPC.direction;
                             break;
                         }
                     //Jumping for joy
@@ -197,7 +219,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                             if (Timer <= 0)
                             {
                                 NPC.direction = NPC.spriteDirection = target.position.X > NPC.position.X ? 1 : -1;
-                                NPC.velocity = new Vector2(4f * NPC.direction, -7f);
+                                NPC.velocity = new Vector2(4 * NPC.direction, -7f);
                                 JumpsElapsed++;
                                 State = 0;
                             }
@@ -209,24 +231,27 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                             Timer--;
                             if (Timer <= 0)
                             {
+                                NPC.velocity.X = 0;
                                 JumpsElapsed++;
                                 State = 1;
+                                f = 4;
                             }
                             break;
                         }
-                    //Jump backwards to fix psotion
-                    case 3:
-                        Timer--;
-                        if (Timer <= 0)
-                        {
-                            NPC.direction = NPC.spriteDirection = target.position.X > NPC.position.X ? -1 : 1;
-                            NPC.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * NPC.direction, -7f);
-                            JumpsElapsed++;
-                            State = 0;
-                        }
-                        break;
+                        //Jump backwards to fix psotion
+                        /*case 3:
+                            Timer--;
+                            if (Timer <= 0)
+                            {
+                                NPC.direction = NPC.spriteDirection = target.position.X > NPC.position.X ? -1 : 1;
+                                NPC.velocity = new Vector2((Main.rand.NextFloat() - .5f + 4f) * NPC.direction, -7f);
+                                JumpsElapsed++;
+                                State = 0;
+                            }
+                            break;*/
                 }
             }
+
         }
     }
     public class Starine_Sightseer : ModNPC
@@ -384,7 +409,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         {
             NPC.width = 36;
             NPC.height = 30;
-            NPC.aiStyle = -1;
+            NPC.aiStyle = NPCAIStyleID.Snail;
             NPC.defense = 4;
             NPC.lifeMax = 135;
             NPC.knockBackResist = .5f;
@@ -407,201 +432,95 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         {
             drawColor = Color.White;
         }
-        readonly int aggrorange = 240;
-        readonly float ClimbSpeed = 2f;
-        void NormalStateAnimation()
-        {
-            if (NPC.velocity.Y == 0 || NPC.collideX || NPC.IsABestiaryIconDummy)
-            {
-                if (NPC.frameCounter > 4) NPC.frameCounter = 0;
-                else if (NPC.ai[1] % 4 == 0) NPC.frameCounter++;
-            }
-            else NPC.frameCounter = 4;
-        }
-        void AngryStateAnimation()
-        {
-            if (SqrDistanceFromPlayer <= aggrorange && cooldown <= 0 && !NPC.collideX)
-            {
-                if (NPC.frameCounter == 11 && NPC.ai[1] % 4 == 0) NPC.ai[0] = 0;
-                if (NPC.ai[0] < 50) NPC.frameCounter = 5;
-                else if (NPC.ai[1] % 4 == 0) NPC.frameCounter++;
-            }
-            else
-                NormalStateAnimation();
-        }
-        int thing;
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.IsABestiaryIconDummy)
-            {
-                thing++;
-                if (NPC.frameCounter > 4) NPC.frameCounter = 0;
-                else if (thing % 4 == 0) NPC.frameCounter++;
-            }
-            else
-                switch (AIState)
-                {
-                    case Normal:
-                        NormalStateAnimation();
-                        break;
-                    case Angry:
-                        AngryStateAnimation();
-                        break;
-                    case GiveUp: break;
-                }
-            NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
-        }
-
-        int AIState
-        {
-            get => (int)NPC.ai[3];
-            set => NPC.ai[3] = value;
-        }
-        float SqrDistanceFromPlayer => Math.Abs(NPC.PlayerTarget().Center.X - NPC.Center.X);
-        float targetRotation;
-        const int Normal = 1, Angry = 2, GiveUp = 3;
-        const float MinimumPlayerHeightDistance = 10f;
-        void WalkAndCrawlLogic()
-        {
-            if (NPC.collideX && cooldown <= 0) // if colliding with wall
-            {
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1.75f, false, -1, 0);
-                if (NPC.collideY && NPC.velocity.Y != 0)
-                    AIState = GiveUp;
-
-                NPC.velocity.Y = -ClimbSpeed; // climb upwards
-                NPC.velocity.X = NPC.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
-                targetRotation = -NPC.direction * MathHelper.PiOver2; // rotate
-            }
-            else
-            { // if not colliding anymore {
-                if (cooldown <= 0)
-                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 5, 1.75f, true, -1, 0);
-                else
-                    NPC.velocity.X *= 0.98f;
-                targetRotation = 0;
-            }// fix rotation to 0
-             // hustle ass
-            NPC.ai[0] = 0;
-        }
-        void WalkAndCrawlLogicGivenUp()
-        {
-            if (NPC.collideX) // if colliding with wall
-            {
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1.75f, false, -1);
-                NPC.velocity.Y = -ClimbSpeed; // climb upwards
-                NPC.velocity.X = -NPC.direction; // ensure collision along x direction on next frame; if a tile is infront, will allow to keep crawling. if a tile isn't infront, hurray
-                targetRotation = NPC.direction * MathHelper.PiOver2; // rotate
-            }
-            else // if not colliding anymore
-            {
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 5, -1.75f, true, -1, 0);
-                targetRotation = 0; // fix rotation to 0
-            } // hustle ass
-            NPC.ai[0] = 0;
-        }
-        void GiveUpState()
-        {
-            WalkAndCrawlLogicGivenUp();
-            //if (Collision.CanHitLine(NPC.position, NPC.width, NPC.height, NPC.PlayerTarget().position, NPC.PlayerTarget().width, NPC.PlayerTarget().height))
-            cooldown = 200;
-            AIState = Normal;
-        }
-        void NormalState()
-        {
-            if (SqrDistanceFromPlayer >= aggrorange || NPC.PlayerTarget().Center.Y - NPC.Center.Y >= MinimumPlayerHeightDistance || targetRotation != 0 || !Collision.CanHitLine(NPC.position, NPC.width, NPC.height, NPC.PlayerTarget().position, NPC.PlayerTarget().width, NPC.PlayerTarget().height)) // third check means if not rotated; means not climbing
-            {
-                WalkAndCrawlLogic();
-            }
-            else // finished crawling
-                AIState = Angry;
-        }
-        int cooldown, numAttacks;
-        void AngryState()
-        {
-            var playerDistance = SqrDistanceFromPlayer;
-            if (playerDistance >= aggrorange * 2) // double aggro range; he's fuckin pissed 
-                AIState = Normal;
-            else
-            {
-                if (playerDistance <= aggrorange && NPC.PlayerTarget().Center.Y - NPC.Center.Y <= MinimumPlayerHeightDistance)
-                {
-                    if (!NPC.justHit && NPC.velocity.Y == 0)
-                        NPC.velocity.X = 0;
-                    NPC.velocity.X *= 0.98f;
-                    NPC.FaceTarget();
-                    NPC.spriteDirection = NPC.direction;
-                    if (cooldown <= 0)
-                        NPC.ai[0]++;
-                    if (NPC.ai[0] % 60 <= 0 && NPC.collideY && cooldown <= 0)
-                    {
-                        numAttacks++;
-                        for (int i = 0; i < 3; i++)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(1f, 6f) * NPC.direction, -Main.rand.NextFloat(2f, 5f)), ModContent.ProjectileType<Starine_Sparkle>(), 10, 1f);
-
-                        SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
-                    }
-                    if (numAttacks >= 3)
-                    {
-                        cooldown = 300;
-                        NPC.ai[0] = 1;
-                        numAttacks = 0;
-                    }
-                }
-                else
-                    WalkAndCrawlLogic();
-            }
-        }
-        public override void AI()
-        {
-            if (cooldown > 0)
-                cooldown--;
-            NPC.ai[1]++;
-            if (NPC.ai[0] == 52) NPC.ai[1] = 0;
-            NPC.TargetClosest(false);
-            NPC.rotation = MathHelper.Lerp(NPC.rotation, targetRotation, 0.35f);
+            frame.Width = NPC.width;
+            frame.Height = frameHeight;
             switch (AIState)
             {
-                default:
-                    AIState = Normal; // only during first frame of life
+                case 0:
+                    if (++frameCounter % 5 == 0)
+                    {
+                        if (frame.Y < frameHeight * 5)
+                            frame.Y += frameHeight;
+                        else
+                            frame.Y = 0;
+                    }
                     break;
-                case Normal:
-                    NormalState();
-                    break;
-                case Angry:
-                    AngryState();
-                    break;
-                case GiveUp:
-                    GiveUpState();
+                case 1:
+                    if (++frameCounter % 5 == 0)
+                    {
+                        if (frame.Y < frameHeight * 5)
+                            frame.Y = frameHeight * 5;
+                        else if (frame.Y < frameHeight * 11)
+                            frame.Y += frameHeight;
+                        else
+                            frame.Y = frameHeight * 5;
+                    }
                     break;
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public float AIState;
+        public float AITimer;
+        const int Walk = 0, Shoot = 1;
+        float targetRotation;
+        int frameCounter;
+        Rectangle frame;
+        public override void AI()
         {
-            for (int i = 0; i < 4; i++)
+            //NPC.rotation = MathHelper.Lerp(NPC.rotation, targetRotation, 0.35f);
+            Player player = Main.player[NPC.target];
+            NPC.TargetClosest(false);
+            /*if (AIState == Walk)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].scale = 1.5f;
+                if (!NPC.collideX)
+                {
+                    targetRotation = 0;
+                    NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1, false);
+                }
+                else if (NPC.collideX && !NPC.collideY)
+                {
+                    NPC.velocity.Y = Helper.FromAToB(NPC.Center, player.Center - Vector2.UnitY * 30).Y * 3;
+                    /*if (TRay.CastLength(NPC.Center + new Vector2(0, NPC.height / 2).RotatedBy(NPC.rotation), -Vector2.UnitY, 200) < NPC.height / 2)
+                    {
+                        targetRotation = MathHelper.ToRadians(180);
+                        NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 0, 1, false);
+                    }
+                    else *//*
+                    NPC.velocity.X = -NPC.direction;
+                    targetRotation = -NPC.direction * MathHelper.Pi;
+                }
             }
-            if (NPC.life <= 0)
+            else
             {
-                for (int i = 0; i < 10; i++)
+
+            }*/
+            if (AIState == Walk)
+            {
+                AITimer++;
+                NPC.velocity *= 6;
+                if (AITimer >= 300)
                 {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
-                    Main.dust[dust].scale = 2f;
-                    Main.dust[dust].noGravity = true;
-                }
-                for (int i = 0; i < Main.rand.Next(3, 5); i++)
-                {
-                    Gore.NewGore(NPC.GetSource_OnHit(NPC), NPC.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, ModContent.Find<ModGore>("MythosOfMoonlight/Starine").Type);
+                    AITimer = 0;
+                    AIState = Shoot;
                 }
             }
-        }
-        public bool HasStarineEnemies = NPC.AnyNPCs(ModContent.NPCType<Starine_Scatterer>()) || NPC.AnyNPCs(ModContent.NPCType<Starine_Skipper>());
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return HasStarineEnemies ? 0 : SpawnCondition.OverworldNight.Chance * .05f;
+            else
+            {
+                NPC.velocity *= 0.1f;
+                AITimer++;
+                if (AITimer == 15)
+                {
+                    for (int i = 0; i < 3; i++)
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 5, ModContent.ProjectileType<Starine_Sparkle>(), 10, 1f);
+
+                }
+                if (AITimer >= 30)
+                {
+                    AIState = 0;
+                    AITimer = 0;
+                }
+            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -609,7 +528,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             var off = new Vector2(NPC.width / 2, NPC.height / 2 + 2);
             var clr = new Color(255, 255, 255, 255); // full white
             Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Trail").Value;
-            var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
+            var framee = new Rectangle(0, frame.Y, NPC.width, NPC.height);
             var orig = frame.Size() / 2f;
             var trailLength = NPCID.Sets.TrailCacheLength[NPC.type];
 
@@ -618,8 +537,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                 float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = NPC.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.oldRot[i], orig, scale, flipType, 0f);
+                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, framee, clr * (1f - fadeMult * i), NPC.oldRot[i], orig, scale, flipType, 0f);
             }
+            NPC.frame = framee;
             return true;
         }
     }

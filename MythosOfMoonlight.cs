@@ -43,6 +43,22 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+        public static bool Grounded(this NPC NPC, float scale = .5f, float scaleX = 1f)
+        {
+            if (NPC.collideY || (!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * scale) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))
+            { //basic checks
+
+                return true;
+            }
+            for (int i = 0; i < NPC.width * scaleX; i++) //full sprite check
+            {
+                bool a = TRay.CastLength(NPC.BottomLeft + Vector2.UnitX * i, Vector2.UnitY, 1000) < NPC.height * scale;
+                if (!a)
+                    continue;
+                return a;
+            }
+            return false; //give up
+        }
         public static void SineMovement(this Projectile projectile, Vector2 initialCenter, Vector2 initialVel, float frequencyMultiplier, float amplitude)
         {
             projectile.ai[1]++;

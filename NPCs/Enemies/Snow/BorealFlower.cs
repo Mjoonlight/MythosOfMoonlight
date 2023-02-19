@@ -72,7 +72,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         {
             if (AIState == Move || NPC.IsABestiaryIconDummy)
             {
-                if (NPC.velocity.Y > 1 || NPC.velocity.Y < -1)
+                if (NPC.velocity.Y > 1 || NPC.velocity.Y < -3)
                     NPC.frame.Y = 0 * NPC.height;
                 else
                 {

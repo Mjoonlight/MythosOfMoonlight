@@ -199,15 +199,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     NPC.frame.Y = 0;
                 }
 
-                bool fell = (TRay.CastLength(NPC.Center, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.Left, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.Right, Vector2.UnitY, 1000) < NPC.height) || NPC.collideY;
-                if (NPC.frame.Y <= 3 * height && fell && NPC.frame.X == 5 * width)
+                bool fellOffPlusRatio = (TRay.CastLength(NPC.Bottom, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomLeft, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomRight, Vector2.UnitY, 1000) < NPC.height) || NPC.collideY;
+                if (NPC.frame.Y <= 3 * height && fellOffPlusRatio && NPC.frame.X == 5 * width)
                     CameraSystem.ChangeCameraPos(NPC.Center, 300, 1);
-                if (NPC.frame.Y < 3 * height && !fell && NPC.frame.X == 5 * width)
+                if (NPC.frame.Y < 3 * height && !fellOffPlusRatio && NPC.frame.X == 5 * width)
                 {
                     NPC.frame.X = 5 * width;
                     NPC.frame.Y += height;
                 }
-                else if (NPC.frame.Y >= 3 * height && fell && NPC.frame.Y < 7 * height && NPC.frame.X == 5 * width)
+                else if (NPC.frame.Y >= 3 * height && fellOffPlusRatio && NPC.frame.Y < 7 * height && NPC.frame.X == 5 * width)
                 {
                     NPC.frame.X = 5 * width;
                     NPC.frame.Y += height;

@@ -168,7 +168,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
             {
                 NPC.knockBackResist = 0.8f;
                 AITimer++;
-                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 6, 1, true, -1, 0/*, 1, 0*/);
+                NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 7, 1, true, -1, 0/*, 1, 0*/);
                 if (AITimer >= 400)
                 {
                     AITimer = 0;
