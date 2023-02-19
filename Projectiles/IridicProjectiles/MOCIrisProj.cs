@@ -33,7 +33,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.ignoreWater = false;
             Projectile.timeLeft = 30;
             Projectile.netUpdate = true;
@@ -79,7 +79,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             for (int i = 0; i <= 20; i += 5)
             {
                 if (ExistingTime == 90 + i)
-                {  
+                {
                     Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 16f;
                     for (int j = 0; i < 15; i++)
                     {
