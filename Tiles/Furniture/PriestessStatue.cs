@@ -37,7 +37,7 @@ namespace MythosOfMoonlight.Tiles.Furniture
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = g = b = 1;
+            r = g = b = 0.5f;
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
@@ -51,7 +51,7 @@ namespace MythosOfMoonlight.Tiles.Furniture
             Tile tile = Main.tile[i, j];
             Texture2D glow = Helper.GetTex("MythosOfMoonlight/Tiles/Furniture/PriestessStatue_Glow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 - 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+            spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
         }
     }
     public class PriestessStatueI : ModItem
