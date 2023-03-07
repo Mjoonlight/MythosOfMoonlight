@@ -21,8 +21,9 @@ namespace MythosOfMoonlight.Tiles.Furniture
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-
+            Main.tileLighted[Type] = true;
             DustType = DustID.Stone;
+            TileObjectData.newTile.DrawYOffset = 2;
             //ItemDrop = ModContent.ItemType<PriestessStatueI>();
             TileObjectData.newTile.Height = 11;
             TileObjectData.newTile.Width = 8;
@@ -33,6 +34,10 @@ namespace MythosOfMoonlight.Tiles.Furniture
             TileObjectData.newTile.Origin = new Terraria.DataStructures.Point16(4, 10);
             TileObjectData.addTile(Type);
             AddMapEntry(Color.Gray);
+        }
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = g = b = 1;
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
