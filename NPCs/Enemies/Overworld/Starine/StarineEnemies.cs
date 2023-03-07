@@ -86,7 +86,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            Main.NewText(f);
             if (NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter % 4 == 0)
@@ -187,7 +186,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                     case 0:
                         {
                             Timer++;
-                            if (NPC.Grounded())
                             {
                                 /*if (NPC.velocity.X == 0)
                                 {
@@ -208,8 +206,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                                 if (JumpsElapsed % 4f == 0)
                                     NPC.velocity.Y = 0;
                             }
-                            else
-                                NPC.velocity.X = 4 * NPC.direction;
                             break;
                         }
                     //Jumping for joy
@@ -251,6 +247,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                             break;*/
                 }
             }
+            else
+                NPC.velocity.X = 4 * NPC.direction;
 
         }
     }
@@ -386,8 +384,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            if (NPC.frameCounter >= (NPC.life >= NPC.lifeMax / 2 ? 17 : 11)) NPC.frameCounter = 0;
-            NPC.frame.Y = (int)(NPC.frameCounter / (NPC.life >= NPC.lifeMax / 2 ? 6 : 4)) * frameHeight;
+            /*if (NPC.frameCounter >= (NPC.life >= NPC.lifeMax / 2 ? 17 : 11)) NPC.frameCounter = 0;
+            NPC.frame.Y = (int)(NPC.frameCounter / (NPC.life >= NPC.lifeMax / 2 ? 6 : 4)) * frameHeight;*/
+            if (NPC.frameCounter % 5 == 0)
+            {
+                if (NPC.frame.Y < 3 * frameHeight)
+                    NPC.frame.Y += frameHeight;
+                else
+                    NPC.frame.Y = 0;
+
+            }
         }
     }
     public class Starine_Scatterer : ModNPC

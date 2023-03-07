@@ -51,6 +51,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         public override void AI()
         {
             NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, JUMP_HEIGHT, STRIDE_SPEED, true, 2, 0);
+            if (NPC.collideX && NPC.collideY)
+                NPC.velocity.Y -= 4f;
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -132,6 +134,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         public override void AI()
         {
             NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 4, 1f, true, 1, 0);
+            if (NPC.collideX && NPC.collideY)
+                NPC.velocity.Y -= 4f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -224,6 +228,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
                 NPC.FaceTarget();
             }
             NPC.spriteDirection = -NPC.direction;
+            if (NPC.collideX && NPC.collideY)
+                NPC.velocity.Y -= 4f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {

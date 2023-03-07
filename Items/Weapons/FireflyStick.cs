@@ -48,7 +48,7 @@ namespace MythosOfMoonlight.Items.Weapons
             if (Main.myPlayer == player.whoAmI)
             {
                 //player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
-                float itemRotation = player.compositeFrontArm.rotation - MathHelper.ToRadians(40) * player.gravDir;
+                float itemRotation = -MathHelper.ToRadians(40) * player.gravDir;
                 player.itemRotation = itemRotation * player.direction;
                 Vector2 itemPosition = player.MountedCenter + new Vector2(0, 10 * player.gravDir) + Utils.ToRotationVector2(player.direction > 0 ? 0 : (float)Math.PI) * 3f;
                 player.itemLocation = itemPosition;
@@ -112,8 +112,8 @@ namespace MythosOfMoonlight.Items.Weapons
                     }
                 }
             }
-            player.CheckMana(4, true);
-            player.manaRegen = 0;
+            player.CheckMana(4, true, true);
+            player.manaRegenDelay = (int)player.maxRegenDelay;
             return base.UseItem(player);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

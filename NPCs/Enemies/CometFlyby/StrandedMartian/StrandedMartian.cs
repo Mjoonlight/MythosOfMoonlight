@@ -26,7 +26,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         public override void SetDefaults()
         {
             NPC.width = 38;
-            NPC.height = 42;
+            NPC.height = 44;
             NPC.damage = 15;
             NPC.lifeMax = 90;
             NPC.defense = 2;
@@ -104,7 +104,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                     else
                         NPC.frame = new Rectangle(0, 46, 38, 46);
 
-                    if (Timer > 20) NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 8, 1.8f, true);
+                    if (NPC.collideX && NPC.collideY)
+                        NPC.velocity.Y -= 7f;
+
+                    if (Timer > 20)
+                        NPC.GetGlobalNPC<FighterGlobalAI>().FighterAI(NPC, 7, 1, true, -1, 0/*, 1, 0*/);
                     break;
                 case NState.Shoot:
                     Timer++;

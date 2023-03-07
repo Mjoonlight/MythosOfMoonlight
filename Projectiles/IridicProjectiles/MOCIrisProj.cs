@@ -64,6 +64,11 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 {
                     if (player == Main.LocalPlayer)
                     {
+                        if (ExistingTime % 5 == 0)
+                        {
+                            player.CheckMana(1, true, true);
+                            player.manaRegenDelay = (int)player.maxRegenDelay;
+                        }
                         Projectile.timeLeft++;
                         player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
                         player.itemTime = 2;

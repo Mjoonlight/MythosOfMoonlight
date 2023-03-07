@@ -149,7 +149,7 @@ SUMMONERMELEE */
         const int Sandnado = 2;
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneDesert ? 0.3f : 0f;
+            return spawnInfo.Player.ZoneDesert && spawnInfo.Player.ZoneOverworldHeight ? 0.3f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -190,7 +190,6 @@ SUMMONERMELEE */
             else if (AIState == Sandnado)
             {
                 AITimer++;
-                NPC.dontTakeDamage = true;
                 if (AITimer == 20)
                 {
                     Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center - Vector2.UnitY * 75f, Vector2.Zero, ModContent.ProjectileType<DustDevilP>(), 2, 0f, player.whoAmI, ai1: NPC.whoAmI);
@@ -256,7 +255,17 @@ SUMMONERMELEE */
                 npc.velocity = (a - npc.Center) * 0.088f;
             Vector2 b = (Projectile.Center - Main.player[npc.target].Center);
             b.Normalize();
-            Main.player[npc.target].velocity = new Vector2((b.X * 0.15f) + Main.player[npc.target].velocity.X, Main.player[npc.target].velocity.Y);
+
+            for (int num901 = 0; num901 < 5; num901++)
+            {
+                int num902 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width * 4, Projectile.height * 4, DustID.Sand, 0f, 0f, 200, default, 1.25f);
+                Main.dust[num902].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * Projectile.width * 4;
+                Main.dust[num902].noGravity = true;
+                Main.dust[num902].velocity = (Helper.FromAToB(Main.dust[num902].position, Projectile.Center) * 2.5f).RotatedBy(-Main.GameUpdateCount * 0.0075f);
+                Dust dust2 = Main.dust[num902];
+                dust2.velocity *= 3f;
+            }
+            Main.player[npc.target].velocity += b * 0.75f;
             if (Main.player[npc.target].Center.Distance(Projectile.Center) > 750f)
                 Projectile.Kill();
 
