@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.Tiles.Furniture
 {
@@ -21,17 +22,24 @@ namespace MythosOfMoonlight.Tiles.Furniture
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 
-            DustType = DustID.GreenBlood;
-            ItemDrop = ModContent.ItemType<PriestessStatueI>();
+            DustType = DustID.Stone;
+            //ItemDrop = ModContent.ItemType<PriestessStatueI>();
             TileObjectData.newTile.Height = 11;
             TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(Terraria.Enums.AnchorType.SolidTile, 16, 0);
+            //TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(Terraria.Enums.AnchorType.SolidBottom, 16, 0);
             TileObjectData.newTile.Origin = new Terraria.DataStructures.Point16(4, 10);
             TileObjectData.addTile(Type);
             AddMapEntry(Color.Gray);
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Point pos = new Point(i * 16, j * 16);
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                pos = new Point((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y);
+            Item.NewItem(new EntitySource_TileBreak(i, j), pos.X, pos.Y, 16, 16, ModContent.ItemType<PriestessStatueI>());
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
