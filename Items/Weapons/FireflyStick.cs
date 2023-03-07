@@ -95,24 +95,24 @@ namespace MythosOfMoonlight.Items.Weapons
         }
         public override bool? UseItem(Player player)
         {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                if (Main.projectile[i].owner == player.whoAmI)
+            if (player.CheckMana(4, true, true))
+                for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].active)
+                    if (Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (Main.projectile[i].type == Item.shoot)
+                        if (Main.projectile[i].active)
                         {
-                            if (Main.projectile[i].ai[0] == 0)
+                            if (Main.projectile[i].type == Item.shoot)
                             {
-                                Main.projectile[i].ai[0] = 1;
-                                break;
+                                if (Main.projectile[i].ai[0] == 0)
+                                {
+                                    Main.projectile[i].ai[0] = 1;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-            }
-            player.CheckMana(4, true, true);
             player.manaRegenDelay = (int)player.maxRegenDelay;
             return base.UseItem(player);
         }
