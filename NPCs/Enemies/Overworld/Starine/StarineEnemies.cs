@@ -498,7 +498,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             if (AIState == Walk)
             {
                 AITimer++;
-                NPC.velocity *= 6;
+                if (NPC.collideX || NPC.collideY)
+                    NPC.velocity *= 6;
                 if (AITimer >= 300)
                 {
                     AITimer = 0;
