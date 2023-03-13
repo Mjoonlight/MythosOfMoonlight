@@ -48,9 +48,9 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)// && !player.CheckMana(1))
             {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]);
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]).rotation = Projectile.rotation;
             }
         }
         public override void AI()
@@ -66,10 +66,10 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     {
                         if (ExistingTime % 5 == 0)
                         {
-                            if (player.CheckMana(1, true, true))
-                                Projectile.timeLeft = 2;
+                            player.CheckMana(1, true, true);
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                         }
+                        Projectile.timeLeft++;
                         player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
                         player.itemTime = 2;
                         player.itemAnimation = 2;
@@ -77,7 +77,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                         Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX);
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
                         if (ExistingTime > 100) Projectile.Kill();
-                        if (!player.channel || player.statMana <= 0) Projectile.Kill();
+                        if (!player.channel || player.statMana <= 0 || !player.CheckMana(1)) Projectile.Kill();
                     }
                 }
             }
