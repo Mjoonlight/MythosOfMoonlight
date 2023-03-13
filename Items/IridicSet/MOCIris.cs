@@ -43,7 +43,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override bool CanShoot(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<MOCIrisProj>()] < 1;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<MOCIrisProj>()] < 1 && player.statMana > 5;
         }
         public override bool MagicPrefix()
         {
