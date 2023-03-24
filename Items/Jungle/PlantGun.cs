@@ -79,7 +79,7 @@ namespace MythosOfMoonlight.Items.Jungle
             Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             Projectile.tileCollide = true;
             Projectile.aiStyle = 2;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 2;
         }
         public override void AI()
         {
