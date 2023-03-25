@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
 
 namespace MythosOfMoonlight.Items.Jungle
 {
@@ -32,10 +34,11 @@ namespace MythosOfMoonlight.Items.Jungle
             Item.value = Item.buyPrice(0, 0, 0, 1);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<PlantGunP>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 7f;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
+            position += (Item.Size / 2).RotatedBy(velocity.ToRotation());
             type = ModContent.ProjectileType<PlantGunP>();
         }
     }
@@ -50,7 +53,7 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             for (int i = 0; i < 4; i++)
             {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, -Projectile.velocity - Main.rand.NextVector2Unit(), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(-Main.rand.NextFloat(-5, 5), -7), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<PlantGunB>(), 300);
         }
@@ -78,7 +81,7 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             Projectile.tileCollide = true;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = 1;
             Projectile.penetrate = 2;
         }
         public override void AI()
@@ -115,7 +118,7 @@ namespace MythosOfMoonlight.Items.Jungle
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
             if (planted)
-                return Color.Pink;
+                return Color.HotPink;
             return base.GetAlpha(npc, drawColor);
         }
     }
