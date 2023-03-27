@@ -93,6 +93,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public Vector2 CircleCenter;
         public override void AI()
         {
+            //Main.NewText(NPC.Center.Distance(Main.LocalPlayer.Center));
             Lighting.AddLight(NPC.Center, 1f, 1f, 1f);
             FloatTimer++;
             if (CircleCenter != Vector2.Zero)

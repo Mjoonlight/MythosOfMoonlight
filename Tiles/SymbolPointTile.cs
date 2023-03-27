@@ -20,13 +20,24 @@ namespace MythosOfMoonlight.Tiles
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             Main.tileNoAttach[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+        }
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            return false;
+        }
+        public override bool KillSound(int i, int j, bool fail)
+        {
+            return false;
         }
         public override bool CanExplode(int i, int j)
         {
             return false;
         }
+
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
+            blockDamaged = false;
             return false;
         }
     }

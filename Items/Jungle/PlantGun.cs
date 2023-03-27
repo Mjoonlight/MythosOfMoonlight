@@ -16,6 +16,10 @@ namespace MythosOfMoonlight.Items.Jungle
 {
     public class PlantGun : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spitvine");
+        }
         public override void SetDefaults()
         {
             Item.damage = 4;
