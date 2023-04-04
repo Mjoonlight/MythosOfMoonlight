@@ -106,7 +106,7 @@ namespace MythosOfMoonlight.Common.Systems
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Generating the Starine Site", GenStruct));
+                tasks.Insert(ShiniesIndex + 6, new PassLegacy("Generating the Starine Site", GenStruct));
             }
         }
     }

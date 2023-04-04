@@ -62,10 +62,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public int Direction;
         public override void FindFrame(int frameHeight)
         {
+
             if (State != AIState.TentacleP2 || AITimer >= 100)
             {
                 NPC.frameCounter++;
             }
+            /*if (AITimer < -1)
+            {
+                NPC.frame.Y = 20 * NPC.height;
+            }*/
             if (State == 0)
             {
                 if (AITimer < 60)
@@ -98,7 +103,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     }
                 }
             }
-            if (State == AIState.Spawn)
+            if (State == AIState.Spawn || State == AIState.Idle)
             {
                 if (NPC.frameCounter >= 19)
                     NPC.frameCounter = 0;
@@ -272,13 +277,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             ArrowExplosion,
             TentacleP2,
             Death,
-            Spawn
+            Spawn,
+            Idle
         }
         private AIState State
         {
             get { return (AIState)(int)NPC.ai[0]; }
             set { NPC.ai[0] = (int)value; }
         }
+        AIState Next = AIState.StarineSigil;
         private void SwitchTo(AIState state)
         {
             State = state;
@@ -332,13 +339,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 NPC.life = 1;
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
-                SwitchTo(AIState.Death);
+                Next = (AIState.Death);
                 return false;
             }
             return true;
         }
+        bool didp2;
         public override void AI()
         {
+            Next = AIState.TentacleP1;
             if (NPC.life <= NPC.lifeMax / 2)
             {
                 if (Main.rand.NextBool(5))
@@ -348,6 +357,26 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         Dust a = Dust.NewDustPerfect(NPC.Center - Vector2.UnitY * 20, ModContent.DustType<Dusts.StarineDust>(), Main.rand.NextVector2Unit());
                         a.noGravity = false;
                     }
+                }
+                if (!didp2)
+                {
+                    SoundEngine.PlaySound(SoundID.NPCDeath51);
+                    SwitchTo(AIState.ArrowExplosion);
+                    NPC.velocity = Vector2.Zero;
+                    AITimer = -60;
+                    didp2 = true;
+                }
+                if (AITimer == -1)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
+                    for (int i = 4; i <= 360; i += 4)
+                    {
+                        Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
+                        Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
+                        dust.noGravity = true;
+                    }
+                    NPC.Center = owner.Center - Vector2.UnitY * 100;
                 }
             }
             NPC.TargetClosest(false);
@@ -387,6 +416,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             AITimer++;
             switch (State)
             {
+                case AIState.Idle:
+                    {
+                        NPC.velocity = (player.Center + new Vector2(AITimer > 150 ? 50 : -50, 0) - NPC.Center) / 30f;
+                        if (AITimer >= 200)
+                        {
+                            NPC.frameCounter = 0;
+                            AITimer = 0;
+                            NPC.velocity = Vector2.Zero;
+                            SwitchTo(Next);
+                        }
+                        break;
+                    }
                 case AIState.Spawn:
                     {
                         NPC.alpha -= 5;
@@ -412,7 +453,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;
-                            SwitchTo(AIState.StarineSigil);
+                            SwitchTo(AIState.Idle);
+                            Next = (AIState.StarineSigil);
                         }
                         break;
                     }
@@ -424,6 +466,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                         if (AITimer == 60)
                         {
+                            NPC.velocity = Vector2.Zero;
                             SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                             for (int i = 4; i <= 360; i += 4)
                             {
@@ -450,20 +493,23 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             AITimer = 0;
                             NPC.frameCounter = 0;
                             if (NPC.life >= NPC.lifeMax * .5f)
-                                SwitchTo((AIState)Main.rand.Next(new int[] { 1, 2 }));
+                                Next = ((AIState)Main.rand.Next(new int[] { 1, 2 }));
                             else
                             {
                                 if (Main.rand.Next(100) < 20)
-                                    SwitchTo(AIState.ArrowExplosion);
+                                    Next = (AIState.ArrowExplosion);
                                 else
-                                    SwitchTo((AIState)Main.rand.Next(new int[] { 1, 2, 4 }));
+                                    Next = ((AIState)Main.rand.Next(new int[] { 1, 2, 4 }));
                             }
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }
                 case AIState.TentacleP1:
                     {
                         NPC.velocity *= .9f;
+                        if (AITimer < 60 && AITimer > 30)
+                            NPC.velocity = (player.Center - NPC.Center) / 40f;
                         if (AITimer == 30)
                         {
                             SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
@@ -491,14 +537,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             AITimer = 0;
                             NPC.frameCounter = 0;
                             if (NPC.life >= NPC.lifeMax * .5f)
-                                SwitchTo((AIState)Main.rand.Next(new int[] { 0, 2 }));
+                                Next = ((AIState)Main.rand.Next(new int[] { 0, 2 }));
                             else
                             {
                                 if (Main.rand.Next(100) < 20)
-                                    SwitchTo(AIState.ArrowExplosion);
+                                    Next = (AIState.ArrowExplosion);
                                 else
-                                    SwitchTo((AIState)Main.rand.Next(new int[] { 0, 2, 4 }));
+                                    Next = ((AIState)Main.rand.Next(new int[] { 0, 2, 4 }));
                             }
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }
@@ -527,14 +574,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             AITimer = 0;
                             NPC.frameCounter = 0;
                             if (NPC.life >= NPC.lifeMax * .5f)
-                                SwitchTo((AIState)Main.rand.Next(new int[] { 0, 1 }));
+                                Next = ((AIState)Main.rand.Next(new int[] { 0, 1 }));
                             else
                             {
                                 if (Main.rand.Next(100) < 20)
-                                    SwitchTo(AIState.ArrowExplosion);
+                                    Next = (AIState.ArrowExplosion);
                                 else
-                                    SwitchTo((AIState)Main.rand.Next(new int[] { 0, 1, 4 }));
+                                    Next = ((AIState)Main.rand.Next(new int[] { 0, 1, 4 }));
                             }
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }
@@ -563,7 +611,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;
-                            SwitchTo((AIState)Main.rand.Next(new int[] { 0, 1, 2, 4 }));
+                            Next = ((AIState)Main.rand.Next(new int[] { 0, 1, 2, 4 }));
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }
@@ -594,9 +643,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             AITimer = 0;
                             NPC.frameCounter = 0;
                             if (Main.rand.Next(100) < 20)
-                                SwitchTo(AIState.ArrowExplosion);
+                                Next = (AIState.ArrowExplosion);
                             else
-                                SwitchTo((AIState)Main.rand.Next(new int[] { 0, 1, 2 }));
+                                Next = ((AIState)Main.rand.Next(new int[] { 0, 1, 2 }));
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }

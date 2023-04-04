@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.Tiles
         {
             Main.tileSolid[Type] = false;
             Main.tileMergeDirt[Type] = true;
-            AddMapEntry(Color.White);
+            AddMapEntry(Color.Transparent);
             Main.tileBlockLight[Type] = false;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;

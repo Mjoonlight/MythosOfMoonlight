@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MythosOfMoonlight.Dusts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,16 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+
+            Main.tileMergeDirt[Type] = true;
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.addTile(Type);
 
-            DustType = DustID.BlueCrystalShard;
+
+            DustType = ModContent.DustType<StarineDust>();
             //ItemDrop = ModContent.ItemType<PilgrimBedI>();
 
             AddMapEntry(Color.Blue);
@@ -66,9 +71,12 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+
+            Main.tileMergeDirt[Type] = true;
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            DustType = DustID.BlueCrystalShard;
+            DustType = ModContent.DustType<StarineDust>();
             ItemDrop = ModContent.ItemType<PilgrimCanI>();
 
             AddMapEntry(Color.Blue);
@@ -107,9 +115,12 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+
+            Main.tileMergeDirt[Type] = true;
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
 
-            DustType = DustID.BlueCrystalShard;
+            DustType = ModContent.DustType<StarineDust>();
             //ItemDrop = ModContent.ItemType<PilgrimLampI>();
 
             AddMapEntry(Color.Blue);

@@ -99,7 +99,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             if (CircleCenter != Vector2.Zero)
             {
                 if (State != NState.Laser)
-                    NPC.velocity = (CircleCenter + new Vector2(0, 20f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
+                    NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
             }
             if (State != NState.Normal)
                 SymbolTimer++;
