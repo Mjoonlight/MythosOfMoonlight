@@ -324,12 +324,13 @@ namespace MythosOfMoonlight
         private void Main_LoadWorlds(On.Terraria.Main.orig_LoadWorlds orig)
         {
             orig.Invoke();
-            if (OrigRender == null)
-            {
-                GraphicsDevice gd = Main.graphics.GraphicsDevice;
-                OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-            }
+            if (Main.netMode != NetmodeID.Server)
+                if (OrigRender == null)
+                {
+                    GraphicsDevice gd = Main.graphics.GraphicsDevice;
+                    OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                }
         }
 
         private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)

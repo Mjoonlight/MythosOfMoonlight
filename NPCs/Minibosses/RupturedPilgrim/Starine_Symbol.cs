@@ -102,7 +102,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
             }
             if (State != NState.Normal)
+            {
+                if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()))
+                    NPC.active = false;
                 SymbolTimer++;
+            }
 
             if (CircleCenter == Vector2.Zero)
                 CircleCenter = NPC.Center;

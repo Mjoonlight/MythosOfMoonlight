@@ -10,6 +10,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using System;
+using System.IO;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -279,6 +280,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             Death,
             Spawn,
             Idle
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((int)Next);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Next = (AIState)reader.ReadSingle();
         }
         private AIState State
         {
