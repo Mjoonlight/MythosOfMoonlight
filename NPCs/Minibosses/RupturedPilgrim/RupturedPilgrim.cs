@@ -339,7 +339,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 NPC.life = 1;
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
-                Next = (AIState.Death);
+                SwitchTo(AIState.Death);
                 return false;
             }
             return true;
@@ -419,7 +419,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 case AIState.Idle:
                     {
                         NPC.velocity = (player.Center + new Vector2(AITimer > 150 ? 50 : -50, 0) - NPC.Center) / 30f;
-                        if (AITimer >= 200)
+                        if (AITimer >= NPC.life / 10)
                         {
                             NPC.frameCounter = 0;
                             AITimer = 0;
