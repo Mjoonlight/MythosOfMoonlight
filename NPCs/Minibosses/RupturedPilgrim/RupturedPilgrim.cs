@@ -363,7 +363,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override void AI()
         {
-            Next = AIState.TentacleP1;
             if (Main.netMode == NetmodeID.Server)
                 NPC.netUpdate = true;
             if (NPC.life <= NPC.lifeMax / 2)
@@ -471,8 +470,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;
-                            SwitchTo(AIState.Idle);
                             Next = (AIState.StarineSigil);
+                            SwitchTo(AIState.Idle);
                         }
                         break;
                     }
