@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -49,7 +50,7 @@ namespace MythosOfMoonlight.Events
         //float intensity;
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
+            if (MenuLoader.CurrentMenu.DisplayName == "Purple Comet" ? true : (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f))
             {
                 Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
                 Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;

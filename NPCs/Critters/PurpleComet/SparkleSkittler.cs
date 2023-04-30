@@ -33,7 +33,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             NPC.catchItem = (short)ModContent.ItemType<SparkleSkittlerItem>();
             NPC.dontCountMe = true;
             NPC.npcSlots = 0;
-            NPC.dontTakeDamageFromHostiles = false; 
+            NPC.dontTakeDamageFromHostiles = false;
             SpawnModBiomes = new int[]
             {
                 ModContent.GetInstance<PurpleCometBiome>().Type
@@ -137,7 +137,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !PurpleCometEvent.PurpleComet ? 0 : 0.17f;
+            return !(PurpleCometEvent.PurpleComet && spawnInfo.Player.ZoneOverworldHeight) ? 0 : 0.17f;
         }
     }
 }

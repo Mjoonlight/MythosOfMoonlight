@@ -67,7 +67,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                 else
                     NPC.frame.Y = NPC.height * 10;
             }
-            else if(Relative(0.85f))
+            else if (Relative(0.85f))
             {
                 if (frameTimer[0]++ > (int)Math.Round(jumpVal[1] * 0.025f))
                 {
@@ -79,7 +79,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             }
             else
             {
-                if(Relative(0.875f))
+                if (Relative(0.875f))
                     NPC.frame.Y = NPC.height * 3;
                 else if (Relative(0.9f))
                     NPC.frame.Y = NPC.height * 4;
@@ -146,7 +146,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !PurpleCometEvent.PurpleComet ? 0 : 0.37f;
+            return !(PurpleCometEvent.PurpleComet && spawnInfo.Player.ZoneOverworldHeight) ? 0 : 0.37f;
         }
     }
 }

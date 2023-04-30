@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         {
             Item.damage = 20;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 5;
+            Item.mana = 2;
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;

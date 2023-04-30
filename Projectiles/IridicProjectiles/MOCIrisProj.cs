@@ -66,7 +66,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     {
                         if (ExistingTime % 5 == 0)
                         {
-                            player.CheckMana(1, true, true);
+                            player.CheckMana(2, true, true);
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                         }
                         Projectile.timeLeft++;

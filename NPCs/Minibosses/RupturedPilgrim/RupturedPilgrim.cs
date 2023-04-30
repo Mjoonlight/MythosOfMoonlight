@@ -11,6 +11,8 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using System;
 using System.IO;
+using Terraria.DataStructures;
+using Terraria.Net;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -354,9 +356,16 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             return true;
         }
         bool didp2;
+
+        public override void OnSpawn(IEntitySource source)
+        {
+
+        }
         public override void AI()
         {
             Next = AIState.TentacleP1;
+            if (Main.netMode == NetmodeID.Server)
+                NPC.netUpdate = true;
             if (NPC.life <= NPC.lifeMax / 2)
             {
                 if (Main.rand.NextBool(5))

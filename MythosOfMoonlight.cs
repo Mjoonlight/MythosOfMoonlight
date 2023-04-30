@@ -13,6 +13,12 @@ using ReLogic.Content;
 using System.Reflection;
 using Terraria.GameContent;
 using MythosOfMoonlight.Items.BossSummons;
+using Microsoft.CodeAnalysis.Operations;
+using MythosOfMoonlight.Graphics.Particles;
+using MythosOfMoonlight.Graphics;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+using MythosOfMoonlight.Events;
 
 namespace MythosOfMoonlight
 {
@@ -253,6 +259,7 @@ namespace MythosOfMoonlight
             public float FValue => Main.rand.NextFloat(min, max);
             public int IValue => Main.rand.Next((int)min, (int)max);
         }
+
         public static void FireProjectilesInArc(Entity entity, Vector2 origin, Vector2 centerDirection, float radians, int type, float speed, int damage, float knockback, int amount)
         {
             var centeredDir = centerDirection.RotatedBy(-radians / 2f); //-MathHelper.ToRadians(degrees / 2f));
@@ -391,5 +398,167 @@ namespace MythosOfMoonlight
                 priority = MusicPriority.Event;
             }
         }*/
+    }
+    public class PurpleMenu : ModMenu
+    {
+        public override string DisplayName => "Purple Comet";
+        private struct Particle
+        {
+            public Vector2 position;
+            public float Alpha;
+            public float Depth;
+            public float Rotation;
+            public Vector2 velocity;
+            public float Scale;
+            public bool Fade;
+        }
+        Particle[] particles;
+        /*public override void OnDeselected()
+        {
+            if (SkyManager.Instance["PurpleComet"].IsActive())
+            {
+                SkyManager.Instance.Deactivate("PurpleComet");
+            }
+        }
+
+        public override void Update(bool isOnTitleScreen)
+        {
+            if (!SkyManager.Instance["PurpleComet"].IsActive() && MenuLoader.CurrentMenu == this)
+            {
+                SkyManager.Instance.Activate("PurpleComet");
+            }
+        }*/
+        public override void OnSelected()
+        {
+            particles = new Particle[100];
+            for (int i = 0; i < 100; i++)
+            {
+                particles[i].Alpha = 0f;
+                particles[i].position = Main.rand.NextVector2FromRectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
+                particles[i].velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.01f, 2);
+                particles[i].Depth = Main.rand.NextFloat(.1f, 1f);
+                particles[i].Rotation = Main.rand.NextFloat(MathHelper.TwoPi); ;
+                particles[i].Scale = .1f * particles[i].Depth;
+            }
+        }
+        public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/logo");
+        public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
+        public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<PurpleSurfaceMenu>();
+        //public override Asset<Texture2D> SunTexture => MoonTexture;
+        public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
+        {
+            Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
+            Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
+            Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
+            Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
+            Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
+            Texture2D comet2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+            Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
+            //int cometX = (int)(Main.time / 32400.0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
+            Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
+            //new(Main.screenWidth / 4, MathHelper.Lerp(-200, Main.screenHeight + comet.Height * 0.5f, (float)Main.time / 32400));
+            spriteBatch.Reload(BlendState.Additive);
+            //glow += Main.rand.NextFloat(-.1f, .1f);
+            //glow = MathHelper.Clamp(glow, 0, 1);
+            float glow = 1;
+            Main.dayTime = false;
+            //if (!Main.dayTime)
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    if (particles[i].position.X < -100)
+                        particles[i].position.X = Main.screenPosition.X + 100;
+                    particles[i].position.X -= particles[i].Depth;
+                    if (!particles[i].Fade)
+                    {
+                        particles[i].Alpha += 0.025f * particles[i].Depth;
+                        if (particles[i].Alpha >= 0.75f) particles[i].Fade = true;
+                    }
+                    else
+                    {
+                        particles[i].Scale -= 0.005f * particles[i].Depth;
+                        particles[i].Alpha -= 0.005f * particles[i].Depth;
+                        if (particles[i].Alpha <= 0f)
+                        {
+                            particles[i].Fade = false;
+                            particles[i].velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.01f, 2);
+                            particles[i].Alpha = 0f;
+                            particles[i].position = Main.rand.NextVector2FromRectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
+                            particles[i].Depth = Main.rand.NextFloat(.1f, 1f);
+                            particles[i].Rotation = Main.rand.NextFloat(MathHelper.TwoPi); ;
+                            particles[i].Scale = .1f * particles[i].Depth;
+                        }
+                    }
+                    spriteBatch.Draw(Tex2, particles[i].position, null, Color.White * particles[i].Alpha * particles[i].Depth, particles[i].Rotation, Tex2.Size() / 2, particles[i].Scale * 3, SpriteEffects.None, 0);
+                }
+            }
+            /*else
+               
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    particles[i].velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.01f, 2);
+                    particles[i].Alpha = 0f;
+                    particles[i].position = Main.rand.NextVector2FromRectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
+                    particles[i].Depth = Main.rand.NextFloat(.1f, 1f);
+                    particles[i].Rotation = Main.rand.NextFloat(MathHelper.TwoPi); ;
+                    particles[i].Scale = .1f * particles[i].Depth;
+                }
+            }
+            */
+            spriteBatch.Reload(BlendState.AlphaBlend);
+            drawColor = Color.White;
+            return true;
+        }
+        public class PurpleSurfaceMenu : ModSurfaceBackgroundStyle
+        {
+            public override int ChooseFarTexture()
+            {
+                return Terraria.ID.SurfaceBackgroundID.Forest3;
+            }
+            public override int ChooseMiddleTexture()
+            {
+                return SurfaceBackgroundID.Forest2;
+            }
+            public override void ModifyFarFades(float[] fades, float transitionSpeed)
+            {
+            }
+            public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
+            {
+                Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
+                spriteBatch.Reload(BlendState.Additive);
+                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
+                Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
+                Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
+                Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
+                Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
+                Texture2D comet2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+                float glow = 1;
+                Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
+                spriteBatch.Draw(comet, cometP, null, Color.Purple * 0.65f * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.5f) + 0.4f), MathHelper.ToRadians(245), new Vector2(comet.Width / 2, 0.15f), 1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(comet, cometP, null, Color.White * 0.85f, MathHelper.ToRadians(245), new Vector2(comet.Width / 2, 0.25f), 0.95f, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(comet2, cometP - Vector2.UnitY * 30, null, Color.White * 0.75f, MathHelper.ToRadians(-90), comet2.Size() / 2, 0.5f, SpriteEffects.None, 0f);
+
+                Vector2 starOffset = new Vector2(35, -14f);
+
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.7f) + 0.4f + glow), MathHelper.ToRadians(90), starTex.Size() / 2, 0.5f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White, MathHelper.ToRadians(90), starTex.Size() / 2, 0.5f, SpriteEffects.None, 0f);
+
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.7f) + 0.4f + glow), MathHelper.ToRadians(0), starTex.Size() / 2, 0.75f, SpriteEffects.None, 0f);
+
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * 0.5f * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.5f) + 0.4f + glow), MathHelper.ToRadians(45), starTex2.Size() / 2, 0.45f, SpriteEffects.None, 0f);
+
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * 0.5f * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.5f) + 0.4f + glow), MathHelper.ToRadians(-45), starTex2.Size() / 2, 0.45f, SpriteEffects.None, 0f);
+                spriteBatch.Reload(BlendState.AlphaBlend);
+                if (!Main.dayTime)
+                {
+                    if (Main.screenWidth > Tex.Width || Main.screenHeight > Tex.Height)
+                        spriteBatch.Draw(Tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * 0.5f, 0, Vector2.Zero, SpriteEffects.None, 0);
+                    else
+                        spriteBatch.Draw(Tex, Pos, null, Color.White * 0.5f, 0f, new Vector2(Tex.Width >> 1, Tex.Height >> 1), 1f, SpriteEffects.None, 1f);
+                }
+                return false;
+            }
+        }
     }
 }

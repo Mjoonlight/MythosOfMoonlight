@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void SpecialVisuals(Player player, bool isActive)
         {
-            if (PurpleCometEvent.PurpleComet)
+            if (PurpleCometEvent.PurpleComet && player.ZoneOverworldHeight)
             {
                 if (!SkyManager.Instance["PurpleComet"].IsActive())
                 {

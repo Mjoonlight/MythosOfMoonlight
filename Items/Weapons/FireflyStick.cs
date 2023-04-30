@@ -30,6 +30,7 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.width = 44;
             Item.mana = 0;
             Item.height = 50;
+            Item.mana = 4;
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.knockBack = 2f;

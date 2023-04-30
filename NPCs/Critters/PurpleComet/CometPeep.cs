@@ -109,7 +109,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
                     usage += NPC.Center;
                     Vector2 tileDetect = (NPC.velocity * 16) + NPC.Center;
                     Tile tile = Main.tile[(int)tileDetect.X / 16, (int)tileDetect.Y / 16];
-                    if(friends.Count < 1)
+                    if (friends.Count < 1)
                         if (Main.tileSolid[tile.TileType] && !WorldGen.TileEmpty((int)tileDetect.X / 16, (int)tileDetect.Y / 16))
                             NPC.velocity *= -0.5f;
                     if (!Main.rand.NextBool((int)(NPC.velocity.Length() / 2) + 1))
@@ -148,7 +148,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !PurpleCometEvent.PurpleComet ? 0 : 0.37f;
+            return !(PurpleCometEvent.PurpleComet && spawnInfo.Player.ZoneOverworldHeight) ? 0 : 0.37f;
         }
     }
 }
