@@ -199,7 +199,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     NPC.frame.Y = 0;
                 }
 
-                bool fellOffPlusRatio = (TRay.CastLength(NPC.Bottom, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomLeft, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomRight, Vector2.UnitY, 1000) < NPC.height) || NPC.collideY || (NPC.frameCounter > 200 && NPC.velocity.Y < 2);
+                bool fellOffPlusRatio = (TRay.CastLength(NPC.Bottom, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomLeft, Vector2.UnitY, 1000) < NPC.height || TRay.CastLength(NPC.BottomRight, Vector2.UnitY, 1000) < NPC.height) || NPC.collideY || NPC.position.Y != NPC.oldPos[2].Y;
                 if (NPC.frame.Y <= 3 * height && fellOffPlusRatio && NPC.frame.X == 5 * width)
                     CameraSystem.ChangeCameraPos(NPC.Center, 300, 1);
                 if (NPC.frame.Y < 3 * height && !fellOffPlusRatio && NPC.frame.X == 5 * width)
