@@ -45,7 +45,7 @@ namespace MythosOfMoonlight.BiomeManager
         {
             get
             {
-                return MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
+                return (Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight) ? MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet") : base.Music;
             }
         }
         public override SceneEffectPriority Priority => SceneEffectPriority.Event;

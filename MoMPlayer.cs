@@ -91,6 +91,11 @@ namespace MythosOfMoonlight
             this.lerpSpeed = lerpSpeed;
             this.source = source;
         }
+        public override void PostUpdate()
+        {
+            if (PurpleCometEvent.PurpleComet)
+                Player.noFallDmg = true;
+        }
         public override void ModifyScreenPosition()
         {
             foreach (NPC NPC in Main.npc)
