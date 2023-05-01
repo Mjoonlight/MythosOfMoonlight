@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.Common.Systems
         {
             get
             {
-                if (PurpleCometEvent.PurpleComet) return MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
+                if (PurpleCometEvent.PurpleComet && (Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight)) return MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
                 else
                 {
                     return base.Music;
