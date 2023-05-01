@@ -57,7 +57,7 @@ namespace MythosOfMoonlight.BiomeManager
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool(2) && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
                 {
                     Particle.Spawn<PurpurineParticle>(Main.screenPosition + Main.rand.NextVector2FromRectangle(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight)), Main.rand.NextVector2Circular(3, 3), Color.White);
                 }
