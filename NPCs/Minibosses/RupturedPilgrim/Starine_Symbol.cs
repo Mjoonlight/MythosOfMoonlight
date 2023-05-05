@@ -144,6 +144,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
                         }
+                        for (int i = 45; i <= 360; i += 90)
+                        {
+                            Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
+                        }
                     }
                     if (StateTimer == 90)
                     {

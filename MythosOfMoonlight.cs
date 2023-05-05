@@ -290,7 +290,7 @@ namespace MythosOfMoonlight
     {
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D DustTrail1;
-        public static Effect PurpleCometEffect;//, ScreenDistort;
+        public static Effect PurpleCometEffect, Tentacle;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -301,6 +301,7 @@ namespace MythosOfMoonlight
             if (!Main.dedServ)
             {
                 PurpleCometEffect = Instance.Assets.Request<Effect>("Effects/PurpleComet", AssetRequestMode.ImmediateLoad).Value;
+                Tentacle = Instance.Assets.Request<Effect>("Effects/Tentacle", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
