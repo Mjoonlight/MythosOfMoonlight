@@ -23,6 +23,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.width = 24;
             Projectile.height = 24;
             Projectile.aiStyle = 0;
+            Projectile.timeLeft = 300;
             Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.hostile = true;
@@ -32,9 +33,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.velocity = new Vector2(oldVelocity.X, -oldVelocity.Y);
             return false;
         }
+        public static NPC Sym => Starine_Symbol.symbol;
         public override void AI()
         {
+            if (Projectile.ai[0] == 0)
+                Sym.whoAmI = (int)Projectile.ai[1];
+            if (Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) > 420 && Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) < 421 && Projectile.ai[1] == 0)
+                Projectile.velocity = -Projectile.velocity;
+            if (Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) > 421 && Projectile.ai[1] == 0)
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, ((Starine_Symbol)Sym.ModNPC).CircleCenter) * Projectile.velocity.Length();
             Projectile.rotation += MathHelper.ToRadians(3);
+            if (Projectile.velocity.Length() < 15f)
+                Projectile.velocity *= 1.1f;
         }
         public override void Kill(int timeLeft)
         {

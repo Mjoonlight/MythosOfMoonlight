@@ -108,7 +108,7 @@ namespace MythosOfMoonlight
                         {
                             if (Vector2.Distance(Player.Center, ((Starine_Symbol)Sym.ModNPC).CircleCenter) < 1000f)
                             {
-                                Main.screenPosition = Player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)Sym.ModNPC).CircleCenter - Player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
+                                //Main.screenPosition = Player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (((Starine_Symbol)Sym.ModNPC).CircleCenter - Player.Center) * (1 - (float)Math.Pow(0.95f, LerpTimer));
                             }
                         }
                     }

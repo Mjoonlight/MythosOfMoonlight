@@ -149,7 +149,7 @@ namespace MythosOfMoonlight.NPCs.Critters
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return !PurpleCometEvent.PurpleComet && (spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight) ? 0 : 0.17f;
+            return !PurpleCometEvent.PurpleComet && !(spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight) ? 0 : 0.17f;
         }
 
         public override bool CheckDead()

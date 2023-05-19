@@ -93,10 +93,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public Vector2 CircleCenter;
         public override void AI()
         {
-            if (Main.netMode == NetmodeID.Server)
+            /*if (Main.netMode == NetmodeID.Server)
             {
                 NPC.netUpdate = true;
-            }
+            }*/
             //Main.NewText(NPC.Center.Distance(Main.LocalPlayer.Center));
             Lighting.AddLight(NPC.Center, 1f, 1f, 1f);
             FloatTimer++;
@@ -226,13 +226,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death)
                 {
-                    NPC.townNPC = false; if (Main.netMode == NetmodeID.MultiplayerClient) // idk if its even this
+                    NPC.townNPC = false;/* if (Main.netMode == NetmodeID.MultiplayerClient) // idk if its even this
                     {
                         var packet = Mod.GetPacket();
                         // send vector2
                         packet.Send();
                     }
-                    else
+                    else*/
                     {
                         int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
                         Main.npc[pil].ai[0] = 6;

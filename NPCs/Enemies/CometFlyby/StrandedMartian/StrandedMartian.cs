@@ -132,7 +132,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Color color = Color.White;
-            Vector2 drawPos = NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY);
+            Vector2 drawPos = NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY + 4);
             Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Glow").Value;
             Texture2D origTexture = TextureAssets.Npc[NPC.type].Value;
             Rectangle frame = new(0, NPC.frame.Y, NPC.width, NPC.height);
