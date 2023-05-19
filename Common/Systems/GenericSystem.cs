@@ -74,7 +74,7 @@ namespace MythosOfMoonlight.Common.Systems
         public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
         public override bool IsSceneEffectActive(Player player)
         {
-            return !Main.dayTime && Main.numClouds <= 55 && Main.cloudBGActive == 0f && Star.starfallBoost > 3f && player.ZoneOverworldHeight;
+            return !Main.dayTime && Star.starfallBoost > 3f && player.ZoneOverworldHeight;
         }
     }
 }
