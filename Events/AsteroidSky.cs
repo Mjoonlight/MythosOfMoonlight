@@ -62,6 +62,10 @@ namespace MythosOfMoonlight.Events
         }
         float glow;
         //float intensity;
+        public override float GetCloudAlpha()
+        {
+            return 0.1f;
+        }
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
@@ -82,8 +86,9 @@ namespace MythosOfMoonlight.Events
                     //Dust.NewDustPerfect(stars[i].pos + Main.screenPosition, 1);
                 }
 
-                spriteBatch.Draw(Tex, new Rectangle(0, 500 - (int)Main.screenPosition.Y, Main.screenWidth, 3000), null, Color.DodgerBlue * Intensity * 0.65f, 0, Vector2.Zero, SpriteEffects.None, 0);
-                spriteBatch.Draw(Tex2, new Rectangle(0, -50, Main.screenWidth, Main.screenHeight), null, Color.DodgerBlue * Intensity, 0, Vector2.Zero, SpriteEffects.None, 0);
+                spriteBatch.Draw(Tex, new Rectangle(0, 0 - (int)Main.screenPosition.Y, Main.screenWidth, 3500), null, Color.DodgerBlue * Intensity * 0.65f, 0, Vector2.Zero, SpriteEffects.None, 0);
+                for (int i = 0; i < 2; i++)
+                    spriteBatch.Draw(Tex2, new Rectangle(0, -50, Main.screenWidth, Main.screenHeight), null, Color.DodgerBlue * Intensity * 0.7f, 0, Vector2.Zero, SpriteEffects.None, 0);
 
 
             }

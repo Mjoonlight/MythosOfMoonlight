@@ -50,7 +50,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
     }
     public class AsteroidSpawn : ModItem
     {
-        public override string Texture => "MythosOfMoonlight/Texturs/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("ASTEROID's Offering");
@@ -85,7 +85,8 @@ namespace MythosOfMoonlight.Items.PurpleComet
             SoundEngine.PlaySound(SoundID.Roar, new Vector2((int)player.position.X, (int)player.position.Y));
             Star.starfallBoost = 3;
             bool a = true;
-            Main.UpdateTime_StartNight(ref a);
+            if (Main.dayTime)
+                Main.UpdateTime_StartNight(ref a);
 
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(MessageID.WorldData);

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
+using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 
 namespace MythosOfMoonlight.Common.Globals
 {
@@ -32,6 +33,17 @@ namespace MythosOfMoonlight.Common.Globals
         }
         public override bool PreAI(Projectile projectile)
         {
+            if (projectile.type == ProjectileID.FallingStar)
+            {
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
+                    {
+                        if (npc.ai[1] > 0 && Vector2.Distance(npc.Center, projectile.Center) < 420)
+                            projectile.velocity = -projectile.velocity;
+                    }
+                }
+            }
             if (projectile.minion || projectile.sentry)
             {
                 if (Main.player[projectile.owner].GetModPlayer<MoMPlayer>().CommunicatorEquip)

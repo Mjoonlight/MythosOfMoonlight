@@ -20,17 +20,18 @@ namespace MythosOfMoonlight.Tiles.Furniture
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             Main.tileLighted[Type] = true;
             DustType = DustID.Stone;
             TileObjectData.newTile.DrawYOffset = 2;
+
             //ItemDrop = ModContent.ItemType<PriestessStatueI>();
             TileObjectData.newTile.Height = 11;
             TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            //TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(Terraria.Enums.AnchorType.SolidBottom, 16, 0);
+            TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(Terraria.Enums.AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Terraria.DataStructures.Point16(4, 10);
             TileObjectData.addTile(Type);
             AddMapEntry(Color.Gray);
