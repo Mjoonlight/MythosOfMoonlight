@@ -51,7 +51,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
             var orig = frame.Size() / 2f;
             var trailLength = NPCID.Sets.TrailCacheLength[NPC.type];
-
             for (int i = 1; i < trailLength; i++)
             {
                 float scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);

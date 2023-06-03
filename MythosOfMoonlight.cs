@@ -19,6 +19,8 @@ using MythosOfMoonlight.Graphics;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using MythosOfMoonlight.Events;
+using static System.Net.Mime.MediaTypeNames;
+using MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles;
 
 namespace MythosOfMoonlight
 {
@@ -290,7 +292,7 @@ namespace MythosOfMoonlight
     {
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D DustTrail1;
-        public static Effect PurpleCometEffect, Tentacle;//, ScreenDistort;
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -301,10 +303,15 @@ namespace MythosOfMoonlight
             if (!Main.dedServ)
             {
                 PurpleCometEffect = Instance.Assets.Request<Effect>("Effects/PurpleComet", AssetRequestMode.ImmediateLoad).Value;
+                BloomEffect = Instance.Assets.Request<Effect>("Effects/bloom", AssetRequestMode.ImmediateLoad).Value;
+                BlurEffect = Instance.Assets.Request<Effect>("Effects/blur", AssetRequestMode.ImmediateLoad).Value;
                 Tentacle = Instance.Assets.Request<Effect>("Effects/Tentacle", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
+
+                Filters.Scene["Asteroid"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
+                SkyManager.Instance["Asteroid"] = new Events.AsteroidSky();
             }
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             On.Terraria.Main.LoadWorlds += new On.Terraria.Main.hook_LoadWorlds(Main_LoadWorlds);

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -74,7 +75,30 @@ namespace MythosOfMoonlight.Common.Systems
         public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
         public override bool IsSceneEffectActive(Player player)
         {
-            return !Main.dayTime && Star.starfallBoost > 3f && player.ZoneOverworldHeight;
+            return true;//!Main.dayTime && Star.starfallBoost > 2f && player.ZoneOverworldHeight;
+        }
+        public override void SpecialVisuals(Player player, bool isActive)
+        {
+            if (true)
+            {
+                if (!SkyManager.Instance["Asteroid"].IsActive())
+                {
+                    SkyManager.Instance.Activate("Asteroid");
+                }
+                if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
+                {
+                    Filters.Scene["Asteroid"].GetShader().UseColor(Color.Blue).UseOpacity(0.1f);
+                }
+                player.ManageSpecialBiomeVisuals("Asteroid", isActive);
+            }
+            else
+            {
+                if (SkyManager.Instance["Asteroid"].IsActive())
+                {
+                    SkyManager.Instance.Deactivate("Asteroid");
+                }
+                player.ManageSpecialBiomeVisuals("Asteroid", false);
+            }
         }
     }
 }

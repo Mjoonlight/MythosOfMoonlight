@@ -46,6 +46,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             if (!Sym.active || Sym == null)
                 return;
+            if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;
             if (Vector2.Distance(Sym.Center, Projectile.Center) > 420)
                 Projectile.velocity = -Projectile.velocity;
             if (Vector2.Distance(Sym.Center, Projectile.Center) > 425)
