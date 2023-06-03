@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             DisplayName.SetDefault("Starine Shaft");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
         }
         public override void SetDefaults()
         {
@@ -30,13 +30,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.velocity = new Vector2(oldVelocity.X, -oldVelocity.Y);
+            Projectile.velocity = -oldVelocity;
             return false;
         }
         //public static NPC Sym => Starine_Symbol.symbol;
         NPC Sym = null;
         public override void AI()
         {
+            /*if (Projectile.ai[0] == 1)
+            {*/
             foreach (NPC npc in Main.npc)
             {
                 if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
@@ -51,8 +53,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();
             }
             Projectile.rotation += MathHelper.ToRadians(3);
-            if (Projectile.velocity.Length() < 15f)
+            if (Projectile.velocity.Length() < 12f)
                 Projectile.velocity *= 1.1f;
+            /*}
+                else
+                {
+                    foreach (Projectile projectile in Main.projectile)
+                    {
+                        if (projectile.active && projectile.type == Projectile.type && projectile.whoAmI != Projectile.whoAmI && projectile.ai[0] == 1)
+                        {
+                            Projectile.velocity = projectile.oldPos[(int)Projectile.ai[0] * 5];
+                        }
+                    }
+                }*/
         }
         public override void Kill(int timeLeft)
         {

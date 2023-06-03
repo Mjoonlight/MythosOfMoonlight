@@ -566,11 +566,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             NPC.velocity *= 0.98f;*/
                         if (AITimer == 100)
                         {
-                            for (int i = 1; i < 4; i++)
-                            {
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * .1f * i, ModContent.ProjectileType<PilgStar>(), 12, .1f);
-                                a.ai[1] = owner.whoAmI;
-                            }
+                            /*for (int i = 1; i < 4; i++)
+                            {*/
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * .1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
+                            a.ai[1] = owner.whoAmI;
+                            /*
+                            a.ai[0] = i;
+                        }*/
                         }
                         if (AITimer == 200)
                         {
@@ -678,9 +680,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             NPC.Center = player.Center + Main.rand.NextFloat(0, 3.14f).ToRotationVector2() * -150f;
                         }
+                        if (AITimer == 60)
+                            lastPPos = player.Center;
                         if (AITimer == 90)
                         {
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Utils.SafeNormalize(player.Center - NPC.Center, Vector2.UnitX), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
                             a.ai[0] = 100;
                             a.ai[1] = 0.5f;
                         }
