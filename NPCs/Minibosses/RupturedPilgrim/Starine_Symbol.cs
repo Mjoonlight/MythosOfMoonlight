@@ -93,6 +93,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public Vector2 CircleCenter;
         public override void AI()
         {
+            symbol = NPC;
             /*if (Main.netMode == NetmodeID.Server)
             {
                 NPC.netUpdate = true;
@@ -105,7 +106,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (State != NState.Laser)
                     NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
             }
-            if (State != NState.Normal)
+            if (State != NState.Normal && State != NState.Death)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()))
                     NPC.active = false;
@@ -238,8 +239,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         Main.npc[pil].ai[0] = 6;
                         // do default spawning code
                     }
-                    if (symbol == null || !symbol.active)
-                        symbol = NPC;
 
                     SwitchTo(NState.Invulerable);
                 }

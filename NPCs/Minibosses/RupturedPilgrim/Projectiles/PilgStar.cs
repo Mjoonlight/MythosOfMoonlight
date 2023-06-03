@@ -33,15 +33,23 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.velocity = new Vector2(oldVelocity.X, -oldVelocity.Y);
             return false;
         }
-        public static NPC Sym => Starine_Symbol.symbol;
+        //public static NPC Sym => Starine_Symbol.symbol;
+        NPC Sym = null;
         public override void AI()
         {
-            if (Projectile.ai[0] == 0)
-                Sym.whoAmI = (int)Projectile.ai[1];
-            if (Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) > 420 && Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) < 421 && Projectile.ai[1] == 0)
+            foreach (NPC npc in Main.npc)
+            {
+                if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
+                    Sym = npc;
+            }
+            if (!Sym.active || Sym == null)
+                return;
+            if (Vector2.Distance(Sym.Center, Projectile.Center) > 420)
                 Projectile.velocity = -Projectile.velocity;
-            if (Vector2.Distance(((Starine_Symbol)Sym.ModNPC).CircleCenter, Projectile.Center) > 421 && Projectile.ai[1] == 0)
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, ((Starine_Symbol)Sym.ModNPC).CircleCenter) * Projectile.velocity.Length();
+            if (Vector2.Distance(Sym.Center, Projectile.Center) > 425)
+            {
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();
+            }
             Projectile.rotation += MathHelper.ToRadians(3);
             if (Projectile.velocity.Length() < 15f)
                 Projectile.velocity *= 1.1f;

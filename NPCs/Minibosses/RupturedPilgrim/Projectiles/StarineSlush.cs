@@ -23,14 +23,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override void SetDefaults()
         {
             Projectile.damage = 10;
-            Projectile.width = 488;
-            Projectile.height = 486;
+            Projectile.width = 50;
+            Projectile.height = 50;
             Projectile.aiStyle = 0;
             Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 200;
             Projectile.hostile = true;
-            Projectile.scale = 0;
+            Projectile.scale = 0.01f;
         }
 
         public override void Kill(int timeLeft)
@@ -59,6 +59,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Vector2 dVel = Helper.FromAToB(pos, Projectile.Center) * 6f;
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 25)
+                Projectile.Kill();
             if (Projectile.scale < 0.15f)
                 Projectile.scale += 0.01f;
             //float progress = Utils.GetLerpValue(0, 200, Projectile.timeLeft);
@@ -132,6 +134,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 25)
+                Projectile.Kill();
             for (int i = 0; i < 2; i++)
             {
                 Vector2 pos = Projectile.Center + Main.rand.NextVector2Circular(10, 10);
@@ -143,9 +147,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * 100, Color.DarkBlue, Color.White * 0, 1);
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
+            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) * 0.005f : 1f);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 500), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
