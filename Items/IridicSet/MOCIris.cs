@@ -23,7 +23,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 27;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 2;
             Item.noUseGraphic = true;

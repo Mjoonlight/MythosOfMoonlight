@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using Terraria.Audio;
+using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.Items.IridicSet
 {
@@ -29,10 +30,12 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.width = 46;
             Item.height = 22;
             Item.useTime = 5;
-            SoundStyle style = SoundID.Item31;
-            style.Volume = .5f;
+            SoundStyle style = new SoundStyle("MythosOfMoonlight/Assets/Sounds/cdg");
+            //style.Volume = .5f;
+            style.MaxInstances = 400;
+
             Item.UseSound = style;
-            Item.useAnimation = 15;
+            Item.useAnimation = 30;
             Item.reuseDelay = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Bullet;
@@ -40,7 +43,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.value = Item.buyPrice(0, 0, 0, 1);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<FragmentBullet>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 1;
         }
         public override Vector2? HoldoutOffset() => new Vector2(0, 0);
         public override bool RangedPrefix()
@@ -59,6 +62,16 @@ namespace MythosOfMoonlight.Items.IridicSet
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<FragmentBullet>();
+            velocity = velocity.RotatedByRandom(MathHelper.PiOver4 / 5);
+            velocity.Normalize();
+
+            position += new Vector2(0, -4).RotatedBy(velocity.ToRotation()) * player.direction;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+
+            Helper.SpawnDust(position + new Vector2(50, 0).RotatedBy(velocity.ToRotation()), Vector2.One, ModContent.DustType<PurpurineDust>(), velocity * 3, 5);
+            return true;
         }
         public override void AddRecipes()
         {

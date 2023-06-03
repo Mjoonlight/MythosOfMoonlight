@@ -48,7 +48,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)// && !player.CheckMana(1))
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems && player.statMana > 0)// && !player.CheckMana(1))
             {
                 Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]).rotation = Projectile.rotation;
             }
@@ -57,6 +57,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             ExistingTime++;
             DustTimer++;
+
             Lighting.AddLight(Projectile.Center, .5f, .5f, .5f);
             foreach (Player player in Main.player)
             {
@@ -64,6 +65,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 {
                     if (player == Main.LocalPlayer)
                     {
+                        player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
                         if (ExistingTime % 5 == 0)
                         {
                             player.CheckMana(2, true, true);
@@ -76,14 +78,14 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                         player.heldProj = Projectile.whoAmI;
                         Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX);
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
-                        if (ExistingTime > 100) Projectile.Kill();
+                        if (ExistingTime > 70) Projectile.Kill();
                         if (!player.channel || player.statMana <= 0 || !player.CheckMana(1)) Projectile.Kill();
                     }
                 }
             }
             for (int i = 0; i <= 20; i += 5)
             {
-                if (ExistingTime == 90 + i)
+                if (ExistingTime == 60 + i)
                 {
                     Vector2 shoot = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloat(-.1f, .1f)) * 16f;
                     for (int j = 0; i < 15; i++)
@@ -97,11 +99,13 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     star.DamageType = DamageClass.Magic;
                 }
             }
+
             if (Main.netMode != NetmodeID.Server)
             {
-                if (ExistingTime < 90)
+
+                if (ExistingTime < 60)
                 {
-                    int DustCooldown = Math.Max((int)((190 - ExistingTime) / 10f), 2);
+                    int DustCooldown = Math.Max((int)((160 - ExistingTime) / 10f), 2);
                     if (DustTimer >= DustCooldown)
                     {
 

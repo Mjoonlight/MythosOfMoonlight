@@ -26,12 +26,20 @@ namespace MythosOfMoonlight
 {
     public static class TRay
     {
-        public static Vector2 Cast(Vector2 start, Vector2 direction, float length)
+        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool npcCheck = false)
         {
             direction = direction.SafeNormalize(Vector2.UnitY);
             Vector2 output = start;
             for (int i = 0; i < length; i++)
             {
+                if (npcCheck)
+                    foreach (NPC npc in Main.npc)
+                    {
+                        if (npc.active && !npc.friendly && npc.getRect().Intersects(new Rectangle((int)output.X, (int)output.Y, 5, 5)))
+                        {
+                            return output;
+                        }
+                    }
                 if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0))
                 {
                     output += direction;
@@ -43,9 +51,9 @@ namespace MythosOfMoonlight
             }
             return output;
         }
-        public static float CastLength(Vector2 start, Vector2 direction, float length)
+        public static float CastLength(Vector2 start, Vector2 direction, float length, bool npcCheck = false)
         {
-            Vector2 end = Cast(start, direction, length);
+            Vector2 end = Cast(start, direction, length, npcCheck);
             return (end - start).Length();
         }
     }
