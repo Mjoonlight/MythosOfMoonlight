@@ -75,11 +75,11 @@ namespace MythosOfMoonlight.Common.Systems
         public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
         public override bool IsSceneEffectActive(Player player)
         {
-            return true;//!Main.dayTime && Star.starfallBoost > 2f && player.ZoneOverworldHeight;
+            return !Main.dayTime && Star.starfallBoost > 2f && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
         }
         public override void SpecialVisuals(Player player, bool isActive)
         {
-            if (true)
+            if (IsSceneEffectActive(player))
             {
                 if (!SkyManager.Instance["Asteroid"].IsActive())
                 {
