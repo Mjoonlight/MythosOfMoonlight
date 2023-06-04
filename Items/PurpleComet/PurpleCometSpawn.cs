@@ -50,7 +50,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
     }
     public class AsteroidSpawn : ModItem
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/vortex";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("ASTEROID's Offering");

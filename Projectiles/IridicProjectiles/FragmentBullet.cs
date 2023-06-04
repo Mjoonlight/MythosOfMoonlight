@@ -38,7 +38,6 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void AI()
         {
             Projectile.velocity.Normalize();
-            Lighting.AddLight(Projectile.Center, new Vector3(.4f, .4f, .4f));
             //if (Projectile.alpha > 0) Projectile.alpha -= 15;
             if (Projectile.timeLeft == 599 && TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, true) < 1920)
             {

@@ -35,6 +35,8 @@ namespace MythosOfMoonlight
                 if (npcCheck)
                     foreach (NPC npc in Main.npc)
                     {
+                        if (!npc.active)
+                            continue;
                         if (npc.active && !npc.friendly && npc.getRect().Intersects(new Rectangle((int)output.X, (int)output.Y, 5, 5)))
                         {
                             return output;

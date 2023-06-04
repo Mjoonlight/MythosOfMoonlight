@@ -61,7 +61,8 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<FragmentBullet>();
+            //if (type == ProjectileID.Bullet)
+
             velocity = velocity.RotatedByRandom(MathHelper.PiOver4 / 5);
             velocity.Normalize();
 
@@ -69,9 +70,14 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
+            if (type == ProjectileID.MeteorShot)
+            {
+                Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI, 1).ai[0] = 1;
+            }
+            else
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI);
             Helper.SpawnDust(position + new Vector2(50, 0).RotatedBy(velocity.ToRotation()), Vector2.One, ModContent.DustType<PurpurineDust>(), velocity * 3, 5);
-            return true;
+            return false;
         }
         public override void AddRecipes()
         {
