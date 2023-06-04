@@ -57,7 +57,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 2000, true), 3, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 2000, false), 6, ref a);
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -75,9 +75,13 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             float p = (255 - (float)Projectile.alpha) / 255f;
             return Color.Lerp(lightColor, Color.White, .5f * p);
         }*/
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.damage = 0;
+            Projectile.scale -= 0.1f;
+        }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
             for (int i = 1; i <= 3; i++)
             {
                 Vector2 vel = -Utils.SafeNormalize(Projectile.oldVelocity, Vector2.Zero).RotatedBy(Main.rand.NextFloat(-.66f, .66f)) * Main.rand.NextFloat(1f, 2f);
