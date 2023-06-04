@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.width = 24;
             Projectile.height = 24;
             Projectile.aiStyle = 0;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 400;
             Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.hostile = true;

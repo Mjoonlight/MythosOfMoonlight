@@ -605,7 +605,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.ai[0] = i;
                         }*/
                         }
-                        if (AITimer == 350)
+                        if (AITimer == 130)
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;
@@ -635,7 +635,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 12, .1f, Main.myPlayer);
                         }
-                        if (AITimer == 130)
+                        if (AITimer == 160)
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;

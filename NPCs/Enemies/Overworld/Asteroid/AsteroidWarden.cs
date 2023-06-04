@@ -34,6 +34,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
             NPC.knockBackResist = 0.6f;
             NPC.HitSound = SoundID.NPCHit13;
         }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                new FlavorTextBestiaryInfoElement("These cosmic watchers come down from space wherever they sense a high amount of arcane star energy, such as the flowing river of starlight above the skies during meteor showers.")
+            });
+        }
         public float AIState
         {
             get => NPC.ai[0];
