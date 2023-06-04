@@ -6,6 +6,8 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
+using System.IO;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -15,7 +17,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             DisplayName.SetDefault("Starine Shaft");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 70;
         }
         public override void SetDefaults()
         {
@@ -25,20 +27,26 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 300;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.hostile = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.velocity = -oldVelocity;
+            //Projectile.velocity = -oldVelocity;
             return false;
         }
         //public static NPC Sym => Starine_Symbol.symbol;
         NPC Sym = null;
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.localAI[0] = 1;
+        }
         public override void AI()
         {
             /*if (Projectile.ai[0] == 1)
             {*/
+            if (Projectile.timeLeft == 599)
+                Projectile.localAI[0] = 1;
             foreach (NPC npc in Main.npc)
             {
                 if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
@@ -46,16 +54,33 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             if (!Sym.active || Sym == null)
                 return;
-            if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;
+            //if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
+            //  Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;
             if (Vector2.Distance(Sym.Center, Projectile.Center) > 420)
-                Projectile.velocity = -Projectile.velocity;
-            if (Vector2.Distance(Sym.Center, Projectile.Center) > 425)
             {
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();
+                if (Projectile.ai[1] == 0)
+                {
+                    if (Projectile.ai[0] == 0)
+                    {
+                        Projectile.ai[0] = 1;
+                        Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(18)));
+                    }
+                    else
+                        Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(36)));
+                    Projectile.ai[1] = 1;
+                }
             }
+            else
+                Projectile.ai[1] = 0;
+
+            if (Projectile.timeLeft < 100)
+                Projectile.localAI[0] -= 0.01f;
+            //if (Vector2.Distance(Sym.Center, Projectile.Center) > 425)
+            //{
+            //    Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();
+            //}
             Projectile.rotation += MathHelper.ToRadians(3);
-            if (Projectile.velocity.Length() < 12f)
+            if (Projectile.velocity.Length() < 20f)
                 Projectile.velocity *= 1.1f;
             /*}
                 else
@@ -68,6 +93,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                         }
                     }
                 }*/
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
         }
         public override void Kill(int timeLeft)
         {
@@ -104,7 +137,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 float scale = MathHelper.Lerp(0.70f, 1f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i), Projectile.oldRot[i], orig, scale, flipType, 0f);
+                Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i) * Projectile.localAI[0] * 0.75f, Projectile.oldRot[i], orig, scale, flipType, 0f);
             }
 
             Main.spriteBatch.End();

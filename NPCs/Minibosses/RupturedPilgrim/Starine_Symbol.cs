@@ -108,7 +108,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             }
             if (State != NState.Normal && State != NState.Death)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()))
+                if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && SymbolTimer > 3)
                     NPC.active = false;
                 SymbolTimer++;
             }

@@ -557,24 +557,55 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                                 dust.noGravity = true;
                             }
-                            NPC.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
-
+                            //NPC.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
+                            NPC.Center = owner.Center - Vector2.UnitY * 100;
                         }
                         /*if (AITimer < 90)
                             NPC.velocity = ((player.Center - new Vector2(NPC.direction * 100, 300)) - NPC.Center) / 20f;
                         else
                             NPC.velocity *= 0.98f;*/
+                        if (AITimer == 80)
+                        {
+                            lastPPos = player.Center;
+                            Vector2 pos = owner.Center;
+                            bool hasReflected = false;
+                            bool outside = false;
+                            Vector2 vel = Helper.FromAToB(NPC.Center, lastPPos) * 30;
+                            for (int i = 0; i < 300; i++)
+                            {
+                                if (Vector2.Distance(owner.Center, pos) > 420)
+                                {
+                                    if (!outside)
+                                    {
+                                        outside = true;
+                                        if (!hasReflected)
+                                        {
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(18)));
+                                            hasReflected = true;
+                                        }
+                                        else
+                                        {
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(36)));
+                                        }
+                                    }
+                                }
+                                else
+                                    outside = false;
+                                Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Vector2.Zero).noGravity = true;
+                                pos += vel;
+                            }
+                        }
                         if (AITimer == 100)
                         {
                             /*for (int i = 1; i < 4; i++)
                             {*/
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * .1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
-                            a.ai[1] = owner.whoAmI;
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Sym.Center, Helper.FromAToB(NPC.Center, lastPPos) * 0.1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
+                            //a.ai[1] = owner.whoAmI;
                             /*
                             a.ai[0] = i;
                         }*/
                         }
-                        if (AITimer == 200)
+                        if (AITimer == 350)
                         {
                             AITimer = 0;
                             NPC.frameCounter = 0;

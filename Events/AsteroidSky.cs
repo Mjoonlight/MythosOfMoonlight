@@ -31,7 +31,8 @@ namespace MythosOfMoonlight.Events
             stars = new Star[100];
             for (int i = 0; i < stars.Length; i++)
             {
-                stars[i].texture = (Main.rand.NextBool() ? "MythosOfMoonlight/Textures/star" : "MythosOfMoonlight/Textures/star2");
+                int variant = Main.rand.Next(3);
+                stars[i].texture = "MythosOfMoonlight/Textures/star" + variant;
                 stars[i].pos = new Vector2(Main.rand.NextFloat(Main.screenWidth), Main.rand.NextFloat(screenHeight * 0.25f));
                 stars[i].depth = Main.rand.NextFloat(0.1f, 0.5f);
             }

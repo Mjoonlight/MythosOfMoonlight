@@ -33,6 +33,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.scale = 0.01f;
         }
 
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            fallThrough = false;
+            return true;
+        }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 16; i++)
@@ -47,7 +52,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (i == 0)
                     continue;
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000, false, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
             }
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
@@ -59,7 +64,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Vector2 dVel = Helper.FromAToB(pos, Projectile.Center) * 6f;
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 25)
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, false, true) < 25)
                 Projectile.Kill();
             if (Projectile.scale < 0.15f)
                 Projectile.scale += 0.01f;
@@ -113,7 +118,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.hostile = true;
             Projectile.scale = 0;
         }
-
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 16; i++)
@@ -128,13 +132,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (i == 0)
                     continue;
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 6;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000, false, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 6;
             }
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
         public override void AI()
         {
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 25)
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, false, true) < 25)
                 Projectile.Kill();
             for (int i = 0; i < 2; i++)
             {
@@ -149,8 +153,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
-            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 500) * 0.005f : 1f);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 500), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
+            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, false, true) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, false, true) * 0.005f : 1f);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 500, false, true), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {

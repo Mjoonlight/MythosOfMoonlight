@@ -29,25 +29,21 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Projectile.width = 3;
             Projectile.height = 6;
             Projectile.friendly = true;
-            Projectile.tileCollide = true;
-            Projectile.ignoreWater = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
-            Projectile.netUpdate = true;
-            Projectile.netUpdate2 = true;
             Projectile.penetrate = -1;
-            Projectile.netImportant = true;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
             //Projectile.alpha = 255;
         }
         public override void AI()
         {
+            Projectile.velocity.Normalize();
             Lighting.AddLight(Projectile.Center, new Vector3(.4f, .4f, .4f));
             //if (Projectile.alpha > 0) Projectile.alpha -= 15;
-            if (Projectile.timeLeft == 599 && TRay.CastLength(Projectile.Center, Projectile.velocity, 2000, true) < 2000)
+            if (Projectile.timeLeft == 599 && TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, true) < 1920)
             {
                 for (int i = 0; i < 5; i++)
-                    Helper.SpawnDust(TRay.Cast(Projectile.Center, Projectile.velocity, 2000, true), Projectile.Size, ModContent.DustType<PurpurineDust>());
+                    Helper.SpawnDust(TRay.Cast(Projectile.Center, Projectile.velocity, 1920, true), Projectile.Size, ModContent.DustType<PurpurineDust>());
             }
             Projectile.scale -= 0.05f;
             if (Projectile.scale <= 0)
@@ -57,12 +53,12 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 2000, false), 6, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, false), 6, ref a);
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Reload(BlendState.Additive);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, Main.screenWidth, true), Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, true), Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

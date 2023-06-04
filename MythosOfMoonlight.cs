@@ -26,7 +26,7 @@ namespace MythosOfMoonlight
 {
     public static class TRay
     {
-        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool npcCheck = false)
+        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool npcCheck = false, bool platformCheck = false)
         {
             direction = direction.SafeNormalize(Vector2.UnitY);
             Vector2 output = start;
@@ -40,7 +40,7 @@ namespace MythosOfMoonlight
                             return output;
                         }
                     }
-                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0))
+                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, true) : true))
                 {
                     output += direction;
                 }
@@ -51,9 +51,9 @@ namespace MythosOfMoonlight
             }
             return output;
         }
-        public static float CastLength(Vector2 start, Vector2 direction, float length, bool npcCheck = false)
+        public static float CastLength(Vector2 start, Vector2 direction, float length, bool npcCheck = false, bool platform = false)
         {
-            Vector2 end = Cast(start, direction, length, npcCheck);
+            Vector2 end = Cast(start, direction, length, npcCheck, platform);
             return (end - start).Length();
         }
     }
@@ -509,7 +509,7 @@ namespace MythosOfMoonlight
                 }
             }
             /*else
-               
+
             {
                 for (int i = 0; i < 100; i++)
                 {
