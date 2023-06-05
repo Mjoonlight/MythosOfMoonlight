@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             style.MaxInstances = 400;
 
             Item.UseSound = style;
-            Item.useAnimation = 30;
+            Item.useAnimation = 15;
             Item.reuseDelay = 30;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Bullet;
@@ -55,10 +55,10 @@ namespace MythosOfMoonlight.Items.IridicSet
             if (pre == PrefixID.Unreal) return true;
             return base.AllowPrefix(pre);
         }
-        public override void UseAnimation(Player player)
+        /*public override void UseAnimation(Player player)
         {
             Item.useAnimation = Item.useTime * 3;
-        }
+        }*/
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             //if (type == ProjectileID.Bullet)
@@ -70,12 +70,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (type == ProjectileID.MeteorShot)
-            {
-                Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI, 1).ai[0] = 1;
-            }
-            else
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI).ai[0] = TRay.CastLength(position, velocity, 1100);
             Helper.SpawnDust(position + new Vector2(50, 0).RotatedBy(velocity.ToRotation()), Vector2.One, ModContent.DustType<PurpurineDust>(), velocity * 3, 5);
             return false;
         }

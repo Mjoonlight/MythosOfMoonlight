@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
@@ -31,7 +33,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             if (Projectile.ai[0] < 5)
             {
-                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 2000, false, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
+                SoundStyle style = SoundID.DD2_BetsyFireballImpact;
+                style.Volume = 0.5f;
+                SoundEngine.PlaySound(style, Projectile.Center);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 2000, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
                 a.ai[0] = Projectile.ai[0] + 1;
                 a.ai[1] = Projectile.ai[1];
             }

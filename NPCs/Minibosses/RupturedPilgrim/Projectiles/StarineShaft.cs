@@ -38,7 +38,16 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.dust[dust].velocity.Y = -1.5f;
                 Main.dust[dust].noGravity = true;
             }
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+            //SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+        }
+        public override void AI()
+        {
+            if (Projectile.aiStyle == 0)
+            {
+                if (Projectile.velocity.Length() < 25f)
+                    Projectile.velocity *= 1.05f;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

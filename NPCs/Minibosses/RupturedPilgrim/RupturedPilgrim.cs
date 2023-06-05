@@ -417,7 +417,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (AITimer == -1)
                 {
                     NPC.velocity = Vector2.Zero;
-                    SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
+                    //SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                     for (int i = 4; i <= 360; i += 4)
                     {
                         Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -528,13 +528,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             if (Main.rand.NextBool(2))
                             {
-                                Vector2 pos = Vector2.Distance(NPC.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? NPC.Center - new Vector2(0, 200) : Utils.SafeNormalize(NPC.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f);
+                                Vector2 pos = Sym.Center - new Vector2(-300, 100);
+                                //Vector2 pos = Vector2.Distance(NPC.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? NPC.Center - new Vector2(0, 200) : Utils.SafeNormalize(NPC.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f, ai0: -1);
+                                a.ai[0] = -1;
+                                a.ai[1] = -50;
                             }
                             else
                             {
-                                Vector2 pos = Vector2.Distance(player.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? player.Center - new Vector2(0, 200) : Utils.SafeNormalize(player.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f);
+                                Vector2 pos = Sym.Center - new Vector2(300, 100);
+                                //Vector2 pos = Vector2.Distance(player.Center - new Vector2(0, 200), ((Starine_Symbol)Sym.ModNPC).CircleCenter) <= 400 ? player.Center - new Vector2(0, 200) : Utils.SafeNormalize(player.Center - new Vector2(0, 200) - ((Starine_Symbol)Sym.ModNPC).CircleCenter, Vector2.Zero) * 390f + ((Starine_Symbol)Sym.ModNPC).CircleCenter;
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<StarineSigil>(), 12, .1f, ai0: 1);
+                                a.ai[0] = 1;
+                                a.ai[1] = -50;
                             }
                         }
                         if (AITimer == 120)
@@ -548,9 +554,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     }
                 case AIState.StarineStars:
                     {
+                        if (AITimer == 30)
+                            SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
                         if (AITimer % 30 == 0 && AITimer <= 60)
                         {
-                            SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                             for (int i = 4; i <= 360; i += 4)
                             {
                                 Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -623,7 +630,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 
                         if (AITimer == 60)
                         {
-                            SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                             for (int i = 4; i <= 360; i += 4)
                             {
                                 Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -633,6 +639,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                         if (AITimer == 90)
                         {
+                            SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 12, .1f, Main.myPlayer);
                         }
                         if (AITimer == 160)
@@ -664,6 +671,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         // NPC.velocity = Vector2.Zero;
                         if (AITimer == 50)
                         {
+                            SoundStyle style = SoundID.Item8;
+                            style.Volume = 0.5f;
+                            SoundEngine.PlaySound(style, NPC.Center);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 100), Vector2.Zero, ModContent.ProjectileType<StarineSlush>(), 12, .1f, Main.myPlayer);
                             for (int i = -1; i < 2; i++)
                             {
@@ -673,19 +683,29 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                         }
                         if (AITimer == 70)
+                        {
+                            SoundStyle style = SoundID.DD2_DarkMageCastHeal;
+                            style.Volume = 0.5f;
+                            SoundEngine.PlaySound(style, NPC.Center);
                             for (int i = -1; i < 2; i++)
                             {
                                 if (i == 0)
                                     continue;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(200 * i, -300), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
                             }
+                        }
                         if (AITimer == 90)
+                        {
+                            SoundStyle style = SoundID.DD2_DarkMageCastHeal;
+                            style.Volume = 0.5f;
+                            SoundEngine.PlaySound(style, NPC.Center);
                             for (int i = -1; i < 2; i++)
                             {
                                 if (i == 0)
                                     continue;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, -300), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
                             }
+                        }
                         if (AITimer == 250)
                         {
                             AITimer = 0;
@@ -715,6 +735,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             lastPPos = player.Center;
                         if (AITimer == 90)
                         {
+
+                            SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, NPC.Center);
                             Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
                             a.ai[0] = 100;
                             a.ai[1] = 0.5f;
@@ -742,6 +764,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     }
                 case AIState.SymbolLaser:
                     {
+                        if (AITimer == -20)
+                        {
+                            SoundEngine.PlaySound(SoundID.AbigailUpgrade);
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), owner.Center, new Vector2(), ModContent.ProjectileType<PilgrimP2Transition>(), 0, 0);
+                        }
                         if (AITimer < 60)
                             NPC.velocity = (owner.Center - new Vector2(0, 100) - NPC.Center) / 10f;
                         else
@@ -814,6 +841,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         if (AITimer >= 160 && aitimer2 == 65 && AITimer < 180 + (65 * 4))
                         {
 
+                            SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, NPC.Center);
                             Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
                             a.ai[0] = 40;
                             a.ai[1] = 0.5f;

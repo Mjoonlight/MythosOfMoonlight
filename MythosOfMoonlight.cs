@@ -21,28 +21,20 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using MythosOfMoonlight.Events;
 using static System.Net.Mime.MediaTypeNames;
 using MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles;
+using System.Collections.Generic;
 
 namespace MythosOfMoonlight
 {
     public static class TRay
     {
-        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool npcCheck = false, bool platformCheck = false)
+        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)//, bool npcCheck = false, bool platformCheck = false)
         {
             direction = direction.SafeNormalize(Vector2.UnitY);
             Vector2 output = start;
+
             for (int i = 0; i < length; i++)
             {
-                if (npcCheck)
-                    foreach (NPC npc in Main.npc)
-                    {
-                        if (!npc.active)
-                            continue;
-                        if (npc.active && !npc.friendly && npc.getRect().Intersects(new Rectangle((int)output.X, (int)output.Y, 5, 5)))
-                        {
-                            return output;
-                        }
-                    }
-                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, true) : true))
+                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) : true))
                 {
                     output += direction;
                 }
@@ -51,11 +43,12 @@ namespace MythosOfMoonlight
                     break;
                 }
             }
+
             return output;
         }
-        public static float CastLength(Vector2 start, Vector2 direction, float length, bool npcCheck = false, bool platform = false)
+        public static float CastLength(Vector2 start, Vector2 direction, float length, bool platformCheck = false)//, bool npcCheck = false, bool platform = false)
         {
-            Vector2 end = Cast(start, direction, length, npcCheck, platform);
+            Vector2 end = Cast(start, direction, length, platformCheck);//, npcCheck, platform);
             return (end - start).Length();
         }
     }

@@ -8,6 +8,7 @@ using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using static Humanizer.In;
 using System;
+using System.IO;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -61,7 +62,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Main.rand.NextVector2Unit() * 5, ModContent.ProjectileType<StarineShaft>(), 10, 0);
             }
-            SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
+            SoundStyle style = SoundID.Item82;
+            style.Volume = 0.5f;
+            SoundEngine.PlaySound(style, Projectile.Center);
             for (int i = 0; i < 30; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
@@ -79,18 +82,32 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         int ProjectileTimer
         {
-            get => (int)Projectile.ai[0];
-            set => Projectile.ai[0] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+        float offset;
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(offset);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            offset = reader.ReadSingle();
         }
 
         static double RandRadian => Main.rand.NextDouble() * (MathHelper.PiOver2 / 3f) - (MathHelper.PiOver2 / 6f);
         public override void AI()
         {
+            if (ProjectileTimer >= 0)
+                offset += 0.05f;
+            int intOffset = (int)Math.Round(offset, 0);
+            Projectile.velocity.X = offset * Projectile.ai[0] * 0.1f;
             Projectile.scale = 1 + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f) * 0.25f);
             if (!Main.expertMode)
             {
-                if (++ProjectileTimer % 30 == 0)
+                if (++ProjectileTimer >= 15 + intOffset)
                 {
+                    ProjectileTimer = 0;
                     for (int i = 0; i < 15; i++)
                     {
                         int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
@@ -100,31 +117,34 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                     }
                     //for (int i = 0; i < 3; i++)
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), 8.5f * Vector2.UnitY, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
-                    SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
+                    SoundStyle style = SoundID.Item21;
+                    style.Volume = 0.5f;
+                    SoundEngine.PlaySound(style, Projectile.Center);
                     //if (ProjectileTimer == 60)
                     //  Projectile.Kill();
                 }
             }
             else
             {
-                if (++ProjectileTimer >= 60)
+                //                    if (ProjectileTimer == 55)
+                //                      Projectile.Kill();
+                if (++ProjectileTimer >= 7 + intOffset)
                 {
-                    //                    if (ProjectileTimer == 55)
-                    //                      Projectile.Kill();
-                    if (ProjectileTimer % 15 == 0)
+                    ProjectileTimer = 0;
+                    for (int i = 0; i < 15; i++)
                     {
-                        for (int i = 0; i < 15; i++)
-                        {
-                            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
-                            Main.dust[dust].scale = 2f;
-                            Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 1.2f;
-                            Main.dust[dust].noGravity = true;
-                        }
-                        //for (int i = 0; i < 3; i++)
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), 10f * Vector2.UnitY, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
-                        SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
+                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
+                        Main.dust[dust].scale = 2f;
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 1.2f;
+                        Main.dust[dust].noGravity = true;
                     }
+                    //for (int i = 0; i < 3; i++)
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), 10f * Vector2.UnitY, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                    SoundStyle style = SoundID.Item21;
+                    style.Volume = 0.5f;
+                    SoundEngine.PlaySound(style, Projectile.Center);
                 }
+
             }
         }
     }

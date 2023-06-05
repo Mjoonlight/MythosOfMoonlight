@@ -14,6 +14,7 @@ using System.Drawing.Drawing2D;
 using Terraria.GameContent;
 using MythosOfMoonlight.Graphics;
 using MythosOfMoonlight.Graphics.Particles;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {
@@ -29,20 +30,40 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Projectile.width = 3;
             Projectile.height = 6;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.aiStyle = -1;
+            Projectile.usesLocalNPCImmunity = true;
             //Projectile.alpha = 255;
         }
+        /*public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.ai[0] = TRay.CastLength(Projectile.Center, Projectile.velocity, 1100);
+            Projectile.velocity.Normalize();
+        }*/
         public override void AI()
         {
+            if (Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type] > 3)
+                Projectile.Kill();
+            /*if (Projectile.timeLeft == 599)
+            {
+                Projectile.ai[0] = TRay.CastLength(Projectile.Center, Projectile.velocity, 1100);
+            }*/
             Projectile.velocity.Normalize();
             //if (Projectile.alpha > 0) Projectile.alpha -= 15;
-            if (Projectile.timeLeft == 599 && TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, true) < 1920)
+            if (Projectile.timeLeft == 598 && Projectile.ai[0] < 40)
             {
-                for (int i = 0; i < 5; i++)
-                    Helper.SpawnDust(TRay.Cast(Projectile.Center, Projectile.velocity, 1920, true), Projectile.Size, ModContent.DustType<PurpurineDust>());
+                Projectile.Kill();
+            }
+            if (Projectile.timeLeft == 598 && Projectile.ai[0] < 1100)
+            {
+                Projectile.ai[1] = 1;
+                Projectile.damage = 0;
+                //for (int i = 0; i < 5; i++)
+                // Helper.SpawnDust(TRay.Cast(Projectile.Center, Projectile.velocity, 1100, true), Projectile.Size, ModContent.DustType<PurpurineDust>());
             }
             Projectile.scale -= 0.05f;
             if (Projectile.scale <= 0)
@@ -52,12 +73,15 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, false), 6, ref a);
+            if (Projectile.ai[0] == 0 || Projectile.ai[1] == 1)
+                return false;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * (Projectile.ai[0] + targetHitbox.Width), 1, ref a) && Projectile.ai[1] == 0 && Projectile.ai[0] != 0;
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Reload(BlendState.Additive);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * TRay.CastLength(Projectile.Center, Projectile.velocity, 1920, true), Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
+            if (Projectile.timeLeft < 599)
+                Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.ai[0], Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -70,13 +94,17 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             float p = (255 - (float)Projectile.alpha) / 255f;
             return Color.Lerp(lightColor, Color.White, .5f * p);
         }*/
+        public override bool? CanDamage()
+        {
+            return Projectile.ai[1] == 0 && Projectile.ai[0] != 0;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.damage = 0;
+            Projectile.ai[1] = 1;
             Projectile.scale -= 0.1f;
-        }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
+            Projectile.ai[0] = (target.Center + new Vector2(target.width, 0).RotatedBy(Helper.FromAToB(target.Center, Projectile.Center).ToRotation()) - Projectile.Center).Length();
+            if (target.life <= 0)
+                Projectile.Kill();
             for (int i = 1; i <= 3; i++)
             {
                 Vector2 vel = -Utils.SafeNormalize(Projectile.oldVelocity, Vector2.Zero).RotatedBy(Main.rand.NextFloat(-.66f, .66f)) * Main.rand.NextFloat(1f, 2f);

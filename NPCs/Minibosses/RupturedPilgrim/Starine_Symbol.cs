@@ -130,7 +130,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     NPC.velocity = (CircleCenter - NPC.Center) / 10f;
                     if (StateTimer == 30)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
+                        SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
                         for (int i = 4; i <= 360; i += 4)
                         {
                             Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -140,7 +140,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     }
                     if (StateTimer == 60)
                     {
-                        for (int i = 90; i <= 360; i += 90)
+                        SoundStyle style = SoundID.Item82;
+                        style.Volume = 0.5f;
+                        SoundEngine.PlaySound(style, NPC.Center);
+                        /*for (int i = 90; i <= 360; i += 90)
                         {
                             Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
@@ -149,19 +152,32 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
+                        }*/
+                        float offset = Main.rand.NextFloat(MathHelper.PiOver2);
+                        for (int i = 0; i < (Main.expertMode ? 13 : 7); i++)
+                        {
+                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 13 : 7)) + offset;
+                            Vector2 pos = NPC.Center + new Vector2(500, 0).RotatedBy(angle);
+                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                            a.tileCollide = false;
+                            a.aiStyle = 0;
+                            a.timeLeft = 117;
                         }
                     }
                     if (StateTimer == 90)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
+                        //SoundEngine.PlaySound(SoundID., NPC.Center);
                         for (int i = 4; i <= 360; i += 4)
                         {
                             Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
                             Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                             dust.noGravity = true;
                         }
+                        StateTimer = 0;
+                        SwitchTo(NState.Invulerable);
                     }
-                    if (StateTimer == 120)
+                    /*if (StateTimer == 120)
                     {
                         for (int i = 90; i <= 360; i += 90)
                         {
@@ -169,8 +185,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
                         }
                         StateTimer = 0;
-                        SwitchTo(NState.Invulerable);
-                    }
+                    }*/
                     break;
                 case NState.Death:
                     Radius -= 3.5f;
@@ -250,7 +265,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override bool CanChat()
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>());
+            return !NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
