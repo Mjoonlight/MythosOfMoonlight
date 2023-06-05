@@ -62,8 +62,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             {
                 Projectile.ai[1] = 1;
                 Projectile.damage = 0;
-                //for (int i = 0; i < 5; i++)
-                // Helper.SpawnDust(TRay.Cast(Projectile.Center, Projectile.velocity, 1100, true), Projectile.Size, ModContent.DustType<PurpurineDust>());
+                for (int i = 0; i < 5; i++)
+                    Helper.SpawnDust(Projectile.Center + Projectile.velocity * Projectile.ai[0], Projectile.Size, ModContent.DustType<PurpurineDust>());
             }
             Projectile.scale -= 0.05f;
             if (Projectile.scale <= 0)

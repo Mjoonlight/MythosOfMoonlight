@@ -577,7 +577,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Vector2 pos = owner.Center;
                             bool hasReflected = false;
                             bool outside = false;
-                            Vector2 vel = Helper.FromAToB(NPC.Center, lastPPos) * 30;
+                            Vector2 vel = Helper.FromAToB(NPC.Center, player.Center) * 30;
                             for (int i = 0; i < 300; i++)
                             {
                                 if (Vector2.Distance(owner.Center, pos) > 420)
