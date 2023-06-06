@@ -6,7 +6,8 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-namespace MOM.Items.Weapons.Ranged
+
+namespace MythosOfMoonlight.Items.Weapons.Ranged
 {
 	public class Crawshot : ModItem
 	{
