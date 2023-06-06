@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Crawshot"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+			DisplayName.SetDefault("Crawshot"); 
 			Tooltip.SetDefault("Fires a bullet from each barrel with a bit of innacuracy");
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
