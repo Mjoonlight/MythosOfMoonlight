@@ -6,13 +6,13 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MOM.Items.Weapons.Ranged
+namespace MythosOfMoonlight.Items.Weapons.Ranged
 {
 	public class Shrimpy : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pistol Shrimp"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
+			DisplayName.SetDefault("Pistol Shrimp"); 
 			Tooltip.SetDefault("'Not as loud as an actual pistol shrimp'"
 			+ "\nConverts musket balls into water bullets"
 			+ $"\nUses Bullets [i:{ItemID.MusketBall}]");
@@ -23,14 +23,14 @@ namespace MOM.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			Item.damage = 5;
+			Item.damage = 4;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 32;
 			Item.height = 32;
-			Item.useTime = 8;
-			Item.useAnimation = 8;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.knockBack = 2f;
+			Item.knockBack = 0.32f;
 			Item.value = Item.sellPrice(silver:35);
 			Item.UseSound = SoundID.Item54;
 
@@ -66,7 +66,7 @@ namespace MOM.Items.Weapons.Ranged
 			return true;
 		}
 
-		
+		//#TO DO: Water Bullets
 		public override bool CanConsumeAmmo(Item ammo, Player player)
 		{
 			return Main.rand.NextFloat() >= 0.20f;
