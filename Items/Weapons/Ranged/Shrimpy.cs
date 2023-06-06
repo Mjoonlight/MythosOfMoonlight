@@ -6,7 +6,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace MOM.Items.Weapons
+namespace MOM.Items.Weapons.Ranged
 {
 	public class Shrimpy : ModItem
 	{
