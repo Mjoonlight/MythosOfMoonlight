@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using RealmOne.Projectiles.Bullet;
-using RealmOne.Rarities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -8,7 +6,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace RealmOne.Items.Weapons
+namespace MOM.Items.Weapons
 {
 	public class Shrimpy : ModItem
 	{
@@ -80,4 +78,37 @@ namespace RealmOne.Items.Weapons
 			return offset;
 		}
 	}
+	class ShrimpChestSpawn: ModSystem
+	{
+        public override void PostWorldGen()
+        {
+            int[] waterchest = { ItemType<Shrimpy>() };
+            int waterchestchoice = 0;
+            for (int WchestIndex = 0; WchestIndex < 1000; WchestIndex++)
+
+            {
+
+                Chest Wchest = Main.chest[WchestIndex];
+                if (Wchest != null && Main.tile[Wchest.x, Wchest.y].TileType == TileID.Containers && Main.tile[Wchest.x, Wchest.y].TileFrameX == 17 * 36)
+                {
+
+                    for (int WinventoryIndex = 0; WinventoryIndex < 40; WinventoryIndex++)
+                    {
+
+                        if (Wchest.item[WinventoryIndex].type == ItemID.None)
+                        {
+
+                            Wchest.item[WinventoryIndex].SetDefaults(waterchest[waterchestchoice]);
+
+                            Wchest.item[WinventoryIndex].stack = WorldGen.genRand.Next(0, 1);
+
+                            waterchestchoice = (waterchestchoice + 1) % waterchest.Length;
+                            //Wchest.item[WinventoryIndex].SetDefaults(Main.rand.Next(WinventoryIndex));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
