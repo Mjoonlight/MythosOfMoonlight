@@ -84,7 +84,6 @@ namespace MythosOfMoonlight.Events
                 spriteBatch.Reload(BlendState.Additive);
                 for (int i = 0; i < stars.Length; i++)
                 {
-                    spriteBatch.Reload(BlendState.Additive);
                     stars[i].pos.X += stars[i].depth * 3;
                     if (stars[i].pos.X > Main.screenWidth + 100)
                     {
@@ -104,9 +103,6 @@ namespace MythosOfMoonlight.Events
                         spriteBatch.Draw(Tex3, stars[i].pos, null, Color.White * Intensity * 0.5f * stars[i].depth, 0, new Vector2(Tex3.Width, Tex3.Height / 2), stars[i].depth * 0.1f, SpriteEffects.None, 0);
                     }
                     */
-                    spriteBatch.Reload(BlendState.AlphaBlend);
-                    if (stars[i].texture != "MythosOfMoonlight/Textures/star2")
-                        spriteBatch.Reload(BlendState.Additive);
                     spriteBatch.Draw(ModContent.Request<Texture2D>(stars[i].texture).Value, stars[i].pos, null, Color.White * Intensity * 2 * stars[i].depth, Main.GameUpdateCount * 0.01f * stars[i].depth, ModContent.Request<Texture2D>(stars[i].texture).Value.Size() / 2, stars[i].depth, SpriteEffects.None, 0);
                     //Dust.NewDustPerfect(stars[i].pos + Main.screenPosition, 1);
                 }

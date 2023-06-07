@@ -9,53 +9,53 @@ using static Terraria.ModLoader.ModContent;
 
 namespace MythosOfMoonlight.Items.Weapons.Ranged
 {
-	public class Crawshot : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crawshot"); 
-			Tooltip.SetDefault("Fires a bullet from each barrel with a bit of innacuracy");
+    public class Crawshot : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crawshot");
+            Tooltip.SetDefault("Fires a bullet from each barrel with a bit of innacuracy");
 
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
-		}
+        }
 
-		public override void SetDefaults()
-		{
-			Item.damage = 10;
-			Item.DamageType = DamageClass.Ranged;
-			Item.width = 15;
-			Item.height = 15;
-			Item.useTime = 26;
-			Item.useAnimation = 26;
-			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.knockBack = 0.87f;
-			Item.value = Item.sellPrice(silver:65);
-			Item.rare = ItemRarityID.Blue;
-			Item.UseSound = SoundID.Item11;
-			Item.autoReuse = true;
-			Item.useAmmo = AmmoID.Bullet;
-			Item.noMelee = true;
-			Item.shootSpeed = 55f;
+        public override void SetDefaults()
+        {
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 15;
+            Item.height = 15;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.87f;
+            Item.value = Item.sellPrice(silver: 65);
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.noMelee = true;
+            Item.shootSpeed = 55f;
 
-			Item.shoot = ProjectileID.Bullet;
+            Item.shoot = ProjectileID.Bullet;
 
-		}
+        }
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-		{
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y)) * 25f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
                 position += muzzleOffset;
 
             float numberProjectiles = 3 + Main.rand.Next(1); // 3, 4, or 5 shots
-			float rotation = MathHelper.ToRadians(7);
-			position += Vector2.Normalize(velocity) * -2f;
-			for (int i = 0; i < numberProjectiles; i++)
-			{
-				Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; // Watch out for dividing by 0 if there is only 1 projectile.
-				Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
-			}
+            float rotation = MathHelper.ToRadians(7);
+            position += Vector2.Normalize(velocity) * -2f;
+            for (int i = 0; i < numberProjectiles; i++)
+            {
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; // Watch out for dividing by 0 if there is only 1 projectile.
+                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+            }
 
             for (int i = 0; i < 60; i++)
             {
@@ -65,16 +65,16 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
                 d.noGravity = true;
             }
             return false;
-		}
+        }
 
         public override bool IsQuestFish()
         {
-            return true; 
+            return true;
         }
-        
+
         public override bool IsAnglerQuestAvailable()
         {
-            return !Main.hardMode; 
+            return !Main.hardMode;
         }
 
         public override void AnglerQuestChat(ref string description, ref string catchLocation)
@@ -84,10 +84,9 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
 
         public override Vector2? HoldoutOffset()
-		{
-			var offset = new Vector2(0, 0);
-			return offset;
-		}
-	}
+        {
+            var offset = new Vector2(0, 0);
+            return offset;
+        }
     }
 }
