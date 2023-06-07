@@ -64,7 +64,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Vector2 dVel = Helper.FromAToB(pos, Projectile.Center) * 6f;
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, true) < 25)
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
                 Projectile.Kill();
             if (Projectile.scale < 0.15f)
                 Projectile.scale += 0.01f;
@@ -141,7 +141,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, true) < 25)
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
                 Projectile.Kill();
             for (int i = 0; i < 2; i++)
             {
@@ -156,8 +156,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
-            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, true) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 500, true) * 0.005f : 1f);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 500, true), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
+            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) * 0.005f : 1f);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 200, true), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
