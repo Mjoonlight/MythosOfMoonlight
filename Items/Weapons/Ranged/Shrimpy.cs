@@ -135,6 +135,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
         public override void AI()
         {
+            Projectile.direction = Projectile.velocity.X < 0 ? -1 : 1;
             Dust.NewDustPerfect(Projectile.Center, DustID.DungeonWater, Projectile.velocity, Scale: 1).noGravity = true;
         }
     }

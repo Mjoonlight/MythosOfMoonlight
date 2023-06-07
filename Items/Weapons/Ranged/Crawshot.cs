@@ -41,16 +41,18 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.shoot = ProjectileID.Bullet;
 
         }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y)) * 25f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
                 position += muzzleOffset;
-
-            float numberProjectiles = 3 + Main.rand.Next(1); // 3, 4, or 5 shots
-            float rotation = MathHelper.ToRadians(7);
             position += Vector2.Normalize(velocity) * -2f;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+
+            float numberProjectiles = 3;
+            float rotation = MathHelper.ToRadians(7);
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; // Watch out for dividing by 0 if there is only 1 projectile.
