@@ -52,7 +52,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (i == 0)
                     continue;
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
             }
             //SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
@@ -135,7 +135,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (i == 0)
                     continue;
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 1000, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 6;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 6;
             }
             // SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }

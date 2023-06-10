@@ -53,18 +53,27 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 Projectile.ai[0] = TRay.CastLength(Projectile.Center, Projectile.velocity, 1100);
             }*/
             Projectile.velocity.Normalize();
-            //if (Projectile.alpha > 0) Projectile.alpha -= 15;
-            if (Projectile.timeLeft == 598 && Projectile.ai[0] < 40)
+
+            if (Projectile.timeLeft == 598)
             {
-                Projectile.Kill();
+                if (Projectile.ai[0] < 40)
+                {
+                    Projectile.Kill();
+                    return;
+                }
+
+                if (Projectile.ai[0] < 1100)
+                {
+                    Projectile.ai[1] = 1;
+                    Projectile.damage = 0;
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Helper.SpawnDust(Projectile.Center + Projectile.velocity * Projectile.ai[0], Projectile.Size, ModContent.DustType<PurpurineDust>());
+                    }
+                }
             }
-            if (Projectile.timeLeft == 598 && Projectile.ai[0] < 1100)
-            {
-                Projectile.ai[1] = 1;
-                Projectile.damage = 0;
-                for (int i = 0; i < 5; i++)
-                    Helper.SpawnDust(Projectile.Center + Projectile.velocity * Projectile.ai[0], Projectile.Size, ModContent.DustType<PurpurineDust>());
-            }
+
             Projectile.scale -= 0.05f;
             if (Projectile.scale <= 0)
                 Projectile.Kill();

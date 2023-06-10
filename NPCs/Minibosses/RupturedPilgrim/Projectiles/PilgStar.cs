@@ -47,11 +47,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {*/
             if (Projectile.timeLeft == 599)
                 Projectile.localAI[0] = 1;
-            foreach (NPC npc in Main.npc)
-            {
-                if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
-                    Sym = npc;
-            }
+
+            if (!Sym.active || Sym == null)
+                foreach (NPC npc in Main.npc)
+                {
+                    if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
+                        Sym = npc;
+                }
             if (!Sym.active || Sym == null)
                 return;
             //if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)

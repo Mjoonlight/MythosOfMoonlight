@@ -27,28 +27,28 @@ namespace MythosOfMoonlight
 {
     public static class TRay
     {
-        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)//, bool npcCheck = false, bool platformCheck = false)
+        public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
         {
             direction = direction.SafeNormalize(Vector2.UnitY);
             Vector2 output = start;
+            int maxLength = (int)length;
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < maxLength; i++)
             {
-                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) : true))
-                {
-                    output += direction;
-                }
-                else
+                if (!Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) || (platformCheck && Collision.SolidTiles(output, 1, 1, platformCheck)))
                 {
                     break;
                 }
+
+                output += direction;
             }
 
             return output;
         }
-        public static float CastLength(Vector2 start, Vector2 direction, float length, bool platformCheck = false)//, bool npcCheck = false, bool platform = false)
+
+        public static float CastLength(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
         {
-            Vector2 end = Cast(start, direction, length, platformCheck);//, npcCheck, platform);
+            Vector2 end = Cast(start, direction, length, platformCheck);
             return (end - start).Length();
         }
     }
