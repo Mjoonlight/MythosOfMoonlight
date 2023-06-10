@@ -301,6 +301,12 @@ namespace MythosOfMoonlight
         {
             Instance = this;
         }
+        public override void Unload()
+        {
+            On.Terraria.Graphics.Effects.FilterManager.EndCapture -= FilterManager_EndCapture;
+            On.Terraria.Player.SetTalkNPC -= Player_SetTalkNPC;
+            Main.OnResolutionChanged -= Main_OnResolutionChanged;
+        }
         public override void Load()
         {
             if (!Main.dedServ)

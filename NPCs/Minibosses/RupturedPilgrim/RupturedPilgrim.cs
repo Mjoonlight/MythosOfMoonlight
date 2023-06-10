@@ -411,6 +411,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     SoundEngine.PlaySound(SoundID.NPCDeath51);
                     SwitchTo(AIState.SymbolLaser);
                     NPC.velocity = Vector2.Zero;
+                    aitimer2 = 0;
+                    Next = AIState.SymbolLaser;
                     AITimer = -60;
                     didp2 = true;
                 }
@@ -577,13 +579,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Vector2 pos = owner.Center;
                             bool hasReflected = false;
                             bool outside = false;
+                            int times = 0;
                             Vector2 vel = Helper.FromAToB(NPC.Center, player.Center) * 30;
-                            for (int i = 0; i < 300; i++)
+                            while (times < 6)
                             {
                                 if (Vector2.Distance(owner.Center, pos) > 420)
                                 {
                                     if (!outside)
                                     {
+                                        times++;
                                         outside = true;
                                         if (!hasReflected)
                                         {
@@ -767,7 +771,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         if (AITimer == -20)
                         {
                             SoundEngine.PlaySound(SoundID.AbigailUpgrade);
-                            Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), owner.Center, new Vector2(), ModContent.ProjectileType<PilgrimP2Transition>(), 0, 0);
+                            //Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), owner.Center, new Vector2(), ModContent.ProjectileType<PilgrimP2Transition>(), 0, 0);
                         }
                         if (AITimer < 60)
                             NPC.velocity = (owner.Center - new Vector2(0, 100) - NPC.Center) / 10f;
