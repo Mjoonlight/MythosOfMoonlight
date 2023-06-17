@@ -62,8 +62,8 @@ namespace MythosOfMoonlight.Items.IridicSet
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             //if (type == ProjectileID.Bullet)
-
-            velocity = velocity.RotatedByRandom(MathHelper.PiOver4 / 5);
+            if (player.itemAnimation > 5)
+                velocity = velocity.RotatedByRandom(MathHelper.PiOver4 / 5);
             velocity.Normalize();
 
             position += new Vector2(0, -4).RotatedBy(velocity.ToRotation()) * player.direction;

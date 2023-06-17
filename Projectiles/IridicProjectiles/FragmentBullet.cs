@@ -52,8 +52,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             {
                 Projectile.ai[0] = TRay.CastLength(Projectile.Center, Projectile.velocity, 1100);
             }*/
-            Projectile.velocity.Normalize();
 
+            MathHelper.Clamp(Projectile.ai[0], 0, 1100);
             if (Projectile.timeLeft == 598)
             {
                 if (Projectile.ai[0] < 40)
@@ -62,7 +62,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     return;
                 }
 
-                if (Projectile.ai[0] < 1100)
+                if (Projectile.ai[0] < 1099)
                 {
                     Projectile.ai[1] = 1;
                     Projectile.damage = 0;
@@ -73,7 +73,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     }
                 }
             }
-
+            //Main.NewText(Projectile.ai[0]);
             Projectile.scale -= 0.05f;
             if (Projectile.scale <= 0)
                 Projectile.Kill();
@@ -90,7 +90,14 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.timeLeft < 599)
-                Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.ai[0], Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
+            {
+                for (int i = 0; i < Projectile.ai[0]; i++)
+                {
+                    Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3");
+                    Main.spriteBatch.Draw(tex, Projectile.Center + i * Projectile.velocity - Main.screenPosition, null, Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Projectile.velocity.ToRotation(), new Vector2(0, tex.Height / 2), new Vector2(1, Projectile.scale / 10), SpriteEffects.None, 0);
+                }
+            }
+            //Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.ai[0], Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Color.Lerp(Color.Purple, Color.White, Projectile.scale) * Projectile.scale, Projectile.width * Projectile.scale);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -109,18 +116,22 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.ai[1] = 1;
-            Projectile.scale -= 0.1f;
-            Projectile.ai[0] = (target.Center + new Vector2(target.width, 0).RotatedBy(Helper.FromAToB(target.Center, Projectile.Center).ToRotation()) - Projectile.Center).Length();
-            if (target.life <= 0)
-                Projectile.Kill();
-            for (int i = 1; i <= 3; i++)
+            if (Projectile.ai[1] == 0)
             {
-                Vector2 vel = -Utils.SafeNormalize(Projectile.oldVelocity, Vector2.Zero).RotatedBy(Main.rand.NextFloat(-.66f, .66f)) * Main.rand.NextFloat(1f, 2f);
-                Dust dust = Dust.NewDustDirect(target.Center, Projectile.width, Projectile.height, ModContent.DustType<PurpurineDust>(), vel.X, vel.Y, 0, default, Main.rand.NextFloat(.6f, 1.2f));
-                dust.noGravity = true;
-                dust.velocity = vel;
+                if (target.life <= 0)
+                    Projectile.Kill();
+                Main.NewText("Hit " + target.TypeName);
+                Projectile.ai[0] = Helper.FromAToB(Projectile.Center, target.Center + new Vector2(0, target.width / 2).RotatedBy(-Projectile.velocity.ToRotation()), false).Length();
+                for (int i = 1; i <= 3; i++)
+                {
+                    Vector2 vel = -Utils.SafeNormalize(Projectile.oldVelocity, Vector2.Zero).RotatedBy(Main.rand.NextFloat(-.66f, .66f)) * Main.rand.NextFloat(1f, 2f);
+                    Dust dust = Dust.NewDustDirect(target.Center, Projectile.width, Projectile.height, ModContent.DustType<PurpurineDust>(), vel.X, vel.Y, 0, default, Main.rand.NextFloat(.6f, 1.2f));
+                    dust.noGravity = true;
+                    dust.velocity = vel;
+                }
             }
+
+            Projectile.ai[1] = 1;
         }
         /*public override bool OnTileCollide(Vector2 oldVelocity)
         {

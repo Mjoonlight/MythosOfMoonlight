@@ -442,21 +442,20 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 }
             }
             Player player = Main.player[NPC.target];
-            if (!owner.active)
-                foreach (NPC NPC in Main.npc)
-                {
-                    if (NPC.type == ModContent.NPCType<Starine_Symbol>())
-                        owner = NPC;
-                }
+            foreach (NPC NPC in Main.npc)
+            {
+                if (NPC.type == ModContent.NPCType<Starine_Symbol>())
+                    owner = NPC;
+            }
             if (!player.active || player.dead)
             {
                 NPC.active = false;
                 owner.active = false;
             }
+            if (Sym != owner && Sym.active)
+                owner = Sym;
             if (owner == null || !owner.active)
                 NPC.active = false;
-            if (Sym != owner)
-                Sym.whoAmI = owner.whoAmI;
             AITimer++;
             switch (State)
             {

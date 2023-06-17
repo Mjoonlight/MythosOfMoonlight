@@ -36,7 +36,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             return false;
         }
         //public static NPC Sym => Starine_Symbol.symbol;
-        NPC Sym = null;
+        public NPC Sym = null;
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.localAI[0] = 1;
@@ -48,7 +48,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             if (Projectile.timeLeft == 599)
                 Projectile.localAI[0] = 1;
 
-            if (!Sym.active || Sym == null)
+            if (Sym == null)
                 foreach (NPC npc in Main.npc)
                 {
                     if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
