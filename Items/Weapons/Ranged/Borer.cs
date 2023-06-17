@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,10 +25,10 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.useTime = 40;
             Item.useAnimation = 40;
             Item.shoot = ModContent.ProjectileType<BorerP>();
-            Item.shootSpeed = 15f;
+            Item.shootSpeed = 25f;
             Item.rare = ItemRarityID.Green;
             Item.useStyle = 5;
-            Item.UseSound = SoundID.Item11;
+            Item.UseSound = SoundID.Item38;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
             Item.value = Item.buyPrice(0, 1, 50, 0);
@@ -65,6 +66,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
         public override void Kill(int timeLeft)
         {
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
         }
         public override void AI()

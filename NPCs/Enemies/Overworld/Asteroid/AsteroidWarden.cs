@@ -29,7 +29,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
             NPC.noTileCollide = true;
             NPC.damage = 0;
             NPC.defense = 5;
-            NPC.lifeMax = 100;
+            NPC.lifeMax = 400;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0.6f;
             NPC.HitSound = SoundID.NPCHit13;
@@ -198,13 +198,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
                 if (AITimer < 30)
                 {
                     handOffset = Vector2.Lerp(handOffset, new Vector2(10, -40), 0.05f);
-                    handRot = MathHelper.Lerp(handRot, MathHelper.PiOver4, 0.05f);
+                    handRot = MathHelper.Lerp(handRot, MathHelper.PiOver4 * NPC.direction, 0.05f);
                     handFrameY = 1;
                 }
                 else if (AITimer > 40)
                 {
                     handOffset = Vector2.Lerp(handOffset, new Vector2(-20, 10), 0.2f);
-                    handRot = MathHelper.Lerp(handRot, MathHelper.Pi - MathHelper.PiOver4, 0.2f);
+                    handRot = MathHelper.Lerp(handRot, MathHelper.Pi - MathHelper.PiOver4 * NPC.direction, 0.2f);
                     handFrameY = 0;
                 }
                 if (AITimer == 50)
