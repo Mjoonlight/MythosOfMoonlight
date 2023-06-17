@@ -31,6 +31,7 @@ namespace MythosOfMoonlight.Items.Food
         {
             Item.DefaultToFood(34, 34, BuffID.Regeneration, 3600 * 2);
             Item.value = Item.buyPrice(0, 0, 1, 0);
+            Item.rare = ItemRarityID.Green;
         }
         public override bool? UseItem(Player player)
         {
