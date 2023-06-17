@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
@@ -9,9 +11,13 @@ using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.NPCs.Field
 {
+    public class FieldNPCTypes
+    {
+        public static int Friendly = 0, Sinister = 1, Mysterious = 2;
+    }
     public abstract class FieldNPC : ModNPC
     {
-        public virtual int _Music => MusicID.TownDay;
+        public bool shouldMusic;
         public override void SetDefaults()
         {
             NPC.friendly = true;
@@ -30,23 +36,28 @@ namespace MythosOfMoonlight.NPCs.Field
             if (firstButton)
             {
                 shop = true;
-                NPC.ai[3] = 1;
-                OnButtonClick(firstButton, ref shop);
+                shouldMusic = true;
             }
+            OnButtonClick(firstButton, ref shop);
         }
         public override void AI()
         {
             NPC.homeless = true;
-            if (NPC.ai[3] == 1)
+
+            if (shouldMusic)
             {
+                FieldSpawnRateNPC.rateDecrease = true;
+                NPC.velocity.X = 0;
                 if (Main.LocalPlayer.Center.Distance(NPC.Center) > 1000)
                 {
-                    NPC.ai[3] = 0;
+                    shouldMusic = false;
                 }
-                Music = _Music;
             }
             else
-                Music = -1;
+            {
+                FieldSpawnRateNPC.rateDecrease = false;
+                FieldSpawnRateNPC.activeNPC = -1;
+            }
             _AI();
         }
         public virtual void Defaults()
@@ -60,6 +71,25 @@ namespace MythosOfMoonlight.NPCs.Field
         public virtual void _AI()
         {
 
+        }
+    }
+    public class FriendlyFieldSceneEffect : ModSceneEffect
+    {
+        public override int Music => MusicID.TownDay;
+        public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
+        public override bool IsSceneEffectActive(Player player)
+        {
+            return FieldSpawnRateNPC.rateDecrease && FieldSpawnRateNPC.activeNPC == 0;
+        }
+    }
+    public class FieldSpawnRateNPC : GlobalNPC
+    {
+        public static int activeNPC;
+        public static bool rateDecrease;
+        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+        {
+            if (rateDecrease)
+                spawnRate = 2000;
         }
     }
 }

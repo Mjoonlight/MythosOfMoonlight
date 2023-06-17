@@ -28,6 +28,7 @@ namespace MythosOfMoonlight.Items.Armor
             Item.rare = ItemRarityID.Green;
             Item.defense = 2;
             Item.maxStack = 1;
+            Item.value = Item.buyPrice(0, 1, 50, 0);
         }
     }
 }

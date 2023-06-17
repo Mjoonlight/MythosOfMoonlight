@@ -30,6 +30,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 1, 50, 0);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -61,6 +62,10 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 500;
             Projectile.Size = new(12, 12);
+        }
+        public override void Kill(int timeLeft)
+        {
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
         }
         public override void AI()
         {

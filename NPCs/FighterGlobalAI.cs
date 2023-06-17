@@ -39,6 +39,34 @@ namespace MythosOfMoonlight.NPCs
             }
             NPC.spriteDirection = NPC.direction;
         }
+        public void AimlessWander(NPC NPC, float jumpHeight, float strideSpeed)
+        {
+            NPC.TargetClosest(false);
+            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+            // var sqrDistance = player.DistanceSQ(NPC.position);
+            if (NPC.collideX && NPC.frameCounter > 2 && NPC.ai[3] <= 0)
+            {
+                NPC.velocity.Y = -jumpHeight;
+                NPC.ai[3] = 1;
+            }
+            if (Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].HasTile)
+            {
+                if (Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].LeftSlope || Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].BottomSlope || Main.tile[NPC.Hitbox.Center.X / 16, NPC.Hitbox.Bottom / 16].RightSlope)
+                {
+                    NPC.velocity.Y = -jumpHeight;
+                    NPC.ai[3] = 1;
+                }
+                else NPC.ai[3] = 0;
+            }
+
+            FitVelocityXToTarget(NPC, strideSpeed * NPC.direction);
+            var horizontalDistance = Math.Abs(NPC.Center.X - (NPC.Center.X + NPC.direction * 100));
+            if (horizontalDistance >= 35.78f)
+            {
+                NPC.FaceTarget();
+            }
+            NPC.spriteDirection = NPC.direction;
+        }
         void FitVelocityXToTarget(NPC NPC, float newX) => NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, newX, 0.1f);
         public void FighterAIOLD(NPC NPC, float jumpHeight, float strideSpeed, bool canJump, int jumpFrame = 1, int jumpOffset = 4, float turningVel = .06f)
         {

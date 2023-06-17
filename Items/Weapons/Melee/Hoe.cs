@@ -35,6 +35,8 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<HoeP>();
+
+            Item.value = Item.buyPrice(0, 1, 50, 0);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
