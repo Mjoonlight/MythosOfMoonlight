@@ -98,7 +98,8 @@ namespace MythosOfMoonlight.NPCs.Field
         }
         public override void _AI()
         {
-            NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
+            if (Main.npcChatText == "")
+                NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
             if (shouldMusic)
                 FieldSpawnRateNPC.activeNPC = 0;
             NPC.homeless = true;
