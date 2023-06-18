@@ -46,7 +46,6 @@ namespace MythosOfMoonlight.NPCs.Field
 
             if (Main.npcChatText != "")
             {
-                NPC.direction = NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1;
                 NPC.velocity.X = 0;
             }
             if (shouldMusic)

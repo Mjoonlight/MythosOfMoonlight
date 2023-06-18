@@ -108,6 +108,8 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             if (Main.npcChatText == "")
                 NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
+            else
+                NPC.direction = NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1;
             if (shouldMusic)
                 FieldSpawnRateNPC.activeNPC = 0;
             NPC.homeless = true;
