@@ -1,14 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Items.Armor;
 using MythosOfMoonlight.Items.Food;
 using MythosOfMoonlight.Items.Weapons.Melee;
 using MythosOfMoonlight.Items.Weapons.Ranged;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -36,6 +39,10 @@ namespace MythosOfMoonlight.NPCs.Field
             {
                 "Melissa"
             };
+        }
+        public override ITownNPCProfile TownNPCProfile()
+        {
+            return new Melissa();
         }
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
@@ -108,5 +115,15 @@ namespace MythosOfMoonlight.NPCs.Field
 
             //NPC.GetGlobalNPC<FighterGlobalAI>().AimlessWander(NPC, 5, 2);
         }
+    }
+    public class Melissa : ITownNPCProfile
+    {
+        public int RollVariation() => 0;
+        public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+        public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+        {
+            return TextureAssets.Npc[npc.type];
+        }
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("MythosOfMoonlight/Textures/Extra/blank");
     }
 }
