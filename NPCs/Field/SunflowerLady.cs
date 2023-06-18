@@ -29,6 +29,7 @@ namespace MythosOfMoonlight.NPCs.Field
         }
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Melissa");
             Main.npcFrameCount[Type] = 9;
             //NPCID.Sets.NoTownNPCHappiness[Type] = true; // for 1.4.4
         }
