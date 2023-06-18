@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using MythosOfMoonlight.NPCs.Field;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
 using System;
@@ -37,6 +38,11 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void PostUpdateEverything()
         {
+            if (!NPC.AnyNPCs(ModContent.NPCType<SunflowerLady>())) //ADD REST OF FIELD NPCS HERE (&& NOT ||)
+            {
+                FieldSpawnRateNPC.rateDecrease = false;
+                FieldSpawnRateNPC.activeNPC = -1;
+            }
             if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
             {
                 if (Main.dayTime)
