@@ -44,10 +44,14 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             NPC.homeless = true;
 
+            if (Main.npcChatText != "")
+            {
+                NPC.direction = NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1;
+                NPC.velocity.X = 0;
+            }
             if (shouldMusic)
             {
                 FieldSpawnRateNPC.rateDecrease = true;
-                NPC.velocity.X = 0;
                 if (Main.LocalPlayer.Center.Distance(NPC.Center) > 1000)
                 {
                     shouldMusic = false;
