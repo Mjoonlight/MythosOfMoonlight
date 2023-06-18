@@ -38,7 +38,7 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void PostUpdateEverything()
         {
-            if (!NPC.AnyNPCs(ModContent.NPCType<SunflowerLady>())) //ADD REST OF FIELD NPCS HERE (&& NOT ||)
+            if (FieldSpawnRateNPC.rateDecrease && !NPC.AnyNPCs(ModContent.NPCType<SunflowerLady>())) //ADD REST OF FIELD NPCS HERE (&& NOT ||)
             {
                 FieldSpawnRateNPC.rateDecrease = false;
                 FieldSpawnRateNPC.activeNPC = -1;
