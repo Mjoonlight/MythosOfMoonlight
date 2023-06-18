@@ -30,7 +30,7 @@ namespace MythosOfMoonlight.NPCs.Field
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Helper.GetTex(Texture + "_Glow");
-            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
         public override void SetStaticDefaults()
         {
@@ -114,7 +114,7 @@ namespace MythosOfMoonlight.NPCs.Field
             if (Main.npcChatText == "")
                 NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
             else
-                NPC.direction = NPC.Center.X < Main.LocalPlayer.Center.X ? -1 : 1;
+                NPC.direction = NPC.spriteDirection = NPC.Center.X > Main.LocalPlayer.Center.X ? -1 : 1;
             if (shouldMusic)
                 FieldSpawnRateNPC.activeNPC = 0;
             NPC.homeless = true;
