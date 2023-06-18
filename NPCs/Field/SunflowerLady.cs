@@ -29,6 +29,14 @@ namespace MythosOfMoonlight.NPCs.Field
             Main.npcFrameCount[Type] = 9;
             //NPCID.Sets.NoTownNPCHappiness[Type] = true; // for 1.4.4
         }
+
+        public override List<string> SetNPCNameList()
+        {
+            return new List<string>
+            {
+                "Melissa"
+            };
+        }
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
             shop.item[nextSlot++].SetDefaults(ModContent.ItemType<FieldSnack>());
