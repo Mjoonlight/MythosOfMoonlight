@@ -27,11 +27,12 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<BorerP>();
             Item.shootSpeed = 25f;
             Item.rare = ItemRarityID.Green;
+            Item.knockBack = 5f;
             Item.useStyle = 5;
             Item.UseSound = SoundID.Item38;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 1, 50, 0);
+            Item.value = Item.buyPrice(0, 8, 0, 0);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -66,6 +67,10 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
         public override void Kill(int timeLeft)
         {
+            for (int i = 0; i < 20; i++)
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default(Color), 0.8f);
+            }
             SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
         }

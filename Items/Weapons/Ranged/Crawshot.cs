@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crawshot");
-            Tooltip.SetDefault("Fires a bullet from each barrel with a bit of innacuracy");
+            Tooltip.SetDefault("Triple-shot, Crawshot, Target-shot");
 
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
@@ -81,7 +81,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
 
         public override void AnglerQuestChat(ref string description, ref string catchLocation)
         {
-            description = "I'm no expert with guns and weaponry, but I'm positive I saw a lil' crustacean with a couple of gun barrels stuck to its mouth! Can you catch this so i dont have to worry about being shot by a lobster?";
+            description = "I'm no expert with guns and weaponry, but I'm positive I saw a lil' crustacean with a couple of gun barrels stuck to its mouth! Can you catch it so i dont have to worry about being shot by a lobster?";
             catchLocation = "Caught in the ocean.";
         }
 
