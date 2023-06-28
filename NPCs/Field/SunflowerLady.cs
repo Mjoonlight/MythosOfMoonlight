@@ -46,7 +46,10 @@ namespace MythosOfMoonlight.NPCs.Field
             Main.npcFrameCount[Type] = 9;
             //NPCID.Sets.NoTownNPCHappiness[Type] = true; // for 1.4.4
         }
-
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.sunflower && !NPC.AnyNPCs(Type) ? 0.25f : 0;
+        }
         public override List<string> SetNPCNameList()
         {
             return new List<string>

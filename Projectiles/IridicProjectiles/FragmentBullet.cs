@@ -120,7 +120,6 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             {
                 if (target.life <= 0)
                     Projectile.Kill();
-                Main.NewText("Hit " + target.TypeName);
                 Projectile.ai[0] = Helper.FromAToB(Projectile.Center, target.Center + new Vector2(0, target.width / 2).RotatedBy(-Projectile.velocity.ToRotation()), false).Length();
                 for (int i = 1; i <= 3; i++)
                 {

@@ -56,16 +56,13 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             for (int i = 0; i < numberProjectiles; i++)
             {
                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))) * .5f; // Watch out for dividing by 0 if there is only 1 projectile.
+                for (int j = 0; j < 5; j++)
+                {
+                    var d = Dust.NewDustPerfect(position, DustID.Water, perturbedSpeed.RotatedByRandom(0.2f).SafeNormalize(Vector2.UnitY) * 5, Scale: Main.rand.NextFloat(0.5f, 1f));
+                }
                 Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
 
-            for (int i = 0; i < 60; i++)
-            {
-                Vector2 speed = Main.rand.NextVector2CircularEdge(0.5f, 0.5f);
-                var d = Dust.NewDustPerfect(Main.LocalPlayer.Center, DustID.Water, speed * 4, Scale: 1f);
-                ;
-                d.noGravity = true;
-            }
             return false;
         }
 

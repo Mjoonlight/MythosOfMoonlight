@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,8 +16,8 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Pistol Shrimp");
             Tooltip.SetDefault("'Not as loud as an actual pistol shrimp'"
-            + "\nConverts musket balls into water bullets"
-            + $"\nUses Bullets [i:{ItemID.MusketBall}]");
+            + "\nConverts musket balls into water bullets");
+            //            + $"\nUses Bullets [i:{ItemID.MusketBall}]"
 
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
@@ -72,7 +73,6 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
 
             return false;
         }
-
         //#TO DO: Water Bullets
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
@@ -101,8 +101,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
 
                     for (int WinventoryIndex = 0; WinventoryIndex < 40; WinventoryIndex++)
                     {
-
-                        if (Wchest.item[WinventoryIndex].type == ItemID.None)
+                        if (WorldGen.genRand.NextBool(5))
                         {
 
                             Wchest.item[WinventoryIndex].SetDefaults(waterchest[waterchestchoice]);

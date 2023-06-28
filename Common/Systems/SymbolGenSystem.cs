@@ -11,7 +11,6 @@ using Terraria.ID;
 using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
-using static Humanizer.On;
 
 namespace MythosOfMoonlight.Common.Systems
 {
@@ -103,7 +102,7 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (ShiniesIndex != -1)
             {
                 tasks.Insert(ShiniesIndex + 6, new PassLegacy("Generating the Starine Site", GenStruct));

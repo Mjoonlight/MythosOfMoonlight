@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increased health regen.");
+            Tooltip.SetDefault("Increased health regeneration");
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
         public override void UpdateEquip(Player player)
