@@ -209,7 +209,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     Vector2 vel = Utils.SafeNormalize(CircleCenter - Main.LocalPlayer.Center, Vector2.Zero);
                     Main.LocalPlayer.Center += vel * 9f;
                     Main.LocalPlayer.velocity = vel * 1.25f;
-                    Main.LocalPlayer.itemTime = Main.LocalPlayer.HeldItem.useTime - 2;
+                    //Main.LocalPlayer.itemTime = Main.LocalPlayer.HeldItem.useTime - 2;
                     Main.LocalPlayer.gravity = 0f;
                     Main.LocalPlayer.controlMount = false;
                     Main.LocalPlayer.controlHook = false;
