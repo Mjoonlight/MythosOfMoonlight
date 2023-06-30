@@ -92,6 +92,12 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             {
                 int direction = (int)Projectile.ai[1];
                 float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
+                //if (swingProgress > 0.35f && swingProgress < 0.75f)
+                if (Projectile.ai[0] == 0 && TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 7)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(player.Center - Vector2.UnitY * 50, Vector2.UnitY, 300), player.direction * Vector2.UnitX, ModContent.ProjectileType<HoeP2>(), Projectile.damage / 2, 0, Projectile.owner);
+                    Projectile.ai[0] = 1;
+                }
                 float defRot = Projectile.velocity.ToRotation();
                 float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
                 float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
