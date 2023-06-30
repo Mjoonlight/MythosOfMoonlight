@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
-            Projectile.ignoreWater = false;
+            Projectile.ignoreWater = true;
             Projectile.timeLeft = 30;
             Projectile.netUpdate = true;
             Projectile.netUpdate2 = true;
