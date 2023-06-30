@@ -79,10 +79,6 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             if (NPC.ai[0] == 2)
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), target.Center, Helper.FromAToB(NPC.Center, target.Center), ModContent.ProjectileType<FrostGuardianSlashP>(), 0, 0);
         }
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return (NPC.ai[0] == 1 && NPC.ai[1] > 7 * 5) || NPC.ai[0] == 2 ? Color.White : drawColor;
-        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -113,6 +109,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                             NPC.Center = player.Center + -Helper.FromAToB(player.Center + Helper.FromAToB(player.Center, NPC.Center, reverse: true) * 100, NPC.Center, false).RotatedByRandom(0.2f);
                         NPC.Center = player.Center + -Helper.FromAToB(player.Center, NPC.Center, false).RotatedByRandom(0.2f);
                     }
+                    if (NPC.ai[1] == 7 * 5 + 2)
+                        Helper.SpawnDust(NPC.Center, NPC.Size, DustID.Frost, Vector2.Zero, 25, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
+                        ));
                     if (NPC.ai[1] >= 16 * 5)
                     {
                         NPC.dontTakeDamage = false;
