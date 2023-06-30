@@ -20,7 +20,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             NPC.width = 56;
             NPC.height = 60;
             NPC.aiStyle = 0;
-            NPC.damage = 15;
+            NPC.damage = 0;
             NPC.defense = 10;
             NPC.lifeMax = 120;
             NPC.noGravity = true;
@@ -79,6 +79,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             if (NPC.ai[0] == 2)
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), target.Center, Helper.FromAToB(NPC.Center, target.Center), ModContent.ProjectileType<FrostGuardianSlashP>(), 0, 0);
         }
+        public override Color? GetAlpha(Color drawColor)
+        {
+            return (NPC.ai[0] == 1 && NPC.ai[1] > 7 * 5) || NPC.ai[0] == 2 ? Color.White : drawColor;
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -121,6 +125,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     }
                     break;
                 case 2:
+                    NPC.damage = 15;
                     if (NPC.ai[1] == 1)
                         SoundEngine.PlaySound(SoundID.Item30, NPC.Center);
                     if (NPC.ai[1] < 5)
@@ -133,6 +138,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     {
                         NPC.ai[1] = 0;
                         NPC.ai[0] = 0;
+                        NPC.damage = 0;
                     }
                     break;
             }
