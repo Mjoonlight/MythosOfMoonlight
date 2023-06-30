@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,8 +25,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             NPC.lifeMax = 120;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit7;
-            NPC.DeathSound = SoundID.NPCDeath43;
+            NPC.HitSound = SoundID.Item49;
+            NPC.DeathSound = SoundID.Item27;
             NPC.value = Item.buyPrice(silver: 5);
         }
         public override void SetStaticDefaults()
@@ -71,6 +74,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/FrostGuardianGore4");
             }
         }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (NPC.ai[0] == 2)
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), target.Center, Helper.FromAToB(NPC.Center, target.Center), ModContent.ProjectileType<FrostGuardianSlashP>(), 0, 0);
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -96,6 +104,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                         NPC.dontTakeDamage = true;
                     if (NPC.ai[1] == 7 * 5)
                     {
+                        SoundEngine.PlaySound(SoundID.Item25, NPC.Center);
                         if (player.Center.Distance(NPC.Center) < 50)
                             NPC.Center = player.Center + -Helper.FromAToB(player.Center + Helper.FromAToB(player.Center, NPC.Center, reverse: true) * 100, NPC.Center, false).RotatedByRandom(0.2f);
                         NPC.Center = player.Center + -Helper.FromAToB(player.Center, NPC.Center, false).RotatedByRandom(0.2f);
@@ -112,9 +121,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     }
                     break;
                 case 2:
+                    if (NPC.ai[1] == 1)
+                        SoundEngine.PlaySound(SoundID.Item30, NPC.Center);
                     if (NPC.ai[1] < 5)
                     {
-                        NPC.velocity += Helper.FromAToB(NPC.Center, new Vector2(NPC.ai[2], NPC.ai[3])) * 2.5f;
+                        NPC.velocity += Helper.FromAToB(NPC.Center, new Vector2(NPC.ai[2], NPC.ai[3])) * 3.5f;
                     }
                     if (NPC.ai[1] > 17)
                         NPC.velocity *= 0.98f;
@@ -125,6 +136,39 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     }
                     break;
             }
+        }
+    }
+    public class FrostGuardianSlashP : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+        }
+        public override bool? CanDamage() => false;
+        public override bool ShouldUpdatePosition() => false;
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
+            float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.65f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.ai[0] += 0.05f;
+            if (Projectile.ai[0] > 1)
+                Projectile.Kill();
         }
     }
 }
