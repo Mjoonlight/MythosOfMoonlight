@@ -46,7 +46,7 @@ namespace MythosOfMoonlight.Projectiles
                 case 5:
                     type = DustID.CorruptionThorns; break;
                 case 4:
-                    type = DustID.Lava; break;
+                    type = DustID.Torch; break;
                 case 2:
                     type = DustID.Ice; break;
             }
@@ -84,7 +84,7 @@ namespace MythosOfMoonlight.Projectiles
                 case 5:
                     type = DustID.CorruptionThorns; break;
                 case 4:
-                    type = DustID.Lava; break;
+                    type = DustID.Torch; break;
                 case 2:
                     type = DustID.Ice; break;
             }
