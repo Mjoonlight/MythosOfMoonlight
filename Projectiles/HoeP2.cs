@@ -56,7 +56,7 @@ namespace MythosOfMoonlight.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 22, 16, 22), Color.White, Projectile.rotation, new Vector2(Projectile.width / 2, 20), new Vector2(Projectile.scale, MathHelper.Clamp(Projectile.scale * 2, 0, 1)), Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 22, 16, 22), lightColor, Projectile.rotation, new Vector2(Projectile.width / 2, 20), new Vector2(Projectile.scale, MathHelper.Clamp(Projectile.scale * 2, 0, 1)), Projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
             return false;
         }
         public override void OnSpawn(IEntitySource source)
@@ -101,7 +101,7 @@ namespace MythosOfMoonlight.Projectiles
                     SoundStyle style = SoundID.Grass;
                     style.Volume = 0.5f;
                     SoundEngine.PlaySound(style, Projectile.Center);
-                    Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), 16 * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 500, true)), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
+                    Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), 16 * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 20, Vector2.UnitY, 500, true)), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
                     a.ai[0] = Projectile.ai[0] + 1;
                     a.ai[1] = Projectile.ai[1];
                 }
