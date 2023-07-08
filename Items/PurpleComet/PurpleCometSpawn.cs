@@ -43,6 +43,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
             SoundEngine.PlaySound(SoundID.Roar, new Vector2((int)player.position.X, (int)player.position.Y));
             PurpleCometEvent.PurpleComet = true;
 
+            Star.starfallBoost = 0;
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(MessageID.WorldData);
             return true;

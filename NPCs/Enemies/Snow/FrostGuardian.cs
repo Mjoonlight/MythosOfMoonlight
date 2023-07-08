@@ -76,8 +76,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (NPC.ai[0] == 2)
+            if (NPC.ai[0] == 2 && NPC.ai[3] == 0)
+            {
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), target.Center, Helper.FromAToB(NPC.Center, target.Center), ModContent.ProjectileType<FrostGuardianSlashP>(), 0, 0);
+                NPC.ai[3] = 1;
+            }
         }
         public override void AI()
         {
@@ -98,6 +101,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     }
                     break;
                 case 1:
+                    NPC.ai[3] = 0;
                     NPC.ai[1]++;
                     NPC.velocity *= 0.95f;
                     if (NPC.ai[1] == 5 * 5)
