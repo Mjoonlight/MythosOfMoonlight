@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
@@ -57,6 +58,12 @@ namespace MythosOfMoonlight.Items.Weapons
             Projectile.netUpdate2 = true;
             Projectile.netImportant = true;
             Projectile.ownerHitCheck = true;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, tex.Size() / 2, Projectile.scale, Main.player[Projectile.owner].direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+            return false;
         }
         public override bool ShouldUpdatePosition()
         {
@@ -164,6 +171,7 @@ namespace MythosOfMoonlight.Items.Weapons
             if (Projectile.damage > 1)
                 Projectile.damage /= 2;
         }
+        int a;
         public override void AI()
         {
             foreach (Player player in Main.player)
@@ -200,13 +208,24 @@ namespace MythosOfMoonlight.Items.Weapons
             }
             if (Projectile.ai[0] != 0)
             {
-                Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+                Projectile.direction = Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
 
                 if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) <= 10)
                 {
                     Projectile.velocity.Y = 0;
-                    Projectile.Center = TRay.Cast(Projectile.Center - Vector2.UnitY * 50, Vector2.UnitY, 100) - new Vector2(0, 10);
-                    Helper.SpawnDust(Projectile.Bottom + new Vector2(15 * -Projectile.direction, -4), Vector2.One, DustID.Frost, new Vector2(-Projectile.velocity.X, -2), 2, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
+                    if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) > 2 && TRay.CastLength(Projectile.Center, -Vector2.UnitY, 12) > 2 && a < 3)
+                    {
+                        Projectile.Center = TRay.Cast(Projectile.Center - Vector2.UnitY * 10, Vector2.UnitY, 100) - new Vector2(0, 10);
+                        Tile tile = Framing.GetTileSafely(Projectile.Center.ToTileCoordinates16().ToPoint());
+                        if (tile.HasTile && !tile.IsActuated && WorldGen.SolidTile(tile))
+                            a++;
+                    }
+                    else
+                    {
+                        Main.NewText("waaa");
+                        Projectile.timeLeft -= 300;
+                    }
+                    Helper.SpawnDust(Projectile.Bottom + new Vector2(5 * -Projectile.direction, -4), Vector2.One, DustID.Frost, new Vector2(-Projectile.velocity.X, -2), 2, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
                     ));
                     if (Projectile.localAI[1] == 0)
                         Projectile.velocity.X = vel * Projectile.direction;
@@ -214,6 +233,7 @@ namespace MythosOfMoonlight.Items.Weapons
                 }
                 if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) > 10)
                 {
+                    a = 0;
                     if (Projectile.localAI[1] != 0)
                         Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, 10, 0.25f);
                     else
