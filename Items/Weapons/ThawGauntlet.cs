@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
@@ -58,6 +59,12 @@ namespace MythosOfMoonlight.Items.Weapons
             Projectile.netImportant = true;
             Projectile.ownerHitCheck = true;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, tex.Size() / 2, Projectile.scale, Main.player[Projectile.owner].direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+            return false;
+        }
         public override bool ShouldUpdatePosition()
         {
             return false;
@@ -78,11 +85,6 @@ namespace MythosOfMoonlight.Items.Weapons
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Helper.FromAToB(player.Center, Main.MouseWorld) * 5, ModContent.ProjectileType<ThawGauntletP2>(), Projectile.damage, 0, Projectile.owner);
                     }
                     player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
-                    if (Projectile.ai[1] % 5 == 0)
-                    {
-                        player.CheckMana(2, true, true);
-                        player.manaRegenDelay = (int)player.maxRegenDelay;
-                    }
                     Projectile.timeLeft++;
                     player.direction = Main.MouseWorld.X >= player.Center.X ? 1 : -1;
                     player.itemTime = 2;
@@ -153,9 +155,9 @@ namespace MythosOfMoonlight.Items.Weapons
                 alpha -= 0.1f;
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTex(Texture + "_Glow");
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.localAI[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, tex.Size() / 2, Projectile.localAI[0], Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex.Size() / 2, Projectile.localAI[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex.Size() / 2, Projectile.localAI[0], Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -164,8 +166,10 @@ namespace MythosOfMoonlight.Items.Weapons
             if (Projectile.damage > 1)
                 Projectile.damage /= 2;
         }
+        int a;
         public override void AI()
         {
+            Projectile.ai[1]++;
             foreach (Player player in Main.player)
             {
                 if (player == Main.player[Projectile.owner] && player == Main.LocalPlayer)
@@ -184,6 +188,12 @@ namespace MythosOfMoonlight.Items.Weapons
                                 alpha = 1f;
                             }
                         }
+                        if (!didAlpha)
+                            if (Projectile.ai[1] % 5 == 0)
+                            {
+                                player.CheckMana(2, true, true);
+                                player.manaRegenDelay = (int)player.maxRegenDelay;
+                            }
                         if (player.ZoneSnow)
                             Projectile.timeLeft = 600;
                         else
@@ -200,13 +210,24 @@ namespace MythosOfMoonlight.Items.Weapons
             }
             if (Projectile.ai[0] != 0)
             {
-                Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
+                Projectile.direction = Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
 
                 if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) <= 10)
                 {
                     Projectile.velocity.Y = 0;
-                    Projectile.Center = TRay.Cast(Projectile.Center - Vector2.UnitY * 50, Vector2.UnitY, 100) - new Vector2(0, 10);
-                    Helper.SpawnDust(Projectile.Bottom + new Vector2(15 * -Projectile.direction, -4), Vector2.One, DustID.Frost, new Vector2(-Projectile.velocity.X, -2), 2, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
+                    if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) > 2 && TRay.CastLength(Projectile.Center, -Vector2.UnitY, 12) > 2 && a < 3)
+                    {
+                        Projectile.Center = TRay.Cast(Projectile.Center - Vector2.UnitY * 10, Vector2.UnitY, 100) - new Vector2(0, 10);
+                        Tile tile = Framing.GetTileSafely(Projectile.Center.ToTileCoordinates16().ToPoint());
+                        if (tile.HasTile && !tile.IsActuated && WorldGen.SolidTile(tile))
+                            a++;
+                    }
+                    else
+                    {
+                        Main.player[Projectile.owner].statMana += 5;
+                        Projectile.timeLeft -= 300;
+                    }
+                    Helper.SpawnDust(Projectile.Bottom + new Vector2(5 * -Projectile.direction, -4), Vector2.One, DustID.Frost, new Vector2(-Projectile.velocity.X, -2), 2, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
                     ));
                     if (Projectile.localAI[1] == 0)
                         Projectile.velocity.X = vel * Projectile.direction;
@@ -214,6 +235,7 @@ namespace MythosOfMoonlight.Items.Weapons
                 }
                 if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 12) > 10)
                 {
+                    a = 0;
                     if (Projectile.localAI[1] != 0)
                         Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, 10, 0.25f);
                     else
@@ -224,22 +246,41 @@ namespace MythosOfMoonlight.Items.Weapons
                 Projectile.ai[1]--;
                 int i2 = (int)((Projectile.position.X - 8f) / 16f);
                 int num219 = (int)(Projectile.position.Y / 16f);
-                bool flag9 = false;
-                bool flag10 = false;
-                if (WorldGen.SolidTile(i2, num219) || WorldGen.SolidTile(i2, num219 + 1))
+                bool bounce = false;
+                bool bounce2 = false;
+                bool stepUp = false;
+                if (WorldGen.SolidTile(i2, num219))
                 {
-                    flag9 = true;
+                    if (WorldGen.SolidTile(i2, num219 + 1))
+                    {
+                        if (Projectile.ai[1] < 0 && !WorldGen.SolidTile(i2, num219 + 2))
+                            Projectile.Center -= Vector2.UnitY * 16;
+                        else
+                            bounce = true;
+                        Projectile.ai[1] = 30;
+                    }
+                    else
+                        bounce = true;
                 }
                 i2 = (int)((Projectile.position.X + (float)Projectile.width + 8f) / 16f);
-                if (WorldGen.SolidTile(i2, num219) || WorldGen.SolidTile(i2, num219 + 1))
+                if (WorldGen.SolidTile(i2, num219))
                 {
-                    flag10 = true;
+                    if (WorldGen.SolidTile(i2, num219 + 1))
+                    {
+                        if (Projectile.ai[1] < 0 && !WorldGen.SolidTile(i2, num219 + 2))
+                            Projectile.Center -= Vector2.UnitY * 16;
+                        else
+                            bounce2 = true;
+                        Projectile.ai[1] = 30;
+                    }
+                    else
+                        bounce2 = true;
                 }
-                if (flag9)
+                if (bounce)
                 {
                     Projectile.velocity.X = vel;
                 }
-                else if (flag10)
+                else if (bounce2)
                 {
                     Projectile.velocity.X = 0f - vel;
                 }
