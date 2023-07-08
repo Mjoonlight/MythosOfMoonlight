@@ -53,7 +53,7 @@ namespace MythosOfMoonlight.Items.Armor
 
             DrawData data = new(texture, legsPos, headFrame, drawInfo.colorArmorBody, drawInfo.drawPlayer.headRotation, origin, 1f, drawInfo.playerEffect, 0)
             {
-                shader = drawInfo.cHead
+                shader = drawInfo.cBody
             };
 
             drawInfo.DrawDataCache.Add(data);
