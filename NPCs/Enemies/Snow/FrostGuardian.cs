@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,9 +35,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             Main.npcFrameCount[Type] = 25;
             DisplayName.SetDefault("Boreal Blade");
         }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
+            {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundSnow,
+                new FlavorTextBestiaryInfoElement("Also known as Knights of the Boreal, Boreal Blades are ice constructs animated by magic and the many souls frozen beneath the tundra.")
+            });
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneDirtLayerHeight) || (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneRain) ? 0.2f : 0;
+            return (spawnInfo.Player.ZoneSnow && (spawnInfo.Player.ZoneNormalUnderground || spawnInfo.Player.ZoneNormalCaverns)) || (spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneRain) ? 0.14f : 0;
         }
         public override void FindFrame(int frameHeight)
         {
@@ -84,6 +93,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         }
         public override void AI()
         {
+            Lighting.AddLight(NPC.Center, new Vector3(0f, .09f, .07f));
             Player player = Main.player[NPC.target];
             NPC.TargetClosest();
             switch (NPC.ai[0])
@@ -128,7 +138,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                     }
                     break;
                 case 2:
-                    NPC.damage = 15;
+                    NPC.damage = 50;
                     if (NPC.ai[1] == 1)
                         SoundEngine.PlaySound(SoundID.Item30, NPC.Center);
                     if (NPC.ai[1] < 5)
