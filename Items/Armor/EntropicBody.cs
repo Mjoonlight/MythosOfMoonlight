@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.Items.Armor
 
             Texture2D texture = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/Armor/EntropicBody_Cloth").Value;
 
-            Vector2 legsPos = drawInfo.legsOffset + new Vector2((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(drawInfo.drawPlayer.legFrame.Width / 2) + (float)(drawInfo.drawPlayer.width / 2)), (int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawInfo.drawPlayer.height - (float)drawInfo.drawPlayer.legFrame.Height + 4f) - 20 - (drawPlayer.velocity.Y != 0 ? 2 : 0)) + drawInfo.legVect;
+            Vector2 legsPos = drawInfo.legsOffset + new Vector2((int)(drawInfo.Position.X - Main.screenPosition.X - (float)(drawInfo.drawPlayer.legFrame.Width / 2) + (float)(drawInfo.drawPlayer.width / 2)), (int)(drawInfo.Position.Y - Main.screenPosition.Y + (float)drawInfo.drawPlayer.height - (float)drawInfo.drawPlayer.legFrame.Height + 4f) - 20 + (drawPlayer.velocity.Y != 0 ? 2 : 0)) + drawInfo.legVect;
 
 
             Vector2 origin = drawInfo.headVect;
