@@ -154,9 +154,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
                         }*/
                         float offset = Main.rand.NextFloat(MathHelper.PiOver2);
-                        for (int i = 0; i < (Main.expertMode ? 13 : 7); i++)
+                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
                         {
-                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 13 : 7)) + offset;
+                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
                             Vector2 pos = NPC.Center + new Vector2(500, 0).RotatedBy(angle);
                             Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
                             Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);

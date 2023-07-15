@@ -534,6 +534,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 a.ai[0] = 1;
                                 a.ai[1] = -50;
                             }
+
                         }
                         if (AITimer == 120)
                         {
@@ -646,6 +647,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
                                 Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                                 dust.noGravity = true;
+                            }
+                        }
+                        if (AITimer == 30)
+                        {
+                            SoundStyle style = SoundID.Item8;
+                            style.Volume = 0.5f;
+                            SoundEngine.PlaySound(style, NPC.Center);
+                            for (int i = -1; i < 2; i++)
+                            {
+                                if (i == 0)
+                                    continue;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(400 * i, -300), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
                             }
                         }
                         if (AITimer == 50)

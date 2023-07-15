@@ -31,7 +31,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool ShouldUpdatePosition() => false;
         public override void Kill(int timeLeft)
         {
-            if (Projectile.ai[0] < 5)
+            if (Projectile.ai[0] < 6)
             {
                 SoundStyle style = SoundID.DD2_BetsyFireballImpact;
                 style.Volume = 0.5f;
