@@ -168,7 +168,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.tileCollide = false;
                             a.aiStyle = 0;
                             a.ai[0] = -60;
-                            a.timeLeft = 117;
+                            a.timeLeft = 127;
                         }
                     }
                     if (StateTimer == 60)
@@ -184,7 +184,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.tileCollide = false;
                             a.aiStyle = 0;
                             a.ai[0] = -120;
-                            a.timeLeft = 117;
+                            a.timeLeft = 137;
                         }
                     }
                     if (StateTimer == 70)
