@@ -128,7 +128,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 case NState.Laser:
                     StateTimer++;
                     NPC.velocity = (CircleCenter - NPC.Center) / 10f;
-                    if (StateTimer == 30)
+                    if (StateTimer == 10)
                     {
                         SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
                         for (int i = 4; i <= 360; i += 4)
@@ -138,22 +138,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             dust.noGravity = true;
                         }
                     }
-                    if (StateTimer == 60)
+                    SoundStyle style = SoundID.Item82;
+                    style.Volume = 0.5f;
+                    if (StateTimer == 40)
                     {
-                        SoundStyle style = SoundID.Item82;
-                        style.Volume = 0.5f;
                         SoundEngine.PlaySound(style, NPC.Center);
-                        /*for (int i = 90; i <= 360; i += 90)
-                        {
-                            Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
-                        }
-                        for (int i = 45; i <= 360; i += 90)
-                        {
-                            Vector2 shoot = MathHelper.ToRadians(i).ToRotationVector2();
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
-                        }*/
-                        float offset = Main.rand.NextFloat(MathHelper.PiOver2);
+                        float offset = 0;
                         for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
                         {
                             float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
@@ -165,7 +155,39 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.timeLeft = 117;
                         }
                     }
-                    if (StateTimer == 90)
+                    if (StateTimer == 50)
+                    {
+                        SoundEngine.PlaySound(style, NPC.Center);
+                        float offset = MathHelper.PiOver4 / 2;
+                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                        {
+                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                            Vector2 pos = NPC.Center + new Vector2(600, 0).RotatedBy(angle);
+                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                            a.tileCollide = false;
+                            a.aiStyle = 0;
+                            a.ai[0] = -60;
+                            a.timeLeft = 117;
+                        }
+                    }
+                    if (StateTimer == 60)
+                    {
+                        SoundEngine.PlaySound(style, NPC.Center);
+                        float offset = MathHelper.PiOver4;
+                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                        {
+                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                            Vector2 pos = NPC.Center + new Vector2(700, 0).RotatedBy(angle);
+                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                            a.tileCollide = false;
+                            a.aiStyle = 0;
+                            a.ai[0] = -120;
+                            a.timeLeft = 117;
+                        }
+                    }
+                    if (StateTimer == 70)
                     {
                         //SoundEngine.PlaySound(SoundID., NPC.Center);
                         for (int i = 4; i <= 360; i += 4)

@@ -40,12 +40,33 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             //SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
+        public override bool ShouldUpdatePosition()
+        {
+            return Projectile.aiStyle == 1 || Projectile.ai[0] > 0;
+        }
         public override void AI()
         {
             if (Projectile.aiStyle == 0)
             {
-                if (Projectile.velocity.Length() < 25f)
-                    Projectile.velocity *= 1.05f;
+                if (Projectile.ai[0] == -1)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
+                        Main.dust[dust].scale = 2f;
+                        Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 1.2f;
+                        Main.dust[dust].velocity.Y = -1.5f;
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+
+                if (++Projectile.ai[0] >= 0)
+                {
+                    if (Projectile.velocity.Length() < 25f)
+                        Projectile.velocity *= 1.05f;
+                }
+                else Projectile.timeLeft++;
+
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
         }

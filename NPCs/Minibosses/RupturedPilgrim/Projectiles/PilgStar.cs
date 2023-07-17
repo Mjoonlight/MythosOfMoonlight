@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starine Shaft");
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 70;
         }
         public override void SetDefaults()

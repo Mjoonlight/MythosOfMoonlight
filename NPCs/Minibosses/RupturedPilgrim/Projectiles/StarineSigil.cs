@@ -53,7 +53,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.tileCollide = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 550;
+            Projectile.timeLeft = 350;
         }
         int projDamage = 8;
         public override void Kill(int timeLeft)
@@ -99,7 +99,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override void AI()
         {
             if (ProjectileTimer >= 0)
-                offset += 0.05f;
+                offset += 0.1f;
             int intOffset = (int)Math.Round(offset, 0);
             Projectile.velocity.X = offset * Projectile.ai[0] * 0.1f;
             Projectile.scale = 1 + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f) * 0.25f);

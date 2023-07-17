@@ -67,7 +67,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
                 Projectile.Kill();
             if (Projectile.scale < 0.15f)
-                Projectile.scale += 0.01f;
+                Projectile.scale += 0.0025f;
             //float progress = Utils.GetLerpValue(0, 200, Projectile.timeLeft);
             //Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 0.1f, 0, 0.15f);
             //if (Projectile.timeLeft > 150)
@@ -139,6 +139,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             // SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
+        public override bool ShouldUpdatePosition()
+        {
+            return Projectile.scale >= 0.075f;
+        }
         public override void AI()
         {
             if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
@@ -150,7 +154,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
             if (Projectile.scale < 0.075f)
-                Projectile.scale += 0.01f;
+                Projectile.scale += 0.001f;
         }
         public override bool PreDraw(ref Color lightColor)
         {
