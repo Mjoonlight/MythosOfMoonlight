@@ -19,6 +19,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Fire);
         }
         public override void SetDefaults()
         {

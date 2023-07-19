@@ -17,6 +17,8 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
             Main.projFrames[Projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
+            Projectile.AddElement(CrossModHelper.Nature);
+            Projectile.AddElement(CrossModHelper.Poison);
         }
 
         public override void SetDefaults()

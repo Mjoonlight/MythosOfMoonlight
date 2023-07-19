@@ -16,6 +16,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
             // DisplayName.SetDefault("Comet Ember Mini");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Fire);
         }
         public override void SetDefaults()
         {

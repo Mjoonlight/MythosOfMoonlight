@@ -17,6 +17,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             // DisplayName.SetDefault("Starine Sparkle");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public const int MAX_TIMELEFT = 240;
         public override void SetDefaults()

@@ -10,6 +10,10 @@ namespace MythosOfMoonlight.Projectiles
 {
     public class Starine_Strobulb : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Arcane);
+        }
         public override void SetDefaults()
         {
             Projectile.width = 14;

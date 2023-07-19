@@ -30,6 +30,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                 Velocity = 1f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Celestial);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -268,6 +270,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                 Direction = 1
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Celestial);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetDefaults()
         {
@@ -406,6 +410,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Celestial);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetDefaults()
         {

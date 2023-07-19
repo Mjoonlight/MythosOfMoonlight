@@ -41,6 +41,10 @@ namespace MythosOfMoonlight.Items.Jungle
     public class PlantGunP : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Nature);
+        }
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.Bullet);
@@ -69,6 +73,10 @@ namespace MythosOfMoonlight.Items.Jungle
     public class PlantGunP2 : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Nature);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<PlantGunB>(), 300);

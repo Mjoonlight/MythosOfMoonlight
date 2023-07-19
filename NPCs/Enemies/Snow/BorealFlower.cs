@@ -18,6 +18,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         {
             // DisplayName.SetDefault("Chilly Century Flower");
             Main.npcFrameCount[NPC.type] = 15;
+            NPC.AddElement(CrossModHelper.Nature);
+            NPC.AddElement(CrossModHelper.Ice);
+            NPC.AddNPCElementList("Humanoid");
+            NPC.AddNPCElementList("Plantlike");
+            NPC.AddNPCElementList("Cold");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

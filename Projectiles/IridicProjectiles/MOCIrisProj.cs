@@ -22,6 +22,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("MOC-Iris");
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

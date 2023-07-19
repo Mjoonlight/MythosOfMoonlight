@@ -11,6 +11,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 6;
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Arcane);
         }
         public override void SetDefaults()
         {

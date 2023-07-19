@@ -15,6 +15,7 @@ namespace MythosOfMoonlight.Projectiles
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 7;
+            Projectile.AddElement(CrossModHelper.Nature);
         }
         public override void SetDefaults()
         {

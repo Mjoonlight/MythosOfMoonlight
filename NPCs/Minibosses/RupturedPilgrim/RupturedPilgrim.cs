@@ -25,6 +25,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Celestial);
+            NPC.AddElement(CrossModHelper.Arcane);
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

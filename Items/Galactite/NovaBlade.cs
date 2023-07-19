@@ -53,6 +53,10 @@ namespace MythosOfMoonlight.Items.Galactite
     {
         public override string Texture => "MythosOfMoonlight/Items/Galactite/NovaBlade";
         public override string GlowTexture => "MythosOfMoonlight/Items/Galactite/NovaBlade_Glow";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
         public override void SetExtraDefaults()
         {
             swingTime = 30;
@@ -76,6 +80,10 @@ namespace MythosOfMoonlight.Items.Galactite
     public class NovaBladeP2 : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(496);
@@ -127,6 +135,10 @@ namespace MythosOfMoonlight.Items.Galactite
     public class NovaBladeP3 : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
         public override void SetDefaults()
         {
             Projectile.width = 6;

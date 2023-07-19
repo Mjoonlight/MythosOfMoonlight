@@ -15,6 +15,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
             Main.projFrames[Projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            Projectile.AddElement(CrossModHelper.Nature);
         }
         public override void SetDefaults()
         {

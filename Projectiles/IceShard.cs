@@ -13,6 +13,7 @@ namespace MythosOfMoonlight.Projectiles
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 3;
+            Projectile.AddElement(CrossModHelper.Ice);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.scale * 0.7f;
         public override void SetDefaults()

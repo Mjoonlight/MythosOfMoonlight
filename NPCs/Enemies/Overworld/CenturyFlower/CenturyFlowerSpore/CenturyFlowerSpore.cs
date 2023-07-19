@@ -13,6 +13,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSp
         {
             // DisplayName.SetDefault("Century Flower Spore");
             Main.projFrames[Projectile.type] = 2;
+            Projectile.AddElement(CrossModHelper.Nature);
+            Projectile.AddElement(CrossModHelper.Poison);
         }
 
         const int MAX_TIMELEFT = 270;
@@ -73,6 +75,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSp
         {
             // DisplayName.SetDefault("Century Flower Spore");
             Main.projFrames[Projectile.type] = 2;
+            Projectile.AddElement(CrossModHelper.Nature);
+            Projectile.AddElement(CrossModHelper.Ice);
         }
 
         const int MAX_TIMELEFT = 270;

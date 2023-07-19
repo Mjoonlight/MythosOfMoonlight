@@ -10,6 +10,8 @@ namespace MythosOfMoonlight.Projectiles.ThornDart
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("ThornDart");
+            Projectile.AddElement(CrossModHelper.Nature);
+            Projectile.AddElement(CrossModHelper.Poison);
         }
         public override void SetDefaults()
         {

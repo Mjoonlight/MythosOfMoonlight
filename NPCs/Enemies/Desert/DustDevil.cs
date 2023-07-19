@@ -38,6 +38,8 @@ SUMMONERMELEE */
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 9;
+            NPC.AddElement(CrossModHelper.Wind);
+            NPC.AddNPCElementList("Hot");
         }
         public override void FindFrame(int frameHeight)
         {

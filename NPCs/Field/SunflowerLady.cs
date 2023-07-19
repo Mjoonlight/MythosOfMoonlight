@@ -50,6 +50,7 @@ namespace MythosOfMoonlight.NPCs.Field
             // DisplayName.SetDefault("Melissa");
             Main.npcFrameCount[Type] = 9;
             NPCID.Sets.NoTownNPCHappiness[Type] = true;
+            NPC.AddNPCElementList("Plantlike");
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

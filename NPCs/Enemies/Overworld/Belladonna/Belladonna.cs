@@ -17,6 +17,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 17;
+            NPC.AddElement(CrossModHelper.Nature);
+            NPC.AddNPCElementList("Humanoid");
+            NPC.AddNPCElementList("Plantlike");
         }
         public override void SetDefaults()
         {
@@ -245,6 +248,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
     }
     public class Blueberry : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Nature);
+        }
         public override void SetDefaults()
         {
             Projectile.Size = Vector2.One * 8;
@@ -286,6 +293,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
     }
     public class Nightshade : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Nature);
+        }
         public override void SetDefaults()
         {
             Projectile.Size = Vector2.One * 8;
@@ -330,6 +341,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 6;
+            Projectile.AddElement(CrossModHelper.Nature);
         }
         public override void SetDefaults()
         {

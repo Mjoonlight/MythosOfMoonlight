@@ -18,6 +18,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
         {
             // DisplayName.SetDefault("Century Flower");
             Main.npcFrameCount[NPC.type] = 10;
+            NPC.AddElement(CrossModHelper.Nature);
+            NPC.AddNPCElementList("Humanoid");
+            NPC.AddNPCElementList("Plantlike");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

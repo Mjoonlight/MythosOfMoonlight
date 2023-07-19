@@ -11,6 +11,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Fragment Bullet");
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

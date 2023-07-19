@@ -27,6 +27,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Earth);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -107,6 +109,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Earth);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -187,6 +191,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddElement(CrossModHelper.Earth);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

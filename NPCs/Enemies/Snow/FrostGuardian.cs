@@ -29,6 +29,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         {
             Main.npcFrameCount[Type] = 25;
             // DisplayName.SetDefault("Boreal Blade");
+            NPC.AddElement(CrossModHelper.Ice);
+            NPC.AddNPCElementList("Humanoid");
+            NPC.AddNPCElementList("Inorganic");
+            NPC.AddNPCElementList("Cold");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -154,6 +158,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
     }
     public class FrostGuardianSlashP : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Ice);
+        }
         public override void SetDefaults()
         {
             Projectile.width = 5;

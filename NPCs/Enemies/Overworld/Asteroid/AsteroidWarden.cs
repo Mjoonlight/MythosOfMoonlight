@@ -16,6 +16,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 4;
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetDefaults()
         {
@@ -253,6 +254,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

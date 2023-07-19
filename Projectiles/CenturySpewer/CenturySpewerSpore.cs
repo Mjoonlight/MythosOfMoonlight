@@ -12,6 +12,8 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer
         {
             // DisplayName.SetDefault("Century Spewer Spore");
             Main.projFrames[Projectile.type] = 2;
+            Projectile.AddElement(CrossModHelper.Nature);
+            Projectile.AddElement(CrossModHelper.Poison);
         }
 
         const int MAX_TIMELEFT = 170;

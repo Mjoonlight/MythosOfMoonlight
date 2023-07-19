@@ -14,6 +14,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
         {
             // DisplayName.SetDefault("Chloroccyx");
             Main.projFrames[Projectile.type] = 1;
+            Projectile.AddElement(CrossModHelper.Nature);
         }
 
         public override void SetDefaults()

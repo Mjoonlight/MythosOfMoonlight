@@ -19,6 +19,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             Main.npcFrameCount[Type] = 12;
             NPCID.Sets.TrailCacheLength[Type] = 5;
             NPCID.Sets.TrailingMode[Type] = 0;
+            NPC.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

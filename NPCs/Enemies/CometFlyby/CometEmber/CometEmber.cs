@@ -21,6 +21,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
             //NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.TrailCacheLength[Type] = 12;
             NPCID.Sets.TrailingMode[Type] = 3;
+            NPC.AddElement(CrossModHelper.Celestial);
+            NPC.AddElement(CrossModHelper.Fire);
+            NPC.AddNPCElementList("Hot");
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void SetDefaults()
         {

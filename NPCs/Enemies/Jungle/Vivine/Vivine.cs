@@ -15,6 +15,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 10;
+            NPC.AddElement(CrossModHelper.Nature);
+            NPC.AddNPCElementList("Humanoid");
+            NPC.AddNPCElementList("Plantlike");
         }
         public override void SetDefaults()
         {
@@ -194,6 +197,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
     }
     public class VivineSpit : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Poison);
+        }
         public override void SetDefaults()
         {
             Projectile.Size = Vector2.One * 10;

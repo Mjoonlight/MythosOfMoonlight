@@ -20,6 +20,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 7;
             ProjectileID.Sets.TrailingMode[Type] = 0;
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

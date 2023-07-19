@@ -31,6 +31,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
+            NPC.AddNPCElementList("Inorganic");
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

@@ -10,6 +10,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Comet Ember Explode");
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Fire);
         }
         public override void SetDefaults()
         {

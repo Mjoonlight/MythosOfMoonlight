@@ -46,6 +46,10 @@ namespace MythosOfMoonlight.Items.Galactite
     {
         public override string Texture => "MythosOfMoonlight/Items/Galactite/Estrella";
         public override string GlowTexture => "MythosOfMoonlight/Items/Galactite/Estrella_Glow";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
         public override void SetExtraDefaults()
         {
             swingTime = 50;
@@ -89,6 +93,7 @@ namespace MythosOfMoonlight.Items.Galactite
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
             ProjectileID.Sets.TrailingMode[Type] = 0;
+            Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {

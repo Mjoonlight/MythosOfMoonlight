@@ -8,6 +8,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     public class StarineFlare : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Arcane);
+        }
         public override void SetDefaults()
         {
             Projectile.width = 50;
