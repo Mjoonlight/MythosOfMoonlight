@@ -23,7 +23,9 @@ namespace MythosOfMoonlight.NPCs.Field
             NPC.Size = new Vector2(44, 76);
             NPC.dontTakeDamage = true;
             NPC.lifeMax = 20;
+            NPC.immortal = true;
         }
+        public override bool CanBeHitByNPC(NPC attacker) => false;
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
