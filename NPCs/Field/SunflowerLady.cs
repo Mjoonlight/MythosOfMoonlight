@@ -87,14 +87,6 @@ namespace MythosOfMoonlight.NPCs.Field
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            List<string> chat = new List<string>
-            {
-                "Well, aren't ya short? Welcome to my humble little abode, I got potion-brewing herbs if ya like.",
-                "Ya know, as fashionable as hats are, they are an active detriment for us plants. Do ya want one?",
-                "I always try avoid the " + (WorldGen.crimson ? "crimson" : "corruption") + ", those creatures are sticky and gross. There are fine potion ingredient that grow there, though.",
-                "Have ya been to the desert before? Ya probably agree it is unbearably dry, then. It's incredible some plants still thrive there, despite all odds!",
-                "Ya sure like chatting, do ya? I do appreciate it well enough."
-            };
             if (Main.npcChatText != "" && chat.Contains(Main.npcChatText))
             {
                 if (NPC.frameCounter > 5)
@@ -117,6 +109,14 @@ namespace MythosOfMoonlight.NPCs.Field
                     NPC.frame.Y = 3 * frameHeight;
             }
         }
+        List<string> chat = new List<string>
+            {
+                "Well, aren't ya short? Welcome to my humble little abode, I got potion-brewing herbs if ya like.",
+                "Ya know, as fashionable as hats are, they are an active detriment for us plants. Do ya want one?",
+                "I always try avoid the " + (WorldGen.crimson ? "crimson" : "corruption") + ", those creatures are sticky and gross. There are fine potion ingredient that grow there, though.",
+                "Have ya been to the desert before? Ya probably agree it is unbearably dry, then. It's incredible some plants still thrive there, despite all odds!",
+                "Ya sure like chatting, do ya? I do appreciate it well enough."
+            };
         public override string GetChat()
         {
             if (NPC.frameCounter > 6 && NPC.frame.Y != 2 * 78)
@@ -145,14 +145,6 @@ namespace MythosOfMoonlight.NPCs.Field
         public override void _AI()
         {
             Lighting.AddLight(NPC.Center, TorchID.Yellow);
-            List<string> chat = new List<string>
-            {
-                "Well, aren't ya short? Welcome to my humble little abode, I got potion-brewing herbs if ya like.",
-                "Ya know, as fashionable as hats are, they are an active detriment for us plants. Do ya want one?",
-                "I always try avoid the " + (WorldGen.crimson ? "crimson" : "corruption") + ", those creatures are sticky and gross. There are fine potion ingredient that grow there, though.",
-                "Have ya been to the desert before? Ya probably agree it is unbearably dry, then. It's incredible some plants still thrive there, despite all odds!",
-                "Ya sure like chatting, do ya? I do appreciate it well enough."
-            };
             if (Main.npcChatText == "" && chat.Contains(Main.npcChatText))
             {
                 NPC.velocity.X = 0;
