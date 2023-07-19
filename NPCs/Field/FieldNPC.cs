@@ -36,10 +36,6 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             NPC.homeless = true;
 
-            if (Main.npcChatText != "")
-            {
-                NPC.velocity.X = 0;
-            }
             if (shouldMusic)
             {
                 FieldSpawnRateNPC.rateDecrease = true;

@@ -154,7 +154,10 @@ namespace MythosOfMoonlight.NPCs.Field
                 "Ya sure like chatting, do ya? I do appreciate it well enough."
             };
             if (Main.npcChatText == "" && chat.Contains(Main.npcChatText))
+            {
+                NPC.velocity.X = 0;
                 NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
+            }
             else
                 NPC.direction = NPC.spriteDirection = NPC.Center.X > Main.LocalPlayer.Center.X ? -1 : 1;
             if (shouldMusic)
