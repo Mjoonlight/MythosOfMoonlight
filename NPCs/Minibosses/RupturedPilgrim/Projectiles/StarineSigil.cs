@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
-using static Humanizer.In;
 using System;
 using System.IO;
 

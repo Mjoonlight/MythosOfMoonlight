@@ -11,17 +11,6 @@ using System;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using ReLogic.Content;
 using System.Reflection;
-using Terraria.GameContent;
-using MythosOfMoonlight.Items.BossSummons;
-using Microsoft.CodeAnalysis.Operations;
-using MythosOfMoonlight.Graphics.Particles;
-using MythosOfMoonlight.Graphics;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
-using MythosOfMoonlight.Events;
-using static System.Net.Mime.MediaTypeNames;
-using MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles;
-using System.Collections.Generic;
 
 namespace MythosOfMoonlight
 {
@@ -233,7 +222,7 @@ namespace MythosOfMoonlight
                 Gore.NewGore(default, position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type);
             }
         }
-        public static float HorizontalDistance(Vector2 one, Vector2 two) => System.Math.Abs(one.X - two.X);
+        public static float HorizontalDistance(Vector2 one, Vector2 two) => Math.Abs(one.X - two.X);
         public static Vector2 GetPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
         {
             float cx = 3 * (p1.X - p0.X);
@@ -303,8 +292,8 @@ namespace MythosOfMoonlight
         }
         public override void Unload()
         {
-            Terraria.Graphics.Effects.On_FilterManager.EndCapture -= FilterManager_EndCapture;
-            Terraria.On_Player.SetTalkNPC -= Player_SetTalkNPC;
+            On_FilterManager.EndCapture -= FilterManager_EndCapture;
+            On_Player.SetTalkNPC -= Player_SetTalkNPC;
             Main.OnResolutionChanged -= Main_OnResolutionChanged;
         }
         public override void Load()
@@ -322,9 +311,9 @@ namespace MythosOfMoonlight
                 Filters.Scene["Asteroid"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
                 SkyManager.Instance["Asteroid"] = new Events.AsteroidSky();
             }
-            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
-            Terraria.On_Main.LoadWorlds += new Terraria.On_Main.hook_LoadWorlds(Main_LoadWorlds);
-            Terraria.On_Player.SetTalkNPC += Player_SetTalkNPC;
+            On_FilterManager.EndCapture += FilterManager_EndCapture;
+            On_Main.LoadWorlds += new Terraria.On_Main.hook_LoadWorlds(Main_LoadWorlds);
+            On_Player.SetTalkNPC += Player_SetTalkNPC;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
         }
         private void Player_SetTalkNPC(Terraria.On_Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
@@ -391,7 +380,7 @@ namespace MythosOfMoonlight
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Dust dust in Main.dust)
             {
-                if (dust.type == ModContent.DustType<StarineDust>() && dust.velocity.Length() > 0 && dust.active)
+                if (dust.type == DustType<StarineDust>() && dust.velocity.Length() > 0 && dust.active)
                 {
                     for (int i = 1; i <= 5; i++)
                     {
@@ -458,18 +447,18 @@ namespace MythosOfMoonlight
                 particles[i].Scale = .1f * particles[i].Depth;
             }
         }
-        public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/logo");
+        public override Asset<Texture2D> Logo => Request<Texture2D>("MythosOfMoonlight/Textures/logo");
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
-        public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<PurpleSurfaceMenu>();
+        public override ModSurfaceBackgroundStyle MenuBackgroundStyle => GetInstance<PurpleSurfaceMenu>();
         //public override Asset<Texture2D> SunTexture => MoonTexture;
         public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
-            Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
-            Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
-            Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
-            Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
-            Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
-            Texture2D comet2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+            Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
+            Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
+            Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
+            Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
+            Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
+            Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
             Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
             //int cometX = (int)(Main.time / 32400.0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
             Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
@@ -544,12 +533,12 @@ namespace MythosOfMoonlight
             {
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
                 spriteBatch.Reload(BlendState.Additive);
-                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
-                Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
-                Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
-                Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
-                Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
-                Texture2D comet2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+                Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
+                Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
+                Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
+                Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
+                Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
+                Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
                 float glow = 1;
                 Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
                 spriteBatch.Draw(comet, cometP, null, Color.Purple * 0.65f * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.5f) + 0.4f), MathHelper.ToRadians(245), new Vector2(comet.Width / 2, 0.15f), 1, SpriteEffects.None, 0f);

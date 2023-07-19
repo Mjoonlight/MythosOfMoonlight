@@ -1,10 +1,7 @@
 using Microsoft.Xna.Framework;
-using Steamworks;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,7 +16,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             + "\nConverts musket balls into water bullets"); */
             //            + $"\nUses Bullets [i:{ItemID.MusketBall}]"
 
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
 
         }
 

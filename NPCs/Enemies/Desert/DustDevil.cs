@@ -2,15 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
-using Terraria.ModLoader.Utilities;
-using Terraria.GameContent.Bestiary;
-using System.IO;
-using MythosOfMoonlight.Gores.Enemies;
 using Terraria.GameContent.Bestiary;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Desert
@@ -312,10 +306,10 @@ SUMMONERMELEE */
                 Vector2 position19 = spinningpoint4.RotatedBy(num301);
                 Vector2 vector70 = new Vector2(0f, num300 + 1f);
                 vector70.X = vector70.Y * num295;
-                Microsoft.Xna.Framework.Color color77 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value80, num300 * 2f);
+                Microsoft.Xna.Framework.Color color77 = Color.Lerp(Color.Transparent, value80, num300 * 2f);
                 if (num300 > 0.5f)
                 {
-                    color77 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value80, 2f - num300 * 2f);
+                    color77 = Color.Lerp(Color.Transparent, value80, 2f - num300 * 2f);
                 }
                 color77.A = (byte)((float)(int)color77.A * 0.5f);
                 color77 *= num294;

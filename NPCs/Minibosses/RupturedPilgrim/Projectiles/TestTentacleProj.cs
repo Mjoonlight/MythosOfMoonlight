@@ -6,7 +6,6 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -62,10 +61,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             for (int i = 0; i < 3; i++)
             {
                 value += Projectile.ai[1];
-                if (base.Projectile.timeLeft % 1 == 0)
+                if (Projectile.timeLeft % 1 == 0)
                 {
                     float factor = 1f;
-                    Vector2 velocity = base.Projectile.velocity * factor * 4f;
+                    Vector2 velocity = Projectile.velocity * factor * 4f;
                     Projectile.rotation = 0.3f * (float)Math.Sin((double)(value / 100f)) + velocity.ToRotation();
                     rots.Insert(0, Projectile.rotation);
                     while (rots.Count > Projectile.ai[0])

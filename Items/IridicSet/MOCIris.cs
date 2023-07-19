@@ -2,11 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
-using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
-using MythosOfMoonlight.Projectiles.IridicProjectiles;
 
 namespace MythosOfMoonlight.Items.IridicSet
 {
@@ -19,7 +15,7 @@ namespace MythosOfMoonlight.Items.IridicSet
                 " Fires homing Embers after charging up. "); */
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

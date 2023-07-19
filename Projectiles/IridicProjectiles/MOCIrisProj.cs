@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -50,7 +46,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
             Player player = Main.player[Projectile.owner];
             if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems && player.statMana > 0)// && !player.CheckMana(1))
             {
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]).rotation = Projectile.rotation;
+                Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1]).rotation = Projectile.rotation;
             }
         }
         public override void AI()
@@ -92,7 +88,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     {
                         Dust dust;
                         Vector2 position = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.width;
-                        dust = Terraria.Dust.NewDustDirect(position, 0, 0, 71, shoot.X, shoot.Y, 0, new Color(255, 255, 255), 1f);
+                        dust = Dust.NewDustDirect(position, 0, 0, DustID.UndergroundHallowedEnemies, shoot.X, shoot.Y, 0, new Color(255, 255, 255), 1f);
                     }
                     SoundEngine.PlaySound(SoundID.Item68, Projectile.Center + shoot * 2f);
                     Projectile star = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + shoot * 2f, shoot, ModContent.ProjectileType<IrisStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);

@@ -5,7 +5,6 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace MythosOfMoonlight.Items.Weapons.Ranged
 {
@@ -16,7 +15,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             // DisplayName.SetDefault("Crawshot");
             // Tooltip.SetDefault("Triple-shot, Crawshot, Target-shot");
 
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
 
         }
 

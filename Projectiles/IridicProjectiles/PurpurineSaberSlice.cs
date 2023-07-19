@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                     {
                         player.direction = Projectile.Center.X >= player.Center.X ? 1 : -1;
                         player.heldProj = Projectile.whoAmI;
-                        Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Microsoft.Xna.Framework.Vector2.UnitX) * 28f;
+                        Projectile.Center = player.Center + Utils.SafeNormalize(Main.MouseWorld - player.Center, Vector2.UnitX) * 28f;
                         Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
                     }
                 }

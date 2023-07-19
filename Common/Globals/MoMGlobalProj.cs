@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;

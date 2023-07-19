@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.Items.ShadowHex
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Shadow-Hexer Skull");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

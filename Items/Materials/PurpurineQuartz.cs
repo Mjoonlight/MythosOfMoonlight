@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Materials
         {
             // DisplayName.SetDefault("Iridic Boards");
             // Tooltip.SetDefault("Alien tech, you don't understand it very well");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            Item.ResearchUnlockCount = 25;
         }
         public override void SetDefaults()
         {

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -51,14 +46,14 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 999;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.useTurn = true;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.autoReuse = true;
             Item.useAnimation = 15;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.useTime = 10;
-            Item.useStyle = 1;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<PilgrimBed>();
         }
@@ -148,14 +143,14 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 999;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.useTurn = true;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.autoReuse = true;
             Item.useAnimation = 15;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.useTime = 10;
-            Item.useStyle = 1;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<PilgrimLamp>();
         }

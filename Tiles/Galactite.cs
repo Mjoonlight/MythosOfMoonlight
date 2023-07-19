@@ -1,4 +1,3 @@
-using MythosOfMoonlight.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

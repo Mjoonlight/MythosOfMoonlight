@@ -6,7 +6,6 @@ using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
-using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using Terraria.Audio;
 using MythosOfMoonlight.Dusts;
 
@@ -18,7 +17,7 @@ namespace MythosOfMoonlight.Items.IridicSet
         {
             // DisplayName.SetDefault("CDG-Iris");
             // Tooltip.SetDefault("Cosmos Derived Gun? Cosmos Derived Fun.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

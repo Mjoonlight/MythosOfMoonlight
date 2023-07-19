@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using MythosOfMoonlight.Buffs;
-using MythosOfMoonlight.BiomeManager;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 

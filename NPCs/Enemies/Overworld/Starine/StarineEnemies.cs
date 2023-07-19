@@ -6,11 +6,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Terraria.ModLoader.Utilities;
-using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
-using Terraria.DataStructures;
 using MythosOfMoonlight.BiomeManager;
-using Steamworks;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {

@@ -2,17 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
-using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using System.IO;
-using MythosOfMoonlight.Gores.Enemies;
 using Terraria.Audio;
-using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
 {
@@ -98,7 +93,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
                 Color newColor7 = Color.CornflowerBlue;
                 for (int num613 = 0; num613 < 7; num613++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 58, NPC.velocity.X * 0.1f, NPC.velocity.Y * 0.1f, 150, default, 0.8f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Enchanted_Pink, NPC.velocity.X * 0.1f, NPC.velocity.Y * 0.1f, 150, default, 0.8f);
                 }
                 for (float num614 = 0f; num614 < 1f; num614 += 0.125f)
                 {
@@ -122,7 +117,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            Texture2D tex = TextureAssets.Npc[Type].Value; https://cdn.discordapp.com/attachments/795335225034670100/1114973113281675367/u23t27yzz0y21.png
+            Texture2D tex = TextureAssets.Npc[Type].Value; // https://cdn.discordapp.com/attachments/795335225034670100/1114973113281675367/u23t27yzz0y21.png
             Texture2D head = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "Head").Value;
             Texture2D hand = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "Hand").Value;
             Texture2D handGlow = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "Hand_Glow").Value;
@@ -350,7 +345,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
                 Color newColor7 = Color.CornflowerBlue;
                 for (int num613 = 0; num613 < 7; num613++)
                 {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 58, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default, 0.8f);
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Enchanted_Pink, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 150, default, 0.8f);
                 }
                 for (float num614 = 0f; num614 < 1f; num614 += 0.125f)
                 {

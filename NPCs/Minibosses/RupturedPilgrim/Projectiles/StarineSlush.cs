@@ -6,8 +6,6 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
-using System;
-using static Humanizer.In;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {

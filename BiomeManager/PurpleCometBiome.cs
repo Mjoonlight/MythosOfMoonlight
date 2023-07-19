@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
-using MythosOfMoonlight.Events;
 using Terraria.ID;
 using MythosOfMoonlight.Graphics.Particles;
 using MythosOfMoonlight.Graphics;

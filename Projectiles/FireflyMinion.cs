@@ -1,8 +1,6 @@
 ﻿using MythosOfMoonlight.BaseClasses.BaseProj;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

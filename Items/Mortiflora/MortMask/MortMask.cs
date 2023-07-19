@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortMask
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Mortiflora Mask");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

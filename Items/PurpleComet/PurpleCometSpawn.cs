@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
             // DisplayName.SetDefault("Purple Comet's Offering");
             /* Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet\n" +
                 "Not Consumable"); */
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()
@@ -57,7 +57,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
             // DisplayName.SetDefault("ASTEROID's Offering");
             /* Tooltip.SetDefault("Use at nighttime to call upon the ASTEROID\n" +
                 "Not ASTEROID"); */
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

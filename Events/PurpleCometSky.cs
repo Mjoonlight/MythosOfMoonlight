@@ -1,16 +1,9 @@
-﻿using Microsoft.Win32;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
-using static Terraria.Main;
 
 namespace MythosOfMoonlight.Events
 {

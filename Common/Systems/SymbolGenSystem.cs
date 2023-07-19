@@ -1,11 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
-using MythosOfMoonlight.Tiles;
+﻿using MythosOfMoonlight.Tiles;
 using MythosOfMoonlight.Tiles.Furniture.Pilgrim;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.IO;

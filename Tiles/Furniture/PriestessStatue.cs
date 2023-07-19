@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Terraria.ID.ContentSamples.CreativeHelper;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ObjectData;
@@ -66,14 +60,14 @@ namespace MythosOfMoonlight.Tiles.Furniture
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 999;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.useTurn = true;
-            Item.rare = 0;
+            Item.rare = ItemRarityID.White;
             Item.autoReuse = true;
             Item.useAnimation = 15;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.Pink;
             Item.useTime = 10;
-            Item.useStyle = 1;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<PriestessStatue>();
         }

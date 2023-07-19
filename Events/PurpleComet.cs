@@ -12,14 +12,13 @@ using MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using Terraria.Chat;
 using System;
-using MythosOfMoonlight.NPCs.Enemies;
 using MythosOfMoonlight.NPCs.Enemies.Overworld.Starine;
 
 namespace MythosOfMoonlight //Every comment is a guess lmao
 {
     public class PurpleCometEvent : ModSystem
     {
-        private static bool dayTimeLast;
+        //private static bool dayTimeLast;
         public static bool testedEvents;
 
         public static bool PurpleComet = false;
@@ -102,7 +101,7 @@ namespace MythosOfMoonlight //Every comment is a guess lmao
             for (int a = 0; a < count2; a++)
             {
                 float pi = (float)((2f * Math.PI) / count2) * (a + 1);
-                Dust.NewDustDirect(pos, 0, 0, ModContent.DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
+                Dust.NewDustDirect(pos, 0, 0, DustType<Dusts.PurpurineDust>(), (float)Math.Cos(pi) * 3, (float)Math.Sin(pi) * 3).noGravity = true;
             }
             for (int a = 0; a < count1; a++)
             {

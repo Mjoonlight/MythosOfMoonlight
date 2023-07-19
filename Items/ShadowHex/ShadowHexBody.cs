@@ -2,9 +2,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.Items.ShadowHex
 {
@@ -14,7 +11,7 @@ namespace MythosOfMoonlight.Items.ShadowHex
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Shadow-Hexer Coat");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
 
         public override void SetDefaults()

@@ -2,12 +2,7 @@
 using MythosOfMoonlight.NPCs.Field;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -31,7 +26,7 @@ namespace MythosOfMoonlight.Common.Systems
                         packet.Send();
                     }
                     Vector2 pos = reader.ReadVector2();
-                    int pil = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (int)pos.X, (int)pos.Y, ModContent.NPCType<RupturedPilgrim>()); // add params i forgor
+                    int pil = NPC.NewNPC(Entity.GetSource_NaturalSpawn(), (int)pos.X, (int)pos.Y, ModContent.NPCType<RupturedPilgrim>()); // add params i forgor
                     Main.npc[pil].ai[0] = 6;
                     break;
             }

@@ -7,8 +7,6 @@ using MythosOfMoonlight.Projectiles;
 using Terraria.DataStructures;
 using Terraria.ID;
 using MythosOfMoonlight.Dusts;
-using static Humanizer.In;
-using static tModPorter.ProgressUpdate;
 
 namespace MythosOfMoonlight.Items.Galactite
 {
@@ -68,7 +66,7 @@ namespace MythosOfMoonlight.Items.Galactite
             {
                 Vector2 vel = Projectile.velocity;
                 vel.Normalize();
-                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, vel * 10, ModContent.ProjectileType<NovaBladeP2>(), Projectile.damage, 0, Projectile.owner);
+                Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Projectile), Projectile.Center, vel * 10, ModContent.ProjectileType<NovaBladeP2>(), Projectile.damage, 0, Projectile.owner);
                 a.timeLeft = 20;
                 a.ai[0] = Main.rand.NextFloat(-10f, 10f) * 0.07f;
                 a.ai[1] = Main.rand.NextFloat(-10f, 10f) * 0.07f;

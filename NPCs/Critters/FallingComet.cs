@@ -83,7 +83,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             {
                 if (Main.rand.NextBool(12))
                 {
-                    int d = Dust.NewDust(NPC.Center + new Vector2(5f, 0f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + NPC.velocity.ToRotation()), 4, 4, ModContent.DustType<PurpurineStoneDust>());
+                    int d = Dust.NewDust(NPC.Center + new Vector2(5f, 0f).RotatedBy(Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + NPC.velocity.ToRotation()), 4, 4, DustType<PurpurineStoneDust>());
                     Main.dust[d].velocity = NPC.velocity * 0.6f;
                 }
             }

@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora
         {
             Tooltip.SetDefault("You hear shallow breathing resonating from this flora...");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 16;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

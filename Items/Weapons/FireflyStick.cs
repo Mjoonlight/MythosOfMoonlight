@@ -6,7 +6,6 @@ using System;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles;
 using Terraria.DataStructures;
-using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.Items.Weapons
 {
@@ -20,7 +19,7 @@ namespace MythosOfMoonlight.Items.Weapons
             // DisplayName.SetDefault("Firefly Stick");
             /* Tooltip.SetDefault("Launches loyal fireflies to the cursor and back\n" +
                 "Increase their number by catching more fireflies"); */
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
             Item.staff[Type] = true;
         }
         public override void SetDefaults()

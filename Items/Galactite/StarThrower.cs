@@ -1,8 +1,4 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.Items.Galactite
 {

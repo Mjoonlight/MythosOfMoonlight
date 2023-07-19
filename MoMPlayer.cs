@@ -2,7 +2,6 @@
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

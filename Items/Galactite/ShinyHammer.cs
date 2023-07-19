@@ -4,7 +4,6 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria.GameContent;
 
 namespace MythosOfMoonlight.Items.Galactite

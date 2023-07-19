@@ -11,8 +11,6 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using System;
 using System.IO;
-using Terraria.DataStructures;
-using Terraria.Net;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {

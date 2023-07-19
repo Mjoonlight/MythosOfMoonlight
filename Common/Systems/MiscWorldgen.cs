@@ -1,11 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
-using MythosOfMoonlight.Tiles;
-using MythosOfMoonlight.Tiles.Furniture.Pilgrim;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.IO;
@@ -15,7 +9,7 @@ namespace MythosOfMoonlight.Common.Systems
 {
     public class MiscWorldgen : ModSystem
     {
-        public void GenStruct(GenerationProgress progress, GameConfiguration _)
+        public static void GenStruct(GenerationProgress progress, GameConfiguration _)
         {
             int baseCheckX = Main.maxTilesX / 2 + 100;
             int baseCheckY = 200;

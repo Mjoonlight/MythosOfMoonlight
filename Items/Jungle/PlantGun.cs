@@ -1,16 +1,8 @@
-﻿using MythosOfMoonlight.Projectiles.IridicProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Shaders;
 
 namespace MythosOfMoonlight.Items.Jungle
 {
@@ -57,7 +49,7 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             for (int i = 0; i < 4; i++)
             {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(-Main.rand.NextFloat(-5, 5), -7), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, new Vector2(-Main.rand.NextFloat(-5, 5), -7), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<PlantGunB>(), 300);
         }
@@ -65,7 +57,7 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             for (int i = 0; i < 3; i++)
             {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, -Projectile.velocity - Main.rand.NextVector2Unit(-Projectile.velocity.ToRotation(), 1), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Terraria.Entity.InheritSource(Projectile), Projectile.Center, -Projectile.velocity - Main.rand.NextVector2Unit(-Projectile.velocity.ToRotation(), 1), ModContent.ProjectileType<PlantGunP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
         public override void AI()

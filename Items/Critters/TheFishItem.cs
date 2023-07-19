@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
 using MythosOfMoonlight.NPCs.Critters;
-using MythosOfMoonlight.Items.Materials;
 
 namespace MythosOfMoonlight.Items.Critters
 {
@@ -13,7 +12,7 @@ namespace MythosOfMoonlight.Items.Critters
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Yellow Boxfish");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            Item.ResearchUnlockCount = 5;
         }
 
         public override void SetDefaults()

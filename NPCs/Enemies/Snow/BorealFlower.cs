@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,9 +6,6 @@ using MythosOfMoonlight.Items.CenturySet;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using MythosOfMoonlight.Projectiles;
-using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.NPCs.Enemies.Overworld;
 using MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSpore;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;

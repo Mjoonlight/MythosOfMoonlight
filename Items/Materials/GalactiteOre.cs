@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
-using MythosOfMoonlight.Tiles;
 
 namespace MythosOfMoonlight.Items.Materials
 {
@@ -12,7 +11,7 @@ namespace MythosOfMoonlight.Items.Materials
         {
             // DisplayName.SetDefault("Galactite Ore");
             // Tooltip.SetDefault("It shines with old energy.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            Item.ResearchUnlockCount = 25;
         }
         public override void SetDefaults()
         {

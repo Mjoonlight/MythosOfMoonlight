@@ -96,7 +96,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
                 Vector2 position = Projectile.Center;
                 for (int i = 0; i < 17; i++)
                 {
-                    dust = Main.dust[Terraria.Dust.NewDust(position, 20, 20, DustID.LifeDrain, 0f, 0f, 0, new Color(255, 0, 0), 1.1f)];
+                    dust = Main.dust[Dust.NewDust(position, 20, 20, DustID.LifeDrain, 0f, 0f, 0, new Color(255, 0, 0), 1.1f)];
                     dust.velocity = Main.rand.NextVector2Unit() * 1.2f;
                     dust.fadeIn = 0f;
                 }

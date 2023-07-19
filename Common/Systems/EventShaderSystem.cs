@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using System.IO;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.Graphics.Effects;
 
 namespace MythosOfMoonlight.Common.Systems

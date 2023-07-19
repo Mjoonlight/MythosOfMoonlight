@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -28,7 +23,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.shootSpeed = 25f;
             Item.rare = ItemRarityID.Green;
             Item.knockBack = 5f;
-            Item.useStyle = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item38;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;

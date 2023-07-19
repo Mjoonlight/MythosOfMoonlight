@@ -9,9 +9,6 @@ using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
-using System.IO;
-using MythosOfMoonlight.Gores.Enemies;
-using Terraria.Audio;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
 {

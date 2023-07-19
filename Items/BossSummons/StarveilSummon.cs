@@ -1,15 +1,9 @@
 ﻿using Terraria.ID;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.GameContent;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace MythosOfMoonlight.Items.BossSummons
 {
@@ -31,7 +25,7 @@ namespace MythosOfMoonlight.Items.BossSummons
             Item.rare = ItemRarityID.Red;
             Item.useAnimation = 45;
             Item.useTime = 45;
-            Item.rare = 1;
+            Item.rare = ItemRarityID.Blue;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
@@ -61,7 +55,7 @@ namespace MythosOfMoonlight.Items.BossSummons
 
         public override bool? UseItem(Player player)
         {
-            NPC.NewNPCDirect(player.GetSource_ItemUse(Item), player.Center - (Microsoft.Xna.Framework.Vector2.UnitY * 200), ModContent.NPCType<NPCs.Minibosses.StarveiledScholar>());
+            NPC.NewNPCDirect(player.GetSource_ItemUse(Item), player.Center - (Vector2.UnitY * 200), ModContent.NPCType<NPCs.Minibosses.StarveiledScholar>());
             return true;
         }
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

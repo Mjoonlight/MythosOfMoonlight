@@ -4,8 +4,6 @@ using Terraria.ID;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 
 namespace MythosOfMoonlight.Items.IridicSet
 {
@@ -19,7 +17,7 @@ namespace MythosOfMoonlight.Items.IridicSet
                 "Nope, Even better!"); */
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

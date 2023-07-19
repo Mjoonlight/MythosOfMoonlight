@@ -1,12 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using MythosOfMoonlight.Projectiles.IridicProjectiles;
-using MythosOfMoonlight.Items.Materials;
 using Terraria.GameContent.Creative;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
-using MythosOfMoonlight.Projectiles.IridicProjectiles;
 
 namespace MythosOfMoonlight.Items.IridicSet
 {
@@ -17,7 +12,7 @@ namespace MythosOfMoonlight.Items.IridicSet
             // DisplayName.SetDefault("Communicator-Iris");
             /* Tooltip.SetDefault("Minions become intertwined with Iridic flares, \n" +
                 "occasionally releasing them when hitting an enemy. "); */
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

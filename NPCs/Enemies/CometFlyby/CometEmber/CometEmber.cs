@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.BiomeManager;
-using MythosOfMoonlight.Items.Materials;
 using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Utilities;
 using MythosOfMoonlight.Dusts;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber

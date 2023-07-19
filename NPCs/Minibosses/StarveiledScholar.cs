@@ -1,21 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using MythosOfMoonlight.Common.Systems;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
-using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
-using rail;
-using SteelSeries.GameSense;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.IO;
 using Terraria.ModLoader;
 
 namespace MythosOfMoonlight.NPCs.Minibosses
@@ -149,7 +141,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 }
                 for (int num903 = 0; num903 < 10; num903++)
                 {
-                    int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                    int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                     Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                     Dust dust2 = Main.dust[num904];
                     dust2.velocity = hit.HitDirection * Vector2.UnitX;
@@ -161,7 +153,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             NPC.frameCounter++;
             if (Main.rand.NextBool(3))
             {
-                int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
                 Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                 Main.dust[num904].noGravity = true;
                 Dust dust2 = Main.dust[num904];
@@ -187,7 +179,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     }
                     for (int num903 = 0; num903 < 10; num903++)
                     {
-                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                         Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                         Dust dust2 = Main.dust[num904];
                         dust2.velocity *= 3f;
@@ -387,7 +379,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     for (int i = 0; i < 2; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 2);
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScholarOrb>(), 10, 0, player.whoAmI, angle, NPC.whoAmI);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScholarOrb>(), 10, 0, player.whoAmI, angle, NPC.whoAmI);
                     }
                 }
                 if (AITimer == 60 || AITimer == 120 || AITimer == 180)
@@ -416,7 +408,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     }
                     for (int num903 = 0; num903 < 10; num903++)
                     {
-                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                         Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                         Dust dust2 = Main.dust[num904];
                         dust2.velocity *= 3f;
@@ -442,7 +434,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     {
                         float angle = Helper.CircleDividedEqually(i, 5);
                         Vector2 vel = angle.ToRotationVector2() * 15;
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, -3);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, -3);
                     }
                 }
                 if (AITimer == 30)
@@ -450,14 +442,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     riftAlpha = 1f;
                     for (int i = 0; i < 5; i++)
                     {
-                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                         Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                         Dust dust2 = Main.dust[num904];
                         dust2.velocity = Helper.FromAToB(dust2.position, NPC.position);
 
                         float angle = Helper.CircleDividedEqually(i, 5);
                         Vector2 vel = angle.ToRotationVector2() * 15;
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt3>(), 10, 0);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt3>(), 10, 0);
                     }
 
 
@@ -465,7 +457,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     {
                         float angle = Helper.CircleDividedEqually(i, 10);
                         Vector2 vel = angle.ToRotationVector2() * 20;
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, 3);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt_Telegraph>(), 0, 0, player.whoAmI, 3);
                     }
                 }
                 if (AITimer == 60)
@@ -475,7 +467,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     {
                         float angle = Helper.CircleDividedEqually(i, 10);
                         Vector2 vel = angle.ToRotationVector2() * 20;
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt2>(), 10, 0);
+                        Projectile.NewProjectile(Terraria.Entity.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarBolt2>(), 10, 0);
                     }
                 }
                 if (AITimer >= 300)
@@ -494,7 +486,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y) + Main.rand.NextVector2CircularEdge(250, 250), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                         Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                         Dust dust2 = Main.dust[num904];
                         dust2.velocity = Helper.FromAToB(dust2.position, NPC.position);
@@ -505,7 +497,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                         {
                             if (j == 0)
                                 continue;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarSerpent>(), 10, 0, player.whoAmI, j * 0.2f);
+                            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(NPC), NPC.Center, vel, ModContent.ProjectileType<ScholarSerpent>(), 10, 0, player.whoAmI, j * 0.2f);
                             a.localAI[0] = NPC.whoAmI;
                         }
                     }
@@ -537,7 +529,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     }
                     for (int num903 = 0; num903 < 10; num903++)
                     {
-                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
+                        int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                         Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                         Dust dust2 = Main.dust[num904];
                         dust2.velocity *= 3f;

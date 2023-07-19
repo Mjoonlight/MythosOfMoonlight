@@ -7,7 +7,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using MythosOfMoonlight.Projectiles;
 using Terraria.GameContent;
-using System.Runtime.InteropServices;
 using Terraria.Audio;
 using MythosOfMoonlight.Dusts;
 

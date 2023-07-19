@@ -1,19 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using MythosOfMoonlight.Dusts;
-using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -81,7 +75,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             }
             for (int num903 = 0; num903 < 10; num903++)
             {
-                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 1);
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 1);
                 Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Dust dust2 = Main.dust[num904];
                 dust2.velocity *= 3f;
@@ -94,7 +88,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
                 Projectile.Kill();
             if (Main.rand.NextBool(3))
             {
-                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
                 Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[num904].noGravity = true;
                 Dust dust2 = Main.dust[num904];
@@ -450,7 +444,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             Projectile.velocity *= 1.035f;
             if (Main.rand.NextBool(3))
             {
-                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
                 Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[num904].noGravity = true;
                 Dust dust2 = Main.dust[num904];
@@ -498,7 +492,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
             }
             if (Main.rand.NextBool(3))
             {
-                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 272, 0f, 0f, 0, default(Color), 0.45f);
+                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
                 Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[num904].noGravity = true;
                 Dust dust2 = Main.dust[num904];

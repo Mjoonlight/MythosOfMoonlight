@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Audio;
-using System.Drawing.Drawing2D;
-using Terraria.GameContent;
-using MythosOfMoonlight.Graphics;
-using MythosOfMoonlight.Graphics.Particles;
-using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {

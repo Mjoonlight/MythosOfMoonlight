@@ -1,10 +1,8 @@
-﻿using MythosOfMoonlight.Projectiles.MortJavelin;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
-using MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem.EntropicTotemProjectile;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,7 +14,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         {
             // DisplayName.SetDefault("Totem Head");
             // Tooltip.SetDefault("Creates a rotating spark on contact with enemies.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

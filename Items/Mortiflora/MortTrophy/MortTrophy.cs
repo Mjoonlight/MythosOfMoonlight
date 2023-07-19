@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortTrophy
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Mortiflora Trophy");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

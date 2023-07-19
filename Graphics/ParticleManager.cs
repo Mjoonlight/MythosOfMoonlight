@@ -15,13 +15,13 @@ namespace MythosOfMoonlight.Graphics
         void ILoadable.Load(Mod mod)
         {
             Particles = new List<Particle>(MaxParticles);
-            Terraria.On_Dust.UpdateDust += UpdateParticles;
-            Terraria.On_Main.DrawDust += DrawParticles;
+            On_Dust.UpdateDust += UpdateParticles;
+            On_Main.DrawDust += DrawParticles;
         }
         void ILoadable.Unload()
         {
-            Terraria.On_Dust.UpdateDust -= UpdateParticles;
-            Terraria.On_Main.DrawDust -= DrawParticles;
+            On_Dust.UpdateDust -= UpdateParticles;
+            On_Main.DrawDust -= DrawParticles;
             Particles?.Clear();
             Particles = null;
         }
