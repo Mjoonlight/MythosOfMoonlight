@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace MythosOfMoonlight.Items.BossSummons
 {
@@ -34,16 +35,16 @@ namespace MythosOfMoonlight.Items.BossSummons
         {
             foreach (TooltipLine a in tooltips)
             {
-                if (a.Text == "Light comes from the pages within..." || a.Text == "The ink becomes invisible away from the comet...")
+                if (a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial") || a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial"))
                 {
                     a.OverrideColor = Colors.RarityDarkPurple;
                     if (PurpleCometEvent.PurpleComet)
                     {
-                        a.Text = "Light comes from the pages within...";
+                        a.Text = Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial");
                     }
                     else
                     {
-                        a.Text = "The ink becomes invisible away from the comet...";
+                        a.Text = Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial2");
                     }
                 }
             }
@@ -63,9 +64,9 @@ namespace MythosOfMoonlight.Items.BossSummons
             Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/BossSummons/StarveilSummon").Value;
             Texture2D tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/BossSummons/StarveilSummon_Alt").Value;
             if (!PurpleCometEvent.PurpleComet)
-                spriteBatch.Draw(tex, position, null, drawColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, position, frame, drawColor, 0, origin, scale, SpriteEffects.None, 0);
             else
-                spriteBatch.Draw(tex2, position, null, drawColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex2, position, frame, drawColor, 0, origin, scale, SpriteEffects.None, 0);
             return false;
         }
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

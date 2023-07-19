@@ -1,7 +1,11 @@
-
 Mods: {
 	MythosOfMoonlight: {
-		Biomes.PurpleCometBiome.DisplayName: Comet Flyby
+		Biomes: {
+			PurpleCometBiome: {
+				DisplayName: Comet Flyby
+				TownNPCDialogueName: the Purple Comet Biome
+			}
+		}
 
 		Buffs: {
 			NPCsuffocating: {
@@ -16,9 +20,20 @@ Mods: {
 		}
 
 		Items: {
-			EntropicBody.DisplayName: Entropic Body
-			EntropicHead.DisplayName: Entropic Head
-			EntropicLegs.DisplayName: Entropic Legs
+			EntropicBody: {
+				DisplayName: Entropic Body
+				Tooltip: ""
+			}
+
+			EntropicHead: {
+				DisplayName: Entropic Head
+				Tooltip: ""
+			}
+
+			EntropicLegs: {
+				DisplayName: Entropic Legs
+				Tooltip: ""
+			}
 
 			SunHat: {
 				DisplayName: Sun Hat
@@ -34,6 +49,8 @@ Mods: {
 					This probably doesn't belong to you...
 					The ink becomes invisible away from the comet...
 					'''
+				TooltipSpecial: Light comes from the pages within...
+				TooltipSpecial2: The ink becomes invisible away from the comet...
 			}
 
 			CenturySprayer: {
@@ -41,14 +58,45 @@ Mods: {
 				Tooltip: Suffocate enemies with century-old spores
 			}
 
-			CometPeepItem.DisplayName: Comet Peep
-			JellyWandererItem.DisplayName: Jelly Wanderer
-			SparkleSkittlerItem.DisplayName: Sparkle Skittler
-			TheFishItem.DisplayName: Yellow Boxfish
-			FieldSnack.DisplayName: Field Snack
-			Estrella.DisplayName: Estrella
-			ShinyHammer.DisplayName: Gravitron
-			StarThrower.DisplayName: Star Thrower
+			CometPeepItem: {
+				DisplayName: Comet Peep
+				Tooltip: ""
+			}
+
+			JellyWandererItem: {
+				DisplayName: Jelly Wanderer
+				Tooltip: ""
+			}
+
+			SparkleSkittlerItem: {
+				DisplayName: Sparkle Skittler
+				Tooltip: ""
+			}
+
+			TheFishItem: {
+				DisplayName: Yellow Boxfish
+				Tooltip: ""
+			}
+
+			FieldSnack: {
+				DisplayName: Field Snack
+				Tooltip: ""
+			}
+
+			Estrella: {
+				DisplayName: Estrella
+				Tooltip: ""
+			}
+
+			ShinyHammer: {
+				DisplayName: Gravitron
+				Tooltip: ""
+			}
+
+			StarThrower: {
+				DisplayName: Star Thrower
+				Tooltip: ""
+			}
 
 			CDGIris: {
 				DisplayName: CDG-Iris
@@ -83,7 +131,10 @@ Mods: {
 					'''
 			}
 
-			PlantGun.DisplayName: Spitvine
+			PlantGun: {
+				DisplayName: Spitvine
+				Tooltip: ""
+			}
 
 			GalactiteOre: {
 				DisplayName: Galactite Ore
@@ -105,14 +156,20 @@ Mods: {
 				Tooltip: Launches up to two bloodthirsty knives that aim at enemies near the cursor
 			}
 
-			MortMask.DisplayName: Mortiflora Mask
+			MortMask: {
+				DisplayName: Mortiflora Mask
+				Tooltip: ""
+			}
 
 			MortStaff: {
 				DisplayName: Leech Life
 				Tooltip: Shoots a dart that splits into 4 healing orbs on hit.
 			}
 
-			MortTrophy.DisplayName: Mortiflora Trophy
+			MortTrophy: {
+				DisplayName: Mortiflora Trophy
+				Tooltip: ""
+			}
 
 			AsteroidSpawn: {
 				DisplayName: ASTEROID's Offering
@@ -132,9 +189,20 @@ Mods: {
 					'''
 			}
 
-			ShadowHexBody.DisplayName: Shadow-Hexer Coat
-			ShadowHexHead.DisplayName: Shadow-Hexer Skull
-			ShadowHexLegs.DisplayName: Shadow-Hexer Pants
+			ShadowHexBody: {
+				DisplayName: Shadow-Hexer Coat
+				Tooltip: ""
+			}
+
+			ShadowHexHead: {
+				DisplayName: Shadow-Hexer Skull
+				Tooltip: ""
+			}
+
+			ShadowHexLegs: {
+				DisplayName: Shadow-Hexer Pants
+				Tooltip: ""
+			}
 
 			FireflyStick: {
 				DisplayName: Firefly Stick
@@ -145,15 +213,25 @@ Mods: {
 					'''
 			}
 
-			Hoe.DisplayName: Hoe
+			Hoe: {
+				DisplayName: Hoe
+				Tooltip: ""
+			}
 
 			TotemsHead: {
 				DisplayName: Totem Head
 				Tooltip: Creates a rotating spark on contact with enemies.
 			}
 
-			MilkywayReaper.DisplayName: Milkyway Reaper
-			Borer.DisplayName: 4-Bore
+			MilkywayReaper: {
+				DisplayName: Milkyway Reaper
+				Tooltip: ""
+			}
+
+			Borer: {
+				DisplayName: 4-Bore
+				Tooltip: ""
+			}
 
 			Crawshot: {
 				DisplayName: Crawshot
@@ -178,11 +256,30 @@ Mods: {
 					'''
 			}
 
-			ThawGauntlet.DisplayName: Thaw Gauntlet
-			PilgrimBedI.DisplayName: Starine Sleepingbag
-			PilgrimCanI.DisplayName: Starine Soup
-			PilgrimLampI.DisplayName: Starine Spotlight
-			PriestessStatueI.DisplayName: Priestess Statue
+			ThawGauntlet: {
+				DisplayName: Thaw Gauntlet
+				Tooltip: ""
+			}
+
+			PilgrimBedI: {
+				DisplayName: Starine Sleepingbag
+				Tooltip: ""
+			}
+
+			PilgrimCanI: {
+				DisplayName: Starine Soup
+				Tooltip: ""
+			}
+
+			PilgrimLampI: {
+				DisplayName: Starine Spotlight
+				Tooltip: ""
+			}
+
+			PriestessStatueI: {
+				DisplayName: Priestess Statue
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -284,7 +381,22 @@ Mods: {
 			Pebbi2.DisplayName: Chunk Pebbi
 			Pebbi3.DisplayName: Geode Pebbi
 			PebbiSwarm.DisplayName: PebbiSwarm
-			SunflowerLady.DisplayName: Melissa
+
+			SunflowerLady: {
+				DisplayName: Melissa
+
+				TownNPCMood: {
+					Content: I am content.
+					NoHome: I hate not having a home.
+					FarFromHome: I am too far from home.
+					LoveSpace: I love having so much space.
+					DislikeCrowded: I dislike how crowded I am.
+					HateCrowded: I hate how crowded I am.
+					LikeNPC_Princess: I like {NPCName}.
+					Princess_LovesNPC: I like {NPCName}.
+				}
+			}
+
 			RupturedPilgrim.DisplayName: Ruptured Pilgrim
 			Starine_Symbol.DisplayName: Starine Symbol
 			StarveiledScholar.DisplayName: Starveiled Scholar
