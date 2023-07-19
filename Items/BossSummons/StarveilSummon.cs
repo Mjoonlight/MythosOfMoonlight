@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.Items.BossSummons
         {
             foreach (TooltipLine a in tooltips)
             {
-                if (a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial") || a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial"))
+                if (a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial") || a.Text == Language.GetTextValue("Mods.MythosOfMoonlight.Items.StarveilSummon.TooltipSpecial2"))
                 {
                     a.OverrideColor = Colors.RarityDarkPurple;
                     if (PurpleCometEvent.PurpleComet)
@@ -66,7 +66,7 @@ namespace MythosOfMoonlight.Items.BossSummons
             if (!PurpleCometEvent.PurpleComet)
                 spriteBatch.Draw(tex, position, frame, drawColor, 0, origin, scale, SpriteEffects.None, 0);
             else
-                spriteBatch.Draw(tex2, position, frame, drawColor, 0, origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex2, position, new Rectangle(0, 0, tex2.Width, tex2.Height), drawColor, 0, tex2.Size() / 2, scale, SpriteEffects.None, 0);
             return false;
         }
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

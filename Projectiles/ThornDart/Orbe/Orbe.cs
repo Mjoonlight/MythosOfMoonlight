@@ -63,7 +63,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
             var drawPos = Projectile.Center - Main.screenPosition;
             var off = new Vector2(Projectile.width / 2f, Projectile.height / 2f);
             var origTexture = TextureAssets.Projectile[Projectile.type].Value;
-            texture = ModContent.Request<Texture2D>("Projectiles/ThornDart/Orbe/Orbe").Value;
+            texture = TextureAssets.Projectile[Type].Value;
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
             var frame = new Rectangle(0, frameHeight * Projectile.frame, texture.Width, frameHeight - 2);
             var orig = frame.Size() / 2f;
@@ -79,7 +79,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
         }
         public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("MythosOfMoonlight/Projectiles/ThornDart/Orbe/Orbe").Value;
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
             Rectangle rect = new(0, 0, texture.Width, texture.Height);
             Vector2 drawOrigin = new(texture.Width / 2, texture.Height / 2);
 

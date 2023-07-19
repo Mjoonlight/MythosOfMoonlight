@@ -49,7 +49,7 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             // DisplayName.SetDefault("Melissa");
             Main.npcFrameCount[Type] = 9;
-            //NPCID.Sets.NoTownNPCHappiness[Type] = true; // for 1.4.4
+            NPCID.Sets.NoTownNPCHappiness[Type] = true;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
