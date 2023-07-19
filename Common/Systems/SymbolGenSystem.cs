@@ -100,7 +100,7 @@ namespace MythosOfMoonlight.Common.Systems
             WorldGen.PlaceTile(baseCheckX + 5, baseCheckY + 3, ModContent.TileType<PilgrimBed>(), false, true, -1, 0);
             WorldGen.PlaceTile(baseCheckX + 7, baseCheckY + 1, ModContent.TileType<SymbolPointTile>(), false, true, -1, 0);
         }
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (ShiniesIndex != -1)

@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Iridic Saber");
+            // DisplayName.SetDefault("Iridic Saber");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;

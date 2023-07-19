@@ -17,8 +17,8 @@ namespace MythosOfMoonlight.Items.BossSummons
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Study of Astralmancy Vol I");
-            Tooltip.SetDefault("Not Consumable\nThe pages are written in a language you don't understand. The cape isn't for some reason.\nThis probably doesn't belong to you...\nThe ink becomes invisible away from the comet...");
+            // DisplayName.SetDefault("Study of Astralmancy Vol I");
+            // Tooltip.SetDefault("Not Consumable\nThe pages are written in a language you don't understand. The cape isn't for some reason.\nThis probably doesn't belong to you...\nThe ink becomes invisible away from the comet...");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 13;
         }
 

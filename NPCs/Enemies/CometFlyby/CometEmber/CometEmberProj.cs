@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            // DisplayName.SetDefault("Explosion");
         }
         public override void SetDefaults()
         {

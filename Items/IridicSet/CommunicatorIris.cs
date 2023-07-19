@@ -14,9 +14,9 @@ namespace MythosOfMoonlight.Items.IridicSet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Communicator-Iris");
-            Tooltip.SetDefault("Minions become intertwined with Iridic flares, \n" +
-                "occasionally releasing them when hitting an enemy. ");
+            // DisplayName.SetDefault("Communicator-Iris");
+            /* Tooltip.SetDefault("Minions become intertwined with Iridic flares, \n" +
+                "occasionally releasing them when hitting an enemy. "); */
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()

@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.BiomeManager
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Flyby");
+            // DisplayName.SetDefault("Comet Flyby");
         }
         public override string BestiaryIcon
         {

@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test Tentacle");
+            // DisplayName.SetDefault("Test Tentacle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

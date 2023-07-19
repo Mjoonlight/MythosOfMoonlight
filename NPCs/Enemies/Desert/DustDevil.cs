@@ -151,7 +151,7 @@ SUMMONERMELEE */
         {
             return spawnInfo.Player.ZoneDesert && spawnInfo.Player.ZoneOverworldHeight ? 0.3f : 0f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
@@ -159,9 +159,9 @@ SUMMONERMELEE */
                 {
                     Dust.NewDust(NPC.Center, 32, 32, DustID.Blood, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 1, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 2, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 3, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 1, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 2, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/DDevil", 1, 3, Vector2.One * hit.HitDirection * 2);
             }
             for (int i = 0; i < 5; i++)
             {
@@ -210,7 +210,7 @@ SUMMONERMELEE */
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust Devil");
+            // DisplayName.SetDefault("Dust Devil");
         }
         public override string Texture => "Terraria/Images/Projectile_656";
         public override void SetDefaults()

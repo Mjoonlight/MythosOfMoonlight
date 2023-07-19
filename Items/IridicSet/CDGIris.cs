@@ -16,8 +16,8 @@ namespace MythosOfMoonlight.Items.IridicSet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("CDG-Iris");
-            Tooltip.SetDefault("Cosmos Derived Gun? Cosmos Derived Fun.");
+            // DisplayName.SetDefault("CDG-Iris");
+            // Tooltip.SetDefault("Cosmos Derived Gun? Cosmos Derived Fun.");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()

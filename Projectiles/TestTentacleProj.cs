@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Projectiles
         public override string Texture => "MythosOfMoonlight/Projectiles/TestTentacleProj";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Swipe");
+            // DisplayName.SetDefault("Starine Swipe");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

@@ -11,9 +11,9 @@ namespace MythosOfMoonlight.Items.PurpleComet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purple Comet's Offering");
-            Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet\n" +
-                "Not Consumable");
+            // DisplayName.SetDefault("Purple Comet's Offering");
+            /* Tooltip.SetDefault("Use at nighttime to call upon the Purple Comet\n" +
+                "Not Consumable"); */
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -54,9 +54,9 @@ namespace MythosOfMoonlight.Items.PurpleComet
         public override string Texture => "MythosOfMoonlight/Textures/Extra/vortex";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("ASTEROID's Offering");
-            Tooltip.SetDefault("Use at nighttime to call upon the ASTEROID\n" +
-                "Not ASTEROID");
+            // DisplayName.SetDefault("ASTEROID's Offering");
+            /* Tooltip.SetDefault("Use at nighttime to call upon the ASTEROID\n" +
+                "Not ASTEROID"); */
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 

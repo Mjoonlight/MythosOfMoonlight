@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Slab Pebbi");
+            // DisplayName.SetDefault("Slab Pebbi");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
             {
@@ -76,14 +76,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
                 NPC.frame.Y = (int)(NPC.ai[0] / 6) % 4 * frameHeight;
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             if (NPC.life <= 0)
             {
                 for (int i = 0; i < 10; i++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             }
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -95,7 +95,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chunk Pebbi");
+            // DisplayName.SetDefault("Chunk Pebbi");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
             {
@@ -154,14 +154,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
             if (NPC.collideX && NPC.collideY)
                 NPC.velocity.Y -= 4f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             if (NPC.life <= 0)
             {
                 for (int i = 0; i < 10; i++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             }
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -175,7 +175,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         public float strideSpeed = 4f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Geode Pebbi");
+            // DisplayName.SetDefault("Geode Pebbi");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
             {
@@ -256,14 +256,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
             if (NPC.collideX && NPC.collideY)
                 NPC.velocity.Y -= 4f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             if (NPC.life <= 0)
             {
                 for (int i = 0; i < 10; i++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hitDirection, -1.5f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2 * hit.HitDirection, -1.5f);
             }
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -277,7 +277,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
-            DisplayName.SetDefault("PebbiSwarm");
+            // DisplayName.SetDefault("PebbiSwarm");
         }
         public override void SetDefaults()
         {

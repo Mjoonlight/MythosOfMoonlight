@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         MathFunctions.Parabola parabola;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jelly Wanderer");
+            // DisplayName.SetDefault("Jelly Wanderer");
             Main.npcFrameCount[NPC.type] = 11;
             NPCID.Sets.CountsAsCritter[Type] = true;
             NPCID.Sets.DontDoHardmodeScaling[Type] = true;

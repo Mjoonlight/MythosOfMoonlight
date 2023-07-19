@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Jelly Wanderer");
+            // DisplayName.SetDefault("Jelly Wanderer");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 

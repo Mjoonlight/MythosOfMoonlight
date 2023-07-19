@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         public CometPeep leader;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Peep");
+            // DisplayName.SetDefault("Comet Peep");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);

@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Stranded Martian");
+            // DisplayName.SetDefault("Stranded Martian");
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
@@ -145,7 +145,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
         {
             return base.SpawnChance(spawnInfo);
         }
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (State == NState.Shoot)
             {
@@ -160,7 +160,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MOCIris>(), 20, 1, 1));
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CommunicatorIris>(), 40, 1, 1));
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 1; i <= 5; i++)
             {
@@ -174,9 +174,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.MartianHit, 0, -1);
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 0, -1);
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 1, 3, Vector2.One * hitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 1, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 2, 2, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/StrMartian", 1, 3, Vector2.One * hit.HitDirection * 2);
             }
         }
     }

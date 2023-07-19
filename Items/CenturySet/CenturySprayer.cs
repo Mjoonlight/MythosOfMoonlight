@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Items.CenturySet
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Suffocate enemies with century-old spores");
+			// Tooltip.SetDefault("Suffocate enemies with century-old spores");
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

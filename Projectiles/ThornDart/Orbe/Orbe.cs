@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orbe");
+            // DisplayName.SetDefault("Orbe");
             Main.projFrames[Projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
@@ -85,12 +85,12 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, rect, Color.Lerp(Color.Transparent, Color.White, Utils.Clamp(Projectile.timeLeft, 0, 60) / 60f), Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.statLife += 3;
             Kill(0);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
         }
     }

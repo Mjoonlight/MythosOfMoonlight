@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Sigil");
+            // DisplayName.SetDefault("Starine Sigil");
         }
         public override bool PreDraw(ref Color lightColor)
         {

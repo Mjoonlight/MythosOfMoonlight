@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yellow Boxfish");
+            // DisplayName.SetDefault("Yellow Boxfish");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 

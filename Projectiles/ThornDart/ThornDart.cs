@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("ThornDart");
+            // DisplayName.SetDefault("ThornDart");
         }
         public override void SetDefaults()
         {
@@ -34,7 +34,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 10);
             for (int i = 0; i < Main.rand.Next(3, 4); i++)

@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Storm");
+            // DisplayName.SetDefault("Starine Storm");
             Main.projFrames[Projectile.type] = 8;
         }
         public override void SetDefaults()

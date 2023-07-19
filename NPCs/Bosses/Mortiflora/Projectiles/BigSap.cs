@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sap");
+            // DisplayName.SetDefault("Sap");
             Main.projFrames[Projectile.type] = 2;
         }
         public override void SetDefaults()

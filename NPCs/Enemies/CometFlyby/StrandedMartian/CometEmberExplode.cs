@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Ember Explode");
+            // DisplayName.SetDefault("Comet Ember Explode");
         }
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
             Projectile.netUpdate2 = true;
             Projectile.netImportant = true;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.Kill();
         }

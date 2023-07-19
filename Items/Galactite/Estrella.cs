@@ -73,7 +73,7 @@ namespace MythosOfMoonlight.Items.Galactite
         {
             SoundEngine.PlaySound(SoundID.Item1);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 25; i++)
                 Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity);
@@ -101,7 +101,7 @@ namespace MythosOfMoonlight.Items.Galactite
             Projectile.timeLeft = 120;
             Projectile.tileCollide = false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 15; i++)
                 Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity);

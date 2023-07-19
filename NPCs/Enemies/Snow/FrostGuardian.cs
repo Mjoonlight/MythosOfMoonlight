@@ -33,7 +33,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 25;
-            DisplayName.SetDefault("Boreal Blade");
+            // DisplayName.SetDefault("Boreal Blade");
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -71,11 +71,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                 }
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
-                Helper.SpawnDust(NPC.Center, NPC.Size, DustID.Ice, new Vector2(Main.rand.NextFloat(0.1f, 2.5f) * hitDirection, Main.rand.NextFloat(-2, 2)), 25, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
+                Helper.SpawnDust(NPC.Center, NPC.Size, DustID.Ice, new Vector2(Main.rand.NextFloat(0.1f, 2.5f) * hit.HitDirection, Main.rand.NextFloat(-2, 2)), 25, new Action<Dust>((target) => { target.noGravity = true; target.scale = Main.rand.NextFloat(0.6f, 0.9f); }
                 ));
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/FrostGuardianGore");
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/FrostGuardianGore2");
@@ -83,7 +83,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/FrostGuardianGore4");
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
             if (NPC.ai[0] == 2 && NPC.ai[3] == 0)
             {

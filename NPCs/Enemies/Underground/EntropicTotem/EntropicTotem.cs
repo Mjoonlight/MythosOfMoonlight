@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Entropic Totem");
+            // DisplayName.SetDefault("Entropic Totem");
             Main.npcFrameCount[NPC.type] = 5;
 
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
@@ -60,9 +60,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath43;
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossAdjustment * balance);
         }
 
         const float SPEED = 4.2f, MINIMUM_DISTANCE = 60f;
@@ -133,20 +133,20 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
                 }
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 0)
             {
                 if (Main.netMode == NetmodeID.Server)
                     return;
 
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 1, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 8, 2, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 3, 3, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 6, 4, Vector2.One * hitDirection);
-                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<EntropicTotemProjectileDust>(), new Vector2(2 * hitDirection, -1.5f), 10);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 1, 1, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 8, 2, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 3, 3, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/EntroTotem", 6, 4, Vector2.One * hit.HitDirection);
+                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<EntropicTotemProjectileDust>(), new Vector2(2 * hit.HitDirection, -1.5f), 10);
             }
-            Helper.SpawnDust(NPC.position, NPC.Size, DustID.Stone, new Vector2(2 * hitDirection, -1.5f), 5);
+            Helper.SpawnDust(NPC.position, NPC.Size, DustID.Stone, new Vector2(2 * hit.HitDirection, -1.5f), 5);
 
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

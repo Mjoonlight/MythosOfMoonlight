@@ -10,8 +10,8 @@ namespace MythosOfMoonlight.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Galactite Ore");
-            Tooltip.SetDefault("It shines with old energy.");
+            // DisplayName.SetDefault("Galactite Ore");
+            // Tooltip.SetDefault("It shines with old energy.");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
         public override void SetDefaults()

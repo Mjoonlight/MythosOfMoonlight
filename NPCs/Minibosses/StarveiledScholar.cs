@@ -129,7 +129,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             spriteBatch.Draw(glow, NPC.Center - screenPos, rect, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
             return false;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (NPC.life <= 1)
             {
@@ -139,11 +139,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
                     Main.dust[num902].noGravity = true;
                     Dust dust2 = Main.dust[num902];
-                    dust2.velocity = hitDirection * Vector2.UnitX;
+                    dust2.velocity = hit.HitDirection * Vector2.UnitX;
                     num902 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.PurpleTorch, 0f, 0f, 100, default(Color), 0.75f);
                     Main.dust[num902].position = NPC.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * NPC.width / 2f;
                     dust2 = Main.dust[num902];
-                    dust2.velocity = hitDirection * Vector2.UnitX;
+                    dust2.velocity = hit.HitDirection * Vector2.UnitX;
                     Main.dust[num902].noGravity = true;
                     Main.dust[num902].fadeIn = 2.5f;
                 }
@@ -152,7 +152,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     int num904 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 272, 0f, 0f, 0, default(Color), 1);
                     Main.dust[num904].position = NPC.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(NPC.velocity.ToRotation()) * NPC.width / 2f;
                     Dust dust2 = Main.dust[num904];
-                    dust2.velocity = hitDirection * Vector2.UnitX;
+                    dust2.velocity = hit.HitDirection * Vector2.UnitX;
                 }
             }
         }

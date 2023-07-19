@@ -9,8 +9,8 @@ namespace MythosOfMoonlight.Buffs
         public override string Texture => "Terraria/Images/Buff_68";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Choking");
-            Description.SetDefault("haha dumb enemies");
+            // DisplayName.SetDefault("Choking");
+            // Description.SetDefault("haha dumb enemies");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

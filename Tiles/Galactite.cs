@@ -2,6 +2,7 @@ using MythosOfMoonlight.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 
@@ -19,11 +20,10 @@ namespace MythosOfMoonlight.Tiles
 			Main.tileMergeDirt[Type] = true;
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = false;
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Galactite Ore");
+			LocalizedText name = CreateMapEntryName();
+			// name.SetDefault("Galactite Ore");
 			AddMapEntry(new Color(94, 71, 142), name);
 			DustType = ModContent.DustType<PurpurineStoneDust>();
-            ItemDrop = ModContent.ItemType<GalactiteOre>();
             HitSound = SoundID.Tink;
 			MinPick = 55;
 		}

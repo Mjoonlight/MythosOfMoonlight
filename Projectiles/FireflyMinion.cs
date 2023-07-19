@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.Projectiles
         public float fireflyTimer = 0;
         public override void SetStaticDefaults()
         {
-            StaticDefaults("Firefly", 2, 12, 2);
+            StaticDefaults(2, 12, 2);
         }
         public override void SetDefaults()
         {
@@ -128,7 +128,7 @@ namespace MythosOfMoonlight.Projectiles
         {
             return state != State.rotate;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (state == State.dash)
             {

@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public static NPC Sym => Starine_Symbol.symbol;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ruptured Pilgrim");
+            // DisplayName.SetDefault("Ruptured Pilgrim");
             Main.npcFrameCount[NPC.type] = 24;
             NPCID.Sets.TrailCacheLength[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -57,9 +57,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.alpha = 255;
             if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * bossAdjustment * balance);
         }
         bool hasDoneDeathDrama;
         public int Direction;

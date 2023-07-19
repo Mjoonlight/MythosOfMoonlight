@@ -9,7 +9,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem.EntropicTotem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Totem Bullet");
+            // DisplayName.SetDefault("Totem Bullet");
         }
         public const int MAX_TIMELEFT = 240;
         public override void SetDefaults()

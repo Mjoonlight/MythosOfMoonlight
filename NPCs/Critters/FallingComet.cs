@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Purple Chunk");
+            // DisplayName.SetDefault("Purple Chunk");
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -127,7 +127,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             if (Collision.TileCollision(NPC.position, new Vector2(0, 16), NPC.width, NPC.height - 17) != new Vector2(0, 16) && NPC.velocity.Y > 1.06) //Stuff that happens when chunk collides with tile.
             {
                 NPC.velocity.Y = 0;
-                NPC.StrikeNPC(NPC.lifeMax, 0, 0, true);
+                NPC.SimpleStrikeNPC(NPC.lifeMax, 0, true);
                 for (int i = 0; i < 4; i++)
                 {
                     SoundEngine.PlaySound(SoundID.Item10, NPC.Center); //Sound on collision with tile.
@@ -142,7 +142,7 @@ namespace MythosOfMoonlight.NPCs.Critters
                 // This is part of "public override void AI()" which is a void, so using a return keyword doesn't do nothing but cause an error.
                 if (NPC.velocity.Y < 0)
                 {
-                    NPC.StrikeNPC(NPC.lifeMax, 0, 0, true);
+                    NPC.SimpleStrikeNPC(NPC.lifeMax, 0, true);
                 }
             }
         }

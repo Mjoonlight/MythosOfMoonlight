@@ -14,9 +14,9 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pistol Shrimp");
-            Tooltip.SetDefault("'Not as loud as an actual pistol shrimp'"
-            + "\nConverts musket balls into water bullets");
+            // DisplayName.SetDefault("Pistol Shrimp");
+            /* Tooltip.SetDefault("'Not as loud as an actual pistol shrimp'"
+            + "\nConverts musket balls into water bullets"); */
             //            + $"\nUses Bullets [i:{ItemID.MusketBall}]"
 
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;

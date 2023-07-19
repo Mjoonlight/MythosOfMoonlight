@@ -2,6 +2,7 @@ using MythosOfMoonlight.Items.Mortiflora.MortTrophy;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -20,8 +21,8 @@ namespace MythosOfMoonlight.Tiles.Trophies
             TileObjectData.newTile.StyleWrapLimit = 36;
             TileObjectData.addTile(Type);
             DustType = 7;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Trophy");
+            LocalizedText name = CreateMapEntryName();
+            // name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60));
         }
 

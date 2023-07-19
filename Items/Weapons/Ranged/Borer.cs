@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("4-Bore");
+            // DisplayName.SetDefault("4-Bore");
         }
         public override void SetDefaults()
         {
@@ -54,7 +54,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("4-Bore");
+            // DisplayName.SetDefault("4-Bore");
         }
         public override void SetDefaults()
         {

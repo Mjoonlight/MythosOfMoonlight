@@ -13,8 +13,8 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortStaff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leech Life");
-            Tooltip.SetDefault("Shoots a dart that splits into 4 healing orbs on hit.");
+            // DisplayName.SetDefault("Leech Life");
+            // Tooltip.SetDefault("Shoots a dart that splits into 4 healing orbs on hit.");
             Item.staff[Item.type] = true;
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }

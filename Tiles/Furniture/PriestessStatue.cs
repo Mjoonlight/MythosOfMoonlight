@@ -59,7 +59,7 @@ namespace MythosOfMoonlight.Tiles.Furniture
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Priestess Statue");
+            // DisplayName.SetDefault("Priestess Statue");
         }
         public override void SetDefaults()
         {

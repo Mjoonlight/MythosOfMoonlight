@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Peep");
+            // DisplayName.SetDefault("Comet Peep");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 

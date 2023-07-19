@@ -11,8 +11,8 @@ namespace MythosOfMoonlight.Items.Mortiflora.MortJavelin
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Thornbella");
-			Tooltip.SetDefault("Bounces towards nearby enemies, inflicting poison");
+			// DisplayName.SetDefault("Thornbella");
+			// Tooltip.SetDefault("Bounces towards nearby enemies, inflicting poison");
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

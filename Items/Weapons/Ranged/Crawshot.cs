@@ -13,8 +13,8 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crawshot");
-            Tooltip.SetDefault("Triple-shot, Crawshot, Target-shot");
+            // DisplayName.SetDefault("Crawshot");
+            // Tooltip.SetDefault("Triple-shot, Crawshot, Target-shot");
 
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 

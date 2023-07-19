@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public static NPC symbol = null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Symbol");
+            // DisplayName.SetDefault("Starine Symbol");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
             {
@@ -258,7 +258,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 
             NPC.frame.Y = (int)(NPC.frameCounter / 5) * NPC.height;
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (!Main.dayTime)
             {

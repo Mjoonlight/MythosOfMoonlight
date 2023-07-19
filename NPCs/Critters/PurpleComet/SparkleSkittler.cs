@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkle Skittler");
+            // DisplayName.SetDefault("Sparkle Skittler");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.CountsAsCritter[Type] = true;
             NPCID.Sets.DontDoHardmodeScaling[Type] = true;
@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
-                new FlavorTextBestiaryInfoElement("By absorbing natural cosmic energy around it, a Sparkle Skittler can make quick dashes away from potential predators, although it doesn¡¯t always have control over which direction it goes.")
+                new FlavorTextBestiaryInfoElement("By absorbing natural cosmic energy around it, a Sparkle Skittler can make quick dashes away from potential predators, although it doesn!¯t always have control over which direction it goes.")
             });
         }
         const float SPEED = 3.5f;
@@ -95,11 +95,11 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
         {
             PurpleCometEvent.CritterDeath(NPC.Center);
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 2; i++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 2 * hitDirection, -1.5f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<PurpurineDust>(), 2 * hit.HitDirection, -1.5f);
                 Main.dust[dust].scale = 1f;
             }
             if (NPC.life <= 0)

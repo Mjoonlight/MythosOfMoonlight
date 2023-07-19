@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         public float DustTimer = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("MOC-Iris");
+            // DisplayName.SetDefault("MOC-Iris");
         }
         public override void SetDefaults()
         {

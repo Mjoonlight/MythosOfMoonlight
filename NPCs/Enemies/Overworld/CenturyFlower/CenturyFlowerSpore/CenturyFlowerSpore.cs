@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSp
         public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Century Flower Spore");
+            // DisplayName.SetDefault("Century Flower Spore");
             Main.projFrames[Projectile.type] = 2;
         }
 
@@ -71,7 +71,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSp
         public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore3";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Century Flower Spore");
+            // DisplayName.SetDefault("Century Flower Spore");
             Main.projFrames[Projectile.type] = 2;
         }
 

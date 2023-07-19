@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Ember Mini");
+            // DisplayName.SetDefault("Comet Ember Mini");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -30,7 +30,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
             Projectile.netUpdate2 = true;
             Projectile.netImportant = true;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.Kill();
         }

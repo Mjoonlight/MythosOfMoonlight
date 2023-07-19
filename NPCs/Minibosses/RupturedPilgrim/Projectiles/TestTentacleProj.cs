@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override string Texture => "MythosOfMoonlight/Textures/Extra/Ex2";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test Tentacle real");
+            // DisplayName.SetDefault("Test Tentacle real");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
@@ -133,7 +133,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test Tentacle");
+            // DisplayName.SetDefault("Test Tentacle");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }

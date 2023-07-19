@@ -51,7 +51,7 @@ namespace MythosOfMoonlight.NPCs.Field
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Melissa");
+            // DisplayName.SetDefault("Melissa");
             Main.npcFrameCount[Type] = 9;
             //NPCID.Sets.NoTownNPCHappiness[Type] = true; // for 1.4.4
         }
@@ -70,19 +70,20 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             return new Melissa();
         }
-        public override void SetupShop(Chest shop, ref int nextSlot)
+        public override void AddShops()
         {
-            shop.item[nextSlot++].SetDefaults(ModContent.ItemType<FieldSnack>());
-            shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Hoe>());
-            if (NPC.downedBoss1)
-                shop.item[nextSlot++].SetDefaults(ModContent.ItemType<Borer>());
-            shop.item[nextSlot++].SetDefaults(ModContent.ItemType<SunHat>());
-            shop.item[nextSlot++].SetDefaults(ItemID.Blinkroot);
-            shop.item[nextSlot++].SetDefaults(ItemID.Daybloom);
-            shop.item[nextSlot++].SetDefaults(ItemID.Fireblossom);
-            shop.item[nextSlot++].SetDefaults(ItemID.Moonglow);
-            shop.item[nextSlot++].SetDefaults(ItemID.Shiverthorn);
-            shop.item[nextSlot++].SetDefaults(ItemID.Waterleaf);
+            NPCShop npcShop = new NPCShop(Type)
+                .Add<FieldSnack>()
+                .Add<Hoe>()
+                .Add<Borer>(Condition.DownedEyeOfCthulhu)
+                .Add<SunHat>()
+                .Add(ItemID.Blinkroot)
+                .Add(ItemID.Daybloom)
+                .Add(ItemID.Fireblossom)
+                .Add(ItemID.Moonglow)
+                .Add(ItemID.Shiverthorn)
+                .Add(ItemID.Waterleaf);
+            npcShop.Register();
         }
         public override void FindFrame(int frameHeight)
         {
@@ -128,6 +129,11 @@ namespace MythosOfMoonlight.NPCs.Field
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
+        }
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
+        {
+            if (firstButton)
+                shopName = "Shop";
         }
         public override void _AI()
         {

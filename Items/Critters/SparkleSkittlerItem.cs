@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.Items.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkle Skittler");
+            // DisplayName.SetDefault("Sparkle Skittler");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 

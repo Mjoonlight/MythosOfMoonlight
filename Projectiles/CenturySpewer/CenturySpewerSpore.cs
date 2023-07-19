@@ -10,7 +10,7 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer
         public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Overworld/CenturyFlower/CenturyFlowerSpore/CenturyFlowerSpore1";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Century Spewer Spore");
+            // DisplayName.SetDefault("Century Spewer Spore");
             Main.projFrames[Projectile.type] = 2;
         }
 
@@ -53,7 +53,7 @@ namespace MythosOfMoonlight.Projectiles.CenturySpewer
                 }
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<NPCsuffocating>(), 2);
         }

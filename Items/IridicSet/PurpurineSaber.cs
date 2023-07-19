@@ -13,10 +13,10 @@ namespace MythosOfMoonlight.Items.IridicSet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Iridic Saber");
-            Tooltip.SetDefault("Every full swing creates a short energy slice forward.\n" +
+            // DisplayName.SetDefault("Iridic Saber");
+            /* Tooltip.SetDefault("Every full swing creates a short energy slice forward.\n" +
                 "Is that a lightsaber?\n" +
-                "Nope, Even better!");
+                "Nope, Even better!"); */
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;

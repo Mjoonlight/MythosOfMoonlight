@@ -17,9 +17,9 @@ namespace MythosOfMoonlight.Items.Weapons
         public int closeFireflyCount = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Firefly Stick");
-            Tooltip.SetDefault("Launches loyal fireflies to the cursor and back\n" +
-                "Increase their number by catching more fireflies");
+            // DisplayName.SetDefault("Firefly Stick");
+            /* Tooltip.SetDefault("Launches loyal fireflies to the cursor and back\n" +
+                "Increase their number by catching more fireflies"); */
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             Item.staff[Type] = true;
         }

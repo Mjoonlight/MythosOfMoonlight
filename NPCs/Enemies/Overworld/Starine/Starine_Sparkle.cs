@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Sparkle");
+            // DisplayName.SetDefault("Starine Sparkle");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
         }

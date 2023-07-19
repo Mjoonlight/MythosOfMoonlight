@@ -27,18 +27,17 @@ namespace MythosOfMoonlight.NPCs.Field
             NPC.aiStyle = 7;
             Defaults();
         }
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)
         {
             return false;
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
-                shop = true;
+                shopName = "Shop";
                 shouldMusic = true;
             }
-            OnButtonClick(firstButton, ref shop);
         }
         public override void AI()
         {
@@ -64,10 +63,6 @@ namespace MythosOfMoonlight.NPCs.Field
             _AI();
         }
         public virtual void Defaults()
-        {
-
-        }
-        public virtual void OnButtonClick(bool firstButton, ref bool shop)
         {
 
         }

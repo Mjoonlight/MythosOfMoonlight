@@ -14,8 +14,8 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Totem Head");
-            Tooltip.SetDefault("Creates a rotating spark on contact with enemies.");
+            // DisplayName.SetDefault("Totem Head");
+            // Tooltip.SetDefault("Creates a rotating spark on contact with enemies.");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
@@ -69,7 +69,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
         }*/
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -82,7 +82,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             public override string Texture => "MythosOfMoonlight/NPCs/Enemies/Underground/EntropicTotem/EntropicTotemProjectile/EntropicTotemProjectile";
             public override void SetStaticDefaults()
             {
-                DisplayName.SetDefault("Totem Bullet");
+                // DisplayName.SetDefault("Totem Bullet");
             }
             public const int MAX_TIMELEFT = 20;
             public override void SetDefaults()

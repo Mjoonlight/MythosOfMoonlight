@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Sleepingbag");
+            // DisplayName.SetDefault("Starine Sleepingbag");
         }
         public override void SetDefaults()
         {
@@ -77,7 +77,7 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
             TileObjectData.addTile(Type);
 
             DustType = ModContent.DustType<StarineDust>();
-            ItemDrop = ModContent.ItemType<PilgrimCanI>();
+            RegisterItemDrop(ModContent.ItemType<PilgrimCanI>());
 
             AddMapEntry(Color.Blue);
         }
@@ -86,7 +86,7 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Soup");
+            // DisplayName.SetDefault("Starine Soup");
             Main.RegisterItemAnimation(Type, new DrawAnimationVertical(int.MaxValue, 3));
             ItemID.Sets.FoodParticleColors[Item.type] = new Color[3] {
                 new Color(248, 255, 186),
@@ -141,7 +141,7 @@ namespace MythosOfMoonlight.Tiles.Furniture.Pilgrim
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Spotlight");
+            // DisplayName.SetDefault("Starine Spotlight");
         }
         public override void SetDefaults()
         {

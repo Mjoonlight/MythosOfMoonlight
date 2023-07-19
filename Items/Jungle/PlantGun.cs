@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.Items.Jungle
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spitvine");
+            // DisplayName.SetDefault("Spitvine");
         }
         public override void SetDefaults()
         {
@@ -53,7 +53,7 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             Projectile.CloneDefaults(ProjectileID.Bullet);
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -77,7 +77,7 @@ namespace MythosOfMoonlight.Items.Jungle
     public class PlantGunP2 : ModProjectile
     {
         public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<PlantGunB>(), 300);
         }

@@ -69,7 +69,7 @@ namespace MythosOfMoonlight.Common.Globals
             }
             return base.PreAI(projectile);
         }
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (projectile.DamageType == DamageClass.Summon && projectile.type != ModContent.ProjectileType<IrisStar>())
             {
@@ -79,7 +79,7 @@ namespace MythosOfMoonlight.Common.Globals
                     if (CommunicatorCD <= 0)
                     {
                         Vector2 vel = Utils.SafeNormalize(projectile.Center - target.Center, Vector2.Zero) * 8f;
-                        float randRot = Main.rand.Next<int>(new int[4] { -90, 90, -45, 45 });
+                        float randRot = Main.rand.Next(new int[4] { -90, 90, -45, 45 });
                         Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center + vel * 5, vel.RotatedBy(MathHelper.ToRadians(randRot)), ModContent.ProjectileType<IrisStar>(), 10, 1f, projectile.owner);
                         proj.DamageType = DamageClass.Summon;
                         proj.tileCollide = false;

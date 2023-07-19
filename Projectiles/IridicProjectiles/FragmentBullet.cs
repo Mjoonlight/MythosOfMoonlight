@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fragment Bullet");
+            // DisplayName.SetDefault("Fragment Bullet");
         }
         public override void SetDefaults()
         {
@@ -114,7 +114,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             return Projectile.ai[1] == 0 && Projectile.ai[0] != 0;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[1] == 0)
             {

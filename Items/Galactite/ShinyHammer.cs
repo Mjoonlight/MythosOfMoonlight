@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Items.Galactite
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gravitron");
+            // DisplayName.SetDefault("Gravitron");
         }
         public override void SetDefaults()
         {

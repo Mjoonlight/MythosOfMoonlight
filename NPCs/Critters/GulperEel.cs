@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             NPCID.Sets.TakesDamageFromHostilesWithoutBeingFriendly[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
-            DisplayName.SetDefault("Gulpie");
+            // DisplayName.SetDefault("Gulpie");
         }
         public override bool IsLoadingEnabled(Mod mod)
         {

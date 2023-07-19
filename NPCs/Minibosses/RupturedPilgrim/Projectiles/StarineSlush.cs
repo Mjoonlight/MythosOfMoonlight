@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override string Texture => "MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Goop");
+            // DisplayName.SetDefault("Starine Goop");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
@@ -102,7 +102,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override string Texture => "MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Projectiles/PilgrimExplosion_Extra";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Goop");
+            // DisplayName.SetDefault("Starine Goop");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }

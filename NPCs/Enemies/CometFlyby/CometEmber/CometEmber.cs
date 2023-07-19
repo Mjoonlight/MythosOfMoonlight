@@ -19,7 +19,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Ember");
+            // DisplayName.SetDefault("Comet Ember");
             //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f };
             //NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.TrailCacheLength[Type] = 12;
@@ -53,9 +53,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                 new FlavorTextBestiaryInfoElement("An unstable orb of accumulated magic energy. Attempts to extinguish any foreign life to the comet's light by divebombing and exploding.")
             });
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossAdjustment * balance);
         }
         private enum NState
         {
@@ -143,7 +143,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                     break;
             }
         }
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        public override void OnHitByItem(Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
             if (State == NState.Wander)
             {
@@ -161,7 +161,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
                 SwitchTo(NState.Hover);
             }
         }
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
             if (State == NState.Wander)
             {

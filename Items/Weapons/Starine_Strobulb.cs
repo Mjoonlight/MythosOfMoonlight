@@ -9,9 +9,9 @@ namespace MythosOfMoonlight.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Starbulb");
-            Tooltip.SetDefault("Charges a powerful ray of Starine light that burns foes." +
-                "\nIlluminating!");
+            // DisplayName.SetDefault("Starine Starbulb");
+            /* Tooltip.SetDefault("Charges a powerful ray of Starine light that burns foes." +
+                "\nIlluminating!"); */
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()

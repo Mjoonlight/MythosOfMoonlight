@@ -113,17 +113,17 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
                 }
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 4);
-            Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<JunglePinkDust>(), Vector2.One * hitDirection * 2, 4);
+            Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hit.HitDirection, -1.5f), 4);
+            Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<JunglePinkDust>(), Vector2.One * hit.HitDirection * 2, 4);
             if (NPC.life <= 0)
             {
-                Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 8);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 2, 1, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 1, 2, Vector2.One * hitDirection * 2);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 3, 3, Vector2.One * hitDirection * 2);
-                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<JunglePinkDust>(), Vector2.One * hitDirection * 2, 8);
+                Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hit.HitDirection, -1.5f), 8);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 2, 1, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 1, 2, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Vivine", 3, 3, Vector2.One * hit.HitDirection * 2);
+                Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<JunglePinkDust>(), Vector2.One * hit.HitDirection * 2, 8);
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

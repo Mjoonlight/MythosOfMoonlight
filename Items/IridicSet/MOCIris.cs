@@ -14,9 +14,9 @@ namespace MythosOfMoonlight.Items.IridicSet
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("MOC-Iris");
-            Tooltip.SetDefault("Mars Originated Cannon, still slightly radioactive.\n" +
-                " Fires homing Embers after charging up. ");
+            // DisplayName.SetDefault("MOC-Iris");
+            /* Tooltip.SetDefault("Mars Originated Cannon, still slightly radioactive.\n" +
+                " Fires homing Embers after charging up. "); */
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;

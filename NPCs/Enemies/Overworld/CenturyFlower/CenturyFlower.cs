@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Century Flower");
+            // DisplayName.SetDefault("Century Flower");
             Main.npcFrameCount[NPC.type] = 10;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -42,9 +42,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
             AIType = NPCID.GoblinScout;
             NPC.netAlways = true;
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossAdjustment * balance);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -180,11 +180,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
                 NPC.velocity.X *= 0.9f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             /*for (int i = 0; i < 4; i++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2 * hitDirection, -1.5f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2 * hit.HitDirection, -1.5f);
             }*/
             if (NPC.life <= 0)
             {
@@ -195,14 +195,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
                 {
                     Gore.NewGore(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY, 910, 0.7f + Main.rand.NextFloat() * 0.6f);
                 }
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 4, 1, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 2, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 3, Vector2.One * hitDirection);
-                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 4, Vector2.One * hitDirection);
-                Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hitDirection, -1.5f), 10);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 4, 1, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 2, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 3, Vector2.One * hit.HitDirection);
+                Helper.SpawnGore(NPC, "MythosOfMoonlight/Century", 2, 4, Vector2.One * hit.HitDirection);
+                Helper.SpawnDust(NPC.position, NPC.Size, DustID.Grass, new Vector2(2 * hit.HitDirection, -1.5f), 10);
                 /*for (int i = 0; i < 10; i++)
 				{
-					int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Grass, 2 * hitDirection, -1.5f);
+					int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Grass, 2 * hit.HitDirection, -1.5f);
 				}*/
             }
         }

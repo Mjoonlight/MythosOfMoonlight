@@ -25,7 +25,7 @@ namespace MythosOfMoonlight
         public int source = -1;
         public float lerpSpeed;
         public float LerpTimer;
-        public override void OnEnterWorld(Player player)
+        public override void OnEnterWorld()
         {
             for (int i = 1; i < Main.maxTilesX; i++)
             {

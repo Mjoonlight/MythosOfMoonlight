@@ -11,7 +11,7 @@ namespace MythosOfMoonlight.NPCs.Bosses.Mortiflora.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Red Wave");
+            // DisplayName.SetDefault("Red Wave");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
         public override void SetDefaults()

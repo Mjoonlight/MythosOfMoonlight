@@ -10,7 +10,7 @@ namespace MythosOfMoonlight.NPCs.Critters
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yellow Boxfish");
+            // DisplayName.SetDefault("Yellow Boxfish");
             Main.npcFrameCount[NPC.type] = 15;
             NPCID.Sets.CountsAsCritter[Type] = true;
             NPCID.Sets.DontDoHardmodeScaling[Type] = true;
@@ -61,11 +61,11 @@ namespace MythosOfMoonlight.NPCs.Critters
                 NPC.frame.Y = 0;
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 6; i++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood , 2 * hitDirection, -1.5f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood , 2 * hit.HitDirection, -1.5f);
                 Main.dust[dust].scale = 1f;
             }
         }

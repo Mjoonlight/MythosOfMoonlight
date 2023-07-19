@@ -12,7 +12,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chloroccyx");
+            // DisplayName.SetDefault("Chloroccyx");
             Main.projFrames[Projectile.type] = 1;
         }
 
@@ -135,7 +135,7 @@ namespace MythosOfMoonlight.Projectiles.MortKnife
             return true;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 300);
             Reflect();

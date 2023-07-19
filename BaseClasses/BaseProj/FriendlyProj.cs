@@ -25,9 +25,8 @@ namespace MythosOfMoonlight.BaseClasses.BaseProj
         /// <param name="name">the display name</param>
         /// <param name="trailLength">how many points will be recorded for trail drawing things or sth else</param>
         /// <param name="trailMode">the trail mode</param>
-        public void StaticDefaults(string name, int frame=1, int trailLength = 0, int trailMode = 0)
+        public void StaticDefaults(int frame = 1, int trailLength = 0, int trailMode = 0)
         {
-            DisplayName.SetDefault(name);
             if (frame > 1)
             {
                 Main.projFrames[Type] = frame;

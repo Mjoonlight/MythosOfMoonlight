@@ -303,8 +303,8 @@ namespace MythosOfMoonlight
         }
         public override void Unload()
         {
-            On.Terraria.Graphics.Effects.FilterManager.EndCapture -= FilterManager_EndCapture;
-            On.Terraria.Player.SetTalkNPC -= Player_SetTalkNPC;
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture -= FilterManager_EndCapture;
+            Terraria.On_Player.SetTalkNPC -= Player_SetTalkNPC;
             Main.OnResolutionChanged -= Main_OnResolutionChanged;
         }
         public override void Load()
@@ -322,12 +322,12 @@ namespace MythosOfMoonlight
                 Filters.Scene["Asteroid"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
                 SkyManager.Instance["Asteroid"] = new Events.AsteroidSky();
             }
-            On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
-            On.Terraria.Main.LoadWorlds += new On.Terraria.Main.hook_LoadWorlds(Main_LoadWorlds);
-            On.Terraria.Player.SetTalkNPC += Player_SetTalkNPC;
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
+            Terraria.On_Main.LoadWorlds += new Terraria.On_Main.hook_LoadWorlds(Main_LoadWorlds);
+            Terraria.On_Player.SetTalkNPC += Player_SetTalkNPC;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
         }
-        private void Player_SetTalkNPC(On.Terraria.Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
+        private void Player_SetTalkNPC(Terraria.On_Player.orig_SetTalkNPC orig, Player self, int npcIndex, bool fromNet)
         {
             if (npcIndex == NPCType<Starine_Symbol>())
             {
@@ -345,7 +345,7 @@ namespace MythosOfMoonlight
             }
         }
 
-        private void Main_LoadWorlds(On.Terraria.Main.orig_LoadWorlds orig)
+        private void Main_LoadWorlds(Terraria.On_Main.orig_LoadWorlds orig)
         {
             orig.Invoke();
             if (Main.netMode != NetmodeID.Server)
@@ -357,7 +357,7 @@ namespace MythosOfMoonlight
                 }
         }
 
-        private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
+        private void FilterManager_EndCapture(Terraria.Graphics.Effects.On_FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
             GraphicsDevice gd = Main.graphics.GraphicsDevice;
             if (Main.myPlayer >= 0)
@@ -531,7 +531,7 @@ namespace MythosOfMoonlight
         {
             public override int ChooseFarTexture()
             {
-                return Terraria.ID.SurfaceBackgroundID.Forest3;
+                return SurfaceBackgroundID.Forest3;
             }
             public override int ChooseMiddleTexture()
             {

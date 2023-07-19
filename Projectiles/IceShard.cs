@@ -50,7 +50,7 @@ namespace MythosOfMoonlight.Projectiles
         {
             Projectile.frame = Main.rand.Next(3);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (Main.rand.NextBool(4))
                 target.AddBuff(BuffID.Frostburn2, 200);

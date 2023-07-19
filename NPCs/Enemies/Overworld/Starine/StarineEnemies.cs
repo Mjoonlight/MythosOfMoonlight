@@ -16,14 +16,14 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {
     public class Starine_Skipper : ModNPC
     {
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * bossAdjustment * balance);
         }
         public int f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Skipper");
+            // DisplayName.SetDefault("Starine Skipper");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.TrailCacheLength[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -143,11 +143,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         {
             return HasStarineEnemies ? 0 : SpawnCondition.OverworldNight.Chance * .05f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].scale = 1.5f;
             }
@@ -155,7 +155,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
                     Main.dust[dust].scale = 2f;
                     Main.dust[dust].noGravity = true;
                 }
@@ -253,13 +253,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
     }
     public class Starine_Sightseer : ModNPC
     {
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * bossAdjustment * balance);
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Sightseer");
+            // DisplayName.SetDefault("Starine Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
@@ -350,11 +350,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 
             NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, NPC.direction * 2f, 0.05f);
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].scale = 1.5f;
             }
@@ -362,7 +362,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hitDirection, -1.5f);
+                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
                     Main.dust[dust].scale = 2f;
                     Main.dust[dust].noGravity = true;
                 }
@@ -397,13 +397,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
     }
     public class Starine_Scatterer : ModNPC
     {
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            NPC.lifeMax = (int)(NPC.lifeMax * bossLifeScale);
+            NPC.lifeMax = (int)(NPC.lifeMax * bossAdjustment * balance);
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Starine Scatterer");
+            // DisplayName.SetDefault("Starine Scatterer");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 3;

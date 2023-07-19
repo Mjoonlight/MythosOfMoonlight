@@ -15,13 +15,13 @@ namespace MythosOfMoonlight.Graphics
         void ILoadable.Load(Mod mod)
         {
             Particles = new List<Particle>(MaxParticles);
-            On.Terraria.Dust.UpdateDust += UpdateParticles;
-            On.Terraria.Main.DrawDust += DrawParticles;
+            Terraria.On_Dust.UpdateDust += UpdateParticles;
+            Terraria.On_Main.DrawDust += DrawParticles;
         }
         void ILoadable.Unload()
         {
-            On.Terraria.Dust.UpdateDust -= UpdateParticles;
-            On.Terraria.Main.DrawDust -= DrawParticles;
+            Terraria.On_Dust.UpdateDust -= UpdateParticles;
+            Terraria.On_Main.DrawDust -= DrawParticles;
             Particles?.Clear();
             Particles = null;
         }
@@ -49,13 +49,13 @@ namespace MythosOfMoonlight.Graphics
             return success;
         }
 
-        private static void UpdateParticles(On.Terraria.Dust.orig_UpdateDust orig)
+        private static void UpdateParticles(Terraria.On_Dust.orig_UpdateDust orig)
         {
             orig();
             for (int i = 0; i < Particles.Count; i++) Particles[i]?.Update();
         }
 
-        private static void DrawParticles(On.Terraria.Main.orig_DrawDust orig, Main self)
+        private static void DrawParticles(Terraria.On_Main.orig_DrawDust orig, Main self)
         {
             orig(self);
             Main.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointClamp, default, Main.Rasterizer, default, Main.GameViewMatrix.TransformationMatrix);

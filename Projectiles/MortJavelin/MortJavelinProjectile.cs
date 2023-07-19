@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Thornbella");
+            // DisplayName.SetDefault("Thornbella");
             Main.projFrames[Projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
@@ -218,7 +218,7 @@ namespace MythosOfMoonlight.Projectiles.MortJavelin
 
             NormalAI();
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Poisoned, 60);
         }
