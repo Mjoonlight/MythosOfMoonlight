@@ -59,9 +59,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         int projDamage = 8;
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 5; i++)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Main.rand.NextVector2Unit() * 5, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                float angle = Helper.CircleDividedEqually(i, 5) + Main.rand.NextFloat(MathHelper.Pi * 2);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.One.RotatedBy(angle) * 3, ModContent.ProjectileType<StarineShaft>(), 10, 0, ai0: 1);
             }
             SoundStyle style = SoundID.Item82;
             style.Volume = 0.5f;

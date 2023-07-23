@@ -125,13 +125,10 @@ namespace MythosOfMoonlight.NPCs.Field
                 NPC.frameCounter = 0;
             }
             shouldMusic = true;
-            WeightedRandom<string> chat = new WeightedRandom<string>();
-            chat.Add("Well, aren't ya short? Welcome to my humble little abode, I got potion-brewing herbs if ya like.", 2);
-            chat.Add("Ya know, as fashionable as hats are, they are an active detriment for us plants. Do ya want one?");
-            chat.Add("I always try avoid the " + (WorldGen.crimson ? "crimson" : "corruption") + ", those creatures are sticky and gross. There are fine potion ingredient that grow there, though.");
-            chat.Add("Have ya been to the desert before? Ya probably agree it is unbearably dry, then. It's incredible some plants still thrive there, despite all odds!");
-            chat.Add("Ya sure like chatting, do ya? I do appreciate it well enough.");
-            return chat;
+            WeightedRandom<string> _chat = new WeightedRandom<string>();
+            for (int i = 0; i < chat.Count; i++)
+                _chat.Add(chat[i]);
+            return _chat;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {

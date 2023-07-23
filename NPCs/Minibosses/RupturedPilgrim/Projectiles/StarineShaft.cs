@@ -26,6 +26,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.aiStyle = 1;
             Projectile.friendly = false;
             Projectile.tileCollide = true;
+            Projectile.timeLeft = 400;
             Projectile.hostile = true;
         }
 
@@ -63,8 +64,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 
                 if (++Projectile.ai[0] >= 0)
                 {
-                    if (Projectile.velocity.Length() < 25f)
-                        Projectile.velocity *= 1.05f;
+                    if (Projectile.timeLeft > 420)
+                        Projectile.velocity *= 0.99f;
+                    else
+                    {
+                        if (Projectile.velocity.Length() < 25f)
+                            Projectile.velocity *= 1.05f;
+                    }
                 }
                 else Projectile.timeLeft++;
 
