@@ -152,7 +152,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
                             a.tileCollide = false;
                             a.aiStyle = 0;
-                            a.timeLeft = 117;
+                            a.timeLeft = 110;
                         }
                     }
                     if (StateTimer == 50)
@@ -168,7 +168,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.tileCollide = false;
                             a.aiStyle = 0;
                             a.ai[0] = -60;
-                            a.timeLeft = 127;
+                            a.timeLeft = 115;
                         }
                     }
                     if (StateTimer == 60)
@@ -184,7 +184,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             a.tileCollide = false;
                             a.aiStyle = 0;
                             a.ai[0] = -120;
-                            a.timeLeft = 137;
+                            a.timeLeft = 120;
                         }
                     }
                     if (StateTimer == 70)
@@ -297,6 +297,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 button = "Challenge";
             }
+            Main.LocalPlayer.currentShoppingSettings.HappinessReport = "";
         }
         public override string GetChat()
         {

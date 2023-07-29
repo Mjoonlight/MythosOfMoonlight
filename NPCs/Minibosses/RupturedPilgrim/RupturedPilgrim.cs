@@ -11,6 +11,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using System;
 using System.IO;
+using Microsoft.CodeAnalysis.Differencing;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -567,7 +568,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             bool outside = false;
                             int times = 0;
                             Vector2 vel = Helper.FromAToB(NPC.Center, player.Center) * 30;
-                            while (times < 6)
+                            while (times < 6 + (Main.getGoodWorld ? 5 : 0))
                             {
                                 if (Vector2.Distance(owner.Center, pos) > 420)
                                 {
@@ -577,12 +578,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                         outside = true;
                                         if (!hasReflected)
                                         {
-                                            vel = -vel.RotatedBy((MathHelper.ToRadians(18)));
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(18 / (Main.getGoodWorld ? 2 : 1))));
                                             hasReflected = true;
                                         }
                                         else
                                         {
-                                            vel = -vel.RotatedBy((MathHelper.ToRadians(36)));
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(36 / (Main.getGoodWorld ? 2 : 1))));
                                         }
                                     }
                                 }
@@ -594,7 +595,20 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                         if (AITimer == 100)
                         {
-                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Sym.Center, Helper.FromAToB(NPC.Center, lastPPos) * 0.1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
+                            if (Main.getGoodWorld)
+                            {
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Sym.Center, Helper.FromAToB(NPC.Center, lastPPos).RotatedBy(Helper.CircleDividedEqually(i, 10)) * 0.1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < 5; i++)
+                                {
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Sym.Center, Helper.FromAToB(NPC.Center, lastPPos).RotatedBy(Helper.CircleDividedEqually(i, 5)) * 0.1f, ModContent.ProjectileType<PilgStar>(), 12, .1f);
+                                }
+                            }
                         }
                         if (AITimer == 250)
                         {

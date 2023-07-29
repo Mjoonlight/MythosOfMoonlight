@@ -152,7 +152,7 @@ namespace MythosOfMoonlight.NPCs.Field
             if (shouldMusic)
                 FieldSpawnRateNPC.activeNPC = 0;
             NPC.homeless = true;
-            if (Main.LocalPlayer.Distance(NPC.Center) > 3000)
+            if (Main.LocalPlayer.Distance(NPC.Center) > 2000)
                 NPC.active = false;
 
             //NPC.GetGlobalNPC<FighterGlobalAI>().AimlessWander(NPC, 5, 2);

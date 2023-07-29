@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             // DisplayName.SetDefault("Starine Shaft");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 70;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
             Projectile.AddElement(CrossModHelper.Celestial);
             Projectile.AddElement(CrossModHelper.Arcane);
         }
@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.width = 24;
             Projectile.height = 24;
             Projectile.aiStyle = 0;
-            Projectile.timeLeft = 400;
+            Projectile.timeLeft = 360;
             Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.hostile = true;
@@ -38,7 +38,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             return false;
         }
         //public static NPC Sym => Starine_Symbol.symbol;
-        public NPC Sym = null;
+        //public NPC Sym = null;
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.localAI[0] = 1;
@@ -49,14 +49,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {*/
             if (Projectile.timeLeft == 599)
                 Projectile.localAI[0] = 1;
-
-            if (Sym == null)
-                foreach (NPC npc in Main.npc)
-                {
-                    if (Sym == null && npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
-                        Sym = npc;
-                }
-            if (!Sym.active || Sym == null)
+            int sym = 0;
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
+                    sym = npc.whoAmI;
+            }
+            NPC Sym = Main.npc[sym];
+            if (!Sym.active)
                 return;
             //if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
             //  Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;

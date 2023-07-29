@@ -46,8 +46,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             return Projectile.aiStyle == 1 || Projectile.ai[0] > 0;
         }
+        public override bool? CanDamage()
+        {
+            return Projectile.ai[2] == 0 || Projectile.timeLeft < 370;
+        }
         public override void AI()
         {
+            if (Projectile.ai[2] == 1)
+                Projectile.aiStyle = 0;
             if (Projectile.aiStyle == 0)
             {
                 if (Projectile.ai[0] == -1)
@@ -64,7 +70,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 
                 if (++Projectile.ai[0] >= 0)
                 {
-                    if (Projectile.timeLeft > 420)
+                    if (Projectile.timeLeft > 370)
                         Projectile.velocity *= 0.99f;
                     else
                     {

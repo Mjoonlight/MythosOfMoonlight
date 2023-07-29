@@ -98,7 +98,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                         if (NPC.frame.Y < 4 * NPC.height)
                             NPC.frame.Y += NPC.height;
                         else
-                            NPC.frame.Y = 0 * NPC.height;
+                            NPC.frame.Y = 1 * NPC.height;
                     }
                 }
             }

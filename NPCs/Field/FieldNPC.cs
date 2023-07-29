@@ -24,6 +24,10 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             return false;
         }
+        public override void SetChatButtons(ref string button, ref string button2)
+        {
+            Main.LocalPlayer.currentShoppingSettings.HappinessReport = "";
+        }
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)

@@ -17,6 +17,11 @@ Mods: {
 				DisplayName: Mods.MythosOfMoonlight.BuffName.PlantGunB
 				Description: Mods.MythosOfMoonlight.BuffDescription.PlantGunB
 			}
+
+			LilPilgB: {
+				DisplayName: Lil Pilg B
+				Description: Mods.MythosOfMoonlight.Buffs.LilPilgB.Description
+			}
 		}
 
 		Items: {
@@ -257,7 +262,7 @@ Mods: {
 			}
 
 			ThawGauntlet: {
-				DisplayName: Thaw Gauntlet
+				DisplayName: Cold Touch
 				Tooltip: ""
 			}
 
@@ -280,6 +285,11 @@ Mods: {
 				DisplayName: Priestess Statue
 				Tooltip: ""
 			}
+
+			LilPilgI: {
+				DisplayName: Lil Pilg I
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -296,8 +306,8 @@ Mods: {
 			EntropicTotemProjectile2.DisplayName: Totem Bullet
 			BorerP.DisplayName: 4-Bore
 			ShrimpleBullet.DisplayName: Shrimple Bullet
-			ThawGauntletP.DisplayName: Thaw Gauntlet P
-			ThawGauntletP2.DisplayName: Thaw Gauntlet P2
+			ThawGauntletP.DisplayName: Cold Touch
+			ThawGauntletP2.DisplayName: Cold Touch
 			BigSap.DisplayName: Sap
 			LittleSap.DisplayName: Sap
 			MortifloraBones.DisplayName: Dessicated Bones
@@ -355,6 +365,7 @@ Mods: {
 			TestTentacle.DisplayName: Starine Swipe
 			Orbe.DisplayName: Orbe
 			ThornDart.DisplayName: ThornDart
+			LilPilg.DisplayName: Lil Pilg
 		}
 
 		NPCs: {
