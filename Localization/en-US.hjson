@@ -19,8 +19,8 @@ Mods: {
 			}
 
 			LilPilgB: {
-				DisplayName: Lil Pilg B
-				Description: Mods.MythosOfMoonlight.Buffs.LilPilgB.Description
+				DisplayName: Lil' Missionary
+				Description: She wants to teach you about the stars!
 			}
 
 			RustyCut: {
@@ -292,27 +292,31 @@ Mods: {
 			}
 
 			LilPilgI: {
-				DisplayName: Lil Pilg I
-				Tooltip: ""
+				DisplayName: Little Memory
+				Tooltip: A small call to the stars
 			}
 
 			RustyWaraxe: {
 				DisplayName: Rusty Waraxe
-				Tooltip: ""
+				Tooltip:
+					'''
+					Has a chance to inflict a debuff that slowly decreases the target's hp
+					"It's still barely sharp enough to cut deep"
+					'''
 			}
 		}
 
 		Projectiles: {
-			EstrellaP.DisplayName: Estrella P
-			EstrellaP2.DisplayName: Estrella P2
-			NovaBladeP.DisplayName: Nova Blade P
-			NovaBladeP2.DisplayName: Nova Blade P2
-			NovaBladeP3.DisplayName: Nova Blade P3
-			ShinyHammerP.DisplayName: Shiny Hammer P
-			PlantGunP.DisplayName: Plant Gun P
+			EstrellaP.DisplayName: Estrella
+			EstrellaP2.DisplayName: Estrella
+			NovaBladeP.DisplayName: Nova Blade
+			NovaBladeP2.DisplayName: Nova Blade
+			NovaBladeP3.DisplayName: Nova Blade
+			ShinyHammerP.DisplayName: Shiny Hammer
+			PlantGunP.DisplayName: Plant Gun
 			PlantGunP2.DisplayName: Plant Gun P2
-			HoeP.DisplayName: Hoe P
-			TotemsHeadP.DisplayName: Totems Head P
+			HoeP.DisplayName: Hoe
+			TotemsHeadP.DisplayName: Totems Head
 			EntropicTotemProjectile2.DisplayName: Totem Bullet
 			BorerP.DisplayName: 4-Bore
 			ShrimpleBullet.DisplayName: Shrimple Bullet
@@ -337,7 +341,7 @@ Mods: {
 			CenturyFlowerSpore.DisplayName: Century Flower Spore
 			ChillyCenturyFlowerSpore.DisplayName: Century Flower Spore
 			Starine_Sparkle.DisplayName: Starine Sparkle
-			FrostGuardianSlashP.DisplayName: Frost Guardian Slash P
+			FrostGuardianSlashP.DisplayName: Frost Guardian Slash
 			EntropicTotemProjectile.DisplayName: Totem Bullet
 			PilgrimExplosion.DisplayName: Starine Storm
 			PilgrimP2Transition.DisplayName: Pilgrim P2 Transition
@@ -376,7 +380,7 @@ Mods: {
 			Orbe.DisplayName: Orbe
 			ThornDart.DisplayName: ThornDart
 			LilPilg.DisplayName: Lil Pilg
-			RustyWaraxeP.DisplayName: Rusty Waraxe P
+			RustyWaraxeP.DisplayName: Rusty Waraxe
 		}
 
 		NPCs: {

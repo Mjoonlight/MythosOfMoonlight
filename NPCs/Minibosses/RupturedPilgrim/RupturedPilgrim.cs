@@ -12,6 +12,9 @@ using Terraria.GameContent.Bestiary;
 using System;
 using System.IO;
 using Microsoft.CodeAnalysis.Differencing;
+using MythosOfMoonlight.Items.Jungle;
+using Terraria.GameContent.ItemDropRules;
+using MythosOfMoonlight.Items.Pets;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -28,6 +31,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPC.AddElement(CrossModHelper.Celestial);
             NPC.AddElement(CrossModHelper.Arcane);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<LilPilgI>(), 4));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

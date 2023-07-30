@@ -19,6 +19,10 @@ namespace MythosOfMoonlight.Items.Pets
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
         public override void SetDefaults()
         {
             Item.DefaultToVanitypet(ModContent.ProjectileType<LilPilg>(), ModContent.BuffType<LilPilgB>());

@@ -8,6 +8,9 @@ using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+using MythosOfMoonlight.Items.Jungle;
+
 namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
 {
     public class Vivine : ModNPC
@@ -31,7 +34,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = -1;
         }
-
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PlantGun>(), 50));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Vine, 3));
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
