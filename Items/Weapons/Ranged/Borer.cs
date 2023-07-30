@@ -27,12 +27,14 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item38;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
+            Item.noMelee = true;
             Item.value = Item.buyPrice(0, 8, 0, 0);
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Helper.SpawnGore(position + velocity, "MythosOfMoonlight/BorerG", vel: -Vector2.UnitY);
-            Helper.SpawnDust(position + velocity * 2, Vector2.One, DustID.Torch, velocity, 10);
+            Helper.SpawnGore(player.Center, "MythosOfMoonlight/BorerG", vel: -Vector2.UnitY);
+            for (int i = 0; i < 15; i++)
+                Dust.NewDustPerfect(position + velocity, DustID.Torch, (velocity * 0.25f).RotatedByRandom(MathHelper.PiOver4 / 4));
             return true;
         }
         public override Vector2? HoldoutOffset()
@@ -41,7 +43,8 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            position += new Vector2(-44, -6).RotatedBy(velocity.ToRotation()) * player.direction;
+            position = player.Center + new Vector2(0, -6).RotatedBy(velocity.ToRotation()) * player.direction;
+            position += velocity;
             type = ModContent.ProjectileType<BorerP>();
         }
     }

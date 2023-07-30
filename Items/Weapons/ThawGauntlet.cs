@@ -20,7 +20,7 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.knockBack = 3f;
+            Item.knockBack = 4f;
             Item.width = 30;
             Item.height = 30;
             Item.useTime = 15;
@@ -75,7 +75,7 @@ namespace MythosOfMoonlight.Items.Weapons
                 {
                     if (Projectile.ai[1] == 1)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Helper.FromAToB(player.Center, Main.MouseWorld) * 5, ModContent.ProjectileType<ThawGauntletP2>(), Projectile.damage, 0, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Helper.FromAToB(player.Center, Main.MouseWorld) * 5, ModContent.ProjectileType<ThawGauntletP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                     player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
                     Projectile.timeLeft++;

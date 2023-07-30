@@ -22,6 +22,11 @@ Mods: {
 				DisplayName: Lil Pilg B
 				Description: Mods.MythosOfMoonlight.Buffs.LilPilgB.Description
 			}
+
+			RustyCut: {
+				DisplayName: Rusty Cut
+				Description: Mods.MythosOfMoonlight.Buffs.RustyCut.Description
+			}
 		}
 
 		Items: {
@@ -290,6 +295,11 @@ Mods: {
 				DisplayName: Lil Pilg I
 				Tooltip: ""
 			}
+
+			RustyWaraxe: {
+				DisplayName: Rusty Waraxe
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -366,6 +376,7 @@ Mods: {
 			Orbe.DisplayName: Orbe
 			ThornDart.DisplayName: ThornDart
 			LilPilg.DisplayName: Lil Pilg
+			RustyWaraxeP.DisplayName: Rusty Waraxe P
 		}
 
 		NPCs: {

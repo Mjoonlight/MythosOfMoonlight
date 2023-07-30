@@ -18,7 +18,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Item.knockBack = 10f;
             Item.width = Item.height = 58;
             Item.crit = 10;
-            Item.damage = 10;
+            Item.damage = 20;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -92,7 +92,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
                 //if (swingProgress > 0.35f && swingProgress < 0.75f)
                 if (Projectile.ai[0] == 0 && TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 7)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(player.Center - Vector2.UnitY * 20, Vector2.UnitY, 300), player.direction * Vector2.UnitX, ModContent.ProjectileType<HoeP2>(), Projectile.damage / 2, 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(player.Center - Vector2.UnitY * 20, Vector2.UnitY, 300), player.direction * Vector2.UnitX, ModContent.ProjectileType<HoeP2>(), Projectile.damage, 0, Projectile.owner);
                     Projectile.ai[0] = 1;
                 }
                 float defRot = Projectile.velocity.ToRotation();

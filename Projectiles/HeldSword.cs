@@ -84,7 +84,7 @@ namespace MythosOfMoonlight.Projectiles
             }
             ExtraAI();
         }
-        public override void Kill(int timeLeft)
+        public override bool PreKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
             if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
@@ -97,6 +97,10 @@ namespace MythosOfMoonlight.Projectiles
                     proj.Center = Projectile.Center;
                 }
             }
+            return true;
+        }
+        public override void Kill(int timeLeft)
+        {
         }
         public override bool ShouldUpdatePosition() => false;
         public float glowAlpha;
