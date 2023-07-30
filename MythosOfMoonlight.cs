@@ -529,6 +529,7 @@ namespace MythosOfMoonlight
             public override void ModifyFarFades(float[] fades, float transitionSpeed)
             {
             }
+            float glow;
             public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
             {
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
@@ -539,7 +540,8 @@ namespace MythosOfMoonlight
                 Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
                 Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
                 Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
-                float glow = 1;
+                glow += Main.rand.NextFloat(-.1f, .1f);
+                glow = MathHelper.Clamp(glow, 0, 1);
                 Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
                 spriteBatch.Draw(comet, cometP, null, Color.Purple * 0.65f * ((((float)Math.Sin((double)Main.GlobalTimeWrappedHourly) + 1) * 0.5f) + 0.4f), MathHelper.ToRadians(245), new Vector2(comet.Width / 2, 0.15f), 1, SpriteEffects.None, 0f);
                 spriteBatch.Draw(comet, cometP, null, Color.White * 0.85f, MathHelper.ToRadians(245), new Vector2(comet.Width / 2, 0.25f), 0.95f, SpriteEffects.None, 0f);
