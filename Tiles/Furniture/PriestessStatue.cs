@@ -34,13 +34,13 @@ namespace MythosOfMoonlight.Tiles.Furniture
         {
             r = g = b = 0.5f;
         }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        /*public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Point pos = new Point(i * 16, j * 16);
             if (Main.netMode == NetmodeID.SinglePlayer)
                 pos = new Point((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y);
             Item.NewItem(new EntitySource_TileBreak(i, j), pos.X, pos.Y, 16, 16, ModContent.ItemType<PriestessStatueI>());
-        }
+        }*/
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
