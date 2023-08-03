@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 4;
+            Item.damage = 3;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 32;
             Item.height = 32;

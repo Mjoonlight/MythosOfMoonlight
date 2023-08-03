@@ -20,10 +20,10 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
-            Item.width = 52;
-            Item.height = 50;
+            Item.width = 54;
+            Item.height = 54;
             Item.crit = 10;
-            Item.damage = 15;
+            Item.damage = 23;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -53,7 +53,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
         {
             swingTime = 30;
             holdOffset = 38;
-            Projectile.Size = new(52, 50);
+            Projectile.Size = new(54, 54);
         }
         public override float Ease(float x)
         {

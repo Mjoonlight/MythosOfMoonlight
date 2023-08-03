@@ -14,7 +14,7 @@ namespace MythosOfMoonlight.Items.Jungle
         }
         public override void SetDefaults()
         {
-            Item.damage = 4;
+            Item.damage = 5;
             Item.DamageType = DamageClass.Ranged;
             Item.noUseGraphic = false;
             Item.noMelee = true;
