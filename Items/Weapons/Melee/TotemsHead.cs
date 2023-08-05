@@ -53,20 +53,6 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, glow.Width, glow.Height), lightColor, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-        /*public override bool PreDraw(ref Color lightColor)
-        {
-            Player player = Main.player[Projectile.owner];
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Texture2D glow = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/Weapons/Melee/TotemsHead_Gloww").Value;
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
-            for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++)
-            {
-                Main.EntitySpriteDraw(glow, Projectile.oldPos[i] - Main.screenPosition + new Vector2(Projectile.width / 2f, Projectile.height / 2f), new Rectangle(0, 0, glow.Width, glow.Height), Color.DarkSlateGray * (1f - fadeMult * i), Projectile.oldRot[i], glow.Size() / 2, Projectile.scale * (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / ProjectileID.Sets.TrailCacheLength[Projectile.type], SpriteEffects.None, 0);
-            }
-
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            return true;
-        }*/
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 4; i++)
