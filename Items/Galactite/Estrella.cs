@@ -17,7 +17,7 @@ namespace MythosOfMoonlight.Items.Galactite
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
-            Item.width = Item.height = 76;
+            Item.width = Item.height = 66;
             Item.crit = 45;
             Item.damage = 34;
             Item.useAnimation = 32;
@@ -35,6 +35,13 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.shoot = ModContent.ProjectileType<EstrellaP>();
         }
         int dir = 1;
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D tex = Helper.GetTex(Texture + "_Glow");
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, Color.White, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             dir = -dir;
