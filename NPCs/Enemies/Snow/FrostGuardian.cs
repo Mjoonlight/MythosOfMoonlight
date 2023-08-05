@@ -82,12 +82,13 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                 Helper.SpawnGore(NPC, "MythosOfMoonlight/FrostGuardianGore4");
             }
         }
+        bool glogged;
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            if (NPC.ai[0] == 2 && NPC.ai[3] == 0)
+            if (!glogged)
             {
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), target.Center, Helper.FromAToB(NPC.Center, target.Center), ModContent.ProjectileType<FrostGuardianSlashP>(), 0, 0);
-                NPC.ai[3] = 1;
+                glogged = true;
             }
         }
         public override void AI()
@@ -151,6 +152,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
                         NPC.ai[1] = 0;
                         NPC.ai[0] = 0;
                         NPC.damage = 0;
+                        glogged = false;
                     }
                     break;
             }

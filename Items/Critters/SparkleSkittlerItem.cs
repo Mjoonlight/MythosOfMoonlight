@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.NPCs.Critters.PurpleComet;
 using Terraria.GameContent.Creative;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace MythosOfMoonlight.Items.Critters
 {
@@ -30,6 +31,7 @@ namespace MythosOfMoonlight.Items.Critters
             Item.autoReuse = true;
 
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
 
         public override bool? UseItem(Player player)
         {

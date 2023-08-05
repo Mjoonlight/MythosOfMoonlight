@@ -9,6 +9,8 @@ using MythosOfMoonlight.Projectiles;
 using Terraria.GameContent;
 using Terraria.Audio;
 using MythosOfMoonlight.Dusts;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+using System.Linq;
 
 namespace MythosOfMoonlight.Items.Galactite
 {
@@ -56,6 +58,8 @@ namespace MythosOfMoonlight.Items.Galactite
         public override void SetStaticDefaults()
         {
             Projectile.AddElement(CrossModHelper.Celestial);
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetExtraDefaults()
         {
@@ -79,6 +83,68 @@ namespace MythosOfMoonlight.Items.Galactite
   : x < 0.5 ? Math.Pow(2, 20 * x - 10) / 2
   : (2 - Math.Pow(2, -20 * x + 10)) / 2);
         }
+        public override void ExtraAI()
+        {
+            Player player = Main.player[Projectile.owner];
+            float rot = Projectile.rotation - MathHelper.PiOver4;
+            Vector2 start = player.Center;
+            Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.8f);
+            if (Projectile.ai[2].CloseTo(0.5f, 0.3f))
+                for (int i = 0; i < 4; i++)
+                    Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
+        }
+        public override void PreExtraDraw(float progress)
+        {
+            Player player = Main.player[Projectile.owner];
+            Texture2D tex = Helper.GetTex(Texture + "_Glow2");
+            Main.spriteBatch.Reload(BlendState.Additive);
+
+            float s = 1;
+            if (Projectile.oldPos.Length > 2)
+            {
+                Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Extra_209");
+                VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(Projectile.oldPos.Length - 1) * 6];
+                for (int i = 0; i < Projectile.oldPos.Length - 1; i++)
+                {
+                    if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                    {
+                        Vector2 start = Projectile.oldPos[i];
+                        Vector2 end = Projectile.oldPos[i + 1];
+                        float num = Vector2.Distance(Projectile.oldPos[i], Projectile.oldPos[i + 1]);
+                        Vector2 vector = (end - start) / num;
+                        Vector2 vector2 = start;
+                        float rotation = vector.ToRotation();
+
+                        Color color = Color.Indigo * s;
+
+                        Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * 23);
+                        Vector2 pos1 = Projectile.oldPos[i] + offset - Main.screenPosition;
+                        Vector2 pos2 = Projectile.oldPos[i + 1] + offset - Main.screenPosition;
+                        Vector2 dir1 = Helper.GetRotation(Projectile.oldPos.ToList(), i) * 20 * s;
+                        Vector2 dir2 = Helper.GetRotation(Projectile.oldPos.ToList(), i + 1) * 20 * (s + i / (float)Projectile.oldPos.Length * 0.03f);
+                        Vector2 v1 = pos1 + dir1;
+                        Vector2 v2 = pos1 - dir1;
+                        Vector2 v3 = pos2 + dir2;
+                        Vector2 v4 = pos2 - dir2;
+                        float p1 = i / (float)Projectile.oldPos.Length;
+                        float p2 = (i + 1) / (float)Projectile.oldPos.Length;
+                        vertices[i * 6] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
+                        vertices[i * 6 + 1] = Helper.AsVertex(v3, color, new Vector2(p2, Projectile.ai[1] != 1 ? 1 : 0));
+                        vertices[i * 6 + 2] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
+
+                        vertices[i * 6 + 3] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
+                        vertices[i * 6 + 4] = Helper.AsVertex(v2, color, new Vector2(p1, Projectile.ai[1] == 1 ? 1 : 0));
+                        vertices[i * 6 + 5] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
+
+                        s -= i / (float)Projectile.oldPos.Length * 0.03f;
+                    }
+                }
+                Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, tex2);
+            }
+            DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+            Helper.DrawWithDye(Main.spriteBatch, data, ItemID.TwilightDye, Projectile);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+        }
         public override void OnSpawn(IEntitySource source)
         {
             SoundEngine.PlaySound(SoundID.Item1);
@@ -99,7 +165,7 @@ namespace MythosOfMoonlight.Items.Galactite
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
-            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()

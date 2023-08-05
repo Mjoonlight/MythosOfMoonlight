@@ -51,6 +51,7 @@ namespace MythosOfMoonlight.Projectiles
             {
                 int direction = (int)Projectile.ai[1];
                 float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
+                Projectile.ai[2] = swingProgress;
                 float defRot = Projectile.velocity.ToRotation();
                 float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
                 float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
@@ -105,11 +106,20 @@ namespace MythosOfMoonlight.Projectiles
         public override bool ShouldUpdatePosition() => false;
         public float glowAlpha;
         public BlendState glowBlend;
+        public virtual void PreExtraDraw(float progress)
+        {
+
+        }
+        public virtual void ExtraDraw(float progress)
+        {
+
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 orig = texture.Size() / 2;
+            PreExtraDraw(swingProgress);
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0);
             if (glowAlpha > 0 && glowBlend != null)
             {
@@ -118,6 +128,7 @@ namespace MythosOfMoonlight.Projectiles
                 Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White * glowAlpha, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
             }
+            ExtraDraw(swingProgress);
             return false;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
