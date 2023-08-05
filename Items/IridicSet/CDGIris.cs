@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using MythosOfMoonlight.Dusts;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight.Items.IridicSet
 {
@@ -44,6 +45,11 @@ namespace MythosOfMoonlight.Items.IridicSet
             Item.shoot = ModContent.ProjectileType<FragmentBullet>();
             Item.shootSpeed = 1;
         }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D tex = Helper.GetTex(Texture + "_Glow");
+            spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, Color.White, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+        }
         public override Vector2? HoldoutOffset() => new Vector2(0, 0);
         public override bool RangedPrefix()
         {
@@ -63,13 +69,13 @@ namespace MythosOfMoonlight.Items.IridicSet
             //if (type == ProjectileID.Bullet)
             if (player.itemAnimation > 5)
                 velocity = velocity.RotatedByRandom(MathHelper.PiOver4 / 5);
-            velocity.Normalize();
+            //velocity.Normalize();
 
             position += new Vector2(0, -4).RotatedBy(velocity.ToRotation()) * player.direction;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI).ai[0] = TRay.CastLength(position, velocity, 1100);
+            Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<FragmentBullet>(), damage, knockback, player.whoAmI);
             Helper.SpawnDust(position + new Vector2(50, 0).RotatedBy(velocity.ToRotation()), Vector2.One, ModContent.DustType<PurpurineDust>(), velocity * 3, 5);
             return false;
         }

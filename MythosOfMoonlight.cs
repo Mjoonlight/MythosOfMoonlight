@@ -11,6 +11,9 @@ using System;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using ReLogic.Content;
 using System.Reflection;
+using Terraria.DataStructures;
+using System.Collections.Generic;
+using MythosOfMoonlight.Items.IridicSet;
 
 namespace MythosOfMoonlight
 {
@@ -34,7 +37,23 @@ namespace MythosOfMoonlight
 
             return output;
         }
+        public static bool CastRect(Rectangle rect, Vector2 start, Vector2 direction, float length)
+        {
+            direction = direction.SafeNormalize(Vector2.UnitY);
+            Vector2 output = start;
+            int maxLength = (int)length;
 
+            for (int i = 0; i < maxLength; i++)
+            {
+                if (!Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) || rect.Intersects(new Rectangle((int)output.X, (int)output.Y, 1, 1)))
+                {
+                    return true;
+                }
+
+                output += direction;
+            }
+            return false;
+        }
         public static float CastLength(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
         {
             Vector2 end = Cast(start, direction, length, platformCheck);
