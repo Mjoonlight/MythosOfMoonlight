@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent;
+using Terraria.ID;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -11,6 +12,10 @@ namespace MythosOfMoonlight.Projectiles
     {
         public int swingTime = 20;
         public float holdOffset = 50f;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+        }
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -33,7 +38,6 @@ namespace MythosOfMoonlight.Projectiles
         }
         public virtual void SetExtraDefaults()
         {
-
         }
         public virtual void ExtraAI()
         {

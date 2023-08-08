@@ -63,7 +63,7 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void SetExtraDefaults()
         {
-            swingTime = 50;
+            swingTime = 250;
             Projectile.Size = new(66);
             glowAlpha = 1f;
             BlendState _blendState = new BlendState();
@@ -73,6 +73,7 @@ namespace MythosOfMoonlight.Items.Galactite
             _blendState.ColorSourceBlend = Blend.SourceAlpha;
             _blendState.ColorDestinationBlend = Blend.InverseSourceAlpha;
             glowBlend = _blendState;
+            Projectile.extraUpdates = 4;
         }
         public override float Ease(float x)
         {
@@ -88,10 +89,20 @@ namespace MythosOfMoonlight.Items.Galactite
             Player player = Main.player[Projectile.owner];
             float rot = Projectile.rotation - MathHelper.PiOver4;
             Vector2 start = player.Center;
-            Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.8f);
+            Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
+            Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * holdOffset * 0.25f);
             if (Projectile.ai[2].CloseTo(0.5f, 0.3f))
-                for (int i = 0; i < 4; i++)
-                    Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
+            {
+                //if (Projectile.timeLeft % 4 == 0)
+                //  for (int i = 0; i < 4; i++)
+                //    Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
+
+                for (float i = 0.1f; i < 4; i += 0.1f)
+                {
+                    Vector2 pos = Vector2.Lerp(start, end, i / 4);
+                    Dust.NewDustPerfect(pos, ModContent.DustType<Starry>(), Helper.FromAToB(pos, Projectile.oldPos[0] + offset) * Main.rand.NextFloat(3), newColor: Color.Lerp(Color.Gray * 0.5f, Color.White, i / 4), Scale: (i / 3) * Main.rand.NextFloat(0.1f, 0.125f)).noGravity = true;
+                }
+            }
         }
         public override void PreExtraDraw(float progress)
         {
@@ -99,46 +110,49 @@ namespace MythosOfMoonlight.Items.Galactite
             Texture2D tex = Helper.GetTex(Texture + "_Glow2");
             Main.spriteBatch.Reload(BlendState.Additive);
 
+
             float s = 1;
             if (Projectile.oldPos.Length > 2)
             {
                 Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Extra_209");
+                Texture2D tex3 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/seamlessNoise");
                 VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(Projectile.oldPos.Length - 1) * 6];
-                for (int i = 0; i < Projectile.oldPos.Length - 1; i++)
-                {
-                    if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                //VertexPositionColorTexture[] vertices2 = new VertexPositionColorTexture[(Projectile.oldPos.Length - 1) * 6];
+                if (Projectile.ai[2].CloseTo(0.5f, 0.3f))
+                    for (int i = 0; i < Projectile.oldPos.Length - 1; i++)
                     {
-                        Vector2 start = Projectile.oldPos[i];
-                        Vector2 end = Projectile.oldPos[i + 1];
-                        float num = Vector2.Distance(Projectile.oldPos[i], Projectile.oldPos[i + 1]);
-                        Vector2 vector = (end - start) / num;
-                        Vector2 vector2 = start;
-                        float rotation = vector.ToRotation();
+                        if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                        {
+                            Vector2 start = Projectile.oldPos[i];
+                            Vector2 end = Projectile.oldPos[i + 1];
+                            float num = Vector2.Distance(Projectile.oldPos[i], Projectile.oldPos[i + 1]);
+                            Vector2 vector = (end - start) / num;
 
-                        Color color = Color.Indigo * s;
+                            Color color = Color.Fuchsia * s;
+                            float off = 17;
+                            Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * off);
+                            Vector2 pos1 = Projectile.oldPos[i] + offset - Main.screenPosition;
+                            Vector2 pos2 = Projectile.oldPos[i + 1] + offset - Main.screenPosition;
+                            Vector2 dir1 = Helper.GetRotation(Projectile.oldPos.ToList(), i) * off * s;
+                            Vector2 dir2 = Helper.GetRotation(Projectile.oldPos.ToList(), i + 1) * off * (s + i / (float)Projectile.oldPos.Length * 0.03f);
+                            Vector2 v1 = pos1 + dir1;
+                            Vector2 v2 = pos1 - dir1;
+                            Vector2 v3 = pos2 + dir2;
+                            Vector2 v4 = pos2 - dir2;
+                            float p1 = i / (float)Projectile.oldPos.Length;
+                            float p2 = (i + 1) / (float)Projectile.oldPos.Length;
+                            vertices[i * 6] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
+                            vertices[i * 6 + 1] = Helper.AsVertex(v3, color, new Vector2(p2, Projectile.ai[1] != 1 ? 1 : 0));
+                            vertices[i * 6 + 2] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
 
-                        Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * 23);
-                        Vector2 pos1 = Projectile.oldPos[i] + offset - Main.screenPosition;
-                        Vector2 pos2 = Projectile.oldPos[i + 1] + offset - Main.screenPosition;
-                        Vector2 dir1 = Helper.GetRotation(Projectile.oldPos.ToList(), i) * 20 * s;
-                        Vector2 dir2 = Helper.GetRotation(Projectile.oldPos.ToList(), i + 1) * 20 * (s + i / (float)Projectile.oldPos.Length * 0.03f);
-                        Vector2 v1 = pos1 + dir1;
-                        Vector2 v2 = pos1 - dir1;
-                        Vector2 v3 = pos2 + dir2;
-                        Vector2 v4 = pos2 - dir2;
-                        float p1 = i / (float)Projectile.oldPos.Length;
-                        float p2 = (i + 1) / (float)Projectile.oldPos.Length;
-                        vertices[i * 6] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
-                        vertices[i * 6 + 1] = Helper.AsVertex(v3, color, new Vector2(p2, Projectile.ai[1] != 1 ? 1 : 0));
-                        vertices[i * 6 + 2] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
+                            vertices[i * 6 + 3] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
+                            vertices[i * 6 + 4] = Helper.AsVertex(v2, color, new Vector2(p1, Projectile.ai[1] == 1 ? 1 : 0));
+                            vertices[i * 6 + 5] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
 
-                        vertices[i * 6 + 3] = Helper.AsVertex(v4, color, new Vector2(p2, Projectile.ai[1] == 1 ? 1 : 0));
-                        vertices[i * 6 + 4] = Helper.AsVertex(v2, color, new Vector2(p1, Projectile.ai[1] == 1 ? 1 : 0));
-                        vertices[i * 6 + 5] = Helper.AsVertex(v1, color, new Vector2(p1, Projectile.ai[1] != 1 ? 1 : 0));
-
-                        s -= i / (float)Projectile.oldPos.Length * 0.03f;
+                            //s -= i / (float)Projectile.oldPos.Length * 0.03f;
+                        }
                     }
-                }
+                //Helper.DrawTexturedPrimitives(vertices2, PrimitiveType.TriangleList, tex3);
                 Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, tex2);
             }
             DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
