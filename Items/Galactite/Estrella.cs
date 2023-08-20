@@ -11,6 +11,7 @@ using Terraria.Audio;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Linq;
+using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 
 namespace MythosOfMoonlight.Items.Galactite
 {
@@ -91,16 +92,16 @@ namespace MythosOfMoonlight.Items.Galactite
             Vector2 start = player.Center;
             Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
             Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * holdOffset * 0.25f);
-            if (Projectile.ai[2].CloseTo(0.5f, 0.3f))
+            if (Projectile.ai[2].CloseTo(0.5f, 0.35f))
             {
-                //if (Projectile.timeLeft % 4 == 0)
-                //  for (int i = 0; i < 4; i++)
-                //    Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
+                if (Projectile.timeLeft % 4 == 0)
+                    for (int i = 0; i < 4; i++)
+                        Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
 
                 for (float i = 0.1f; i < 4; i += 0.1f)
                 {
                     Vector2 pos = Vector2.Lerp(start, end, i / 4);
-                    Dust.NewDustPerfect(pos, ModContent.DustType<Starry>(), Helper.FromAToB(pos, Projectile.oldPos[0] + offset) * Main.rand.NextFloat(3), newColor: Color.Lerp(Color.Gray * 0.5f, Color.White, i / 4), Scale: (i / 3) * Main.rand.NextFloat(0.1f, 0.125f)).noGravity = true;
+                    Dust.NewDustPerfect(pos, ModContent.DustType<Starry>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, newColor: Color.Lerp(Color.Gray * 0.5f, Color.White, i / 4), Scale: (i / 3f) * 0.11f).noGravity = true;
                 }
             }
         }
@@ -128,8 +129,8 @@ namespace MythosOfMoonlight.Items.Galactite
                             float num = Vector2.Distance(Projectile.oldPos[i], Projectile.oldPos[i + 1]);
                             Vector2 vector = (end - start) / num;
 
-                            Color color = Color.Fuchsia * s;
-                            float off = 17;
+                            Color color = Color.Plum * s;
+                            float off = 18.5f;
                             Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * off);
                             Vector2 pos1 = Projectile.oldPos[i] + offset - Main.screenPosition;
                             Vector2 pos2 = Projectile.oldPos[i + 1] + offset - Main.screenPosition;
@@ -155,8 +156,8 @@ namespace MythosOfMoonlight.Items.Galactite
                 //Helper.DrawTexturedPrimitives(vertices2, PrimitiveType.TriangleList, tex3);
                 Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, tex2);
             }
-            DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
-            Helper.DrawWithDye(Main.spriteBatch, data, ItemID.TwilightDye, Projectile);
+            //DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+            //Helper.DrawWithDye(Main.spriteBatch, data, ItemID.TwilightDye, Projectile);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override void OnSpawn(IEntitySource source)
@@ -170,6 +171,7 @@ namespace MythosOfMoonlight.Items.Galactite
             if (Projectile.ai[0] < 3)
             {
                 Projectile.ai[0]++;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Main.rand.NextVector2Circular(target.width / 2, target.height / 2), Helper.FromAToB(Projectile.Center, target.Center), ModContent.ProjectileType<EstrellaPImpact>(), 0, 0, Projectile.owner, target.whoAmI);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center - Vector2.UnitY * 500, Helper.FromAToB(target.Center - Vector2.UnitY * 500, target.Center) * Main.rand.NextFloat(15, 25f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0, Projectile.owner, target.whoAmI);
             }
         }
@@ -178,14 +180,15 @@ namespace MythosOfMoonlight.Items.Galactite
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 5;
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            Main.projFrames[Type] = 4;
             Projectile.AddElement(CrossModHelper.Celestial);
         }
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 32;
+            Projectile.width = 40;
+            Projectile.height = 64;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -194,20 +197,29 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            for (int i = 0; i < 15; i++)
-                Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity);
+            for (int i = 0; i < 7; i++)
+                Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity * 0.3f);
+            for (int i = 0; i < 7; i++)
+                Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity.Length() * 0.3f * Main.rand.NextVector2Unit());
+            for (int i = 0; i < 7; i++)
+                Helper.SpawnDust(Projectile.Center, Projectile.Size, 58, Projectile.velocity.Length() * 0.3f * Main.rand.NextVector2Unit(), dustModification: new Action<Dust>((d) => { d.color = Color.Violet; }));
+
         }
         float alpha = 1;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = TextureAssets.Projectile[Type].Value;
-            for (int i = 1; i < 5; i++)
+            Texture2D tex2 = TextureAssets.Projectile[Type].Value;
+            Texture2D tex = Helper.GetTex(Texture + "Star");
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 66, 40, 66), Color.White * alpha, Projectile.velocity.ToRotation() - MathHelper.PiOver2, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0f);
+            /*for (int i = 1; i < 5; i++)
             {
                 float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
                 var fadeMult = 1f / 5;
-                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.Pink * (1f - fadeMult * i) * 0.5f * alpha, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
-            }
-            return true;
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.White * (1f - fadeMult * i) * alpha, Projectile.oldRot[i], tex.Size() / 2, _scale, SpriteEffects.None, 0f);
+            }*/
+
+            Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(0, 12) - Main.screenPosition, null, Color.White * alpha * 0.75f, Projectile.rotation - MathHelper.PiOver2, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
+            return false;
         }
         public override Color? GetAlpha(Color lightColor)
         {
@@ -215,11 +227,63 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void AI()
         {
+            Helper.SpawnDust(Projectile.position, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity * 0.5f);
+            if (Projectile.frameCounter++ % 3 == 0)
+            {
+                if (Projectile.frame < 3)
+                    Projectile.frame++;
+                else
+                    Projectile.frame = 0;
+            }
             if (Projectile.timeLeft > 100)
                 Projectile.velocity = Projectile.velocity.Length() * Helper.FromAToB(Projectile.Center, Main.npc[(int)Projectile.ai[0]].Center);
             Projectile.rotation += MathHelper.ToRadians(3);
             if (Projectile.timeLeft < 20)
                 alpha -= 0.05f;
+        }
+    }
+    public class EstrellaPImpact : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 20;
+            Projectile.tileCollide = false;
+        }
+        public override bool? CanDamage()
+        {
+            return false;
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/flare");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_05");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            if (lightColor == Color.White)
+            {
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0); ;
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Main.GameUpdateCount * -0.025f, tex2.Size() / 2, Projectile.scale * 0.5f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override void AI()
+        {
+            float progress = Utils.GetLerpValue(0, 20, Projectile.timeLeft);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * MathHelper.Pi) * 0.5f, 0, 0.5f);
         }
     }
 }

@@ -531,7 +531,9 @@ namespace MythosOfMoonlight
             RTOutline.CurrentTechnique.Passes[0].Apply();
             RTOutline.Parameters["m"].SetValue(0.2f); // for more percise textures use 0.62f
             RTOutline.Parameters["n"].SetValue(0.2f); // and 0.01f here.
-            RTOutline.Parameters["col"].SetValue(new Vector4(0, 0, 0, 1));
+            RTOutline.Parameters["col"].SetValue(new Vector4(0, 0, 0, 1f));
+            RTOutline.Parameters["colStart"].SetValue(new Color(24, 13, 59).ToVector4());
+            RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.1f, 0));
             sb.Draw(render, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -539,6 +541,14 @@ namespace MythosOfMoonlight
 
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(Main.spriteBatch);
+            foreach (Projectile d in Main.projectile)
+            {
+                if (d.type == ModContent.ProjectileType<EstrellaPImpact>() && d.active)
+                {
+                    Color a = Color.White;
+                    d.ModProjectile.PreDraw(ref a);
+                }
+            }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Projectile projectile in Main.projectile)

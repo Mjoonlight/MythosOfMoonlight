@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
-            dust.scale -= Main.rand.NextFloat(0.01f, 0.035f);
+            dust.scale -= 0.01f;//Main.rand.NextFloat(0.01f, 0.035f);
             dust.velocity *= 0.99f;
             if (dust.scale <= 0)
                 dust.active = false;
