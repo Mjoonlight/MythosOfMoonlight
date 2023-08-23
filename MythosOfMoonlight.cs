@@ -19,6 +19,8 @@ using MythosOfMoonlight.Items.Galactite;
 
 namespace MythosOfMoonlight
 {
+
+    
     public static class TRay
     {
         public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
@@ -64,10 +66,15 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+
         public static bool CloseTo(this float f, float target, float range = 1f)
         {
             return f > target - range && f < target + range;
         }
+
+        public static string Empty = "MythosOfMoonlight/Textures/Extra/blank";
+
+
         public static bool Grounded(this NPC NPC, float scale = .5f, float scaleX = 1f)
         {
             if (NPC.collideY || (!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * scale) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))

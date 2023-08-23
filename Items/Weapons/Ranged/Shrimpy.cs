@@ -116,7 +116,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
     }
     class ShrimpleBullet : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => Helper.Empty;
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.WaterBolt);

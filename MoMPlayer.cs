@@ -1,11 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
+using MythosOfMoonlight.Projectiles;
+using MythosOfMoonlight.Projectiles.IridicProjectiles;
 using MythosOfMoonlight.Tiles;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace MythosOfMoonlight
 {
@@ -24,6 +28,7 @@ namespace MythosOfMoonlight
         public int source = -1;
         public float lerpSpeed;
         public float LerpTimer;
+        public bool StarBitShot = false;
         public override void OnEnterWorld()
         {
             for (int i = 1; i < Main.maxTilesX; i++)
@@ -46,6 +51,7 @@ namespace MythosOfMoonlight
         }
         public override void ResetEffects()
         {
+            StarBitShot = false;
             CommunicatorEquip = false;
             foreach (NPC NPC in Main.npc)
             {
@@ -65,6 +71,51 @@ namespace MythosOfMoonlight
                 }
             }
         }
+        Vector2 location2 = new Vector2(0, 0);
+
+        public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
+        {   
+            if (StarBitShot && !target.friendly && hit.Crit && target.lifeMax > 10 && target.type != NPCID.TargetDummy)
+            {
+                // TO DO : Projectile spawn from sky
+                Player p = Main.LocalPlayer;
+
+                int random = Main.rand.Next(1, 3);
+                Vector2 spawnpos = new Vector2(0, p.position.Y + 900);
+                if (random == 1)
+                    location2 = new Vector2(p.position.X + 1000, spawnpos.Y - Main.rand.Next(1, 1800));
+                if (random == 2)
+                {
+                    location2 = new Vector2(p.position.X - 1000, spawnpos.Y - Main.rand.Next(1, 1800));
+                }
+                Vector2 direction = (Main.MouseWorld - location2).SafeNormalize(Vector2.UnitX);
+
+                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 20, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
+
+            }
+        }
+
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (StarBitShot && !target.friendly && hit.Crit && target.lifeMax > 10 && target.type != NPCID.TargetDummy)
+            {
+                Player p = Main.LocalPlayer;
+
+                int random = Main.rand.Next(1, 3);
+                Vector2 spawnpos = new Vector2(0, p.position.Y + 900);
+                if (random == 1)
+                    location2 = new Vector2(p.position.X + 1000, spawnpos.Y - Main.rand.Next(1, 1800));
+                if (random == 2)
+                {
+                    location2 = new Vector2(p.position.X - 1000, spawnpos.Y - Main.rand.Next(1, 1800));
+                }
+                Vector2 direction = (Main.MouseWorld - location2).SafeNormalize(Vector2.UnitX);
+
+                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 20, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
+
+            }
+        }
+       
         public override void UpdateBadLifeRegen()
         {
             if (CommunicatorEquip)
