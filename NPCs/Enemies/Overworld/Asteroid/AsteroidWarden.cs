@@ -189,6 +189,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
             }
             else if (AIState == 1)
             {
+                NPC.velocity *= 0.98f;
                 headRot = MathHelper.Lerp(headRot, Main.GameUpdateCount * 0.005f, 0.1f);
                 AITimer++;
                 if (AITimer < 30)
@@ -220,6 +221,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
             }
             else
             {
+                NPC.velocity *= 0.98f;
                 headRot = MathHelper.Lerp(headRot, Main.GameUpdateCount * 0.005f, 0.1f);
                 AITimer++;
                 if (AITimer < 11)

@@ -272,7 +272,7 @@ namespace MythosOfMoonlight.Items.Galactite
             Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/flare");
             Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_05");
             Main.spriteBatch.Reload(BlendState.Additive);
-            if (lightColor == Color.White)
+            if (lightColor == Color.Transparent)
             {
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0); ;
                 Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Main.GameUpdateCount * -0.025f, tex2.Size() / 2, Projectile.scale * 0.5f, SpriteEffects.None, 0);
