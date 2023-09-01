@@ -44,7 +44,7 @@ namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 new BestiaryPortraitBackgroundProviderPreferenceInfoElement(ModContent.GetInstance<PurpleCometBiome>().ModBiomeBestiaryInfoElement),
-                new FlavorTextBestiaryInfoElement("By absorbing natural cosmic energy around it, a Sparkle Skittler can make quick dashes away from potential predators, although it doesn!¯t always have control over which direction it goes.")
+                new FlavorTextBestiaryInfoElement("By absorbing natural cosmic energy around it, a Sparkle Skittler can make quick dashes away from potential predators, although it doesn't always have control over which direction it goes.")
             });
         }
         const float SPEED = 3.5f;
