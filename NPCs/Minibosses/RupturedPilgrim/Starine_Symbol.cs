@@ -313,7 +313,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             if (State != NState.Normal)
             {
                 float scale = Radius / 280f;
-                float rotate = MathHelper.ToRadians(SymbolTimer * 1.33f);
+                    float rotate = MathHelper.ToRadians(SymbolTimer * 1.33f);
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>()) rotate = MathHelper.ToRadians(SymbolTimer * (1.33f + MathHelper.Lerp(2, 0, npc.life / npc.lifeMax)));
+                }
                 Vector2 orig = new(420, 420);
                 Color color = Color.White * scale;
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Starine_Barrier").Value;

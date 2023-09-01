@@ -98,6 +98,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            if (lightColor != Color.Transparent)
+                return false;
             List<VertexInfo2> bars = new List<VertexInfo2>();
             for (int i = 1; i < len; i++)
             {
