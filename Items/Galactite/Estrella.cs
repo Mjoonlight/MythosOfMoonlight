@@ -21,8 +21,8 @@ namespace MythosOfMoonlight.Items.Galactite
         {
             Item.knockBack = 10f;
             Item.width = Item.height = 66;
-            Item.crit = 45;
-            Item.damage = 34;
+            Item.crit = 5;
+            Item.damage = 24;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
