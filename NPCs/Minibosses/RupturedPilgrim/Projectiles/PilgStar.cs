@@ -54,6 +54,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (npc.active && npc.type == ModContent.NPCType<Starine_Symbol>())
                     sym = npc.whoAmI;
+
+                if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>() && npc.immortal)
+                {
+                    Projectile.Kill();
+                }
             }
             NPC Sym = Main.npc[sym];
             if (!Sym.active)

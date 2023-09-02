@@ -101,6 +101,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         static double RandRadian => Main.rand.NextDouble() * (MathHelper.PiOver2 / 3f) - (MathHelper.PiOver2 / 6f);
         public override void AI()
         {
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>() && npc.immortal)
+                {
+                    Projectile.Kill();
+                }
+            }
             if (ProjectileTimer >= 0)
                 offset += 0.1f;
             int intOffset = (int)Math.Round(offset, 0);

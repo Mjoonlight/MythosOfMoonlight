@@ -91,6 +91,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             FloatTimer = reader.ReadSingle();
         }
         public Vector2 CircleCenter;
+
         public override void AI()
         {
             symbol = NPC;
@@ -110,8 +111,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && SymbolTimer > 3)
                     NPC.active = false;
-                SymbolTimer++;
             }
+            if (State != NState.Normal)
+            SymbolTimer++;
 
             if (CircleCenter == Vector2.Zero)
                 CircleCenter = NPC.Center;
@@ -313,10 +315,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             if (State != NState.Normal)
             {
                 float scale = Radius / 280f;
-                    float rotate = MathHelper.ToRadians(SymbolTimer * 1.33f);
+                    float rotate = MathHelper.ToRadians(SymbolTimer * 0.95f);
                 foreach (NPC npc in Main.npc)
                 {
-                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>()) rotate = MathHelper.ToRadians(SymbolTimer * (1.33f + MathHelper.Lerp(2, 0, npc.life / npc.lifeMax)));
+                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>()) rotate = MathHelper.ToRadians(SymbolTimer * (0.95f + MathHelper.Lerp(1, 0, npc.life / npc.lifeMax)));
                 }
                 Vector2 orig = new(420, 420);
                 Color color = Color.White * scale;

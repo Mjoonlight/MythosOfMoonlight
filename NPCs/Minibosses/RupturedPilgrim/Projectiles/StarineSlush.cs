@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.height = 50;
             Projectile.aiStyle = 0;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.timeLeft = 200;
             Projectile.hostile = true;
             Projectile.scale = 0.01f;
@@ -64,7 +64,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Vector2 dVel = Helper.FromAToB(pos, Projectile.Center) * 6f;
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
+            if (Projectile.Center.Y > Main.LocalPlayer.Center.Y - 20)
+                Projectile.tileCollide = true;
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25 && Projectile.tileCollide)
                 Projectile.Kill();
             if (Projectile.scale < 0.15f)
                 Projectile.scale += 0.0025f;
@@ -113,7 +115,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.height = 486;
             Projectile.aiStyle = 2;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.timeLeft = 200;
             Projectile.hostile = true;
             Projectile.scale = 0;
@@ -145,7 +147,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25)
+            if (Projectile.Center.Y > Main.LocalPlayer.Center.Y - 20)
+                Projectile.tileCollide = true;
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, Projectile.tileCollide) < 25 && Projectile.tileCollide)
                 Projectile.Kill();
             for (int i = 0; i < 2; i++)
             {
@@ -160,8 +164,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
-            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) * 0.005f : 1f);
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 200, true), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
+            
+            float alpha = (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, Projectile.tileCollide) < 200 ? TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, Projectile.tileCollide) * 0.005f : 1f);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, TRay.Cast(Projectile.Center, Vector2.UnitY, 200, Projectile.tileCollide), Color.Cyan * alpha, Color.White * 0, 1 * alpha);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
