@@ -3,7 +3,7 @@ Mods: {
 		Biomes: {
 			PurpleCometBiome: {
 				DisplayName: Comet Flyby
-				TownNPCDialogueName: the Purple Comet Biome
+				TownNPCDialogueName: the Comet
 			}
 		}
 
@@ -14,8 +14,8 @@ Mods: {
 			}
 
 			PlantGunB: {
-				DisplayName: Mods.MythosOfMoonlight.BuffName.PlantGunB
-				Description: Mods.MythosOfMoonlight.BuffDescription.PlantGunB
+				DisplayName: Glowing
+				Description: Icky!
 			}
 
 			LilPilgB: {
@@ -25,23 +25,23 @@ Mods: {
 
 			RustyCut: {
 				DisplayName: Rusty Cut
-				Description: Mods.MythosOfMoonlight.Buffs.RustyCut.Description
+				Description: Ouch
 			}
 		}
 
 		Items: {
 			EntropicBody: {
-				DisplayName: Entropic Body
+				DisplayName: Entropic Plates
 				Tooltip: ""
 			}
 
 			EntropicHead: {
-				DisplayName: Entropic Head
+				DisplayName: Entropic Mask
 				Tooltip: ""
 			}
 
 			EntropicLegs: {
-				DisplayName: Entropic Legs
+				DisplayName: Entropic Belt
 				Tooltip: ""
 			}
 
@@ -173,7 +173,7 @@ Mods: {
 
 			MortStaff: {
 				DisplayName: Leech Life
-				Tooltip: Shoots a dart that splits into 4 healing orbs on hit.
+				Tooltip: Shoot a dart that heals you based on your amount of mana
 			}
 
 			MortTrophy: {
@@ -215,7 +215,7 @@ Mods: {
 			}
 
 			FireflyStick: {
-				DisplayName: Firefly Stick
+				DisplayName: Firefly Lantern
 				Tooltip:
 					'''
 					Launches loyal fireflies to the cursor and back
@@ -281,7 +281,7 @@ Mods: {
 				Tooltip: ""
 			}
 
-			PilgrimLampI: {
+			PilgrimLampI: {	
 				DisplayName: Starine Spotlight
 				Tooltip: ""
 			}
@@ -300,8 +300,7 @@ Mods: {
 				DisplayName: Rusty Waraxe
 				Tooltip:
 					'''
-					Has a chance to inflict a debuff that slowly decreases the target's hp
-					"It's still barely sharp enough to cut deep"
+					Barely sharp enough to occasionally cut deep wounds
 					'''
 
 				SoulCandle: {
@@ -310,156 +309,122 @@ Mods: {
 				}
 			}
 
-			Projectiles: {
-				EstrellaP.DisplayName: Estrella
-				EstrellaP2.DisplayName: Estrella
-				NovaBladeP.DisplayName: Nova Blade
-				NovaBladeP2.DisplayName: Nova Blade
-				NovaBladeP3.DisplayName: Nova Blade
-				ShinyHammerP.DisplayName: Shiny Hammer
-				PlantGunP.DisplayName: Plant Gun
-				PlantGunP2.DisplayName: Plant Gun P2
-				HoeP.DisplayName: Hoe
-				TotemsHeadP.DisplayName: Totems Head
-				EntropicTotemProjectile2.DisplayName: Totem Bullet
-				BorerP.DisplayName: 4-Bore
-				ShrimpleBullet.DisplayName: Shrimple Bullet
-				ThawGauntletP.DisplayName: Cold Touch
-				ThawGauntletP2.DisplayName: Cold Touch
-				BigSap.DisplayName: Sap
-				LittleSap.DisplayName: Sap
-				MortifloraBones.DisplayName: Dessicated Bones
-				MortifloraBones2.DisplayName: Dessicated Bones
-				MortifloraRedWave.DisplayName: Red Wave
-				CometEmberProj.DisplayName: Explosion
-				CometEmberExplode.DisplayName: Comet Ember Explode
-				CometEmberMini.DisplayName: Comet Ember Mini
-				DustDevilP.DisplayName: Dust Devil
-				VivineSpit.DisplayName: Vivine Spit
-				WardenSigil.DisplayName: Warden Sigil
-				WardenStar.DisplayName: Warden Star
-				BelladonnaBush.DisplayName: Belladonna Bush
-				Blueberry.DisplayName: Blueberry
-				Nightshade.DisplayName: Nightshade
-				Nightshade2.DisplayName: Nightshade2
-				CenturyFlowerSpore.DisplayName: Century Flower Spore
-				ChillyCenturyFlowerSpore.DisplayName: Century Flower Spore
-				Starine_Sparkle.DisplayName: Starine Sparkle
-				FrostGuardianSlashP.DisplayName: Frost Guardian Slash
-				EntropicTotemProjectile.DisplayName: Totem Bullet
-				PilgrimExplosion.DisplayName: Starine Storm
-				PilgrimP2Transition.DisplayName: Pilgrim P2 Transition
-				PilgStar.DisplayName: Starine Shaft
-				StarineFlare.DisplayName: Starine Flare
-				StarineShaft.DisplayName: Starine Shaft
-				StarineShockwave.DisplayName: Starine Shockwave
-				StarineSigil.DisplayName: Starine Sigil
-				StarineSlush.DisplayName: Starine Goop
-				StarineSlushSmall.DisplayName: Starine Goop
-				TestTentacle2.DisplayName: Test Tentacle real
-				TestTentacleProj.DisplayName: Test Tentacle
-				TestTentacleProj1.DisplayName: Test Tentacle
-				CometEmberProj2.DisplayName: Explosion
-				ScholarBolt.DisplayName: Scholar Bolt
-				ScholarBolt_Telegraph.DisplayName: Scholar Bolt_ Telegraph
-				ScholarBolt2.DisplayName: Scholar Bolt2
-				ScholarBolt3.DisplayName: Scholar Bolt3
-				ScholarCometBig.DisplayName: Scholar Comet Big
-				ScholarCometBigger.DisplayName: Scholar Comet Bigger
-				ScholarOrb.DisplayName: Scholar Orb
-				ScholarSerpent.DisplayName: Scholar Serpent
-				CenturySpewerSpore.DisplayName: Century Spewer Spore
-				FireflyMinion.DisplayName: Firefly
-				HoeP2.DisplayName: Hoe P2
-				IceShard.DisplayName: Ice Shard
-				FragmentBullet.DisplayName: Fragment Bullet
-				IrisStar.DisplayName: Iris Ember
-				MOCIrisProj.DisplayName: MOC-Iris
-				PurpurineSaberSlice.DisplayName: Iridic Saber
-				MortJavelinProjectile.DisplayName: Thornbella
-				MortKnifeProjectile.DisplayName: Chloroccyx
-				Starine_Flash.DisplayName: Starine_ Flash
-				Starine_Strobulb.DisplayName: Starine_ Strobulb
-				TestTentacle.DisplayName: Starine Swipe
-				Orbe.DisplayName: Orbe
-				ThornDart.DisplayName: ThornDart
-				LilPilg.DisplayName: Lil Pilg
-				RustyWaraxeP.DisplayName: Rusty Waraxe
-				EstrellaPImpact.DisplayName: Estrella P Impact
-				EstrellaPImpact2.DisplayName: Estrella P Impact2
-				SoulCandleHeld.DisplayName: Soul Candle Held
-				SoulFlames.DisplayName: Soul Flames
-			}
-
-			NPCs: {
-				FallingComet.DisplayName: Purple Chunk
-				CometPeep.DisplayName: Comet Peep
-				CometPeepLeader.DisplayName: Comet Peep Leader
-				JellyWanderer.DisplayName: Jelly Wanderer
-				SparkleSkittler.DisplayName: Sparkle Skittler
-				TheFish.DisplayName: Yellow Boxfish
-				CometEmber.DisplayName: Comet Ember
-				StrandedMartian.DisplayName: Stranded Martian
-				DustDevil.DisplayName: Dust Devil
-				Vivine.DisplayName: Vivine
-				AsteroidWarden.DisplayName: Asteroid Warden
-				Belladonna.DisplayName: Belladonna
-				CenturyFlower.DisplayName: Century Flower
-				Starine_Scatterer.DisplayName: Starine Scatterer
-				Starine_Sightseer.DisplayName: Starine Sightseer
-				Starine_Skipper.DisplayName: Starine Skipper
-				BorealFlower.DisplayName: Chilly Century Flower
-				FrostGuardian.DisplayName: Boreal Blade
-				EntropicTotem.DisplayName: Entropic Totem
-				Pebbi1.DisplayName: Slab Pebbi
-				Pebbi2.DisplayName: Chunk Pebbi
-				Pebbi3.DisplayName: Geode Pebbi
-				PebbiSwarm.DisplayName: PebbiSwarm
-				SunflowerLady.DisplayName: Melissa
-
-				TownNPCMood: {
-					Content: I am content.
-					NoHome: I hate not having a home.
-					FarFromHome: I am too far from home.
-					LoveSpace: I love having so much space.
-					DislikeCrowded: I dislike how crowded I am.
-					HateCrowded: I hate how crowded I am.
-					LikeNPC_Princess: I like {NPCName}.
-					Princess_LovesNPC: I like {NPCName}.
-				}
-			}
-
-			RupturedPilgrim.DisplayName: Ruptured Pilgrim
-			Starine_Symbol.DisplayName: Starine Symbol
-			StarveiledScholar.DisplayName: Starveiled Scholar
-
-			StarBit: {
-				DisplayName: Star Bit
-				Tooltip:
-					'''
-					3% increased critical strike chance
-					A delicacy among the stars!
-					'''
+			TownNPCMood: {
+				Content: I am content.
+				NoHome: I hate not having a home.
+				FarFromHome: I am too far from home.
+				LoveSpace: I love having so much space.
+				DislikeCrowded: I dislike how crowded I am.
+				HateCrowded: I hate how crowded I am.
+				LikeNPC_Princess: I like {NPCName}.
+				Princess_LovesNPC: I like {NPCName}.
 			}
 
 			SoulCandle: {
-				DisplayName: Soul Candle
 				Tooltip: ""
+				DisplayName: Soul Candle
+			}
+
+			StarBit: {
+			DisplayName: Star Bit
+			Tooltip:
+				'''
+				3% increased critical strike chance
+				Shoot a star bit on critical strikes
+				A delicacy among the stars!
+				'''
 			}
 		}
 
-		Tiles: {
-			Galactite.MapEntry: Galactite Ore
-			BossTrophy.MapEntry: Trophy
+		Projectiles: {
+	        EstrellaP.DisplayName: Estrella
+			EstrellaP2.DisplayName: Estrella
+			NovaBladeP.DisplayName: Nova Blade
+			NovaBladeP2.DisplayName: Nova Blade
+			NovaBladeP3.DisplayName: Nova Blade
+			ShinyHammerP.DisplayName: Gravitron
+			PlantGunP.DisplayName: Spitvine
+			PlantGunP2.DisplayName: Spitvine
+			HoeP.DisplayName: Hoe
+			TotemsHeadP.DisplayName: Totem's Head
+			EntropicTotemProjectile2.DisplayName: Totem Bullet
+			BorerP.DisplayName: 4-Bore
+			ShrimpleBullet.DisplayName: Shrimple Bullet
+			ThawGauntletP.DisplayName: Cold Touch
+			ThawGauntletP2.DisplayName: Cold Touch
+			BigSap.DisplayName: Sap
+			LittleSap.DisplayName: Sap
+			MortifloraBones.DisplayName: Dessicated Bones
+			MortifloraBones2.DisplayName: Dessicated Bones
+			MortifloraRedWave.DisplayName: Red Wave
+			CometEmberProj.DisplayName: Comet Ember
+			CometEmberExplode.DisplayName: Comet Ember
+			CometEmberMini.DisplayName: Comet Ember Mini
+			DustDevilP.DisplayName: Dust Devil
+			VivineSpit.DisplayName: Vivine Spit
+			WardenSigil.DisplayName: Warden Sigil
+			WardenStar.DisplayName: Warden Star
+			BelladonnaBush.DisplayName: Belladonna Bush
+			Blueberry.DisplayName: Blueberry
+			Nightshade.DisplayName: Nightshade
+			Nightshade2.DisplayName: Nightshade
+			CenturyFlowerSpore.DisplayName: Century Flower Spore
+			ChillyCenturyFlowerSpore.DisplayName: Boreal Flower Spore
+			Starine_Sparkle.DisplayName: Starine Sparkle
+			FrostGuardianSlashP.DisplayName: Boreal Blade Slash
+			EntropicTotemProjectile.DisplayName: Totem Bullet
+			PilgrimExplosion.DisplayName: Starine Storm
+			PilgrimP2Transition.DisplayName: Pilgrim P2
+			PilgStar.DisplayName: Starine Star
+			StarineFlare.DisplayName: Starine Shine
+			StarineShaft.DisplayName: Starine Shaft
+			StarineShockwave.DisplayName: Starine Shockwave
+			StarineSigil.DisplayName: Starine Sigil
+			StarineSlush.DisplayName: Starine Slush
+			StarineSlushSmall.DisplayName: Starine Slushlet
+			TestTentacle2.DisplayName: Starine Swipe
+			TestTentacleProj.DisplayName: Starine Stab
+			TestTentacleProj1.DisplayName: Test Tentacle
+			CometEmberProj2.DisplayName: Scholar Explosion
+			ScholarBolt.DisplayName: Violet Bolt
+			ScholarBolt_Telegraph.DisplayName: Scholar Bolt_ Telegraph
+			ScholarBolt2.DisplayName: Shining Star
+			ScholarBolt3.DisplayName: Radiant Star
+			ScholarCometBig.DisplayName: Comet Chunk
+			ScholarCometBigger.DisplayName: Comet Asteroid
+			ScholarOrb.DisplayName: Twilight Orb
+			ScholarSerpent.DisplayName: Energy Serpent
+			CenturySpewerSpore.DisplayName: Century Spewer Spore
+			FireflyMinion.DisplayName: Firefly
+			HoeP2.DisplayName: Hoe
+			IceShard.DisplayName: Ice Shard
+			FragmentBullet.DisplayName: Fragment Bullet
+			IrisStar.DisplayName: Iris Ember
+			MOCIrisProj.DisplayName: MOC-Iris
+			PurpurineSaberSlice.DisplayName: Iridic Saber
+			MortJavelinProjectile.DisplayName: Thornbella
+			MortKnifeProjectile.DisplayName: Chloroccyx
+			Starine_Flash.DisplayName: Starine Starflash
+			Starine_Strobulb.DisplayName: Starine Starbulb
+			TestTentacle.DisplayName: Starine Swipe
+			Orbe.DisplayName: Healing Orb
+			ThornDart.DisplayName: Thorn Dart
+			LilPilg.DisplayName: Lil' Missionary
+			RustyWaraxeP.DisplayName: Rusty Waraxe
+			EstrellaPImpact.DisplayName: Estrella
+			EstrellaPImpact2.DisplayName: Estrella
+			SoulCandleHeld.DisplayName: Soul Candle
+			SoulFlames.DisplayName: Soul Flames
+			StarBitBlue.DisplayName: Star Bit
+			ScholarPortal.DisplayName: Scholar Portal
 		}
-
 		NPCs: {
-			FallingComet.DisplayName: Falling Comet
+			FallingComet.DisplayName: Red Chunk
 			CometPeep.DisplayName: Comet Peep
-			CometPeepLeader.DisplayName: Comet Peep Leader
+			CometPeepLeader.DisplayName: Comet Peep
 			JellyWanderer.DisplayName: Jelly Wanderer
 			SparkleSkittler.DisplayName: Sparkle Skittler
-			TheFish.DisplayName: The Fish
+			TheFish.DisplayName: Yellow Boxfish
 			CometEmber.DisplayName: Comet Ember
 			StrandedMartian.DisplayName: Stranded Martian
 			DustDevil.DisplayName: Dust Devil
@@ -467,102 +432,30 @@ Mods: {
 			AsteroidWarden.DisplayName: Asteroid Warden
 			Belladonna.DisplayName: Belladonna
 			CenturyFlower.DisplayName: Century Flower
-			Starine_Scatterer.DisplayName: Starine_ Scatterer
-			Starine_Sightseer.DisplayName: Starine_ Sightseer
-			Starine_Skipper.DisplayName: Starine_ Skipper
+			Starine_Scatterer.DisplayName: Starine Scatterer
+			Starine_Sightseer.DisplayName: Starine Sightseer
+			Starine_Skipper.DisplayName: Starine Skipper
 			BorealFlower.DisplayName: Boreal Flower
-			FrostGuardian.DisplayName: Frost Guardian
+			FrostGuardian.DisplayName: Boreal Blade
 			EntropicTotem.DisplayName: Entropic Totem
-			Pebbi1.DisplayName: Pebbi1
-			Pebbi2.DisplayName: Pebbi2
-			Pebbi3.DisplayName: Pebbi3
-			PebbiSwarm.DisplayName: Pebbi Swarm
-			SunflowerLady.DisplayName: Sunflower Lady
+			Pebbi1.DisplayName: Slab Pebbi
+			Pebbi2.DisplayName: Chunk Pebbi
+			Pebbi3.DisplayName: Geode Pebbi
+			PebbiSwarm.DisplayName: PebbiSwarm
+			SunflowerLady.DisplayName: Melissa
 			RupturedPilgrim.DisplayName: Ruptured Pilgrim
-			Starine_Symbol.DisplayName: Starine_ Symbol
+			Starine_Symbol.DisplayName: Starine Symbol
 			StarveiledScholar.DisplayName: Starveiled Scholar
 		}
 
-		Projectiles: {
-			EstrellaP.DisplayName: Estrella P
-			EstrellaP2.DisplayName: Estrella P2
-			EstrellaPImpact.DisplayName: Estrella P Impact
-			NovaBladeP.DisplayName: Nova Blade P
-			NovaBladeP2.DisplayName: Nova Blade P2
-			NovaBladeP3.DisplayName: Nova Blade P3
-			ShinyHammerP.DisplayName: Shiny Hammer P
-			PlantGunP.DisplayName: Plant Gun P
-			PlantGunP2.DisplayName: Plant Gun P2
-			LilPilg.DisplayName: Lil Pilg
-			HoeP.DisplayName: Hoe P
-			RustyWaraxeP.DisplayName: Rusty Waraxe P
-			TotemsHeadP.DisplayName: Totems Head P
-			EntropicTotemProjectile2.DisplayName: Entropic Totem Projectile2
-			EntropicTotemProjectile.DisplayName: Entropic Totem Projectile
-			BorerP.DisplayName: Borer P
-			ShrimpleBullet.DisplayName: Shrimple Bullet
-			ThawGauntletP.DisplayName: Thaw Gauntlet P
-			ThawGauntletP2.DisplayName: Thaw Gauntlet P2
-			BigSap.DisplayName: Big Sap
-			LittleSap.DisplayName: Little Sap
-			MortifloraBones.DisplayName: Mortiflora Bones
-			MortifloraBones2.DisplayName: Mortiflora Bones2
-			MortifloraRedWave.DisplayName: Mortiflora Red Wave
-			CometEmberProj.DisplayName: Comet Ember Proj
-			CometEmberExplode.DisplayName: Comet Ember Explode
-			CometEmberMini.DisplayName: Comet Ember Mini
-			DustDevilP.DisplayName: Dust Devil P
-			VivineSpit.DisplayName: Vivine Spit
-			WardenSigil.DisplayName: Warden Sigil
-			WardenStar.DisplayName: Warden Star
-			BelladonnaBush.DisplayName: Belladonna Bush
-			Blueberry.DisplayName: Blueberry
-			Nightshade.DisplayName: Nightshade
-			Nightshade2.DisplayName: Nightshade2
-			CenturyFlowerSpore.DisplayName: Century Flower Spore
-			ChillyCenturyFlowerSpore.DisplayName: Chilly Century Flower Spore
-			Starine_Sparkle.DisplayName: Starine_ Sparkle
-			FrostGuardianSlashP.DisplayName: Frost Guardian Slash P
-			PilgrimExplosion.DisplayName: Pilgrim Explosion
-			PilgrimP2Transition.DisplayName: Pilgrim P2 Transition
-			PilgStar.DisplayName: Pilg Star
-			StarineFlare.DisplayName: Starine Flare
-			StarineShaft.DisplayName: Starine Shaft
-			StarineShockwave.DisplayName: Starine Shockwave
-			StarineSigil.DisplayName: Starine Sigil
-			StarineSlush.DisplayName: Starine Slush
-			StarineSlushSmall.DisplayName: Starine Slush Small
-			TestTentacle2.DisplayName: Test Tentacle2
-			TestTentacleProj.DisplayName: Test Tentacle Proj
-			TestTentacleProj1.DisplayName: Test Tentacle Proj1
-			TestTentacle.DisplayName: Test Tentacle
-			CometEmberProj2.DisplayName: Comet Ember Proj2
-			ScholarBolt.DisplayName: Scholar Bolt
-			ScholarBolt_Telegraph.DisplayName: Scholar Bolt_ Telegraph
-			ScholarBolt2.DisplayName: Scholar Bolt2
-			ScholarBolt3.DisplayName: Scholar Bolt3
-			ScholarCometBig.DisplayName: Scholar Comet Big
-			ScholarCometBigger.DisplayName: Scholar Comet Bigger
-			ScholarOrb.DisplayName: Scholar Orb
-			ScholarSerpent.DisplayName: Scholar Serpent
-			CenturySpewerSpore.DisplayName: Century Spewer Spore
-			FireflyMinion.DisplayName: Firefly Minion
-			HoeP2.DisplayName: Hoe P2
-			IceShard.DisplayName: Ice Shard
-			FragmentBullet.DisplayName: Fragment Bullet
-			IrisStar.DisplayName: Iris Star
-			MOCIrisProj.DisplayName: M O C Iris Proj
-			PurpurineSaberSlice.DisplayName: Purpurine Saber Slice
-			MortJavelinProjectile.DisplayName: Mort Javelin Projectile
-			MortKnifeProjectile.DisplayName: Mort Knife Projectile
-			SoulCandleHeld.DisplayName: Soul Candle Held
-			SoulFlames.DisplayName: Soul Flames
-			Starine_Flash.DisplayName: Starine_ Flash
-			Starine_Strobulb.DisplayName: Starine_ Strobulb
-			Orbe.DisplayName: Orbe
-			ThornDart.DisplayName: Thorn Dart
-			StarBitBlue.DisplayName: Star Bit Blue
-			ScholarPortal.DisplayName: Scholar Portal
+		Tiles: {
+			BossTrophy.MapEntry: Boss Trophy
+			Galactite.MapEntry: Galactite
 		}
+	}
+
+	Tiles: {
+		Galactite.MapEntry: Galactite Ore
+		BossTrophy.MapEntry: Trophy
 	}
 }
