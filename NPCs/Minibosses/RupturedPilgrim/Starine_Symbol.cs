@@ -318,7 +318,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     float rotate = MathHelper.ToRadians(SymbolTimer * 0.95f);
                 foreach (NPC npc in Main.npc)
                 {
-                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>()) rotate = MathHelper.ToRadians(SymbolTimer * (0.95f + MathHelper.Lerp(1, 0, npc.life / npc.lifeMax)));
+                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>()) rotate = MathHelper.ToRadians(SymbolTimer * (0.95f + MathHelper.Lerp(1, 0, (float)npc.life / npc.lifeMax)));
                 }
                 Vector2 orig = new(420, 420);
                 Color color = Color.White * scale;
