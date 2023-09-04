@@ -154,7 +154,11 @@ namespace MythosOfMoonlight.Items.Galactite
                         }
                     }
                 //Helper.DrawTexturedPrimitives(vertices2, PrimitiveType.TriangleList, tex3);
-                Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, tex2);
+                Main.spriteBatch.SaveCurrent();
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
+                Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleStrip, tex2);
+                Main.spriteBatch.ApplySaved();
             }
             //DrawData data = new DrawData(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
             //Helper.DrawWithDye(Main.spriteBatch, data, ItemID.TwilightDye, Projectile);

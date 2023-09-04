@@ -281,7 +281,7 @@ Mods: {
 				Tooltip: ""
 			}
 
-			PilgrimLampI: {	
+			PilgrimLampI: {
 				DisplayName: Starine Spotlight
 				Tooltip: ""
 			}
@@ -298,10 +298,7 @@ Mods: {
 
 			RustyWaraxe: {
 				DisplayName: Rusty Waraxe
-				Tooltip:
-					'''
-					Barely sharp enough to occasionally cut deep wounds
-					'''
+				Tooltip: Barely sharp enough to occasionally cut deep wounds
 
 				SoulCandle: {
 					DisplayName: Soul Candle
@@ -326,18 +323,18 @@ Mods: {
 			}
 
 			StarBit: {
-			DisplayName: Star Bit
-			Tooltip:
-				'''
-				3% increased critical strike chance
-				Shoot a star bit on critical strikes
-				A delicacy among the stars!
-				'''
+				DisplayName: Star Bit
+				Tooltip:
+					'''
+					3% increased critical strike chance
+					Shoot a star bit on critical strikes
+					A delicacy among the stars!
+					'''
 			}
 		}
 
 		Projectiles: {
-	        EstrellaP.DisplayName: Estrella
+			EstrellaP.DisplayName: Estrella
 			EstrellaP2.DisplayName: Estrella
 			NovaBladeP.DisplayName: Nova Blade
 			NovaBladeP2.DisplayName: Nova Blade
@@ -418,6 +415,7 @@ Mods: {
 			StarBitBlue.DisplayName: Star Bit
 			ScholarPortal.DisplayName: Scholar Portal
 		}
+
 		NPCs: {
 			FallingComet.DisplayName: Red Chunk
 			CometPeep.DisplayName: Comet Peep
