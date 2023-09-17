@@ -20,6 +20,7 @@ using System.Data;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
+    [AutoloadBossHead]	
     public class RupturedPilgrim : ModNPC
     {
         public static NPC Sym => Starine_Symbol.symbol;
