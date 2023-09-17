@@ -265,7 +265,7 @@ namespace MythosOfMoonlight
                 dustModification?.Invoke(dust);
             }
         }
-        public static void SpawnGore(NPC NPC, string gore, int amount = 1, int type = -1, Vector2 vel = default)
+        public static void SpawnGore(NPC NPC, string gore, int amount = 1, int type = -1, Vector2 vel = default, float scale = 1f)
         {
             var position = NPC.Center;
             if (type != -1)
@@ -274,7 +274,7 @@ namespace MythosOfMoonlight
             }
             for (int i = 0; i < amount; i++)
             {
-                Gore.NewGore(NPC.GetSource_OnHit(NPC), position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type);
+                Gore.NewGore(NPC.GetSource_OnHit(NPC), position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), vel, Find<ModGore>(gore).Type, scale);
             }
         }
         public static void SpawnGore(Vector2 position, string gore, int amount = 1, int type = -1, Vector2 vel = default)

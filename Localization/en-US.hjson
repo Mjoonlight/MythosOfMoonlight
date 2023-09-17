@@ -414,6 +414,7 @@ Mods: {
 			SoulFlames.DisplayName: Soul Flames
 			StarBitBlue.DisplayName: Star Bit
 			ScholarPortal.DisplayName: Scholar Portal
+			TinySightseer.DisplayName: Tiny Sightseer
 		}
 
 		NPCs: {
@@ -441,9 +442,9 @@ Mods: {
 			Pebbi3.DisplayName: Geode Pebbi
 			PebbiSwarm.DisplayName: PebbiSwarm
 			SunflowerLady.DisplayName: Melissa
-			RupturedPilgrim.DisplayName: Ruptured Pilgrim
+			RupturedPilgrim.DisplayName: Starseeing Pilgrim
 			Starine_Symbol.DisplayName: Starine Symbol
-			StarveiledScholar.DisplayName: Starveiled Scholar
+			StarveiledScholar.DisplayName: Nightveiled Scholar
 		}
 
 		Tiles: {

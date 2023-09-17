@@ -321,7 +321,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 {
                     if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>())
                     {
-                        rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * (0.95f + Utils.GetLerpValue(npc.lifeMax, 0, npc.life) * 0.5f)), 0.1f);
+                        rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * (0.95f + Utils.GetLerpValue(npc.lifeMax, 0, npc.life) * 0.25f)), 0.1f);
                         pilg = true;
                     }
                 }

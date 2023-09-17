@@ -219,7 +219,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     {
                         if (NPC.frame.Y < frameHeight * 20)
                             NPC.frame.Y += frameHeight;
-                        if (AITimer > 71 && AITimer < 125)
+                        if (AITimer > 75 && AITimer < 125)
                         {
                                 if (NPC.frame.Y < 8 * frameHeight || NPC.frame.Y > 10 * frameHeight && (NPC.frame.Y > 7 * frameHeight && NPC.frame.Y < 16 * frameHeight))
                                 NPC.frame.Y = 8 * frameHeight;
@@ -474,7 +474,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         Helper.SpawnDust(Vector2.Lerp(NPC.oldPosition, pos, (float)i / 30), NPC.Size / 2, ModContent.DustType<StarineDust>(), Helper.FromAToB(NPC.oldPosition, pos) * Main.rand.NextFloat(5f));
                     }
                     NPC.Center = pos;
-                    CameraSystem.ChangeCameraPos(pos, 50, 2f);
+                    CameraSystem.ChangeCameraPos(owner.Center, 50, 2f);
                 }
                 if (AITimer > 250)
                 {
@@ -490,10 +490,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 {
                     owner.ai[0] = 3;
                     NPC.immortal = false;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 1.1f), ModContent.ProjectileType<TinySightseer>(), 0, 0);
+                    }
                     Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 0, 100);
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Helper.SpawnGore(NPC, "MythosOfMoonlight/Starine", Main.rand.Next(4, 5));
+                        Helper.SpawnGore(NPC, "MythosOfMoonlight/Starine", Main.rand.Next(30, 40), scale: Main.rand.NextFloat(1f, 1.5f));
                         Helper.SpawnGore(NPC, "MythosOfMoonlight/PurpFabric", 1, 1);
                         Helper.SpawnGore(NPC, "MythosOfMoonlight/PurpFabric", 2, 2);
                         Helper.SpawnGore(NPC, "MythosOfMoonlight/PurpMagFabric", 1, 1);
@@ -629,35 +633,38 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         NPC.velocity *= 0.9f;
                         if (AITimer == 65)
                         {
-                            lastPPos = NPC.Center - new Vector2(0, 100).RotatedBy(Main.rand.Next(new float[] { 0, MathHelper.PiOver4, MathHelper.PiOver2 }) * player.direction);
-                            Vector2 pos = owner.Center;
+                            lastPPos = NPC.Center - new Vector2(0, 100).RotatedBy(Main.rand.Next(new float[] { 0, MathHelper.PiOver2 }) * player.direction);
+                            Vector2 pos = Sym.Center;
                             bool hasReflected = false;
                             bool outside = false;
                             int times = 0;
-                            Vector2 vel = Helper.FromAToB(NPC.Center, player.Center) * 30;
-                            while (times < 6 + (Main.getGoodWorld ? 5 : 0))
+                            for (int i = 0; i < 5; i++)
                             {
-                                if (Vector2.Distance(owner.Center, pos) > 420)
+                                Vector2 vel = Helper.FromAToB(NPC.Center, lastPPos).RotatedBy(Helper.CircleDividedEqually(i, 5)) * 30;
+                                while (times < 6 + (Main.getGoodWorld ? 5 : 0))
                                 {
-                                    if (!outside)
+                                    if (Vector2.Distance(Sym.Center, pos) > 420)
                                     {
-                                        times++;
-                                        outside = true;
-                                        if (!hasReflected)
+                                        if (!outside)
                                         {
-                                            vel = -vel.RotatedBy((MathHelper.ToRadians(18 / (Main.getGoodWorld ? 2 : 1))));
-                                            hasReflected = true;
-                                        }
-                                        else
-                                        {
-                                            vel = -vel.RotatedBy((MathHelper.ToRadians(36 / (Main.getGoodWorld ? 2 : 1))));
+                                            times++;
+                                            outside = true;
+                                            if (!hasReflected)
+                                            {
+                                                vel = -vel.RotatedBy((MathHelper.ToRadians(18 / (Main.getGoodWorld ? 2 : 1))));
+                                                hasReflected = true;
+                                            }
+                                            else
+                                            {
+                                                vel = -vel.RotatedBy((MathHelper.ToRadians(36 / (Main.getGoodWorld ? 2 : 1))));
+                                            }
                                         }
                                     }
+                                    else
+                                        outside = false;
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Vector2.Zero).noGravity = true;
+                                    pos += vel;
                                 }
-                                else
-                                    outside = false;
-                                Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Vector2.Zero).noGravity = true;
-                                pos += vel;
                             }
                         }
                         if (AITimer == 90)

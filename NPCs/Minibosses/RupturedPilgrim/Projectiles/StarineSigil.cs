@@ -126,7 +126,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                         Main.dust[dust].noGravity = true;
                     }
                     //for (int i = 0; i < 3; i++)
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), 8.5f * Vector2.UnitY, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), new Vector2(Main.rand.NextFloat(-1, 1), -3), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                     SoundStyle style = SoundID.Item21;
                     style.Volume = 0.5f;
                     SoundEngine.PlaySound(style, Projectile.Center);
@@ -149,7 +149,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                         Main.dust[dust].noGravity = true;
                     }
                     //for (int i = 0; i < 3; i++)
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), 10f * Vector2.UnitY, ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(Main.rand.Next(-35, 35), 0), new Vector2(Main.rand.NextFloat(-1, 1), -3), ModContent.ProjectileType<StarineShaft>(), projDamage, 0);
                     SoundStyle style = SoundID.Item21;
                     style.Volume = 0.5f;
                     SoundEngine.PlaySound(style, Projectile.Center);

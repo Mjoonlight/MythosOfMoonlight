@@ -77,13 +77,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                     else
                         Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(36)));
                     Projectile.ai[1] = 1;
+                    Projectile.ai[2]++;
                 }
             }
             else
                 Projectile.ai[1] = 0;
-
-            if (Projectile.timeLeft < 100)
-                Projectile.localAI[0] -= 0.01f;
+            if (Projectile.ai[2] >= 5)
+                Projectile.Kill();
+            if (Projectile.timeLeft < 100 || Projectile.ai[2] >= 4)
+                Projectile.localAI[0] -= 0.05f;
             //if (Vector2.Distance(Sym.Center, Projectile.Center) > 425)
             //{
             //    Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();

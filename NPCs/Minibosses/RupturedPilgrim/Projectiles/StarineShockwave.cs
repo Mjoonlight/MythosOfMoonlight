@@ -25,6 +25,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
         }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Width = 45;
+            hitbox.Height = 30;
+        }
+        public override bool? CanDamage()
+        {
+            return Projectile.frame == 1 || Projectile.frame == 2;
+        }
         public override bool ShouldUpdatePosition() => false;
         public override void Kill(int timeLeft)
         {
@@ -33,7 +42,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 SoundStyle style = SoundID.DD2_BetsyFireballImpact;
                 style.Volume = 0.5f;
                 SoundEngine.PlaySound(style, Projectile.Center);
-                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 50, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
                 a.ai[0] = Projectile.ai[0] + 1;
                 a.ai[1] = Projectile.ai[1];
             }
