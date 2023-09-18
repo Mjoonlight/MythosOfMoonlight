@@ -267,15 +267,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((int)Next);
+            writer.Write((int)StateBeforeP2);
             writer.Write(aitimer2);
             writer.WriteVector2(lastPPos);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Next = (AIState)reader.ReadSingle();
+            StateBeforeP2 = (AIState)reader.ReadSingle();
             aitimer2 = reader.ReadSingle();
             lastPPos = reader.ReadVector2();
         }
+        AIState StateBeforeP2;
         private AIState State
         {
             get { return (AIState)(int)NPC.ai[0]; }
@@ -392,6 +395,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 }
                 if (!didp2)
                 {
+                    if (State != AIState.Idle && State != AIState.Death && State != AIState.Spawn)
+                        StateBeforeP2 = State;
+                    else
+                        StateBeforeP2 = AIState.StarineSigil;
                     SoundEngine.PlaySound(SoundID.NPCDeath51);
                     SwitchTo(AIState.SymbolLaser);
                     NPC.velocity = Vector2.Zero;
@@ -966,7 +973,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             AITimer = 0;
                             NPC.velocity = Vector2.Zero;
                             NPC.frameCounter = 0;
-                            Next = AIState.StarineSigil;
+                            if (NPC.ai[2] == 0)
+                            {
+                                Next = StateBeforeP2;
+                                NPC.ai[2] = 1;
+                            }
+                            else
+                                Next = AIState.StarineSigil;
                             SwitchTo(AIState.Idle);
                             }
                         break;

@@ -32,7 +32,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override bool? CanDamage()
         {
-            return Projectile.frame == 1 || Projectile.frame == 2;
+            return Projectile.frame <= 2;
         }
         public override bool ShouldUpdatePosition() => false;
         public override void Kill(int timeLeft)
