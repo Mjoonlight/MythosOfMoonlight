@@ -352,6 +352,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             return false;
         }
         float rotate;
+        float rotateSpeed;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (State != NState.Normal)
@@ -364,12 +365,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     {
                         if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>() && npc.ai[0] != 11)
                         {
-                            rotate += MathHelper.ToRadians(3 - (npc.life / npc.lifeMax) * 2);
+                            rotateSpeed = (float)((float)npc.life / (float)npc.lifeMax);
                             //rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * (0.95f + Utils.GetLerpValue(npc.lifeMax, 0, npc.life) * 0.25f)), 0.1f);
                         }
                     }
                     //rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * 0.95f), 0.1f);
                 }
+                rotate += MathHelper.ToRadians(3 - rotateSpeed * 2);
                 Vector2 orig = new(420, 420);
                 Color color = Color.White * scale;
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Starine_Barrier").Value;
