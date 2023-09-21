@@ -61,8 +61,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
             }
             NPC Sym = Main.npc[sym];
-            if (!Sym.active)
+            if (!Sym.active || Sym.ai[3] < 350)
+            {
+                Projectile.active = false;
                 return;
+            }
             //if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
             //  Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;
             if (Vector2.Distance(Sym.Center, Projectile.Center) > 420)

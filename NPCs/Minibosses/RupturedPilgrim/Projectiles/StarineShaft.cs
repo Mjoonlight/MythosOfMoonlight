@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Projectile.damage = 10;
             Projectile.width = 26;
-            Projectile.height = 26;
+            Projectile.height = 60;
             Projectile.aiStyle = 1;
             Projectile.friendly = false;
             Projectile.tileCollide = true;
@@ -87,15 +87,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
-            Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
-            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White, Projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
 
             //3hi31mg
             var off = new Vector2(Projectile.width / 2, Projectile.height / 2);
             var clr = new Color(255, 255, 255, 255); // full white
             var texture = TextureAssets.Projectile[Projectile.type].Value;
-            var frame = new Rectangle(0, Projectile.frame, Projectile.width, Projectile.height);
-            var orig = frame.Size() / 2f;
             var trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
 
             Main.spriteBatch.End();
@@ -105,8 +102,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 float scale = MathHelper.Lerp(0.70f, 1f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
-                SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, frame, clr * (1f - fadeMult * i), Projectile.oldRot[i], orig, scale, flipType, 0f);
+                SpriteEffects flipType = SpriteEffects.None;
+                Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i), Projectile.oldRot[i], drawTexture.Size() / 2, 1, flipType, 0f);
             }
 
             Main.spriteBatch.End();

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
+using MythosOfMoonlight.Projectiles.VFXProjectiles;
 using System;
 using System.IO;
 using Terraria;
@@ -30,6 +31,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             // NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.ActsLikeTownNPC[Type] = true;
         }
+        public override Color? GetAlpha(Color drawColor) => Color.White;
         public override void SetDefaults()
         {
             NPC.width = 54;
@@ -51,7 +53,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             Normal,
             Invulerable,
             Laser,
-            Death
+            Death,
+            Despawn
         }
         private NState State
         {
@@ -100,156 +103,194 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 NPC.netUpdate = true;
             }*/
             //Main.NewText(NPC.Center.Distance(Main.LocalPlayer.Center));
-            Lighting.AddLight(NPC.Center, 1f, 1f, 1f);
-            FloatTimer++;
-            if (CircleCenter != Vector2.Zero)
+            if (State != NState.Despawn)
             {
-                if (State != NState.Laser)
-                    NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
-            }
-            if (State != NState.Normal && State != NState.Death)
-            {
-                if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && SymbolTimer > 3)
-                    NPC.active = false;
-            }
-            if (State != NState.Normal)
-            SymbolTimer++;
-
-            if (CircleCenter == Vector2.Zero)
-                CircleCenter = NPC.Center;
-
-            switch (State)
-            {
-                case NState.Normal:
-                    NPC.dontTakeDamage = true;
-                    break;
-                case NState.Invulerable:
-                    NPC.dontTakeDamage = true;
-                    Radius = Math.Min(SymbolTimer * 3.5f, 420f);
-                    break;
-                case NState.Laser:
-                    StateTimer++;
-                    NPC.velocity = (CircleCenter - NPC.Center) / 10f;
-                    if (StateTimer == 10)
-                    {
-                        SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
-                        for (int i = 4; i <= 360; i += 4)
-                        {
-                            Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
-                            Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
-                            dust.noGravity = true;
-                        }
-                    }
-                    SoundStyle style = SoundID.Item82;
-                    style.Volume = 0.5f;
-                    if (StateTimer == 40)
-                    {
-                        SoundEngine.PlaySound(style, NPC.Center);
-                        float offset = 0;
-                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
-                        {
-                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
-                            Vector2 pos = NPC.Center + new Vector2(500, 0).RotatedBy(angle);
-                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                            a.tileCollide = false;
-                            a.aiStyle = 0;
-                            a.timeLeft = 110;
-                        }
-                    }
-                    if (StateTimer == 50)
-                    {
-                        SoundEngine.PlaySound(style, NPC.Center);
-                        float offset = MathHelper.PiOver4 / 2;
-                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
-                        {
-                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
-                            Vector2 pos = NPC.Center + new Vector2(600, 0).RotatedBy(angle);
-                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                            a.tileCollide = false;
-                            a.aiStyle = 0;
-                            a.ai[0] = -60;
-                            a.timeLeft = 115;
-                        }
-                    }
-                    if (StateTimer == 60)
-                    {
-                        SoundEngine.PlaySound(style, NPC.Center);
-                        float offset = MathHelper.PiOver4;
-                        for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
-                        {
-                            float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
-                            Vector2 pos = NPC.Center + new Vector2(700, 0).RotatedBy(angle);
-                            Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
-                            a.tileCollide = false;
-                            a.aiStyle = 0;
-                            a.ai[0] = -120;
-                            a.timeLeft = 120;
-                        }
-                    }
-                    if (StateTimer == 70)
-                    {
-                        //SoundEngine.PlaySound(SoundID., NPC.Center);
-                        for (int i = 4; i <= 360; i += 4)
-                        {
-                            Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
-                            Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
-                            dust.noGravity = true;
-                        }
-                        StateTimer = 0;
-                        SwitchTo(NState.Invulerable);
-                    }
-                    /*if (StateTimer == 120)
-                    {
-                        for (int i = 90; i <= 360; i += 90)
-                        {
-                            Vector2 shoot = MathHelper.ToRadians(i + 45).ToRotationVector2();
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
-                        }
-                        StateTimer = 0;
-                    }*/
-                    break;
-                case NState.Death:
-                    Radius -= 3.5f;
-                    if (Radius <= 0f)
-                        StateTimer++;
-
-                    if (StateTimer > 0)
-                        NPC.velocity = CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - NPC.Center;
-
-                    if (StateTimer == 120)
-                    {
-                        NPC.life = 0;
-                        NPC.checkDead();
-                    }
-                    break;
-            }
-            if (Vector2.Distance(NPC.Center, Main.LocalPlayer.Center) <= 1000f)
-            {
-                if (Radius >= 400 && Vector2.Distance(CircleCenter, Main.LocalPlayer.Center) > 420)
+                Lighting.AddLight(NPC.Center, 1f, 1f, 1f);
+                FloatTimer++;
+                if (CircleCenter != Vector2.Zero)
                 {
-                    Vector2 vel = Utils.SafeNormalize(CircleCenter - Main.LocalPlayer.Center, Vector2.Zero);
-                    Main.LocalPlayer.Center += vel * 9f;
-                    Main.LocalPlayer.velocity = vel * 1.25f;
-                    //Main.LocalPlayer.itemTime = Main.LocalPlayer.HeldItem.useTime - 2;
-                    Main.LocalPlayer.gravity = 0f;
-                    Main.LocalPlayer.controlMount = false;
-                    Main.LocalPlayer.controlHook = false;
-                    for (int i = 1; i <= 10; i++)
+                    if (State != NState.Laser)
+                        NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
+                }
+                if (State != NState.Normal && State != NState.Death)
+                {
+                    if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && SymbolTimer > 3)
                     {
-                        Dust dust = Dust.NewDustDirect(Main.LocalPlayer.position, Main.LocalPlayer.width, Main.LocalPlayer.height, ModContent.DustType<StarineDust>());
-                        dust.noGravity = true;
-                        dust.velocity = vel * -5;
-                    }
-                    Main.LocalPlayer.statLife -= 1;
-                    if (Main.LocalPlayer.statLife <= 0)
-                    {
-                        string text = " tried to escape.";
-                        Main.LocalPlayer.KillMe(PlayerDeathReason.ByCustomReason(Main.LocalPlayer.name + text), 9999, 0, false);
+                        StateTimer = 0;
+                        SymbolTimer = 0;
+                        State = NState.Despawn;
+                        //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
+                        //NPC.active = false;
                     }
                 }
+                if (State != NState.Normal)
+                    SymbolTimer++;
+
+                if (CircleCenter == Vector2.Zero)
+                    CircleCenter = NPC.Center;
+
+                switch (State)
+                {
+                    case NState.Normal:
+                        NPC.dontTakeDamage = true;
+                        break;
+                    case NState.Invulerable:
+                        NPC.dontTakeDamage = true;
+                        Radius = Math.Min(SymbolTimer * 3.5f, 420f);
+                        break;
+                    case NState.Laser:
+                        StateTimer++;
+                        NPC.velocity = (CircleCenter - NPC.Center) / 10f;
+                        if (StateTimer == 10)
+                        {
+                            SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
+                            for (int i = 4; i <= 360; i += 4)
+                            {
+                                Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
+                                Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
+                                dust.noGravity = true;
+                            }
+                        }
+                        SoundStyle style = SoundID.Item82;
+                        style.Volume = 0.5f;
+                        if (StateTimer == 40)
+                        {
+                            SoundEngine.PlaySound(style, NPC.Center);
+                            float offset = 0;
+                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                Vector2 pos = NPC.Center + new Vector2(500, 0).RotatedBy(angle);
+                                Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                                a.tileCollide = false;
+                                a.aiStyle = 0;
+                                a.timeLeft = 110;
+                            }
+                        }
+                        if (StateTimer == 50)
+                        {
+                            SoundEngine.PlaySound(style, NPC.Center);
+                            float offset = MathHelper.PiOver4 / 2;
+                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                Vector2 pos = NPC.Center + new Vector2(600, 0).RotatedBy(angle);
+                                Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                                a.tileCollide = false;
+                                a.aiStyle = 0;
+                                a.ai[0] = -60;
+                                a.timeLeft = 115;
+                            }
+                        }
+                        if (StateTimer == 60)
+                        {
+                            SoundEngine.PlaySound(style, NPC.Center);
+                            float offset = MathHelper.PiOver4;
+                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                Vector2 pos = NPC.Center + new Vector2(700, 0).RotatedBy(angle);
+                                Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                                a.tileCollide = false;
+                                a.aiStyle = 0;
+                                a.ai[0] = -120;
+                                a.timeLeft = 120;
+                            }
+                        }
+                        if (StateTimer == 70)
+                        {
+                            //SoundEngine.PlaySound(SoundID., NPC.Center);
+                            for (int i = 4; i <= 360; i += 4)
+                            {
+                                Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
+                                Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
+                                dust.noGravity = true;
+                            }
+                            StateTimer = 0;
+                            SwitchTo(NState.Invulerable);
+                        }
+                        /*if (StateTimer == 120)
+                        {
+                            for (int i = 90; i <= 360; i += 90)
+                            {
+                                Vector2 shoot = MathHelper.ToRadians(i + 45).ToRotationVector2();
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 15), shoot, ModContent.ProjectileType<TestTentacleProj>(), 8, .1f, Main.myPlayer);
+                            }
+                            StateTimer = 0;
+                        }*/
+                        break;
+                    case NState.Death:
+                        Radius -= 3.5f;
+                        if (Radius <= 0f)
+                            StateTimer++;
+
+                        if (StateTimer > 0)
+                            NPC.velocity = CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - NPC.Center;
+
+                        if (StateTimer == 120)
+                        {
+                            NPC.life = 0;
+                            NPC.checkDead();
+                        }
+                        break;
+                }
+                if (Radius >= 400)
+                {
+                    foreach (NPC npc in Main.npc)
+                    {
+                        if (npc.active && !npc.friendly && !npc.boss)
+                        {
+                            if (npc.Distance(NPC.Center) < 450)
+                            {
+                                npc.Center += Helper.FromAToB(NPC.Center, npc.Center) * 10;
+                                Dust dust = Dust.NewDustDirect(Main.LocalPlayer.position, Main.LocalPlayer.width, Main.LocalPlayer.height, ModContent.DustType<StarineDust>());
+                                dust.noGravity = true;
+                                dust.velocity = Helper.FromAToB(NPC.Center, npc.Center) * 10;
+                            }
+                        }
+                    }
+                }
+                if (Vector2.Distance(NPC.Center, Main.LocalPlayer.Center) <= 1000f)
+                {
+                    if (Radius >= 400 && Vector2.Distance(CircleCenter, Main.LocalPlayer.Center) > 420)
+                    {
+                        Vector2 vel = Utils.SafeNormalize(CircleCenter - Main.LocalPlayer.Center, Vector2.Zero);
+                        Main.LocalPlayer.Center += vel * 9f;
+                        Main.LocalPlayer.velocity = vel * 1.25f;
+                        //Main.LocalPlayer.itemTime = Main.LocalPlayer.HeldItem.useTime - 2;
+                        Main.LocalPlayer.gravity = 0f;
+                        Main.LocalPlayer.controlMount = false;
+                        Main.LocalPlayer.controlHook = false;
+                        for (int i = 1; i <= 10; i++)
+                        {
+                            Dust dust = Dust.NewDustDirect(Main.LocalPlayer.position, Main.LocalPlayer.width, Main.LocalPlayer.height, ModContent.DustType<StarineDust>());
+                            dust.noGravity = true;
+                            dust.velocity = vel * -5;
+                        }
+                        Main.LocalPlayer.statLife -= 1;
+                        if (Main.LocalPlayer.statLife <= 0)
+                        {
+                            string text = " tried to escape.";
+                            Main.LocalPlayer.KillMe(PlayerDeathReason.ByCustomReason(Main.LocalPlayer.name + text), 9999, 0, false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Radius -= 7.5f;
+                if (Radius < 10 && StateTimer == 0)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
+                    StateTimer = 1;
+                }
+                if (StateTimer != 0)
+                    StateTimer++;
+                if (StateTimer > 10)
+                    NPC.active = false;
             }
         }
         public override void FindFrame(int frameHeight)
@@ -316,17 +357,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             if (State != NState.Normal)
             {
                 float scale = Radius / 280f;
-                bool pilg = false;
-                foreach (NPC npc in Main.npc)
+
+                if (State != NState.Despawn)
                 {
-                    if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>())
+                    foreach (NPC npc in Main.npc)
                     {
-                        rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * (0.95f + Utils.GetLerpValue(npc.lifeMax, 0, npc.life) * 0.25f)), 0.1f);
-                        pilg = true;
+                        if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>() && npc.ai[0] != 11)
+                        {
+                            rotate += MathHelper.ToRadians(3 - (npc.life / npc.lifeMax) * 2);
+                            //rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * (0.95f + Utils.GetLerpValue(npc.lifeMax, 0, npc.life) * 0.25f)), 0.1f);
+                        }
                     }
+                    //rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * 0.95f), 0.1f);
                 }
-                if (!pilg)
-                    rotate = MathHelper.Lerp(rotate, MathHelper.ToRadians(SymbolTimer * 0.95f), 0.1f);
                 Vector2 orig = new(420, 420);
                 Color color = Color.White * scale;
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Starine_Barrier").Value;
