@@ -881,14 +881,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 SoundEngine.PlaySound(SoundID.AbigailUpgrade);
 
                             }
-                            if (AITimer < 40)
-                            {
-                                float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
-                                float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
-                                NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
-                            }
-                            else
-                                NPC.velocity *= .9f;
+                            float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
+                            float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
+                            NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
 
                             if (AITimer == 40)
                             {
