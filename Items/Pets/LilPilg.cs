@@ -72,10 +72,10 @@ namespace MythosOfMoonlight.Items.Pets
             for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[Type]; i++)
             {
                 float fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Type];
-                Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + frames.Size() / 2 + new Vector2(0, -1) - Main.screenPosition, frames, Color.White * (1f - fadeMult * i), Projectile.oldRot[i], frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + frames.Size() / 2 + new Vector2(0, 1) - Main.screenPosition, frames, Color.White * (1f - fadeMult * i), Projectile.oldRot[i], frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             }
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frames, lightColor, Projectile.rotation, frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, frames, Color.White, Projectile.rotation, frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, 2), frames, lightColor, Projectile.rotation, frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition + new Vector2(0, 2), frames, Color.White, Projectile.rotation, frames.Size() / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             return false;
         }
 
