@@ -882,7 +882,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 
                             }
                             if (AITimer < 40)
-                                NPC.velocity = (owner.Center - new Vector2(0, 100) - NPC.Center) / 10f;
+                            {
+                                float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
+                                float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
+                                NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
+                            }
                             else
                                 NPC.velocity *= .9f;
 
@@ -927,7 +931,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     dust.noGravity = true;
                                 }
                                 NPC.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
-                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + Main.rand.NextVector2Circular(NPC.width, NPC.height), Vector2.Zero, ModContent.ProjectileType<StarineFlare>(), 20, 0).ai[0] = 210 + (70 * 4) - AITimer;
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + Main.rand.NextVector2Circular(NPC.width, NPC.height), Vector2.Zero, ModContent.ProjectileType<StarineFlare>(), 10, 0).ai[0] = 210 + (70 * 4) - AITimer;
                             }
                             if (AITimer > 160)
                             {

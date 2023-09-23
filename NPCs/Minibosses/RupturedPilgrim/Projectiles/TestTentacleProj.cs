@@ -65,7 +65,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 {
                     float factor = 1f;
                     Vector2 velocity = Projectile.velocity * factor * 4f;
-                    Projectile.rotation = 0.3f * (float)Math.Sin((double)(value / 100f)) + velocity.ToRotation();
+                    Projectile.rotation = 0.1f * (float)Math.Sin((double)(value / 100f)) + velocity.ToRotation();
                     rots.Insert(0, Projectile.rotation);
                     while (rots.Count > Projectile.ai[0])
                     {
