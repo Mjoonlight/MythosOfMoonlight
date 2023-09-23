@@ -706,10 +706,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                     case AIState.StarineShafts:
                         {
-                            if (AITimer < 60)
-                                NPC.velocity = (owner.Center - new Vector2(0, 50) - NPC.Center) / 10f;
-                            else
-                                NPC.velocity *= .9f;
+                            float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
+                            float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
+                            NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
 
                             if (AITimer == 60)
                             {
@@ -881,9 +880,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 SoundEngine.PlaySound(SoundID.AbigailUpgrade);
 
                             }
-                            float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
-                            float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
-                            NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
+                            if (AITimer < 40)
+                            {
+                                NPC.velocity = (owner.Center - new Vector2(0, 100) - NPC.Center) / 10f;
+                            }
+                            else
+                                NPC.velocity *= .9f;
 
                             if (AITimer == 40)
                             {
