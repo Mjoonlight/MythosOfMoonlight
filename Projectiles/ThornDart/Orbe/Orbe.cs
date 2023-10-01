@@ -89,7 +89,7 @@ namespace MythosOfMoonlight.Projectiles.ThornDart.Orbe
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.statLife += 3;
-            Kill(0);
+            OnKill(0);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

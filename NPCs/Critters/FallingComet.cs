@@ -21,10 +21,7 @@ namespace MythosOfMoonlight.NPCs.Critters
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                ImmuneToAllBuffsThatAreNotWhips = true
-            });
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
             //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             //NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
         }

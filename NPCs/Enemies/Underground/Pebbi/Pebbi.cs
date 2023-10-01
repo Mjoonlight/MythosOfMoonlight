@@ -15,15 +15,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         {
             // DisplayName.SetDefault("Slab Pebbi");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[] {
-                    BuffID.Confused,
-                    BuffID.Poisoned,
-                    BuffID.OnFire,
-                    BuffID.Venom
-                }
-            });
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
@@ -97,16 +89,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         {
             // DisplayName.SetDefault("Chunk Pebbi");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[] {
-                    BuffID.Confused,
-                    BuffID.Poisoned,
-                    BuffID.OnFire,
-                    BuffID.Venom
-                }
-            });
-
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPC.AddElement(CrossModHelper.Earth);
@@ -179,15 +162,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
         {
             // DisplayName.SetDefault("Geode Pebbi");
             Main.npcFrameCount[NPC.type] = 5;
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[] {
-                    BuffID.Confused,
-                    BuffID.Poisoned,
-                    BuffID.OnFire,
-                    BuffID.Venom
-                }
-            });
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);

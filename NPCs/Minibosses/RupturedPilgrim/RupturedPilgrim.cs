@@ -17,6 +17,7 @@ using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Pets;
 using MythosOfMoonlight.Common.Systems;
 using System.Data;
+using System.Collections.Generic;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -357,6 +358,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         {
             if (NPC.life <= 0 && !hasDoneDeathDrama)
             {
+                List<int> types = new List<int>
+                {
+                    ModContent.ProjectileType<StarineFlare>(),
+                    ModContent.ProjectileType<PilgStar>(),
+                    ModContent.ProjectileType<StarineSigil>(),
+                    ModContent.ProjectileType<StarineShaft>()
+                };
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && types.Contains(proj.type))
+                        proj.Kill();
+                }
                 Player player = Main.player[NPC.target];
                 SoundEngine.PlaySound(SoundID.NPCDeath51);
                 SoundEngine.PlaySound(SoundID.NPCDeath52, NPC.Center);

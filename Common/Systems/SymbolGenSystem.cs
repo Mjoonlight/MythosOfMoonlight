@@ -77,8 +77,8 @@ namespace MythosOfMoonlight.Common.Systems
             {
                 for (int m = 0; m < 4; m++)
                 {
-                    WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 4 + m, TileID.Dirt, forced: true);
-                    Tile tile = Main.tile[baseCheckX + l, baseCheckY + 4 + m];
+                    WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 5 + m, TileID.Dirt, forced: true);
+                    Tile tile = Main.tile[baseCheckX + l, baseCheckY + 5 + m];
                     tile.Slope = SlopeType.Solid;
                 }
                 for (int m = 0; m < 30; m++)
@@ -86,19 +86,19 @@ namespace MythosOfMoonlight.Common.Systems
                     if (Main.tile[baseCheckX + l, baseCheckY - m].TileType == TileID.Trees)
                         WorldGen.KillTile(baseCheckX + l, baseCheckY - m, false, false, false);
                 }
-                WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 4, TileID.Dirt, false, true, -1, 0);
-                Tile t = Main.tile[baseCheckX + l, baseCheckY + 4];
+                WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 5, TileID.Dirt, false, true, -1, 0);
+                Tile t = Main.tile[baseCheckX + l, baseCheckY + 5];
                 t.Slope = SlopeType.Solid;
             }
-            WorldGen.PlaceTile(baseCheckX + 1, baseCheckY + 3, ModContent.TileType<PilgrimLamp>(), false, true, -1, 0);
-            WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 3, ModContent.TileType<PilgrimCan>(), false, true, -1, 0);
+            WorldGen.PlaceTile(baseCheckX + 1, baseCheckY + 4, ModContent.TileType<PilgrimLamp>(), false, true, -1, 0);
+            WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 4, ModContent.TileType<PilgrimCan>(), false, true, -1, 0);
             //WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 2, TileID.PlatinumCandle, false, true, -1, 0);
-            WorldGen.PlaceTile(baseCheckX + 5, baseCheckY + 3, ModContent.TileType<PilgrimBed>(), false, true, -1, 0);
-            WorldGen.PlaceTile(baseCheckX + 7, baseCheckY + 1, ModContent.TileType<SymbolPointTile>(), false, true, -1, 0);
+            WorldGen.PlaceTile(baseCheckX + 5, baseCheckY + 4, ModContent.TileType<PilgrimBed>(), false, true, -1, 0);
+            WorldGen.PlaceTile(baseCheckX + 7, baseCheckY + 2, ModContent.TileType<SymbolPointTile>(), false, true, -1, 0);
         }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
             if (ShiniesIndex != -1)
             {
                 tasks.Add(new PassLegacy("Generating the Starine Site", GenStruct));

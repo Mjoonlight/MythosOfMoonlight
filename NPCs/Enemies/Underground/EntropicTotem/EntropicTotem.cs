@@ -18,17 +18,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
         {
             // DisplayName.SetDefault("Entropic Totem");
             Main.npcFrameCount[NPC.type] = 5;
-
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[] {
-                    BuffID.Confused,
-                    BuffID.Poisoned,
-                    BuffID.OnFire,
-                    BuffID.Venom
-                }
-            });
-
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1 };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPC.AddNPCElementList("Inorganic");
@@ -178,7 +168,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
         {
             float chance = !NPC.AnyNPCs(ModContent.NPCType<EntropicTotem>()) && !(spawnInfo.Player.ZoneSnow || spawnInfo.Player.ZoneUndergroundDesert || spawnInfo.Player.ZoneDungeon || spawnInfo.Player.ZoneJungle || spawnInfo.PlayerSafe || spawnInfo.Player.ZoneUnderworldHeight) && (spawnInfo.Player.ZoneNormalCaverns) ? 0.025f : 0f;
             return chance;
-        } 
+        }
 
     }
 }

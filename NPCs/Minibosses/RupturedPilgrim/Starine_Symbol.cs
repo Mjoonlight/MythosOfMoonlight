@@ -21,10 +21,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         {
             // DisplayName.SetDefault("Starine Symbol");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.DebuffImmunitySets.Add(Type, new NPCDebuffImmunityData
-            {
-                ImmuneToAllBuffsThatAreNotWhips = true
-            });
+            NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
 
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
             //NPCID.Sets.NPCBestiaryDrawModifiers value = new(0) { Velocity = 1f, };
@@ -110,7 +107,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (CircleCenter != Vector2.Zero)
                 {
                     if (State != NState.Laser)
-                        NPC.velocity = (CircleCenter + new Vector2(0, 10f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
+                        NPC.velocity = (CircleCenter + new Vector2(0, 9f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
                 }
                 if (State != NState.Normal && State != NState.Death)
                 {
