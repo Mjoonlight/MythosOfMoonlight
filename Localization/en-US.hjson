@@ -331,6 +331,11 @@ Mods: {
 					A delicacy among the stars!
 					'''
 			}
+
+			StarseersPamphlet: {
+				DisplayName: Starseer's Pamphlet
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -416,6 +421,9 @@ Mods: {
 			ScholarPortal.DisplayName: Scholar Portal
 			TinySightseer.DisplayName: Tiny Sightseer
 			QuickFlare.DisplayName: Quick Flare
+			PilgStarBeam.DisplayName: Pilg Star Beam
+			StarineSigil2.DisplayName: Starine Sigil2
+			PilgStar2.DisplayName: Pilg Star2
 		}
 
 		NPCs: {

@@ -54,10 +54,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.tileCollide = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 350;
+            Projectile.timeLeft = 250;
         }
         int projDamage = 8;
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float offsett = Main.rand.NextFloat(MathHelper.Pi * 2);
             /*for (int i = 0; i < 3; i++)
@@ -66,20 +66,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.One.RotatedBy(angle) * 3, ModContent.ProjectileType<StarineShaft>(), 10, 0, ai2: 1);
             }*/
             SoundStyle style = SoundID.Item82;
-            style.Volume = 0.5f;
             SoundEngine.PlaySound(style, Projectile.Center);
             for (int i = 0; i < 30; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
                 Main.dust[dust].scale = 2f;
-                Main.dust[dust].velocity = Vector2.UnitY * 1.2f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
             for (int i = 0; i < 60; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
                 Main.dust[dust].scale = 2f;
-                Main.dust[dust].velocity = Vector2.UnitY * 4f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
         }
@@ -109,7 +108,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
             }
             if (ProjectileTimer >= 0)
-                offset += 0.1f;
+                offset += 0.2f;
             int intOffset = (int)Math.Round(offset, 0);
             Projectile.velocity.X = offset * Projectile.ai[0] * 0.1f;
             Projectile.scale = 1 + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f) * 0.25f);
