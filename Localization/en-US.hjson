@@ -424,6 +424,8 @@ Mods: {
 			PilgStarBeam.DisplayName: Pilg Star Beam
 			StarineSigil2.DisplayName: Starine Sigil2
 			PilgStar2.DisplayName: Pilg Star2
+			StarineSlushBeam.DisplayName: Starine Slush Beam
+			StarineSlushTelegraph.DisplayName: Starine Slush Telegraph
 		}
 
 		NPCs: {
