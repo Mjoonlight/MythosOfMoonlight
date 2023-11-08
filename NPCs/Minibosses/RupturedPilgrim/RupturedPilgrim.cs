@@ -256,7 +256,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             StarineSwipe,
             StarineSigilSequel,
             SeekingStarineStars,
-            SymbolLaser,
+            SymbolShafts,
             StarineSpree,
             Despawn
         }
@@ -454,6 +454,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override void AI()
         {
+            Next = AIState.StarineSpree;
             if (pattern.Contains(AIState.Death) && didp2 && State == AIState.Idle)
                 GenerateNewPattern();
             if (!didp2)
@@ -491,10 +492,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             StateBeforeP2 = AIState.StarineSigil;
                         SoundEngine.PlaySound(SoundID.NPCDeath51);
                         GenerateNewPattern();
-                        SwitchTo(AIState.SymbolLaser);
+                        SwitchTo(AIState.SymbolShafts);
                         NPC.velocity = Vector2.Zero;
                         aitimer2 = 0;
-                        Next = AIState.SymbolLaser;
+                        Next = AIState.SymbolShafts;
                         AITimer = -60;
                         didp2 = true;
                     }
@@ -742,7 +743,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 int times = 0;
                                 for (int i = 0; i < 5; i++)
                                 {
-                                    Vector2 vel = Helper.FromAToB(NPC.Center, lastPPos).RotatedBy(Helper.CircleDividedEqually(i, 5)) * 30;
+                                    Vector2 vel = -Vector2.UnitY.RotatedBy(Helper.CircleDividedEqually(i, 5)) * 30;
                                     while (times < 6 + (Main.getGoodWorld ? 5 : 0))
                                     {
                                         if (Vector2.Distance(Sym.Center, pos) > 420)
@@ -753,12 +754,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                                 outside = true;
                                                 if (!hasReflected)
                                                 {
-                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(18 / (Main.getGoodWorld ? 2 : 1))));
+                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(18)));
                                                     hasReflected = true;
                                                 }
                                                 else
                                                 {
-                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(36 / (Main.getGoodWorld ? 2 : 1))));
+                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(36)));
                                                 }
                                             }
                                         }
@@ -791,7 +792,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 int times = 0;
                                 for (int i = 0; i < 5; i++)
                                 {
-                                    Vector2 vel = Helper.FromAToB(NPC.Center, lastPPos).RotatedBy(Helper.CircleDividedEqually(i, 5)) * 30;
+                                    Vector2 vel = -Vector2.UnitY.RotatedBy(Helper.CircleDividedEqually(i, 5)) * 30;
                                     while (times < 5)
                                     {
                                         if (Vector2.Distance(Sym.Center, pos) > 420)
@@ -802,12 +803,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                                 outside = true;
                                                 if (!hasReflected)
                                                 {
-                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(18 / (Main.getGoodWorld ? 2 : 1))));
+                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(18)));
                                                     hasReflected = true;
                                                 }
                                                 else
                                                 {
-                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(36 / (Main.getGoodWorld ? 2 : 1))));
+                                                    vel = -vel.RotatedBy((MathHelper.ToRadians(36)));
                                                 }
                                                 Vector2 _vel = vel;
                                                 _vel.Normalize();
@@ -985,6 +986,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 30)
                             {
+                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
                                 for (int i = 4; i <= 360; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -1011,6 +1013,20 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             if (AITimer == 90)
                             {
                                 SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, NPC.Center);
+                                for (int i = 0; i < 20; i++)
+                                {
+                                    int dust = Dust.NewDust(NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), 1, 1, ModContent.DustType<StarineDust>(), 2f);
+                                    Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
+                                    Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5);
+                                    Main.dust[dust].noGravity = true;
+                                }
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    int dust = Dust.NewDust(NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), 1, 1, ModContent.DustType<StarineDust>(), 2f);
+                                    Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
+                                    Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
+                                    Main.dust[dust].noGravity = true;
+                                }
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
                                 a.ai[0] = 100;
                                 a.ai[1] = 0.5f;
@@ -1022,7 +1038,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
                                 /*if (NPC.life < NPC.lifeMax / 2)
-                                    Next = AIState.SymbolLaser;
+                                    Next = AIState.SymbolShafts;
                                 else
                                     Next = AIState.StarineSigil;*/
                                 SwitchToRandom();
@@ -1125,7 +1141,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                         }
                         break;
-                    case AIState.SymbolLaser:
+                    case AIState.SymbolShafts:
                         {
                             if (AITimer == -20)
                             {
@@ -1164,14 +1180,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                     case AIState.StarineSpree:
                         {
-                            if (AITimer < 160 && AITimer > 100 && AITimer % 5 == 0)
-                                for (int i = 4; i <= 360; i += 4)
-                                {
-                                    Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
-                                    Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
-                                    dust.noGravity = true;
-                                }
-                            if (AITimer % 20 == 0 && AITimer < 100)
+                            if (AITimer < 160 && AITimer > 100)
+                            {
+                                if (AITimer % 10 == 0)
+                                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
+                                if (AITimer % 5 == 0)
+                                    for (int i = 4; i <= 360; i += 4)
+                                    {
+                                        Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
+                                        Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
+                                        dust.noGravity = true;
+                                    }
+                            }
+                            if ((AITimer % 20 == 0 || AITimer == 1) && AITimer <= 100)
                             {
                                 SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                                 for (int i = 4; i <= 360; i += 4)
@@ -1180,8 +1201,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
                                     dust.noGravity = true;
                                 }
-                                NPC.Center = player.Center + MathHelper.ToRadians(Main.rand.Next(new int[] { 180, 270, 360 })).ToRotationVector2() * 150f;
+                                NPC.Center = new Vector2(Sym.Center.X + (AITimer - 50) * 8, Sym.Center.Y + Main.rand.NextFloat(-15, 30));
                                 Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + Main.rand.NextVector2Circular(NPC.width, NPC.height), Vector2.Zero, ModContent.ProjectileType<StarineFlare>(), 10, 0).ai[0] = 210 + (70 * 4) - AITimer;
+                            }
+                            if (AITimer == 101)
+                            {
+                                for (int i = 4; i <= 360; i += 4)
+                                {
+                                    Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
+                                    Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
+                                    dust.noGravity = true;
+                                }
+                                NPC.Center = new Vector2(Sym.Center.X, Sym.Center.Y - 100);
                             }
                             if (AITimer > 160)
                             {
@@ -1220,6 +1251,20 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             {
                                 NPC.frame.Y = 8 * 92;
                                 SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash.WithVolumeScale(1.25f), NPC.Center);
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    int dust = Dust.NewDust(NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), 1, 1, ModContent.DustType<StarineDust>(), 2f);
+                                    Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
+                                    Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5);
+                                    Main.dust[dust].noGravity = true;
+                                }
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    int dust = Dust.NewDust(NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), 1, 1, ModContent.DustType<StarineDust>(), 2f);
+                                    Main.dust[dust].scale = Main.rand.NextFloat(1, 2);
+                                    Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
+                                    Main.dust[dust].noGravity = true;
+                                }
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
                                 a.ai[0] = 40;
                                 a.ai[1] = 0.5f;
