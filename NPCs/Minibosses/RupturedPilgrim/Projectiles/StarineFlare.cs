@@ -23,7 +23,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
-        public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage()
         {
             return Projectile.ai[0] < 230 && Projectile.ai[1] > 0;
@@ -41,6 +40,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
+            Projectile.velocity *= 0.9f;
             Projectile.ai[0]--;
             if (Projectile.ai[0] < 230 && Projectile.ai[0] > 0)
             {

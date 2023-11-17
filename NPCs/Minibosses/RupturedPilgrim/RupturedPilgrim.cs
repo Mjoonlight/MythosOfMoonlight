@@ -411,7 +411,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public void GenerateNewPattern()
         {
-            Main.NewText("I am speaking in an accent thats beyond her range of hearing");
             int off = 2;
             if (didp2)
                 off = 0;
@@ -454,7 +453,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override void AI()
         {
-            Next = AIState.StarineSpree;
             if (pattern.Contains(AIState.Death) && didp2 && State == AIState.Idle)
                 GenerateNewPattern();
             if (!didp2)
@@ -717,12 +715,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                     case AIState.StarineStars:
                         {
-                            if (AITimer == 30)
+                            if (AITimer == 10)
                             {
                                 NPC.velocity = new Vector2(-NPC.spriteDirection * 7, -4);
                                 SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
                             }
-                            if (AITimer == 60)
+                            if (AITimer == 20)
                             {
                                 for (int i = 4; i <= 360; i += 4)
                                 {
@@ -732,11 +730,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 }
                                 NPC.velocity = Vector2.Zero;
                                 NPC.Center = owner.Center - Vector2.UnitY * 100;
+                                lastPPos = NPC.Center - new Vector2(0, 100).RotatedBy(Main.rand.Next(new float[] { 0, MathHelper.PiOver2 }) * player.direction);
                             }
                             NPC.velocity *= 0.9f;
-                            if (AITimer == 65)
+                            /*if (AITimer == 25)
                             {
-                                lastPPos = NPC.Center - new Vector2(0, 100).RotatedBy(Main.rand.Next(new float[] { 0, MathHelper.PiOver2 }) * player.direction);
                                 Vector2 pos = Sym.Center;
                                 bool hasReflected = false;
                                 bool outside = false;
@@ -769,8 +767,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                         pos += vel;
                                     }
                                 }
-                            }
-                            if (AITimer == 135)
+                            }*/
+                            if (AITimer == 30)
                             {
                                 /*if (Main.getGoodWorld)
                                 {
@@ -822,7 +820,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     }
                                 }
                             }
-                            if (AITimer == 230)
+                            if (AITimer == 130)
                             {
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
@@ -888,7 +886,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     dust.noGravity = true;
                                 }
                             }
-                            if (!didp2)
+                            if (!didp2 || !Main.expertMode)
                             {
                                 if (AITimer == 30)
                                 {
@@ -1202,7 +1200,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     dust.noGravity = true;
                                 }
                                 NPC.Center = new Vector2(Sym.Center.X + (AITimer - 50) * 8, Sym.Center.Y + Main.rand.NextFloat(-15, 30));
-                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + Main.rand.NextVector2Circular(NPC.width, NPC.height), Vector2.Zero, ModContent.ProjectileType<StarineFlare>(), 10, 0).ai[0] = 210 + (70 * 4) - AITimer;
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Main.rand.NextVector2Circular(10, 10), ModContent.ProjectileType<StarineFlare>(), 10, 0).ai[0] = 210 + (70 * 4) - AITimer;
                             }
                             if (AITimer == 101)
                             {

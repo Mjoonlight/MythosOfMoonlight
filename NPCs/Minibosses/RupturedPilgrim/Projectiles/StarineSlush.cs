@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            fallThrough = false;
+            fallThrough = true;
             return true;
         }
         public override void Kill(int timeLeft)
@@ -64,8 +64,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Vector2 dVel = Helper.FromAToB(pos, Projectile.Center) * 6f;
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
-            
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25&& Projectile.Center.Y > Main.LocalPlayer.Center.Y - 50)
+
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25 && Projectile.Center.Y > Main.LocalPlayer.Center.Y - 20)
                 Projectile.Kill();
             if (Projectile.scale < 0.15f)
                 Projectile.scale += 0.0025f;
@@ -119,6 +119,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.hostile = true;
             Projectile.scale = 0;
         }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            fallThrough = true;
+            return true;
+        }
         public override void Kill(int timeLeft)
         {
             SoundStyle style = SoundID.DD2_BetsyFireballImpact;
@@ -146,7 +151,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
-            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25 && Projectile.Center.Y > Main.LocalPlayer.Center.Y - 50)
+            if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25 && Projectile.Center.Y > Main.LocalPlayer.Center.Y - 20)
                 Projectile.Kill();
             for (int i = 0; i < 2; i++)
             {
