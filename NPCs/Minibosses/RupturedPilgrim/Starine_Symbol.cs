@@ -91,9 +91,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             FloatTimer = reader.ReadSingle();
         }
         public Vector2 CircleCenter;
+        public static Vector2 _CircleCenter;
 
         public override void AI()
         {
+            _CircleCenter = CircleCenter;
             symbol = NPC;
             /*if (Main.netMode == NetmodeID.Server)
             {
@@ -154,9 +156,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             SoundEngine.PlaySound(style, NPC.Center);
                             float offset = 0;
-                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            for (int i = 0; i < (Main.expertMode ? 10 : 5); i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 10 : 5)) + offset;
                                 Vector2 pos = NPC.Center + new Vector2(500, 0).RotatedBy(angle);
                                 Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
@@ -169,9 +171,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             SoundEngine.PlaySound(style, NPC.Center);
                             float offset = MathHelper.PiOver4 / 2;
-                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            for (int i = 0; i < (Main.expertMode ? 10 : 5); i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 10 : 5)) + offset;
                                 Vector2 pos = NPC.Center + new Vector2(600, 0).RotatedBy(angle);
                                 Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);
@@ -185,9 +187,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             SoundEngine.PlaySound(style, NPC.Center);
                             float offset = MathHelper.PiOver4;
-                            for (int i = 0; i < (Main.expertMode ? 8 : 5); i++)
+                            for (int i = 0; i < (Main.expertMode ? 10 : 5); i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 8 : 5)) + offset;
+                                float angle = Helper.CircleDividedEqually(i, (Main.expertMode ? 10 : 5)) + offset;
                                 Vector2 pos = NPC.Center + new Vector2(700, 0).RotatedBy(angle);
                                 Vector2 vel = Helper.FromAToB(pos, CircleCenter) * 0.1f;
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<StarineShaft>(), 10, 0);

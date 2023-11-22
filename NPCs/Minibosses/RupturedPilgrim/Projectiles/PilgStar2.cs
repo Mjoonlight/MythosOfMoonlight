@@ -101,4 +101,81 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 glareAlpha -= 0.05f;
         }
     }
+    public class PilgStar3 : ModProjectile
+    {
+        public override string Texture => "MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Projectiles/PilgStar";
+
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("Starine Shaft");
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            Projectile.AddElement(CrossModHelper.Celestial);
+            Projectile.AddElement(CrossModHelper.Arcane);
+        }
+        public override void SetDefaults()
+        {
+            Projectile.damage = 10;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 360;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
+        }
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
+                Main.dust[dust].scale = 2f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Unit() * 1.2f;
+                Main.dust[dust].velocity.Y = -1.5f;
+                Main.dust[dust].noGravity = true;
+            }
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+        }
+        public override bool? CanDamage()
+        {
+            return ShouldUpdatePosition();
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
+            Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
+            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White * Projectile.ai[2], Main.GameUpdateCount * 0.002f, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+
+            //3hi31mg
+            var off = new Vector2(Projectile.width / 2, Projectile.height / 2);
+            var clr = new Color(255, 255, 255, 255); // full white
+            var texture = TextureAssets.Projectile[Projectile.type].Value;
+            //var frame = new Rectangle(0, Projectile.frame, Projectile.width, Projectile.height);
+            var orig = Projectile.Size / 2f;
+            var trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+
+            for (int i = 1; i < trailLength; i++)
+            {
+                float scale = MathHelper.Lerp(0.70f, 1f, (float)(trailLength - i) / trailLength);
+                var fadeMult = 1f / trailLength;
+                SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i) * Projectile.ai[2] * 0.75f, Main.GameUpdateCount * 0.002f, orig, scale, flipType, 0f);
+            }
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            return false;
+        }
+        float glareAlpha;
+        public override void AI()
+        {
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.05f);
+            Projectile.ai[0]++;
+        }
+    }
 }

@@ -21,7 +21,7 @@ using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
 namespace MythosOfMoonlight
 {
 
-    
+
     public static class TRay
     {
         public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
@@ -636,6 +636,7 @@ namespace MythosOfMoonlight
                 }
             }
             Main.spriteBatch.End();
+            gd.SetRenderTarget(null);
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }
         private void DustTrail(GraphicsDevice graphicsDevice)

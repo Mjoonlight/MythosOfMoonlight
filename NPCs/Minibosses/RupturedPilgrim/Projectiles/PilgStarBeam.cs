@@ -34,6 +34,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
             float progress = Utils.GetLerpValue(0, max, Projectile.timeLeft);
+            if (Projectile.timeLeft == max - 1)
+            {
+            }
             Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * (Projectile.scale + 0.1f), 0, 1);
         }
         public override bool PreDraw(ref Color lightColor)

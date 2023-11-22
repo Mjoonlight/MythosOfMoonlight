@@ -336,6 +336,15 @@ Mods: {
 				DisplayName: Starseer's Pamphlet
 				Tooltip: ""
 			}
+
+			SeeingStars: {
+				DisplayName: Seeing Stars
+				Tooltip:
+					'''
+					'K. Raibus'
+					Adapted by M. Johnathan
+					'''
+			}
 		}
 
 		Projectiles: {
@@ -427,6 +436,8 @@ Mods: {
 			StarineSlushBeam.DisplayName: Starine Slush Beam
 			StarineSlushTelegraph.DisplayName: Starine Slush Telegraph
 			RingTelegraph.DisplayName: Ring Telegraph
+			BouncyBallPilgrim.DisplayName: Bouncy Ball Pilgrim
+			PilgStar3.DisplayName: Pilg Star3
 		}
 
 		NPCs: {
