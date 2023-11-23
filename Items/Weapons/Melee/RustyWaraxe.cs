@@ -23,7 +23,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Item.width = 54;
             Item.height = 54;
             Item.crit = 10;
-            Item.damage = 23;
+            Item.damage = 16;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;

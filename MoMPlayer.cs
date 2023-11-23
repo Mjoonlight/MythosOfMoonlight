@@ -41,8 +41,8 @@ namespace MythosOfMoonlight
                         if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
                         {
                             NPC npc = NPC.NewNPCDirect(null, (i - 1) * 16, (j - 2) * 16, ModContent.NPCType<Starine_Symbol>());
-                            npc.homeTileX = i;
-                            npc.homeTileY = j - 1;
+                            //npc.homeTileX = i;
+                            //npc.homeTileY = j;
                             if (Main.netMode == NetmodeID.Server) NetMessage.SendData(MessageID.SyncNPC);
                         }
                     }
@@ -74,7 +74,7 @@ namespace MythosOfMoonlight
         Vector2 location2 = new Vector2(0, 0);
 
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
-        {   
+        {
             if (StarBitShot && !target.friendly && hit.Crit && target.lifeMax > 10 && target.type != NPCID.TargetDummy)
             {
                 // TO DO : Projectile spawn from sky
@@ -115,7 +115,7 @@ namespace MythosOfMoonlight
 
             }
         }
-       
+
         public override void UpdateBadLifeRegen()
         {
             if (CommunicatorEquip)

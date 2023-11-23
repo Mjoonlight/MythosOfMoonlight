@@ -21,15 +21,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.friendly = false;
             Projectile.penetrate = -1;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
-        {
-            Projectile.ai[1] = 1;
-        }
-        public override void PostAI()
-        {
-            if (Projectile.ai[1] == 1)
-                Projectile.damage = 0;
-        }
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {

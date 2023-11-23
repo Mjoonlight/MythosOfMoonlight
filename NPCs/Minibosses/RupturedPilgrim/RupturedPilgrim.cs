@@ -1018,7 +1018,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 30)
                             {
-                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
+                                Projectile.NewProjectile(Projectile.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
                                 for (int i = 4; i <= 360; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -1028,6 +1028,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 60)
                             {
+                                Projectile.NewProjectile(Projectile.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
                                 SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                                 for (int i = 4; i <= 360; i += 4)
                                 {
@@ -1127,9 +1128,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         break;
                     case AIState.SpringySphere:
                         {
-                            NPC.velocity *= .9f;
-                            if (AITimer < 60 && AITimer > 30)
-                                NPC.velocity = (player.Center - NPC.Center) / 40f;
+                            NPC.velocity *= .85f;
+                            if (AITimer < 45 && AITimer > 30)
+                                NPC.velocity += Helper.FromAToB(NPC.Center, Sym.Center, false) * 0.04f;
                             if (AITimer == 1) savedPos = NPC.Center;
                             if (AITimer < 60 && AITimer > 1)
                             {

@@ -245,7 +245,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             if (npc.Distance(NPC.Center) < 450)
                             {
                                 npc.Center += Helper.FromAToB(NPC.Center, npc.Center) * 10;
-                                Dust dust = Dust.NewDustDirect(Main.LocalPlayer.position, Main.LocalPlayer.width, Main.LocalPlayer.height, ModContent.DustType<StarineDust>());
+                                Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<StarineDust>());
                                 dust.noGravity = true;
                                 dust.velocity = Helper.FromAToB(NPC.Center, npc.Center) * 10;
                             }
