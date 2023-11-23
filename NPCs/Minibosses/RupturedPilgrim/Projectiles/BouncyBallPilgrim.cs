@@ -137,6 +137,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                         else
                             Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(36)));
 
+                        SoundEngine.PlaySound(SoundID.Item154, Projectile.Center);
                         float offset = (Main.rand.NextBool() ? MathHelper.Pi : 0);
                         if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
                             for (int i = 0; i < 3; i++)
@@ -196,7 +197,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 float angle = Helper.CircleDividedEqually(i, 3) + offset + MathHelper.PiOver4;
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 10, 0, ai2: 1);
             }
-            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item167, Projectile.Center);
         }
         Vector2 scaleFactor = Vector2.One;
         Vector2 _scaleFactor = Vector2.One;

@@ -1128,16 +1128,17 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         break;
                     case AIState.SpringySphere:
                         {
-                            NPC.velocity *= .85f;
+                            NPC.velocity *= .95f;
                             NPC.rotation = 0;
                             if (AITimer < 45 && AITimer > 30)
-                                NPC.velocity += Helper.FromAToB(NPC.Center, Sym.Center, false) * 0.04f;
+                                NPC.velocity = Helper.FromAToB(NPC.Center, Sym.Center - new Vector2(0, 150), false) * 0.04f;
                             if (AITimer == 1) savedPos = NPC.Center;
                             if (AITimer < 60 && AITimer > 1)
                             {
                                 NPC.Center = savedPos + Main.rand.NextVector2Circular(AITimer * 0.05f, AITimer * 0.05f);
                             }
-
+                            if (AITimer > 30 && AITimer < 90 && AITimer % 15 == 0)
+                                SoundEngine.PlaySound(SoundID.Item154, NPC.Center);
                             if (AITimer == 90)
                             {
                                 SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, NPC.Center);
@@ -1157,7 +1158,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 }
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<BouncyBallPilgrim>(), 12, .1f);
                                 a.ai[0] = didp2 ? 1 : 0;
-                                NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 2;
+                                NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 5;
                             }
                             if (AITimer == 140)
                             {
