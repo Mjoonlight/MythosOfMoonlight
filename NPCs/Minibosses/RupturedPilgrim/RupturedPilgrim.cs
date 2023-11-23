@@ -1129,6 +1129,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     case AIState.SpringySphere:
                         {
                             NPC.velocity *= .85f;
+                            NPC.rotation = 0;
                             if (AITimer < 45 && AITimer > 30)
                                 NPC.velocity += Helper.FromAToB(NPC.Center, Sym.Center, false) * 0.04f;
                             if (AITimer == 1) savedPos = NPC.Center;
