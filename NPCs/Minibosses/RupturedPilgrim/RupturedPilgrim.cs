@@ -658,7 +658,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
                             float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
                             NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
-                            if (AITimer >= NPC.life / 7)
+                            if (AITimer >= MathHelper.Clamp(NPC.life / 10, 40, 1000))
                             {
                                 NPC.frameCounter = 0;
                                 AITimer = 0;
