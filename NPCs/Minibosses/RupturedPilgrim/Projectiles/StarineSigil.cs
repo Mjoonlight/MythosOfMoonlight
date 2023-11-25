@@ -56,7 +56,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.penetrate = -1;
             Projectile.timeLeft = 250;
         }
-        int projDamage = 8;
+        int projDamage = 12;
         public override void OnKill(int timeLeft)
         {
             float offsett = Main.rand.NextFloat(MathHelper.Pi * 2);

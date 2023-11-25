@@ -345,6 +345,11 @@ Mods: {
 					Adapted by M. Johnathan
 					'''
 			}
+
+			AsteroidDespawn: {
+				DisplayName: Asteroid Despawn
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {

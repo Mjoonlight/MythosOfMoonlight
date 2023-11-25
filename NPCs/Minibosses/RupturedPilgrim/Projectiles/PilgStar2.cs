@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -92,6 +93,20 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
+            if (!ShouldUpdatePosition())
+            {
+                if (Projectile.localAI[0] == 1)
+                {
+                    foreach (NPC npc in Main.npc)
+                    {
+                        if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>())
+                        {
+                            Projectile.Center = Vector2.Lerp(Projectile.Center, npc.Center + new Vector2(Projectile.localAI[1], Projectile.localAI[2]).RotatedBy(Helper.FromAToB(npc.Center, Main.LocalPlayer.Center).ToRotation()), 0.2f);
+                        }
+                    }
+                    Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center) * Projectile.oldVelocity.Length();
+                }
+            }
             Projectile.rotation += MathHelper.ToRadians(5);
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.05f);
             Projectile.ai[0]++;

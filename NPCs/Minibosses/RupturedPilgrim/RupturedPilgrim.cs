@@ -420,7 +420,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             return true;
         }
         bool didp2;
-
+        bool secondVariant;
         private void SwitchTo(AIState state)
         {
             State = state;
@@ -482,6 +482,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override void AI()
         {
+
             if (pattern.Contains(AIState.Death) && didp2 && State == AIState.Idle)
                 GenerateNewPattern();
             if (!didp2)
@@ -561,6 +562,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         }
                     }
                 Player player = Main.player[NPC.target];
+                int damageOffset = 14 + (int)Math.Round((double)(-player.statLifeMax * 0.02f));
                 if (State == AIState.Death)
                 {
                     NPC.velocity *= 0.95f;
@@ -841,12 +843,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                                 Vector2 _vel = vel;
                                                 _vel.Normalize();
                                                 SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
-                                                Projectile.NewProjectile(null, pos, _vel, ModContent.ProjectileType<PilgStarBeam>(), 10, 0);
+                                                Projectile.NewProjectile(null, pos, _vel, ModContent.ProjectileType<PilgStarBeam>(), 20 - damageOffset, 0);
                                                 if (Main.expertMode)
                                                     for (int j = -1; j < 2; j++)
                                                     {
                                                         if (j == 0) continue;
-                                                        Projectile.NewProjectileDirect(null, pos, _vel.RotatedBy(j * 0.5f) * 7, ModContent.ProjectileType<PilgStar2>(), 10, 0).tileCollide = false;
+                                                        Projectile.NewProjectileDirect(null, pos, _vel.RotatedBy(j * 0.5f) * 7, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0).tileCollide = false;
                                                     }
                                             }
                                         }
@@ -933,7 +935,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(400 * i, -100), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(400 * i, -100), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 50)
@@ -945,7 +947,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(300 * i, -150), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(300 * i, -150), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 70)
@@ -957,7 +959,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(200 * i, -200), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(200 * i, -200), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 90)
@@ -970,7 +972,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, -250), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, -250), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                             }
@@ -983,11 +985,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     SoundEngine.PlaySound(style, NPC.Center);
                                     for (int i = 1; i <= 3; i++)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, 110 * -i), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, 110 * -i), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                     for (int i = -3; i <= -1; i++)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, 110 * i), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 12, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(100 * i, 110 * i), Vector2.Zero, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 NPC.velocity *= 0.9f;
@@ -996,7 +998,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 if (AITimer == 150)
                                     NPC.velocity = new Vector2(15, 0);
                                 if (AITimer == 170)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 420), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 30, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 420), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 25 - damageOffset, 0);
                             }
                             if (AITimer == 300)
                             {
@@ -1062,7 +1064,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
                                     Main.dust[dust].noGravity = true;
                                 }
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 25 - damageOffset, .1f);
                                 a.ai[0] = 100;
                                 a.ai[1] = 0.5f;
                             }
@@ -1158,7 +1160,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
                                     Main.dust[dust].noGravity = true;
                                 }
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4), ModContent.ProjectileType<BouncyBallPilgrim>(), 12, .1f);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4), ModContent.ProjectileType<BouncyBallPilgrim>(), 30 - damageOffset, .1f);
                                 a.ai[0] = didp2 ? 1 : 0;
                                 NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 5;
                             }
@@ -1192,30 +1194,59 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 float off = AITimer <= 25 || AITimer >= 35 ? AITimer : 0;
                                 Projectile.NewProjectile(null, NPC.Center + rot.ToRotationVector2() * 35, new Vector2(10 * NPC.direction, 0).RotatedBy(rot), ModContent.ProjectileType<PilgStar2>(), 0, 0, ai1: off);
                             }*/
-                            if (AITimer == 40)
+                            if (!secondVariant)
                             {
-                                SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
-                                NPC.velocity = Vector2.Zero;
-                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                                float rot1 = MathHelper.ToRadians((-12) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
-                                float rot2 = MathHelper.ToRadians((12) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
-                                Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 10, 0, ai1: 10);
-                                Projectile.NewProjectile(null, NPC.Center + rot2.ToRotationVector2() * 35, rot2.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 10, 0, ai1: 10);
+                                if (AITimer == 40)
+                                {
+                                    SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
+                                    NPC.velocity = Vector2.Zero;
+                                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                    float rot1 = MathHelper.ToRadians((-12) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
+                                    float rot2 = MathHelper.ToRadians((12) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
+                                    Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
+                                    Projectile.NewProjectile(null, NPC.Center + rot2.ToRotationVector2() * 35, rot2.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
+                                }
+                                if (AITimer == 50)
+                                {
+                                    float rot1 = MathHelper.ToRadians((-6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
+                                    float rot2 = MathHelper.ToRadians((6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
+                                    Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
+                                    Projectile.NewProjectile(null, NPC.Center + rot2.ToRotationVector2() * 35, rot2.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
+                                }
+                                if (AITimer == 60)
+                                {
+                                    float rot1 = Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
+                                    Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
+                                }
                             }
-                            if (AITimer == 50)
+                            else
                             {
-                                float rot1 = MathHelper.ToRadians((-6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
-                                float rot2 = MathHelper.ToRadians((6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
-                                Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 10, 0, ai1: 10);
-                                Projectile.NewProjectile(null, NPC.Center + rot2.ToRotationVector2() * 35, rot2.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 10, 0, ai1: 10);
+                                if (AITimer == 20)
+                                {
+                                    SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
+                                    NPC.velocity = Vector2.Zero;
+                                    SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                    for (int i = 0; i < 4; i++)
+                                    {
+                                        float rot1 = 0;
+                                        Vector2 off = rot1.ToRotationVector2() * 35 + Main.rand.NextVector2Circular(20, 20);
+                                        Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + off, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: i * 24);
+                                        a.localAI[0] = 1;
+                                        a.localAI[1] = off.X;
+                                        a.localAI[2] = off.Y;
+                                    }
+                                }
+                                if (AITimer > 30)
+                                {
+                                    float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.015f) + 1) / 2;
+                                    float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
+                                    NPC.velocity = (player.Center + new Vector2(-400, 0).RotatedBy(rot) - NPC.Center) / 50f;
+                                }
                             }
-                            if (AITimer == 60)
+                            if (AITimer == (secondVariant ? 125 : 90))
                             {
-                                float rot1 = Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
-                                Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 10, 0, ai1: 10);
-                            }
-                            if (AITimer == 90)
-                            {
+                                secondVariant = !secondVariant;
+                                aitimer2 = 0;
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
                                 SwitchToRandom();
@@ -1284,7 +1315,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     dust.noGravity = true;
                                 }
                                 NPC.Center = new Vector2(Sym.Center.X + (AITimer - 50) * 8, Sym.Center.Y + Main.rand.NextFloat(-15, 30));
-                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Main.rand.NextVector2Circular(10, 10), ModContent.ProjectileType<StarineFlare>(), 10, 0).ai[0] = 210 + (70 * 4) - AITimer;
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Main.rand.NextVector2Circular(10, 10), ModContent.ProjectileType<StarineFlare>(), 20 - damageOffset, 0).ai[0] = 210 + (70 * 4) - AITimer;
                             }
                             if (AITimer == 101)
                             {
@@ -1347,7 +1378,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, lastPPos).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
                                     Main.dust[dust].noGravity = true;
                                 }
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 12, .1f);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 24 - damageOffset, .1f);
                                 a.ai[0] = 40;
                                 a.ai[1] = 0.5f;
                                 a.timeLeft = 100;

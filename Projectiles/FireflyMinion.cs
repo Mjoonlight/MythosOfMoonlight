@@ -55,8 +55,10 @@ namespace MythosOfMoonlight.Projectiles
         }
         Vector2 baseMousePos;
         bool yes;
+
         public override void AI()
         {
+            Player owner = Main.player[Projectile.owner];
             if (!yes)
             {
                 baseMousePos = Main.MouseWorld;
@@ -66,7 +68,6 @@ namespace MythosOfMoonlight.Projectiles
             if (fireflyTimer >= 99999) fireflyTimer = 0;
             Projectile.frame = fireflyTimer % 20 < 10 ? 0 : 1;
             Glow(new Vector3(.45f, .45f, .15f));
-            Player owner = Main.player[Projectile.owner];
             OwnerCheckMinions(3, (float)ModContent.ItemType<FireflyStick>());
             MinionSort();
             if (owner.ownedProjectileCounts[Type] > 0)
@@ -100,6 +101,7 @@ namespace MythosOfMoonlight.Projectiles
                                 Projectile.velocity = desirePos + dashProgress - Projectile.Center;
                                 if (dashTimer > 60)
                                 {
+                                    owner.CheckMana(3, true);
                                     dashTimer = 0;
                                     state = State.back;
                                 }

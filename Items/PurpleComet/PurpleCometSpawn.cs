@@ -94,4 +94,49 @@ namespace MythosOfMoonlight.Items.PurpleComet
             return true;
         }
     }
+    public class AsteroidDespawn : ModItem
+    {
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/trail";
+        public override void SetStaticDefaults()
+        {
+            // DisplayName.SetDefault("ASTEROID's Offering");
+            /* Tooltip.SetDefault("Use at nighttime to call upon the ASTEROID\n" +
+                "Not ASTEROID"); */
+            Item.ResearchUnlockCount = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 34;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Pink;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = Item.useAnimation = 10;
+            Item.noMelee = true;
+            Item.autoReuse = false;
+            Item.UseSound = SoundID.Item43;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            if (PurpleCometEvent.PurpleComet || Main.dayTime)
+                return false;
+
+            return true;
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            Main.NewText("You feel like you're NO LONGER ASTEROID...", 179, 0, 255);
+            SoundEngine.PlaySound(SoundID.Roar, new Vector2((int)player.position.X, (int)player.position.Y));
+            Star.starfallBoost = 0;
+            bool a = true;
+            if (Main.dayTime)
+                Main.UpdateTime_StartNight(ref a);
+
+            if (Main.netMode == NetmodeID.Server)
+                NetMessage.SendData(MessageID.WorldData);
+            return true;
+        }
+    }
 }

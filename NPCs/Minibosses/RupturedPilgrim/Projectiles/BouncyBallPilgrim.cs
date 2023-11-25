@@ -58,7 +58,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 10, 0, ai2: 1);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 20, 0, ai2: 1);
                 }
             Projectile.ai[2]++;
             return false;
@@ -138,7 +138,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                             for (int i = 0; i < 3; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
-                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 10, 0, ai2: 1);
+                                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 20, 0, ai2: 1);
                             }
                         Projectile.ai[1] = 1;
                         Projectile.ai[2]++;
@@ -146,7 +146,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
                 else
                     Projectile.ai[1] = 0;
-            if (Projectile.ai[2] >= 3)
+            if (Projectile.ai[2] >= 4 + (Projectile.ai[0] != 1 ? 2 : 0))
                 Projectile.Kill();
             if (Projectile.timeLeft < 100 || Projectile.ai[2] >= 4)
                 Projectile.localAI[0] -= 0.05f;

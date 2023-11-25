@@ -63,7 +63,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             for (int i = 1; i < (Main.expertMode ? 9 : 6); i++)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, -6).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-45, 45))), ModContent.ProjectileType<StarineShaft>(), 10, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, -6).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-45, 45))), ModContent.ProjectileType<StarineShaft>(), 20, 0);
             }
             SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
         }

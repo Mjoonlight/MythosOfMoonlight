@@ -29,11 +29,11 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.width = 44;
             Item.mana = 0;
             Item.height = 50;
-            Item.mana = 4;
+            Item.mana = 2;
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.knockBack = 2f;
-            Item.damage = 9;
+            Item.damage = 8;
             Item.rare = ItemRarityID.Green;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
@@ -42,6 +42,11 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.autoReuse = true;
             Item.shootSpeed = 0f;
             Item.shoot = ModContent.ProjectileType<FireflyMinion>();
+        }
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            reduce = 2;
+            mult = 0;
         }
         public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {
@@ -93,9 +98,13 @@ namespace MythosOfMoonlight.Items.Weapons
                 }
             }
         }
+        public override void HoldItem(Player player)
+        {
+            Lighting.AddLight(player.MountedCenter + new Vector2(0, 20 * player.gravDir) + Utils.ToRotationVector2(player.direction > 0 ? 0 : (float)Math.PI) * 3f, new Vector3(.45f, .45f, .15f));
+        }
         public override bool? UseItem(Player player)
         {
-            if (player.CheckMana(4, true, true))
+            if (player.CheckMana(5, false))
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     if (Main.projectile[i].owner == player.whoAmI)

@@ -50,17 +50,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 {
                     if (i == 0)
                         continue;
-                    Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center + (Projectile.ai[0] - 30) * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center + (Projectile.ai[0] - 30) * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 17, .1f, Main.myPlayer).ai[1] = i;
                 }
-            if (Projectile.ai[0] == 0)
-            {
-                float len = TRay.CastLength(Projectile.Center, Projectile.velocity, 1024);
+            if (Projectile.ai[1] == 10)
                 for (int i = -1; i < 2; i++)
                 {
                     if (i == 0)
                         continue;
-                    Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center + (len - 30) * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center + (Projectile.ai[0] - 30) * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 17, .1f, Main.myPlayer).ai[1] = i;
                 }
+            if (Projectile.ai[0] == 0)
+            {
+                float len = TRay.CastLength(Projectile.Center, Projectile.velocity, 1024);
                 for (int i = 0; i < 80; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + new Vector2(0, len), ModContent.DustType<StarineDust>(), Main.rand.NextVector2Circular(15, 15));
