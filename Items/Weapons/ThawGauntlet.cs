@@ -15,11 +15,12 @@ namespace MythosOfMoonlight.Items.Weapons
     {
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 2;
             Item.noUseGraphic = true;
             Item.noMelee = true;
+            Item.crit = -4;
             Item.noUseGraphic = true;
             Item.knockBack = 4f;
             Item.width = 30;
@@ -119,7 +120,6 @@ namespace MythosOfMoonlight.Items.Weapons
                     player.heldProj = Projectile.whoAmI;
                     Projectile.Center = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
                     Projectile.rotation = (Main.MouseWorld - player.Center).ToRotation();
-
                     if (!player.channel || player.statMana <= 0 || !player.CheckMana(1)) Projectile.Kill();
                 }
             }

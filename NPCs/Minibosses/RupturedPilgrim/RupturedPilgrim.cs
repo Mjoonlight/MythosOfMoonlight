@@ -57,7 +57,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         {
             NPC.width = 58;
             NPC.height = 92;
-            NPC.lifeMax = 2000;
             NPC.boss = true;
             NPC.defense = 19;
             NPC.damage = 0;
@@ -71,10 +70,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.ai[0] = 1;
             NPC.alpha = 255;
             if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
-        }
-        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
-        {
-            NPC.lifeMax = (int)(NPC.lifeMax * bossAdjustment * balance);
+
+            NPC.lifeMax = 1500;
+            if (Main.expertMode && !Main.masterMode)
+                NPC.lifeMax = 2000;
+            else if (Main.masterMode)
+                NPC.lifeMax = 2500;
         }
         bool hasDoneDeathDrama;
         public int Direction;
@@ -841,11 +842,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                                 _vel.Normalize();
                                                 SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                                                 Projectile.NewProjectile(null, pos, _vel, ModContent.ProjectileType<PilgStarBeam>(), 10, 0);
-                                                for (int j = -1; j < 2; j++)
-                                                {
-                                                    if (j == 0) continue;
-                                                    Projectile.NewProjectileDirect(null, pos, _vel.RotatedBy(j * 0.5f) * 7, ModContent.ProjectileType<PilgStar2>(), 10, 0).tileCollide = false;
-                                                }
+                                                if (Main.expertMode)
+                                                    for (int j = -1; j < 2; j++)
+                                                    {
+                                                        if (j == 0) continue;
+                                                        Projectile.NewProjectileDirect(null, pos, _vel.RotatedBy(j * 0.5f) * 7, ModContent.ProjectileType<PilgStar2>(), 10, 0).tileCollide = false;
+                                                    }
                                             }
                                         }
                                         else
@@ -1156,11 +1158,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
                                     Main.dust[dust].noGravity = true;
                                 }
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<BouncyBallPilgrim>(), 12, .1f);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4), ModContent.ProjectileType<BouncyBallPilgrim>(), 12, .1f);
                                 a.ai[0] = didp2 ? 1 : 0;
                                 NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 5;
                             }
-                            if (AITimer == 140)
+                            if (AITimer == 100)
                             {
                                 AITimer = 0;
                                 NPC.frameCounter = 0;

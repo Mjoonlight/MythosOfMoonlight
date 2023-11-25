@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
@@ -126,7 +127,15 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.velocity = -oldVelocity.RotatedBy(90);
+            if (Math.Abs(Projectile.velocity.X - Projectile.oldVelocity.X) > float.Epsilon)
+            {
+                Projectile.velocity.X = -Projectile.oldVelocity.X;
+            }
+
+            if (Math.Abs(Projectile.velocity.Y - Projectile.oldVelocity.Y) > float.Epsilon)
+            {
+                Projectile.velocity.Y = -Projectile.oldVelocity.Y;
+            }
             return false;
         }
         public override void AI()

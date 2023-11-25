@@ -36,8 +36,8 @@ namespace MythosOfMoonlight.Common.Systems
                                     if (!NPC.AnyNPCs(ModContent.NPCType<Starine_Symbol>()))
                                     {
                                         NPC npc = NPC.NewNPCDirect(null, (i - 1) * 16, (j - 2) * 16, ModContent.NPCType<Starine_Symbol>());
-                                        //npc.homeTileX = i;
-                                        //npc.homeTileY = j;
+                                        npc.homeTileX = i - 2;
+                                        npc.homeTileY = j - 1;
                                         if (Main.netMode == NetmodeID.Server) NetMessage.SendData(MessageID.SyncNPC);
                                     }
                                     break;

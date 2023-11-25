@@ -13,6 +13,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -35,12 +36,31 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 360;
             Projectile.friendly = false;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.hostile = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            //Projectile.velocity = -oldVelocity;
+            if (Math.Abs(Projectile.velocity.X - Projectile.oldVelocity.X) > float.Epsilon)
+            {
+                Projectile.velocity.X = -Projectile.oldVelocity.X;
+            }
+
+            if (Math.Abs(Projectile.velocity.Y - Projectile.oldVelocity.Y) > float.Epsilon)
+            {
+                Projectile.velocity.Y = -Projectile.oldVelocity.Y;
+            }
+            _scaleFactor = 1;
+            swingBack = 30;
+
+            SoundEngine.PlaySound(SoundID.Item154, Projectile.Center);
+            if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
+                for (int i = 0; i < 3; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 10, 0, ai2: 1);
+                }
+            Projectile.ai[2]++;
             return false;
         }
         //public static NPC Sym => Starine_Symbol.symbol;
@@ -87,62 +107,37 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 
                 if (npc.active && npc.type == ModContent.NPCType<RupturedPilgrim>() && npc.immortal)
                 {
-                    Projectile.Kill();
+                    //     Projectile.Kill();
                 }
             }
             NPC Sym = Main.npc[sym];
             if (!Sym.active || Sym.ai[3] < 350)
             {
-                Projectile.active = false;
+                //   Projectile.active = false;
                 return;
             }
             //if (Projectile.velocity.Length() < 1 && Projectile.timeLeft < 250)
             //  Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * 5f;
-            if (swingBack > 0)
+            /*if (swingBack > 0)
                 swingBack--;
             float progress = Ease(Utils.GetLerpValue(0f, 30, swingBack));
-            scaleFactor = Vector2.Lerp(Vector2.One, _scaleFactor, progress);
+            */
+            scaleFactor = Vector2.Lerp(Vector2.One, Vector2.Lerp(new Vector2(1, 0.5f), new Vector2(0.5f, 1f), (MathF.Sin(Main.GlobalTimeWrappedHourly * 10) + 1) * 0.5f), _scaleFactor);
+            _scaleFactor = MathHelper.Lerp(_scaleFactor, 0, 0.025f);
             if (Starine_Symbol._CircleCenter != Vector2.Zero)
                 if (Vector2.Distance(Starine_Symbol._CircleCenter, Projectile.Center) > 370)
                 {
                     if (Projectile.ai[1] == 0)
                     {
-                        /*
-                        scaleFactor = Helper.FromAToB(Starine_Symbol._CircleCenter, Projectile.Center);
-                        SoundStyle style = SoundID.Item82;
-                        SoundEngine.PlaySound(style, Projectile.Center);
-                        for (int i = 0; i < 30; i++)
-                        {
-                            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
-                            Main.dust[dust].scale = 2f;
-                            Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
-                            Main.dust[dust].noGravity = true;
-                        }
-
-                        Vector2 v = Projectile.velocity;
-                        v.Normalize();
-                        Vector2 n = Helper.FromAToB(Projectile.Center, Starine_Symbol._CircleCenter);
-                        Vector2 u = ((v * n / n * n)) * n;
-                        Vector2 w = v - u;
-                        Projectile.velocity = (w - u).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Projectile.velocity.Length() * 1.1f;*/
-                        Vector2 bounce = new Vector2(Main.rand.NextFloat(0.5f, 0.75f), Main.rand.NextFloat(0.5f, 0.75f));
-                        scaleFactor = bounce;
-                        _scaleFactor = bounce;
+                        _scaleFactor = 1;
                         swingBack = 30;
-                        if (!hasBounced)
-                        {
-                            hasBounced = true;
-                            Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(18)));
-                        }
-                        else
-                            Projectile.velocity = -Projectile.velocity.RotatedBy((MathHelper.ToRadians(36)));
+                        Projectile.velocity = -Projectile.oldVelocity;
 
                         SoundEngine.PlaySound(SoundID.Item154, Projectile.Center);
-                        float offset = (Main.rand.NextBool() ? MathHelper.Pi : 0);
                         if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
                             for (int i = 0; i < 3; i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, 3) + offset + MathHelper.PiOver4;
+                                float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
                                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 10, 0, ai2: 1);
                             }
                         Projectile.ai[1] = 1;
@@ -151,7 +146,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
                 else
                     Projectile.ai[1] = 0;
-            if (Projectile.ai[2] >= 5)
+            if (Projectile.ai[2] >= 3)
                 Projectile.Kill();
             if (Projectile.timeLeft < 100 || Projectile.ai[2] >= 4)
                 Projectile.localAI[0] -= 0.05f;
@@ -160,7 +155,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             //    Projectile.velocity = Helper.FromAToB(Projectile.Center, Sym.Center) * Projectile.velocity.Length();
             //}
             Projectile.rotation += MathHelper.ToRadians(3);
-            if (Projectile.velocity.Length() < 10f)
+            if (Projectile.velocity.Length() < 5.5f)
                 Projectile.velocity *= 1.1f;
             /*}
                 else
@@ -191,7 +186,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
-            float offset = (Main.rand.NextBool() ? MathHelper.Pi : 0);
+            float offset = MathHelper.Pi;
             for (int i = 0; i < 3; i++)
             {
                 float angle = Helper.CircleDividedEqually(i, 3) + offset + MathHelper.PiOver4;
@@ -200,7 +195,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             SoundEngine.PlaySound(SoundID.Item167, Projectile.Center);
         }
         Vector2 scaleFactor = Vector2.One;
-        Vector2 _scaleFactor = Vector2.One;
+        float _scaleFactor;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
@@ -227,7 +222,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i) * Projectile.localAI[0] * 0.75f, Projectile.oldRot[i], orig, scale, flipType, 0f);
             }
 
-            Main.EntitySpriteDraw(drawTexture2, Projectile.Center - Main.screenPosition, null, Color.Cyan, Projectile.rotation, drawTexture2.Size() / 2, scaleFactor * 0.2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(drawTexture2, Projectile.Center - Main.screenPosition, null, Color.Cyan, 0, drawTexture2.Size() / 2, scaleFactor * 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

@@ -95,6 +95,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 
         public override void AI()
         {
+            if (CircleCenter == Vector2.Zero)
+                CircleCenter = TRay.Cast(NPC.Center - Vector2.UnitY * 70, Vector2.UnitY, 200) - Vector2.UnitY * 120;
             _CircleCenter = CircleCenter;
             symbol = NPC;
             /*if (Main.netMode == NetmodeID.Server)
@@ -125,8 +127,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (State != NState.Normal)
                     SymbolTimer++;
 
-                if (CircleCenter == Vector2.Zero)
-                    CircleCenter = NPC.Center;
 
                 switch (State)
                 {
