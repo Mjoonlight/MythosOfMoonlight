@@ -1023,7 +1023,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             if (AITimer == 30)
                             {
                                 Projectile.NewProjectile(Projectile.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
-                                for (int i = 4; i <= 360; i += 4)
+                                for (int i = 4; i <= 160; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
                                     Dust dust = Dust.NewDustDirect(NPC.Center, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
@@ -1065,7 +1065,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].noGravity = true;
                                 }
                                 Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, lastPPos), ModContent.ProjectileType<TestTentacle2>(), 25 - damageOffset, .1f);
-                                a.ai[0] = 100;
+                                a.ai[0] = 80;
                                 a.ai[1] = 0.5f;
                             }
                             if (AITimer == 125)
@@ -1160,7 +1160,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     Main.dust[dust].velocity = Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 10);
                                     Main.dust[dust].noGravity = true;
                                 }
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4), ModContent.ProjectileType<BouncyBallPilgrim>(), 30 - damageOffset, .1f);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + new Vector2(11 * -NPC.spriteDirection, 11).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<BouncyBallPilgrim>(), 20 - damageOffset, .1f);
                                 a.ai[0] = didp2 ? 1 : 0;
                                 NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 5;
                             }

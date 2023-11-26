@@ -20,6 +20,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.penetrate = -1;
+            Projectile.aiStyle = -1;
+            Projectile.timeLeft = 500;
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
@@ -33,7 +35,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
-            Projectile.ai[0] += 0.05f;
+            Projectile.ai[0] += 0.025f;
             if (Projectile.ai[0] > 1)
                 Projectile.Kill();
         }

@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -38,9 +39,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             fallThrough = true;
             return true;
         }
+        SoundStyle beam = new SoundStyle("MythosOfMoonlight/Assets/Sounds/electricity")
+        {
+            PitchVariance = 0.15f,
+            Volume = 0.7f
+        };
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 16; i++)
+            SoundEngine.PlaySound(beam, Projectile.Center);
+            for (int i = 0; i < 40; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);
                 Main.dust[dust].scale = 2f;
@@ -48,6 +55,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.dust[dust].velocity.Y = -1.5f;
                 Main.dust[dust].noGravity = true;
             }
+
             for (int i = -1; i < 2; i++)
             {
                 if (i == 0)
