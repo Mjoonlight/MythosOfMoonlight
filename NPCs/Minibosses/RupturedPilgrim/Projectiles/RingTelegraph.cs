@@ -15,8 +15,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override string Texture => Helper.Empty;
         public override void SetDefaults()
         {
-            Projectile.height = 300;
-            Projectile.width = 300;
+            Projectile.height = 1;
+            Projectile.width = 1;
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.penetrate = -1;
@@ -35,6 +35,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
+            Main.NewText("telegr");
+            Projectile.timeLeft = 2;
             Projectile.ai[0] += 0.025f;
             if (Projectile.ai[0] > 1)
                 Projectile.Kill();
