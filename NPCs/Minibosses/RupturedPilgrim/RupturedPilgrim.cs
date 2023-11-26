@@ -1013,7 +1013,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 if (AITimer == 150)
                                     NPC.velocity = new Vector2(15, 0);
                                 if (AITimer == 170)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 420), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 25 - damageOffset, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center - new Vector2(0, 520), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 25 - damageOffset, 0);
                             }
                             if (AITimer == 300)
                             {
