@@ -54,12 +54,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             swingBack = 30;
 
             SoundEngine.PlaySound(SoundID.Item154, Projectile.Center);
-            if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
+            /*if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 20, 0, ai2: 1);
-                }
+                }*/
             Projectile.ai[2]++;
             return false;
         }
@@ -134,12 +134,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                         Projectile.velocity = -Projectile.oldVelocity;
 
                         SoundEngine.PlaySound(SoundID.Item154, Projectile.Center);
-                        if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
+                        /*if (Projectile.ai[0] == 1 && Projectile.ai[1] == 0)
                             for (int i = 0; i < 3; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 3) + MathHelper.PiOver4;
                                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<PilgStar3>(), 20, 0, ai2: 1);
-                            }
+                            }*/
                         Projectile.ai[1] = 1;
                         Projectile.ai[2]++;
                     }
