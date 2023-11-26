@@ -1134,10 +1134,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             NPC.velocity *= .95f;
                             NPC.rotation = 0;
-                            if (AITimer < 45 && AITimer > 30)
+                            if (AITimer < 60 && AITimer > 20)
                                 NPC.velocity = Helper.FromAToB(NPC.Center, Sym.Center - new Vector2(0, 150), false) * 0.04f;
-                            if (AITimer == 1) savedPos = NPC.Center;
-                            if (AITimer < 60 && AITimer > 1)
+                            if (AITimer == 60) savedPos = NPC.Center;
+                            if (AITimer > 60 && AITimer < 90)
                             {
                                 NPC.Center = savedPos + Main.rand.NextVector2Circular(AITimer * 0.05f, AITimer * 0.05f);
                             }
@@ -1230,7 +1230,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         float rot1 = 0;
                                         Vector2 off = rot1.ToRotationVector2() * 35 + Main.rand.NextVector2Circular(20, 20);
-                                        Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + off, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: i * 24);
+                                        Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + off, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: i * 40);
                                         a.localAI[0] = 1;
                                         a.localAI[1] = off.X;
                                         a.localAI[2] = off.Y;
@@ -1239,11 +1239,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 if (AITimer > 30)
                                 {
                                     float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.015f) + 1) / 2;
-                                    float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
-                                    NPC.velocity = (player.Center + new Vector2(-400, 0).RotatedBy(rot) - NPC.Center) / 50f;
+                                    float rot = MathHelper.Lerp(0, MathHelper.PiOver4, lerpValue);
+                                    NPC.velocity = (player.Center + new Vector2(-450, 0).RotatedBy(rot) - NPC.Center) / 50f;
                                 }
                             }
-                            if (AITimer == (secondVariant ? 125 : 90))
+                            if (AITimer == (secondVariant ? 180 : 90))
                             {
                                 secondVariant = !secondVariant;
                                 aitimer2 = 0;

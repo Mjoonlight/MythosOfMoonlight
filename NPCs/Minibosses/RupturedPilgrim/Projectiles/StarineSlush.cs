@@ -54,6 +54,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                     continue;
                 Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 100, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[1] = i;
             }
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SlushExplosion>(), 0, 0);
             //SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
         public override void AI()

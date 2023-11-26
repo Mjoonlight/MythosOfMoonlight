@@ -443,6 +443,7 @@ Mods: {
 			RingTelegraph.DisplayName: Ring Telegraph
 			BouncyBallPilgrim.DisplayName: Bouncy Ball Pilgrim
 			PilgStar3.DisplayName: Pilg Star3
+			SlushExplosion.DisplayName: Slush Explosion
 		}
 
 		NPCs: {
