@@ -146,7 +146,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
                 else
                     Projectile.ai[1] = 0;
-            if (Projectile.ai[2] >= 4 + (Projectile.ai[0] != 1 ? 2 : 0))
+            if (Projectile.ai[2] >= 4 + (Projectile.ai[0] == 1 ? 2 : 0))
                 Projectile.Kill();
             if (Projectile.timeLeft < 100 || Projectile.ai[2] >= 4)
                 Projectile.localAI[0] -= 0.05f;
