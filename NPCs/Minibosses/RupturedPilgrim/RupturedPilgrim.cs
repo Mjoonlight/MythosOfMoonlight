@@ -1022,7 +1022,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 30)
                             {
-                                Projectile.NewProjectile(Projectile.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
+                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
                                 for (int i = 4; i <= 160; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -1032,7 +1032,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 60)
                             {
-                                Projectile.NewProjectile(Projectile.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
+                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<RingTelegraph>(), 0, 0);
                                 SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                                 for (int i = 4; i <= 360; i += 4)
                                 {
