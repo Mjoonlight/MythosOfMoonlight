@@ -48,11 +48,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             for (int i = 0; i < MathHelper.Lerp(0, 840, Projectile.scale); i++)
             {
                 Vector2 scale = new Vector2(0.5f, 0.5f * Projectile.scale * MathHelper.Lerp(MathHelper.Lerp(1, 0, (float)(i / MathHelper.Lerp(0, 840, Projectile.scale))), 1, Projectile.scale));
-                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Cyan, Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.LightSkyBlue, Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                 Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                 pos += Projectile.rotation.ToRotationVector2();
             }
-            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan, Main.GameUpdateCount * 0.003f, tex2.Size() / 2, MathHelper.Clamp(Projectile.scale * 3, 0, 0.5f), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.LightSkyBlue, Main.GameUpdateCount * 0.003f, tex2.Size() / 2, MathHelper.Clamp(Projectile.scale * 3, 0, 0.5f), SpriteEffects.None, 0);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * 0.003f, tex2.Size() / 2, MathHelper.Clamp(Projectile.scale * 3, 0, 0.5f), SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

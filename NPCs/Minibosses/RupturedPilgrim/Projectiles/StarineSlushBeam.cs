@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     public class StarineSlushBeam : ModProjectile
     {
         public override string Texture => Helper.Empty;
-        const int max = 60;
+        const int max = 80;
         public override void SetDefaults()
         {
             Projectile.Size = Vector2.One;
@@ -45,7 +45,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
-            if (++Projectile.ai[1] == 60)
+            if (++Projectile.ai[1] == 70)
                 for (int i = -1; i < 2; i++)
                 {
                     if (i == 0)

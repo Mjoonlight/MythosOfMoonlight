@@ -30,7 +30,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/circle_02");
             Main.spriteBatch.Reload(BlendState.Additive);
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.LightSkyBlue * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
