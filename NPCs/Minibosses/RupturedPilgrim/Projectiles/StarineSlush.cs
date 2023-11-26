@@ -39,14 +39,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             fallThrough = true;
             return true;
         }
-        SoundStyle beam = new SoundStyle("MythosOfMoonlight/Assets/Sounds/electricity")
-        {
-            PitchVariance = 0.15f,
-            Volume = 0.7f
-        };
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(beam, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item62, Projectile.Center);
             for (int i = 0; i < 40; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<StarineDust>(), 2f);

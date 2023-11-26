@@ -111,7 +111,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.05f);
             Projectile.ai[0]++;
             if (Projectile.ai[0] == 20 + Projectile.ai[1])
+            {
+                SoundStyle style = SoundID.Item21;
+                style.Volume = 0.5f;
+                SoundEngine.PlaySound(style, Projectile.Center);
                 glareAlpha = 2;
+            }
             if (glareAlpha > 0)
                 glareAlpha -= 0.05f;
         }
