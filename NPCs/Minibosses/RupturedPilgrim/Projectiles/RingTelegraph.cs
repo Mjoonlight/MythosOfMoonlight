@@ -36,7 +36,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void AI()
         {
-            Main.NewText("telegr");
             Projectile.timeLeft = 2;
             Projectile.ai[0] += 0.025f;
             if (Projectile.ai[0] > 1)

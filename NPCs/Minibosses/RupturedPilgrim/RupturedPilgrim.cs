@@ -326,6 +326,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             get => NPC.ai[1];
             set => NPC.ai[1] = value;
         }
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            Helper.SpawnDust(NPC.position, NPC.Size, ModContent.DustType<StarineDust>(), new Vector2(2 * hit.HitDirection, -1.5f), 15);
+        }
         public override Color? GetAlpha(Color drawColor)
         {
             return Color.White;
