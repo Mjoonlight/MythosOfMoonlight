@@ -315,7 +315,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     else*/
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 200, ModContent.NPCType<RupturedPilgrim>());
+                        int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 140, ModContent.NPCType<RupturedPilgrim>());
                         Main.npc[pil].ai[0] = 1;
                         Main.npc[pil].netUpdate = true;
                         // do default spawning code

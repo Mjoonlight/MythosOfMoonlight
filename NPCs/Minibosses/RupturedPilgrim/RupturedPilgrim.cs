@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Misc;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -694,8 +695,19 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (NPC.alpha < 0)
                                 NPC.alpha = 0;
-
-                            if (AITimer >= 155)
+                            if (AITimer == 100)
+                            {
+                                Lenikya.NewLenikyaCombatText("wtf are you doin lol!?", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
+                            }
+                            if (AITimer == 200)
+                            {
+                                Lenikya.NewLenikyaCombatText("bru stop that no cap", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
+                            }
+                            if (AITimer == 300)
+                            {
+                                Lenikya.NewLenikyaCombatText("skibidi rizz!!!!!!", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
+                            }
+                            if (AITimer >= 400)
                             {
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
