@@ -303,6 +303,7 @@ namespace MythosOfMoonlight.Misc
         public override void Unload()
         {
             Alphabet = null;
+            strings = null;
             IsLoaded = false;
         }
     }
