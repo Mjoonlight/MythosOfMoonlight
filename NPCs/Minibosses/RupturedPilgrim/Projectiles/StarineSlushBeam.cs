@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
+using MythosOfMoonlight.Common.Systems;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -84,6 +85,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         };
         public override void OnSpawn(IEntitySource source)
         {
+            CameraSystem.ScreenShakeAmount = 7f;
             SoundEngine.PlaySound(beam, Projectile.Center);
         }
         public override bool PreDraw(ref Color lightColor)

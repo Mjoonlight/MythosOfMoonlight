@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Systems;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
 using MythosOfMoonlight.Projectiles.VFXProjectiles;
@@ -51,7 +52,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             Invulerable,
             Laser,
             Death,
-            Despawn
+            Despawn,
+            Spawn
         }
         private NState State
         {
@@ -92,7 +94,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public Vector2 CircleCenter;
         public static Vector2 _CircleCenter;
-
+        float AnimSpeed = 1f;
+        SoundStyle tp = new SoundStyle("MythosOfMoonlight/Assets/Sounds/pilgTP")
+        {
+            PitchVariance = 0.15f,
+        };
+        SoundStyle push = new SoundStyle("MythosOfMoonlight/Assets/Sounds/push")
+        {
+            PitchVariance = 0.15f,
+        };
         public override void AI()
         {
             if (CircleCenter == Vector2.Zero)
@@ -104,6 +114,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 NPC.netUpdate = true;
             }*/
             //Main.NewText(NPC.Center.Distance(Main.LocalPlayer.Center));
+            if (Main.dayTime && State == NState.Normal)
+                AnimSpeed = MathHelper.Lerp(AnimSpeed, 0.5f, 0.1f);
+            else if (!Main.dayTime && State == NState.Normal)
+                AnimSpeed = MathHelper.Lerp(AnimSpeed, 0.5f, 0.1f);
+
             if (State != NState.Despawn)
             {
                 Lighting.AddLight(NPC.Center, 1f, 1f, 1f);
@@ -111,9 +126,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (CircleCenter != Vector2.Zero)
                 {
                     if (State != NState.Laser)
-                        NPC.velocity = (CircleCenter + new Vector2(0, 14 + 7f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer))) - NPC.Center) / 15f;
+                        NPC.velocity = (CircleCenter + new Vector2(0, 14 + 7f * (float)Math.Sin(MathHelper.ToRadians(FloatTimer * AnimSpeed))) - NPC.Center) / 15f;
                 }
-                if (State != NState.Normal && State != NState.Death)
+                if (State != NState.Normal && State != NState.Death && State != NState.Spawn)
                 {
                     if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && SymbolTimer > 3)
                     {
@@ -132,6 +147,61 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 {
                     case NState.Normal:
                         NPC.dontTakeDamage = true;
+                        break;
+                    case NState.Spawn:
+                        {
+                            if (SymbolTimer == 1)
+                            {
+                                SoundEngine.PlaySound(push, NPC.Center);
+                                CameraSystem.ChangeCameraPos(CircleCenter, 70, 1.25f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 7), Vector2.Zero, ModContent.ProjectileType<BigQuickFlare>(), 0, 0);
+                                for (int i = 0; i < 15; i++)
+                                {
+                                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<StarineDust>(), Main.rand.NextVector2Circular(15, 15), Scale: Main.rand.NextFloat(0.7f, 1.2f));
+                                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<StarineDustAlt>(), Main.rand.NextVector2Circular(25, 25), Scale: Main.rand.NextFloat(0.7f, 1f));
+                                }
+                                CameraSystem.ScreenShakeAmount = 10f;
+                                foreach (Player player in Main.player)
+                                {
+                                    if (player.active)
+                                        if (player.Center.Distance(CircleCenter) < 420f)
+                                        {
+                                            player.Center -= new Vector2(0, 5);
+                                            player.velocity += new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 10, -15);
+                                        }
+                                }
+                            }
+                            AnimSpeed = MathHelper.Lerp(AnimSpeed, 1.5f, 0.1f);
+                            if (SymbolTimer == 60)
+                            {
+                                Vector2 pos = NPC.Center - new Vector2(0, Main.screenHeight);
+
+                                for (int i = 0; i < Main.screenHeight / 7; i++)
+                                {
+                                    for (int j = 0; j < 2; j++)
+                                        Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Main.rand.NextVector2Circular(5, 5), Scale: Main.rand.NextFloat(1.5f, 2)).noGravity = true;
+                                    pos += Helper.FromAToB(pos, NPC.Center + new Vector2(0, -100), false) * 0.05f;
+                                }
+                                int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 100, ModContent.NPCType<RupturedPilgrim>());
+                                Main.npc[pil].ai[0] = 1;
+                                Main.npc[pil].netUpdate = true;
+                                SoundEngine.PlaySound(tp, NPC.Center);
+                                CameraSystem.ScreenShakeAmount = 5f;
+                                //if (GenericSystem.BeenThereDoneThatPilgrim)
+                                {
+                                    //SymbolTimer = 0;
+                                    //State = NState.Invulerable;
+                                }
+                            }
+                            //if (!GenericSystem.BeenThereDoneThatPilgrim)
+                            {
+                                if (SymbolTimer >= 360)
+                                {
+                                    SymbolTimer = 0;
+                                    State = NState.Invulerable;
+                                }
+                            }
+                        }
                         break;
                     case NState.Invulerable:
                         NPC.dontTakeDamage = true;
@@ -227,7 +297,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             StateTimer++;
 
                         if (StateTimer > 0)
-                            NPC.velocity = CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - NPC.Center;
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - NPC.Center, 0.2f);
 
                         if (StateTimer == 120)
                         {
@@ -306,32 +376,18 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death)
                 {
-                    NPC.townNPC = false;/* if (Main.netMode == NetmodeID.MultiplayerClient) // idk if its even this
-                    {
-                        var packet = Mod.GetPacket();
-                        // send vector2
-                        packet.Send();
-                    }
-                    else*/
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        int pil = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 140, ModContent.NPCType<RupturedPilgrim>());
-                        Main.npc[pil].ai[0] = 1;
-                        Main.npc[pil].netUpdate = true;
-                        // do default spawning code
-                    }
-
-                    SwitchTo(NState.Invulerable);
+                    NPC.townNPC = false;
+                    SwitchTo(NState.Spawn);
                 }
             }
             else
             {
-                Utils.DrawBorderString(Main.spriteBatch, "Please come at nighttime!", NPC.Center - new Vector2(0, 30), Color.Cyan, 2f);
+                //Utils.DrawBorderString(Main.spriteBatch, "Please come at nighttime!", NPC.Center - new Vector2(0, 30), Color.Cyan, 2f);
             }
         }
         public override bool CanChat()
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death;
+            return State == NState.Normal;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -376,7 +432,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/NPCs/Minibosses/RupturedPilgrim/Starine_Barrier").Value;
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                spriteBatch.Draw(tex, CircleCenter - screenPos, null, color, rotate, orig, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(tex, CircleCenter - screenPos, null, color * MathHelper.Clamp(AnimSpeed, 0, 1f), rotate, orig, scale, SpriteEffects.None, 0f);
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             }

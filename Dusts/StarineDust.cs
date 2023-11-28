@@ -44,6 +44,7 @@ namespace MythosOfMoonlight.Dusts
             dust.rotation += 1f;
             dust.scale -= 0.001f;
             dust.position += dust.velocity;
+            dust.velocity *= 0.9f;
             if (dust.scale <= 0)
                 dust.active = false;
 

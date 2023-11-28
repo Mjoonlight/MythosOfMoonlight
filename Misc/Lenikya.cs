@@ -23,12 +23,14 @@ namespace MythosOfMoonlight.Misc
         {
             public string text = "";
             public Vector2 position;
+            public Vector2 off;
             public Color color;
             public Color outlineColor;
             public bool centered;
             public int timeLeft;
             public int maxTimeLeft;
             public float scale;
+            public bool additive;
             public float maxScale = 1f;
             public bool active;
             public int index;
@@ -51,11 +53,14 @@ namespace MythosOfMoonlight.Misc
                 {
                     if (strings[i].active)
                     {
+                        if (strings[i].additive)
+                            spriteBatch.Reload(BlendState.Additive);
                         float len = strings[i].text.Length;
                         if (len * 20 > Main.screenWidth / 2)
                             len = Main.screenWidth / 40;
                         Vector2 pos = strings[i].position - (strings[i].centered ? new Vector2(len * 10 * strings[i].maxScale, 10) : Vector2.Zero);
                         Vector2 startPos = strings[i].position - (strings[i].centered ? new Vector2(len * 10 * strings[i].maxScale, 10) : Vector2.Zero);
+
                         for (int j = 0; j < strings[i].text.Length; j++)
                         {
                             float rot = 0;
@@ -116,9 +121,15 @@ namespace MythosOfMoonlight.Misc
                             {
                                 frameY = letter * 20;
                             }
+                            if (strings[i].additive)
+                            {
+                                if (strings[i].outlineColor != Color.Transparent)
+                                    spriteBatch.Draw(Outline, pos + strings[i].off - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].outlineColor, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                                spriteBatch.Draw(Alphabet, pos + strings[i].off - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].color, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                            }
                             if (strings[i].outlineColor != Color.Transparent)
-                                spriteBatch.Draw(Outline, pos - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].outlineColor, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-                            spriteBatch.Draw(Alphabet, pos - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].color, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                                spriteBatch.Draw(Outline, pos + strings[i].off - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].outlineColor, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                            spriteBatch.Draw(Alphabet, pos + strings[i].off - Main.screenPosition, new Rectangle(0, frameY, 20, 20), strings[i].color, rot, Vector2.One * 10, new Vector2(strings[i].maxScale, strings[i].scale), rot != 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                             int offset = 0;
                             if (SmallFrames.Contains(frameY / 20))
                                 offset = 10;
@@ -146,6 +157,7 @@ namespace MythosOfMoonlight.Misc
                         {
                             strings[i].active = false;
                         }
+                        strings[i].off = Vector2.Lerp(strings[i].off, Main.rand.NextVector2Circular(3 * strings[i].scale, 3 * strings[i].scale), Main.rand.NextFloat(0.1f, 0.5f));
                         float progress = Utils.GetLerpValue(0, strings[i].maxTimeLeft, strings[i].timeLeft);
                         strings[i].scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 3 * strings[i].maxScale, 0, strings[i].maxScale);
                     }
@@ -236,7 +248,7 @@ namespace MythosOfMoonlight.Misc
                 pos += new Vector2((20 - offset) * scale, 0);
             }
         }
-        public static int NewLenikyaCombatText(string text, Vector2 position, Color color, Color outlineColor, float scale = 1f, int timeLeft = 60, bool centered = true)
+        public static int NewLenikyaCombatText(string text, Vector2 position, Color color, Color outlineColor, float scale = 1f, int timeLeft = 60, bool centered = true, bool additive = false)
         {
             int index = 0;
             for (int i = 0; i < strings.Length; i++)
@@ -255,6 +267,7 @@ namespace MythosOfMoonlight.Misc
                 timeLeft = timeLeft,
                 maxTimeLeft = timeLeft,
                 color = color,
+                additive = additive,
                 outlineColor = outlineColor,
                 centered = centered,
                 active = true,

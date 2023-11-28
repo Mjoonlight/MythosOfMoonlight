@@ -341,6 +341,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         {
             var off = new Vector2(NPC.width / 2, NPC.height / 2);
             var clr = new Color(255, 255, 255, 255) * (float)((float)(255f - NPC.alpha) / 255f);
+            float alphaModif = (float)((float)(255f - NPC.alpha) / 255f);
             var drawPos = NPC.Center - screenPos;
             var origTexture = TextureAssets.Npc[NPC.type].Value;
             var texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Trail").Value;
@@ -358,15 +359,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 {
                     float _scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
                     var fadeMult = 1f / trailLength;
-                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off + new Vector2(0, 1), frame, clr * (1f - fadeMult * i), NPC.rotation, orig, _scale, flipType, 0f);
+                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off + new Vector2(0, 1), frame, clr * (1f - fadeMult * i) * alphaModif, NPC.rotation, orig, _scale, flipType, 0f);
                 }
             }
             const float TwoPi = (float)Math.PI * 2f;
             float scale = (float)Math.Sin(Main.GlobalTimeWrappedHourly * TwoPi / 2f) * 0.3f + 0.7f;
             if (NPC.life <= NPC.lifeMax / 2)
                 for (int i = 0; i < 4; i++)
-                    spriteBatch.Draw(texture, drawPos + (Vector2.UnitX * 10 * scale).RotatedBy(MathHelper.ToRadians((90) * i)), frame, Color.Cyan * 0.5f * scale, NPC.rotation, orig, NPC.scale, flipType, 0);
-            spriteBatch.Draw(backTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, flipType, 0f);
+                    spriteBatch.Draw(texture, drawPos + (Vector2.UnitX * 10 * scale).RotatedBy(MathHelper.ToRadians((90) * i)), frame, Color.Cyan * 0.5f * scale * alphaModif, NPC.rotation, orig, NPC.scale, flipType, 0);
+            spriteBatch.Draw(backTexture, drawPos, frame, drawColor * alphaModif, NPC.rotation, orig, NPC.scale, flipType, 0f);
 
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
@@ -378,7 +379,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 }
             }
 
-            spriteBatch.Draw(origTexture, drawPos, frame, drawColor, NPC.rotation, orig, NPC.scale, flipType, 0f);
+            spriteBatch.Draw(origTexture, drawPos, frame, drawColor * alphaModif, NPC.rotation, orig, NPC.scale, flipType, 0f);
             spriteBatch.Draw(glowTexture, drawPos, frame, clr, NPC.rotation, orig, NPC.scale, flipType, 0f);
 
             if (State != AIState.Death)
@@ -581,6 +582,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         interval = 10;
                     if (AITimer % interval == 0 && AITimer > 25 && AITimer < 250 && owner != null)
                     {
+                        CameraSystem.ScreenShakeAmount = 2f;
                         NPC.frame.Y = (int)Main.rand.Next(0, 29) * 92;
                         SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                         if (savedPos == Vector2.Zero)
@@ -626,6 +628,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         {
                             Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.1f, 1.1f), ModContent.ProjectileType<TinySightseer>(), 0, 0);
                         }
+                        CameraSystem.ScreenShakeAmount = 8f;
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(), ModContent.ProjectileType<PilgrimExplosion>(), 0, 100);
                         if (Main.netMode != NetmodeID.Server)
                         {
@@ -695,28 +698,59 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (NPC.alpha < 0)
                                 NPC.alpha = 0;
-                            if (AITimer == 100)
+                            //if (!GenericSystem.BeenThereDoneThatPilgrim) 
                             {
-                                Lenikya.NewLenikyaCombatText("wtf are you doin lol!?", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
-                            }
-                            if (AITimer == 200)
-                            {
-                                Lenikya.NewLenikyaCombatText("bru stop that no cap", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
-                            }
-                            if (AITimer == 300)
-                            {
-                                Lenikya.NewLenikyaCombatText("skibidi rizz!!!!!!", NPC.Center - new Vector2(0, 60), Color.White, Color.LightSkyBlue * 0.75f, 1f, 100);
-                            }
-                            if (AITimer >= 400)
-                            {
-                                AITimer = 0;
-                                NPC.frameCounter = 0;
-                                SwitchToRandom();
-                                aitimer2 = 0;
+                                if (AITimer > 100)
+                                    player.velocity.X = 0;
+                                if (AITimer == 1)
+                                    CameraSystem.ChangeCameraPos(NPC.Center, 400);
+                                if (AITimer == 100)
+                                {
+                                    Lenikya.NewLenikyaCombatText("wtf are you doin lol!?", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                }
+                                if (AITimer == 200)
+                                {
+                                    Lenikya.NewLenikyaCombatText("bru stop that no cap", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                }
+                                if (AITimer == 300)
+                                {
+                                    Lenikya.NewLenikyaCombatText("skibidi rizz!!!!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    CameraSystem.ScreenShakeAmount = 4f;
+                                }
+                                if (AITimer > 200)
+                                {
+                                    if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
+                                }
+                                else
+                                    Music = 0;
+                                if (AITimer >= 400)
+                                {
+                                    AITimer = 0;
+                                    NPC.frameCounter = 0;
+                                    SwitchToRandom();
+                                    aitimer2 = 0;
+                                    if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
+                                    AITimer = 0;
+                                    SwitchTo(AIState.Idle);
+                                }
 
-                                AITimer = 0;
-                                SwitchTo(AIState.Idle);
                             }
+                            /*
+                             else 
+                            {
+                            if (AITimer == 100) {
+                                    AITimer = 0;
+                                    NPC.frameCounter = 0;
+                                    SwitchToRandom();
+                                    aitimer2 = 0;
+            if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
+                                    AITimer = 0;
+                                    SwitchTo(AIState.Idle);
+                            }
+                                else
+                                    Music = 0;
+                             }
+                            */
                             break;
                         }
                     case AIState.StarineSigil:
@@ -816,12 +850,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                         }
                                         else
                                             outside = false;
-                                        Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Vector2.Zero).noGravity = true;
+                                        Dust.NewDustPerfect(pos, ModContent.DustType<StarineDustAlt>(), Vector2.Zero, Scale: Main.rand.NextFloat(0.75f, 1.5f)).noGravity = true;
                                         pos += vel;
                                     }
                                 }
                             }
-                            if (AITimer == 50)
+                            if (AITimer == 100)
                             {
                                 /*if (Main.getGoodWorld)
                                 {
@@ -879,7 +913,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     }
                                 }
                             }
-                            if (AITimer == 160)
+                            if (AITimer == 200)
                             {
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
