@@ -13,6 +13,11 @@ namespace MythosOfMoonlight.Common.Systems
     public class GenericSystem : ModSystem
     {
         bool hasChecked;
+        public static bool BeenThereDoneThatPilgrim;
+        public override void Load()
+        {
+            BeenThereDoneThatPilgrim = false;
+        }
         public override void PostUpdateEverything()
         {
             if (FieldSpawnRateNPC.rateDecrease && !NPC.AnyNPCs(ModContent.NPCType<SunflowerLady>())) //ADD REST OF FIELD NPCS HERE (&& NOT ||)

@@ -187,13 +187,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 Main.npc[pil].netUpdate = true;
                                 SoundEngine.PlaySound(tp, NPC.Center);
                                 CameraSystem.ScreenShakeAmount = 5f;
-                                //if (GenericSystem.BeenThereDoneThatPilgrim)
+                                if (GenericSystem.BeenThereDoneThatPilgrim)
                                 {
-                                    //SymbolTimer = 0;
-                                    //State = NState.Invulerable;
+                                    SymbolTimer = 0;
+                                    State = NState.Invulerable;
                                 }
                             }
-                            //if (!GenericSystem.BeenThereDoneThatPilgrim)
+                            if (!GenericSystem.BeenThereDoneThatPilgrim)
                             {
                                 if (SymbolTimer >= 360)
                                 {

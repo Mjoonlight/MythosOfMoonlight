@@ -701,7 +701,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (NPC.alpha < 0)
                                 NPC.alpha = 0;
-                            //if (!GenericSystem.BeenThereDoneThatPilgrim) 
+                            if (!GenericSystem.BeenThereDoneThatPilgrim)
                             {
                                 if (AITimer > 100)
                                     player.velocity.X = 0;
@@ -735,26 +735,28 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     aitimer2 = 0;
                                     if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
                                     AITimer = 0;
+                                    GenericSystem.BeenThereDoneThatPilgrim = true;
                                     SwitchTo(AIState.Idle);
                                 }
 
                             }
-                            /*
-                             else 
+                            else
                             {
-                            if (AITimer == 100) {
+                                if (AITimer == 1)
+                                    CameraSystem.ChangeCameraPos(NPC.Center, 100);
+                                if (AITimer == 50)
+                                    Lenikya.NewLenikyaCombatText("Stop that!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                if (AITimer == 100)
+                                {
                                     AITimer = 0;
                                     NPC.frameCounter = 0;
                                     SwitchToRandom();
                                     aitimer2 = 0;
-            if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
+                                    if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
                                     AITimer = 0;
                                     SwitchTo(AIState.Idle);
+                                }
                             }
-                                else
-                                    Music = 0;
-                             }
-                            */
                             break;
                         }
                     case AIState.StarineSigil:
