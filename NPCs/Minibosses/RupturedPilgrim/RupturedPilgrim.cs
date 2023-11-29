@@ -523,6 +523,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             StateBeforeP2 = State;
                         else
                             StateBeforeP2 = AIState.StarineSigil;
+                        Lenikya.NewLenikyaCombatText("DAMN !!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 70);
                         SoundEngine.PlaySound(SoundID.NPCDeath51);
                         didp2 = true;
                         GenerateNewPattern();
@@ -582,7 +583,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         interval = 10;
                     if (AITimer % interval == 0 && AITimer > 25 && AITimer < 250 && owner != null)
                     {
-                        CameraSystem.ScreenShakeAmount = 2f;
+                        CameraSystem.ScreenShakeAmount = 6 - interval * 0.1f;
                         NPC.frame.Y = (int)Main.rand.Next(0, 29) * 92;
                         SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                         if (savedPos == Vector2.Zero)
@@ -659,6 +660,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 if (owner == null || !owner.active)
                     NPC.active = false;
                 AITimer++;
+                if (State != AIState.Spawn)
+                    Star.starfallBoost = 3;
                 if (State != AIState.Idle)
                     OldState = State;
                 switch (State)
@@ -706,15 +709,16 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     CameraSystem.ChangeCameraPos(NPC.Center, 400);
                                 if (AITimer == 100)
                                 {
-                                    Lenikya.NewLenikyaCombatText("wtf are you doin lol!?", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("Stop that!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
                                 }
                                 if (AITimer == 200)
                                 {
-                                    Lenikya.NewLenikyaCombatText("bru stop that no cap", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("thoughtful dialogue about how the symbol should not be disturbed or something!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
                                 }
                                 if (AITimer == 300)
                                 {
-                                    Lenikya.NewLenikyaCombatText("skibidi rizz!!!!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("minos prime saying And Thy Punishment is death!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Star.starfallBoost = 3;
                                     CameraSystem.ScreenShakeAmount = 4f;
                                 }
                                 if (AITimer > 200)

@@ -164,7 +164,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 foreach (Player player in Main.player)
                                 {
                                     if (player.active)
-                                        if (player.Center.Distance(CircleCenter) < 420f)
+                                        if (player.Center.Distance(CircleCenter) < 420f && player.velocity.Y > -1f)
                                         {
                                             player.Center -= new Vector2(0, 5);
                                             player.velocity += new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 10, -15);
@@ -297,7 +297,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             StateTimer++;
 
                         if (StateTimer > 0)
-                            NPC.velocity = Vector2.Lerp(NPC.velocity, CircleCenter + new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6)) - NPC.Center, 0.2f);
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, CircleCenter + new Vector2(Main.rand.NextFloat(-25 + (Radius * 0.025f), 25 - (Radius * 0.025f)), Main.rand.NextFloat(-25 + (Radius * 0.025f), 25 - (Radius * 0.025f))) - NPC.Center, 0.2f);
 
                         if (StateTimer == 120)
                         {
@@ -350,6 +350,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             }
             else
             {
+                Star.starfallBoost = 0;
                 Radius -= 7.5f;
                 if (Radius < 10 && StateTimer == 0)
                 {

@@ -64,7 +64,7 @@ namespace MythosOfMoonlight.Events
         //float intensity;
         public override float GetCloudAlpha()
         {
-            return 0.1f;
+            return MathHelper.Lerp(1, 0.1f, Intensity);
         }
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {

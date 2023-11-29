@@ -55,11 +55,60 @@ namespace MythosOfMoonlight.Misc
                     {
                         if (strings[i].additive)
                             spriteBatch.Reload(BlendState.Additive);
-                        float len = strings[i].text.Length;
-                        if (len * 20 > Main.screenWidth / 2)
-                            len = Main.screenWidth / 40;
-                        Vector2 pos = strings[i].position - (strings[i].centered ? new Vector2(len * 10 * strings[i].maxScale, 10) : Vector2.Zero);
-                        Vector2 startPos = strings[i].position - (strings[i].centered ? new Vector2(len * 10 * strings[i].maxScale, 10) : Vector2.Zero);
+                        float len = strings[i].text.Length * 20;
+                        foreach (char c in strings[i].text)
+                        {
+                            int frameY = 0;
+                            int letter = char.ToUpper(c) - (int)'A';
+                            if (letter + (int)'A' < 'A' || letter + 'A' > 'Z')
+                            {
+
+                                if (char.IsNumber(c))
+                                {
+                                    frameY = ((int)char.GetNumericValue(c) + 26) * 20;
+                                }
+                                else
+                                {
+                                    switch (c)
+                                    {
+                                        case '-':
+                                            frameY = 37 * 20;
+                                            break;
+                                        case '.':
+                                            frameY = 36 * 20;
+                                            break;
+                                        case ',':
+                                            frameY = 36 * 20;
+                                            break;
+                                        case '\'':
+                                            frameY = 36 * 20;
+                                            break;
+                                        case '"':
+                                            frameY = 36 * 20;
+                                            break;
+                                        case '!':
+                                            frameY = 38 * 20;
+                                            break;
+                                        case '?':
+                                            frameY = 39 * 20;
+                                            break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                frameY = letter * 20;
+                            }
+                            if (SmallFrames.Contains(frameY / 20))
+                                len -= 10;
+                            if (MediumFrames.Contains(frameY / 20))
+                                len -= 8;
+                            if (BigFrames.Contains(frameY / 20))
+                                len -= 2;
+                        }
+                        len = MathHelper.Clamp(len, 0, Main.screenWidth / 2);
+                        Vector2 pos = strings[i].position - (strings[i].centered ? new Vector2(len * 0.5f * strings[i].maxScale, 10) : Vector2.Zero);
+                        Vector2 startPos = strings[i].position - (strings[i].centered ? new Vector2(len * 0.5f * strings[i].maxScale, 10) : Vector2.Zero);
 
                         for (int j = 0; j < strings[i].text.Length; j++)
                         {
