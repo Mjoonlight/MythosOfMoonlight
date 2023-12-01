@@ -56,10 +56,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void OnKill(int timeLeft)
         {
-            float offset = (Main.rand.NextBool() ? MathHelper.Pi : 0);
+            float offset = Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center).ToRotation();
             for (int i = 0; i < 5; i++)
             {
-                float angle = Helper.CircleDividedEqually(i, 5) + offset + MathHelper.PiOver4;
+                float angle = Helper.CircleDividedEqually(i, 5) + offset;
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 3, ModContent.ProjectileType<StarineShaft>(), 10, 0, ai2: 1);
             }
             SoundStyle style = SoundID.Item82;

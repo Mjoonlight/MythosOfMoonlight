@@ -377,6 +377,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<RupturedPilgrim>()) && State != NState.Death)
                 {
+                    Main.npcChatText = "";
                     NPC.townNPC = false;
                     SwitchTo(NState.Spawn);
                 }

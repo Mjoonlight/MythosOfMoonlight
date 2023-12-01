@@ -24,7 +24,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void SetDefaults()
         {
-            Projectile.damage = 10;
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.aiStyle = 0;
@@ -115,10 +114,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override void SetDefaults()
         {
-            Projectile.damage = 10;
             Projectile.width = 488;
             Projectile.height = 486;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = 0;
             Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 200;
@@ -151,12 +149,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             // SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }
-        public override bool ShouldUpdatePosition()
-        {
-            return Projectile.scale >= 0.075f;
-        }
+        Vector2 startVel;
         public override void AI()
         {
+            if (Projectile.ai[2] == 0 && Projectile.scale >= 0.05f)
+            {
+                startVel = Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center + startVel);
+                Projectile.ai[2] = 1;
+            }
             if (TRay.CastLength(Projectile.Center, Vector2.UnitY, 200, true) < 25 && Projectile.Center.Y > Main.LocalPlayer.Center.Y - 20)
                 Projectile.Kill();
             for (int i = 0; i < 2; i++)
@@ -166,7 +166,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Dust dust = Dust.NewDustDirect(pos, 1, 1, ModContent.DustType<StarineDust>(), dVel.X, dVel.Y);
             }
             if (Projectile.scale < 0.075f)
-                Projectile.scale += 0.001f;
+            {
+                if (Projectile.velocity.Length() < 3.5f)
+                    Projectile.velocity *= 1.05f;
+                Projectile.scale += 0.002f;
+            }
+            else
+            {
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, startVel * 15, 0.1f);
+            }
         }
         public override bool PreDraw(ref Color lightColor)
         {
