@@ -523,7 +523,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             StateBeforeP2 = State;
                         else
                             StateBeforeP2 = AIState.StarineSigil;
-                        Lenikya.NewLenikyaCombatText("DAMN !!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 70);
+                        Lenikya.NewLenikyaCombatText("Dis'sidence!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 70);
                         SoundEngine.PlaySound(SoundID.NPCDeath51);
                         didp2 = true;
                         GenerateNewPattern();
@@ -672,7 +672,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.025f) + 1) / 2;
                             float rot = MathHelper.Lerp(0, MathHelper.Pi, lerpValue);
                             NPC.velocity = (player.Center + new Vector2(-100, 0).RotatedBy(rot) - NPC.Center) / 30f;
-                            if (AITimer >= MathHelper.Clamp(NPC.life / 10, 40, 1000))
+                            if (AITimer >= MathHelper.Clamp(NPC.life / 13, 40, 1000))
                             {
                                 NPC.frameCounter = 0;
                                 AITimer = 0;
@@ -711,15 +711,15 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     CameraSystem.ChangeCameraPos(NPC.Center, 400);
                                 if (AITimer == 100)
                                 {
-                                    Lenikya.NewLenikyaCombatText("Stop that!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("What s'this!?", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
                                 }
                                 if (AITimer == 200)
                                 {
-                                    Lenikya.NewLenikyaCombatText("thoughtful dialogue about how the symbol should not be disturbed or something!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("You afflict Our'Symbol - Heresy'apostasy!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
                                 }
                                 if (AITimer == 300)
                                 {
-                                    Lenikya.NewLenikyaCombatText("minos prime saying And Thy Punishment is death!!!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
+                                    Lenikya.NewLenikyaCombatText("Fade - the stars shine upon you!", NPC.Center - new Vector2(0, 60), Color.Aqua, Color.LightSkyBlue * 0.1f, 1f, 100);
                                     Star.starfallBoost = 3;
                                     CameraSystem.ScreenShakeAmount = 4f;
                                 }
@@ -1004,7 +1004,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(400 * i, -200 - 100), -Helper.FromAToB(Sym.Center + new Vector2(400 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(400 * i, -200 - 50), -Helper.FromAToB(Sym.Center + new Vector2(400 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 70)
@@ -1016,7 +1016,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(300 * i, -250 - 100), -Helper.FromAToB(Sym.Center + new Vector2(300 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(300 * i, -250 - 50), -Helper.FromAToB(Sym.Center + new Vector2(300 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 110)
@@ -1028,20 +1028,26 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(200 * i, -200 - 100), -Helper.FromAToB(Sym.Center + new Vector2(200 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(200 * i, -200 - 50), -Helper.FromAToB(Sym.Center + new Vector2(200 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
+                                }
+                                if (AITimer == 90)
+                                {
+                                    SoundStyle style = SoundID.DD2_DarkMageCastHeal;
+                                    style.Volume = 0.5f;
+                                    SoundEngine.PlaySound(style, NPC.Center);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center - new Vector2(0, 100 + 100), Vector2.Zero, ModContent.ProjectileType<StarineSlush>(), 12, .1f, Main.myPlayer);
                                 }
                                 if (AITimer == 150)
                                 {
                                     SoundStyle style = SoundID.DD2_DarkMageCastHeal;
                                     style.Volume = 0.5f;
                                     SoundEngine.PlaySound(style, NPC.Center);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center - new Vector2(0, 100 + 100), Vector2.Zero, ModContent.ProjectileType<StarineSlush>(), 12, .1f, Main.myPlayer);
                                     for (int i = -1; i < 2; i++)
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(100 * i, -250 - 100), -Helper.FromAToB(Sym.Center + new Vector2(100 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(100 * i, -250 - 50), -Helper.FromAToB(Sym.Center + new Vector2(100 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                             }
@@ -1071,7 +1077,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(400 * i, -200 - 100), -Helper.FromAToB(Sym.Center + new Vector2(400 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(400 * i, -200 - 50), -Helper.FromAToB(Sym.Center + new Vector2(400 * i, -200 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 45)
@@ -1083,7 +1089,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(100 * i, -250 - 100), -Helper.FromAToB(Sym.Center + new Vector2(100 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(100 * i, -250 - 50), -Helper.FromAToB(Sym.Center + new Vector2(100 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 60 || AITimer == 110)
@@ -1095,7 +1101,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(300 * i, -300 - 100), -Helper.FromAToB(Sym.Center + new Vector2(300 * i, -300 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(300 * i, -300 - 50), -Helper.FromAToB(Sym.Center + new Vector2(300 * i, -300 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 if (AITimer == 90)
@@ -1107,7 +1113,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     {
                                         if (i == 0)
                                             continue;
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(200 * i, -250 - 100), -Helper.FromAToB(Sym.Center + new Vector2(200 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center + new Vector2(200 * i, -250 - 50), -Helper.FromAToB(Sym.Center + new Vector2(200 * i, -250 - 100), player.Center) * 0.05f, ModContent.ProjectileType<StarineSlushSmall>(), 20 - damageOffset, .1f, Main.myPlayer);
                                     }
                                 }
                                 NPC.velocity *= 0.9f;

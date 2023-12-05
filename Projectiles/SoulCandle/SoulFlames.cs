@@ -15,7 +15,6 @@ namespace MythosOfMoonlight.Projectiles.SoulCandle
 
         public override void SetStaticDefaults()
         {
-
             Main.projFrames[Projectile.type] = 5;
 
         }
@@ -29,66 +28,38 @@ namespace MythosOfMoonlight.Projectiles.SoulCandle
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
 
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 200;
             Projectile.scale = 1f;
-            Projectile.penetrate = 1;
-            Projectile.aiStyle = 9;
+            Projectile.penetrate = -1;
+            Projectile.aiStyle = -1;
         }
 
-     
-        public override void Kill(int timeLeft)
-        {
-
-
-           
-
-            Player player = Main.player[Projectile.owner];
-            for (int i = 0; i < 3; i++)
-            {
-             
-
-            }
-
-           
-        }
-       
         public override bool? CanHitNPC(NPC target)
         {
             return !target.friendly;
         }
+        public override bool ShouldUpdatePosition()
+        {
+            return Projectile.ai[2] > 0.5f;
+        }
         public override void AI()
         {
-            if (++Projectile.frameCounter >= 12f)
-            {
-                Projectile.frameCounter = 0;
-
-                if (++Projectile.frame >= Main.projFrames[Projectile.type])
-                    Projectile.frame = 0;
-            }
+            if (Projectile.ai[2] > Main.rand.NextFloat(0.25f))
+                if (++Projectile.frameCounter % 5 == 0)
+                {
+                    if (++Projectile.frame >= Main.projFrames[Projectile.type])
+                        Projectile.frame = 0;
+                }
             Projectile.velocity *= 0.95f;
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
-            Main.instance.LoadProjectile(Projectile.type);
-            Texture2D texture = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/FireGlow").Value;
-            for (int k = 0; k < Projectile.oldPos.Length; k++)
+            if (Projectile.velocity.Length() < 0.01f)
             {
-                var offset = new Vector2(Projectile.width / 2f, Projectile.height / 2f);
-                var frame = texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-                float sizec = Projectile.scale * (Projectile.oldPos.Length - k) / (Projectile.oldPos.Length * 1f);
-                Color ProjColor = new Color(244, 204, 39) * (1f - Projectile.alpha) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-                Vector2 drawPos = (Projectile.oldPos[k] - Main.screenPosition) + offset;
-
-                Main.EntitySpriteDraw(texture, drawPos, frame, ProjColor, Projectile.oldRot[k], frame.Size() / 2f, sizec, SpriteEffects.None, 0);
+                Projectile.ai[2] = MathHelper.Max(Projectile.ai[2] - 0.1f, 0);
+                if (Projectile.ai[2] <= 0)
+                    Projectile.Kill();
             }
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-            return true;
+            else
+                Projectile.ai[2] = MathHelper.Min(Projectile.ai[2] + 0.1f, 1);
         }
-
-       
+        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.ai[2];
     }
 }

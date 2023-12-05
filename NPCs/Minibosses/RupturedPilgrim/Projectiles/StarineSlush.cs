@@ -145,7 +145,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             {
                 if (i == 0)
                     continue;
-                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 50, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 6;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 50, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY, Vector2.UnitX * i, ModContent.ProjectileType<StarineShockwave>(), 12, .1f, Main.myPlayer).ai[0] = 12;
             }
             // SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
         }

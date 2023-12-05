@@ -13,7 +13,7 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-          
+
 
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
@@ -33,20 +33,20 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shoot = ModContent.ProjectileType<SoulCandleHeld>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 1f;
             Item.noMelee = true;
-            Item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
+            //Item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
 
             Item.channel = true;
             Item.noUseGraphic = true;
         }
-
-
-      
-        public override Vector2? HoldoutOffset()
+        public override bool CanUseItem(Player player)
         {
-            var offset = new Vector2(1, 0);
-            return offset;
+            return player.ownedProjectileCounts[Item.shoot] < 1;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.WaterCandle).AddIngredient(ItemID.Bone, 10).AddTile(TileID.Anvils).Register();
         }
     }
 }
