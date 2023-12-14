@@ -445,6 +445,8 @@ Mods: {
 			PilgStar3.DisplayName: Pilg Star3
 			SlushExplosion.DisplayName: Slush Explosion
 			BigQuickFlare.DisplayName: Big Quick Flare
+			TestStar.DisplayName: Test Star
+			FallingStarBig.DisplayName: Falling Star Big
 		}
 
 		NPCs: {
@@ -475,6 +477,8 @@ Mods: {
 			RupturedPilgrim.DisplayName: Starseeing Pilgrim
 			Starine_Symbol.DisplayName: Starine Symbol
 			StarveiledScholar.DisplayName: Nightveiled Scholar
+			Moonborn.DisplayName: Moonborn
+			FallingStar.DisplayName: Falling Star
 		}
 
 		Tiles: {

@@ -88,9 +88,9 @@ namespace MythosOfMoonlight
                 {
                     location2 = new Vector2(p.position.X - 1000, spawnpos.Y - Main.rand.Next(1, 1800));
                 }
-                Vector2 direction = (Main.MouseWorld - location2).SafeNormalize(Vector2.UnitX);
+                Vector2 direction = Helper.FromAToB(location2, target.Center + target.velocity);
 
-                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 20, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
+                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 25, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
 
             }
         }
@@ -109,9 +109,9 @@ namespace MythosOfMoonlight
                 {
                     location2 = new Vector2(p.position.X - 1000, spawnpos.Y - Main.rand.Next(1, 1800));
                 }
-                Vector2 direction = (Main.MouseWorld - location2).SafeNormalize(Vector2.UnitX);
+                Vector2 direction = Helper.FromAToB(location2, target.Center + target.velocity);
 
-                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 20, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
+                Projectile.NewProjectile(Main.LocalPlayer.GetSource_FromThis(), location2, direction * 25, ModContent.ProjectileType<StarBitBlue>(), Main.LocalPlayer.HeldItem.damage * 2, 4f, Main.myPlayer);
 
             }
         }
@@ -143,6 +143,10 @@ namespace MythosOfMoonlight
         }
         public override void PostUpdate()
         {
+            if (Main.rand.NextBool(1000) && !Main.dayTime)
+            {
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + new Vector2(1920 * Main.rand.NextFloat() - 960, -2500), new Vector2(Main.rand.NextFloat(-1, 1), 20f), ModContent.ProjectileType<FallingStarBig>(), 2000, 0);
+            }
             if (PurpleCometEvent.PurpleComet)
                 Player.noFallDmg = true;
         }

@@ -8,6 +8,8 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using System.IO;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+using MythosOfMoonlight.Items.Accessories;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
 {
@@ -85,6 +87,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
                 else
                     NPC.frame.Y = 0;
             }
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<StarBit>(), 15));
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
