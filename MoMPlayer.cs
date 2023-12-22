@@ -143,7 +143,7 @@ namespace MythosOfMoonlight
         }
         public override void PostUpdate()
         {
-            if (Main.rand.NextBool(1000) && !Main.dayTime)
+            if (Main.rand.NextBool((int)(3000 / (Star.starfallBoost + 0.01f))) && !Main.dayTime)
             {
                 Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + new Vector2(1920 * Main.rand.NextFloat() - 960, -2500), new Vector2(Main.rand.NextFloat(-1, 1), 20f), ModContent.ProjectileType<FallingStarBig>(), 2000, 0);
             }

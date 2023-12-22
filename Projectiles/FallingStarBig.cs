@@ -13,6 +13,8 @@ using Terraria.DataStructures;
 using MythosOfMoonlight.Common.Systems;
 using Terraria.GameContent;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
+using System.Linq.Expressions;
+using MythosOfMoonlight.Gores;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -188,28 +190,59 @@ namespace MythosOfMoonlight.Projectiles
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.defense = 30;
-            NPC.lifeMax = 1000;
+            NPC.lifeMax = 200;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
         }
+        public override bool CheckActive()
+        {
+            return false;
+        }
+        List<int> GoreTypes = new List<int>()
+        {
+            ModContent.GoreType<StarG0>(),ModContent.GoreType<StarG1>(),ModContent.GoreType<StarG2>(),ModContent.GoreType<StarG3>(),ModContent.GoreType<StarG4>(),ModContent.GoreType<StarG5>(),ModContent.GoreType<StarG6>(),
+        };
         public override bool CheckDead()
         {
             Projectile projectile = Main.projectile[(int)NPC.ai[0]];
             projectile.Kill();
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, NPC.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit3, NPC.Center);
+            for (int i = 0; i < 10; i++)
+                Gore.NewGore(default, NPC.Center, Main.rand.NextVector2Circular(10, 10), Main.rand.Next(GoreTypes));
             return true;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            for (int i = 0; i < 2; i++)
-                Helper.SpawnGore(NPC.Center, "MythosOfMoonlight/StarG" + Main.rand.Next(7), vel: Main.rand.NextVector2Circular(4, 4));
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
+            if (Main.rand.NextBool(3))
+                Gore.NewGore(default, NPC.Center, Main.rand.NextVector2Circular(10, 10), Main.rand.Next(GoreTypes));
+            Color newColor7 = Color.CornflowerBlue;
+            if (Main.rand.NextBool(3))
+            {
+
+
+                for (int num613 = 0; num613 < 5; num613++)
+                {
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 58, 4, 4, 150, default, 0.8f);
+                }
+                for (float num614 = 0f; num614 < 1; num614 += 0.125f)
+                {
+                    Dust.NewDustPerfect(NPC.Center, 278, Vector2.UnitY.RotatedBy(num614 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (4f + Main.rand.NextFloat() * 4f), 150, newColor7).noGravity = true;
+                }
+                for (float num615 = 0f; num615 < 0.75f; num615 += 0.25f)
+                {
+                    Dust.NewDustPerfect(NPC.Center, 278, Vector2.UnitY.RotatedBy(num615 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (2f + Main.rand.NextFloat() * 3f), 150, Color.Gold).noGravity = true;
+                }
+
+            }
         }
         public override void AI()
         {
-            Main.NewText("pre check");
             Projectile projectile = Main.projectile[(int)NPC.ai[0]];
             if (projectile == null || projectile.whoAmI != NPC.ai[0] || !projectile.active || projectile.type != ModContent.ProjectileType<FallingStarBig>()) { NPC.active = false; return; }
 
-            Main.NewText("post check");
+            NPC.timeLeft = 2;
             NPC.Center = projectile.Center;
         }
     }
