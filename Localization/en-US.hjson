@@ -350,6 +350,16 @@ Mods: {
 				DisplayName: Asteroid Despawn
 				Tooltip: ""
 			}
+
+			WardingStar: {
+				DisplayName: Warding Star
+				Tooltip: ""
+			}
+
+			StarBaton: {
+				DisplayName: Star Baton
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -447,6 +457,10 @@ Mods: {
 			BigQuickFlare.DisplayName: Big Quick Flare
 			TestStar.DisplayName: Test Star
 			FallingStarBig.DisplayName: Falling Star Big
+			FallingStarTiny.DisplayName: Falling Star Tiny
+			WardingStarP.DisplayName: Warding Star P
+			WardingStarP2.DisplayName: Warding Star P2
+			StarBatonP.DisplayName: Star Baton P
 		}
 
 		NPCs: {

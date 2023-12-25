@@ -53,19 +53,41 @@ namespace MythosOfMoonlight.Projectiles
         public override void PostDraw(Color lightColor)
         {
             Texture2D tex = TextureAssets.Extra[ExtrasID.FallingStar].Value;
-            float alpha = MathHelper.Clamp(Projectile.velocity.Length(), 0, 1f);
+            if (Projectile.ai[0] == 0)
+            {
+                Main.spriteBatch.Reload(BlendState.Additive);
+                float alpha = MathHelper.Clamp(Projectile.velocity.Length(), 0, 1f);
+                Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(3).RotatedBy(Projectile.rotation * 3) - Main.screenPosition, null, Color.CornflowerBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 2f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(3).RotatedBy(-Projectile.rotation * 3) - Main.screenPosition, null, Color.CornflowerBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 2f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * ((Projectile.ai[2] - 0.5f) * 0.5f * alpha), Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.ai[2], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.25f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(10).RotatedBy(Projectile.rotation) - Main.screenPosition, null, Color.DarkSlateBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(10).RotatedBy(-Projectile.rotation) - Main.screenPosition, null, Color.DarkSlateBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            }
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(3).RotatedBy(Projectile.rotation * 3) - Main.screenPosition, null, Color.CornflowerBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 2f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(3).RotatedBy(-Projectile.rotation * 3) - Main.screenPosition, null, Color.CornflowerBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 2f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * ((Projectile.ai[2] - 0.5f) * 0.5f * alpha), Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.ai[2], SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.25f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(10).RotatedBy(Projectile.rotation) - Main.screenPosition, null, Color.DarkSlateBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(10).RotatedBy(-Projectile.rotation) - Main.screenPosition, null, Color.DarkSlateBlue * 0.5f * alpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), 1f, SpriteEffects.None, 0);
+            Texture2D tex2 = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 1.5f) + 1) / 2), Projectile.rotation, tex2.Size() / 2, 1f, SpriteEffects.None, 0);
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 4; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, 4) + Main.GlobalTimeWrappedHourly * 3;
+                Vector2 pos = Projectile.Center + new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 1.5f) * 6).RotatedBy(angle);
+                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.CornflowerBlue * 0.6f, Projectile.rotation, tex.Size() / 2, 1f, SpriteEffects.None, 0);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, 4) - Main.GlobalTimeWrappedHourly * 3;
+                Vector2 pos = Projectile.Center - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 1.5f) * 6).RotatedBy(angle);
+                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.CornflowerBlue * 0.6f, Projectile.rotation, tex.Size() / 2, 1f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
         }
         public override void AI()
