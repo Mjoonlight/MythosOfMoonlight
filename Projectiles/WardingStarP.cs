@@ -109,11 +109,12 @@ namespace MythosOfMoonlight.Projectiles
             Projectile.height = 24;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.hostile = false;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 3;
             Projectile.hide = true;
             Projectile.timeLeft = 300;
+            Projectile.usesLocalNPCImmunity = true;
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {

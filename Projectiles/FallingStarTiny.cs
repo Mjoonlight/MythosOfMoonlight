@@ -100,7 +100,6 @@ namespace MythosOfMoonlight.Projectiles
             {
                 Projectile.damage = 0;
                 Projectile.velocity *= 0.35f;
-                SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
                 Projectile.tileCollide = false;
                 //Projectile.Center += new Vector2(0, Projectile.height / 3);
                 Projectile.Kill();

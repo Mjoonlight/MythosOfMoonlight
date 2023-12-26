@@ -15,6 +15,9 @@ using Terraria.GameContent;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Linq.Expressions;
 using MythosOfMoonlight.Gores;
+using MythosOfMoonlight.Items.Weapons;
+using MythosOfMoonlight.Items.Accessories;
+using MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -92,6 +95,8 @@ namespace MythosOfMoonlight.Projectiles
         }
         public override void AI()
         {
+            if (Projectile.ai[1]++ % 40 == 0 && Projectile.ai[0] == 0)
+                SoundEngine.PlaySound(SoundID.Item9.WithPitchOffset(Main.rand.NextFloat(-0.2f, -0.15f)), Projectile.Center);
             if (Main.dayTime) Projectile.Kill();
             Projectile.ai[2] = MathHelper.Clamp(Projectile.ai[2] + 0.05f, 1f, 1.5f);
             if (Projectile.ai[2] > 1.49f)
@@ -196,6 +201,22 @@ namespace MythosOfMoonlight.Projectiles
                 }
             }
             Item.NewItem(Projectile.GetSource_Loot(), Projectile.getRect(), ItemID.FallenStar, Stack: Main.rand.Next(10, 20));
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    Item.NewItem(Projectile.GetSource_Loot(), Projectile.getRect(), ModContent.ItemType<StarBaton>());
+                    break;
+                case 1:
+                    Item.NewItem(Projectile.GetSource_Loot(), Projectile.getRect(), ModContent.ItemType<WardingStar>());
+                    break;
+                case 2:
+                    Item.NewItem(Projectile.GetSource_Loot(), Projectile.getRect(), ModContent.ItemType<StarBit>());
+                    break;
+            }
+            if (Main.rand.NextBool(8))
+            {
+                NPC.NewNPCDirect(null, Projectile.Center - new Vector2(0, 1000), ModContent.NPCType<AsteroidWarden>());
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
