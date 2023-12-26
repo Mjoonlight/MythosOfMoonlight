@@ -10,6 +10,7 @@ using System.IO;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Accessories;
+using MythosOfMoonlight.Items.Weapons;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
 {
@@ -28,6 +29,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
             NPC.damage = 0;
             NPC.defense = 5;
             NPC.lifeMax = 400;
+            NPC.value = Item.buyPrice(0, 0, 5, 15);
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0.6f;
             NPC.HitSound = SoundID.NPCHit13;
@@ -91,6 +93,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<StarBit>(), 15));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<WardingStar>(), 15));
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
