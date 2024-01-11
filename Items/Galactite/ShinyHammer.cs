@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.GameContent;
 using MythosOfMoonlight.Misc;
+using MythosOfMoonlight.Tiles.Furniture.Pilgrim;
+using MythosOfMoonlight.Tiles;
+using System.Collections.Generic;
 
 namespace MythosOfMoonlight.Items.Galactite
 {
