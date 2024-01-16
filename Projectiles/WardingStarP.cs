@@ -39,14 +39,14 @@ namespace MythosOfMoonlight.Projectiles
         }
         public override void AI()
         {
-            Projectile.rotation += MathHelper.ToRadians(Projectile.ai[1] * 0.1f);
+            Projectile.rotation += MathHelper.ToRadians(Projectile.ai[1] * 0.075f);
             Projectile.ai[1]++;
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.1f);
             foreach (Player player in Main.player)
             {
                 if (player == Main.player[Projectile.owner] && player == Main.LocalPlayer)
                 {
-                    if (Projectile.ai[1] == 40)
+                    if (Projectile.ai[1] == 60)
                     {
                         SoundStyle style = SoundID.Item82;
                         style.Volume = 0.5f;
@@ -71,7 +71,7 @@ namespace MythosOfMoonlight.Projectiles
                             Dust.NewDustPerfect(Projectile.Center, 278, Vector2.UnitY.RotatedBy(num615 * Main.rand.NextFloat(2) * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (2f + Main.rand.NextFloat() * 3f), 150, Color.Gold).noGravity = true;
                         }
 
-                        player.CheckMana(6, true, true);
+                        player.CheckMana(player.HeldItem.mana, true, true);
                         player.manaRegenDelay = (int)player.maxRegenDelay;
 
                         Projectile.ai[1] = 0;

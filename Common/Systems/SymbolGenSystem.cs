@@ -65,40 +65,43 @@ namespace MythosOfMoonlight.Common.Systems
     {
         public void GenStruct(GenerationProgress progress, GameConfiguration _)
         {
-            int baseCheckX = Main.maxTilesX / 2 + 100;
+            int baseCheckX = Main.maxTilesX / 2 + 30;
             int baseCheckY = 200;
 
-            for (int it = 0; it < 13; it++)
+            for (int it = 0; it < 10; it++)
             {
                 while (!Main.tile[baseCheckX + it, baseCheckY + 5].HasTile || Main.tile[baseCheckX + it, baseCheckY].TileType == TileID.Cloud || Main.tile[baseCheckX + it, baseCheckY].TileType == TileID.Sunplate)
+                {
                     baseCheckY++;
+                    continue;
+                }
+                break;
             }
             for (int l = 0; l < 10; l++)
             {
-                for (int m = 0; m < 4; m++)
+                for (int m = 0; m < 36; m++)
+                {
+                    if (Main.tile[baseCheckX + l, baseCheckY + 5 - m].TileType == TileID.Trees || Main.tile[baseCheckX + l, baseCheckY + 5 - m].TileType == TileID.Dirt || Main.tile[baseCheckX + l, baseCheckY + 5 - m].TileType == TileID.Grass || Main.tile[baseCheckX + l, baseCheckY + 5 - m].TileType == TileID.Sunflower)
+                        WorldGen.KillTile(baseCheckX + l, baseCheckY + 5 - m, false, false, false);
+                }
+                for (int m = 0; m < 5; m++)
                 {
                     WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 5 + m, TileID.Dirt, forced: true);
                     Tile tile = Main.tile[baseCheckX + l, baseCheckY + 5 + m];
                     tile.Slope = SlopeType.Solid;
                 }
-                for (int m = 0; m < 30; m++)
-                {
-                    if (Main.tile[baseCheckX + l, baseCheckY - m].TileType == TileID.Trees)
-                        WorldGen.KillTile(baseCheckX + l, baseCheckY - m, false, false, false);
-                }
-                WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 5, TileID.Dirt, false, true, -1, 0);
+                WorldGen.PlaceTile(baseCheckX + l, baseCheckY + 5, TileID.Grass, false, true, -1, 0);
                 Tile t = Main.tile[baseCheckX + l, baseCheckY + 5];
                 t.Slope = SlopeType.Solid;
             }
             WorldGen.PlaceTile(baseCheckX + 1, baseCheckY + 4, ModContent.TileType<PilgrimLamp>(), false, true, -1, 0);
             WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 4, ModContent.TileType<PilgrimCan>(), false, true, -1, 0);
-            //WorldGen.PlaceTile(baseCheckX + 3, baseCheckY + 2, TileID.PlatinumCandle, false, true, -1, 0);
             WorldGen.PlaceTile(baseCheckX + 5, baseCheckY + 4, ModContent.TileType<PilgrimBed>(), false, true, -1, 0);
             WorldGen.PlaceTile(baseCheckX + 7, baseCheckY + 2, ModContent.TileType<SymbolPointTile>(), false, true, -1, 0);
         }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Remove Broken Traps"));
             if (ShiniesIndex != -1)
             {
                 tasks.Add(new PassLegacy("Generating the Starine Site", GenStruct));

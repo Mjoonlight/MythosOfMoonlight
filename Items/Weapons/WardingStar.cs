@@ -16,7 +16,7 @@ namespace MythosOfMoonlight.Items.Weapons
         {
             Item.damage = 15;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 6;
+            Item.mana = 7;
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
