@@ -30,7 +30,7 @@ namespace MythosOfMoonlight.Items.Galactite
         public override string Texture => "MythosOfMoonlight/Items/Galactite/ShinyHammer";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 10;
+            ProjectileID.Sets.TrailCacheLength[Type] = 11;
             ProjectileID.Sets.TrailingMode[Type] = 2;
             Projectile.AddElement(CrossModHelper.Celestial);
         }
