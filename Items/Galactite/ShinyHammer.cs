@@ -14,85 +14,43 @@ namespace MythosOfMoonlight.Items.Galactite
 {
     public class ShinyHammer : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Gravitron");
-        }
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.PaladinsHammer);
             Item.damage = 20;
-            Item.shoot = ModContent.ProjectileType<ShinyHammerP>();
         }
     }
-    public class ShinyHammerP : ModProjectile
+    public class GravitronOrb : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Items/Galactite/ShinyHammer";
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Type] = 10;
-            ProjectileID.Sets.TrailingMode[Type] = 2;
-            Projectile.AddElement(CrossModHelper.Celestial);
-        }
+        public override string Texture => Helper.ExtraDir + "purpVortex";
         public override void SetDefaults()
         {
-            Projectile.CloneDefaults(ProjectileID.Shuriken);
-            Projectile.timeLeft = 500;
+            Projectile.CloneDefaults(ProjectileID.Bullet);
+            Projectile.aiStyle = -1;
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
-            for (int i = 1; i < 5; i++)
-            {
-                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
-                var fadeMult = 1f / 5;
-                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + tex.Size() / 2, null, Color.Pink * (1f - fadeMult * i) * 0.5f, Projectile.oldRot[i], Projectile.Size / 2, _scale, SpriteEffects.None, 0f);
-            }
-            return true;
+            Texture2D tex2 = Helper.GetTex(Helper.ExtraDir + "purpCircle");
+            Texture2D tex3 = Helper.GetTex(Helper.ExtraDir + "darkPurpCircle");
+            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex2.Size() / 2, Projectile.scale * 0.075f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex2.Size() / 2, Projectile.scale * 0.075f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(effect: MythosOfMoonlight.PullingForce);
+            MythosOfMoonlight.PullingForce.Parameters["uOpacity"].SetValue(1f);
+            MythosOfMoonlight.PullingForce.Parameters["uIntensity"].SetValue(1f);
+            MythosOfMoonlight.PullingForce.Parameters["uOffset"].SetValue(0.5f);
+            MythosOfMoonlight.PullingForce.Parameters["uSpeed"].SetValue(4f);
+            MythosOfMoonlight.PullingForce.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 4f);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, Projectile.scale * 0.025f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(effect: null);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
         }
         public override void AI()
         {
-            if (Projectile.timeLeft > 460)
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Zero, 0.05f);
-            else
-            {
-                Projectile.aiStyle = 0;
-                Vector2 move = Vector2.Zero;
-                float distance = 5050f;
-                bool target = false;
-                for (int k = 0; k < 200; k++)
-                {
-                    if (Main.npc[k].active && !Main.npc[k].friendly && !Main.npc[k].dontTakeDamage)
-                    {
-                        Vector2 newMove = Main.npc[k].Center - Projectile.Center;
-                        float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
-                        if (distanceTo < distance)
-                        {
-                            move = newMove;
-                            distance = distanceTo;
-                            target = true;
-                        }
-                    }
-                }
-                if (++Projectile.ai[0] % 5 == 0 && target && Projectile.timeLeft > 45)
-                {
-                    AdjustMagnitude(ref move);
-                    Projectile.velocity = (11f * Projectile.velocity + move) / 11f;
-                    AdjustMagnitude(ref Projectile.velocity);
-                }
-                if (Projectile.timeLeft < 45)
-                {
-                    Projectile.velocity *= 0.95f;
-                }
-            }
-        }
-        private static void AdjustMagnitude(ref Vector2 vector)
-        {
-            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            if (magnitude > 11f)
-            {
-                vector *= 11f / magnitude;
-            }
+            Projectile.rotation += MathHelper.ToRadians(2);
+            Projectile.timeLeft = 10;
         }
     }
 }

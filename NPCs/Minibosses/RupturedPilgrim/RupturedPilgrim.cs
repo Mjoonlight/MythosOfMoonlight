@@ -817,6 +817,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer == 20)
                             {
+                                owner.frame.Y = 4 * 66;
                                 for (int i = 4; i <= 360; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -942,6 +943,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 
                             if (AITimer == 60)
                             {
+                                owner.frame.Y = 4 * 66;
                                 for (int i = 4; i <= 360; i += 4)
                                 {
                                     Vector2 dVel = MathHelper.ToRadians(i).ToRotationVector2() * 6f;
@@ -1338,6 +1340,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             {
                                 if (AITimer == 40)
                                 {
+                                    owner.frame.Y = 4 * 66;
                                     SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
                                     NPC.velocity = Vector2.Zero;
                                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
@@ -1348,6 +1351,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 }
                                 if (AITimer == 50)
                                 {
+                                    owner.frame.Y = 4 * 66;
                                     float rot1 = MathHelper.ToRadians((-6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
                                     float rot2 = MathHelper.ToRadians((6) * 5) + Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
                                     Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
@@ -1355,6 +1359,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 }
                                 if (AITimer == 60)
                                 {
+                                    owner.frame.Y = 4 * 66;
                                     float rot1 = Helper.FromAToB(NPC.Center, lastPPos).ToRotation();
                                     Projectile.NewProjectile(null, NPC.Center + rot1.ToRotationVector2() * 35, rot1.ToRotationVector2() * 9, ModContent.ProjectileType<PilgStar2>(), 20 - damageOffset, 0, ai1: 10);
                                 }
@@ -1363,6 +1368,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             {
                                 if (AITimer == 20)
                                 {
+                                    owner.frame.Y = 4 * 66;
                                     SoundEngine.PlaySound(SoundID.AbigailSummon, NPC.Center);
                                     NPC.velocity = Vector2.Zero;
                                     SoundEngine.PlaySound(SoundID.Item8, NPC.Center);

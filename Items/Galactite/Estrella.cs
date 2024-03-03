@@ -22,7 +22,7 @@ namespace MythosOfMoonlight.Items.Galactite
             Item.knockBack = 10f;
             Item.width = Item.height = 66;
             Item.crit = 5;
-            Item.damage = 24;
+            Item.damage = 38;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -92,11 +92,16 @@ namespace MythosOfMoonlight.Items.Galactite
             Vector2 start = player.Center;
             Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
             Vector2 offset = (Projectile.Size / 2) + ((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * holdOffset * 0.25f);
+            if (Projectile.timeLeft == 200)
+                SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/estrellaOld") { PitchVariance = 0.3f, MaxInstances = 3 }, Projectile.Center);
             if (Projectile.ai[2].CloseTo(0.5f, 0.35f))
             {
                 if (Projectile.timeLeft % 4 == 0)
                     for (int i = 0; i < 4; i++)
-                        Dust.NewDustPerfect(Vector2.Lerp(start, end, Main.rand.NextFloat()), ModContent.DustType<PurpurineDust>(), Vector2.Zero).noGravity = true;
+                    {
+                        Vector2 pos = Vector2.Lerp(start, end, Main.rand.NextFloat());
+                        Dust.NewDustPerfect(pos, ModContent.DustType<PurpurineDust>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5).noGravity = true;
+                    }
 
                 for (float i = 0.1f; i < 4; i += 0.1f)
                 {
@@ -166,7 +171,7 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(SoundID.Item1);
+            //SoundEngine.PlaySound(SoundID.Item1);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -175,16 +180,28 @@ namespace MythosOfMoonlight.Items.Galactite
             if (Projectile.ai[0] < 3)
             {
                 Projectile.ai[0]++;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Main.rand.NextVector2Circular(target.width / 2, target.height / 2), Helper.FromAToB(Projectile.Center, target.Center), ModContent.ProjectileType<EstrellaPImpact>(), 0, 0, Projectile.owner, target.whoAmI);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center - Vector2.UnitY * 500, Helper.FromAToB(target.Center - Vector2.UnitY * 500, target.Center) * Main.rand.NextFloat(15, 25f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0, Projectile.owner, target.whoAmI);
+                for (int i = 0; i < 25; i++)
+                {
+                    Dust.NewDustPerfect(target.Center - Vector2.UnitY * 600, ModContent.DustType<Starry2>(), new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(4, 8)), newColor: Color.White).scale = Main.rand.NextFloat(0.07f, 0.16f);
+                }
+                for (int i = 0; i < 10; i++)
+                    Dust.NewDustPerfect(target.Center, ModContent.DustType<Starry2>(), Main.rand.NextVector2Circular(5, 5), newColor: Color.White).scale = Main.rand.NextFloat(0.05f, 0.16f);
+
+                SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/estrellaImpact") { PitchVariance = 0.3f, MaxInstances = 3 }, Projectile.Center);
+                //Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Main.rand.NextVector2Circular(target.width / 2, target.height / 2), Helper.FromAToB(Projectile.Center, target.Center), ModContent.ProjectileType<EstrellaPImpact>(), 0, 0, Projectile.owner, target.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center - Vector2.UnitY * 700, Helper.FromAToB(target.Center - Vector2.UnitY * 500, target.Center) * Main.rand.NextFloat(4, 8f), ModContent.ProjectileType<EstrellaP2>(), Projectile.damage, 0, Projectile.owner, target.whoAmI);
             }
+        }
+        public override bool? CanDamage()
+        {
+            return (Projectile.ai[2].CloseTo(0.5f, 0.35f));
         }
     }
     public class EstrellaP2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 10;
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             Main.projFrames[Type] = 4;
             Projectile.AddElement(CrossModHelper.Celestial);
@@ -196,11 +213,16 @@ namespace MythosOfMoonlight.Items.Galactite
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
-            Projectile.timeLeft = 120;
+            Projectile.timeLeft = 500;
+            Projectile.penetrate = 3;
+            Projectile.localNPCHitCooldown = 500;
+            Projectile.usesLocalNPCImmunity = true;
             Projectile.tileCollide = false;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<EstrellaPImpact>(), 0, 0);
+            Projectile.ai[2] = 1;
             for (int i = 0; i < 7; i++)
                 Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity * 0.3f);
             for (int i = 0; i < 7; i++)
@@ -212,15 +234,28 @@ namespace MythosOfMoonlight.Items.Galactite
         float alpha = 1;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex2 = TextureAssets.Projectile[Type].Value;
             Texture2D tex = Helper.GetTex(Texture + "Star");
-            Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 66, 40, 66), Color.White * alpha, Projectile.velocity.ToRotation() - MathHelper.PiOver2, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0f);
-            /*for (int i = 1; i < 5; i++)
+            Texture2D tex2 = Helper.GetExtraTex("Extra/explosion_1");
+            Texture2D tex3 = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 66, 40, 66), Color.White * alpha, Projectile.velocity.ToRotation() - MathHelper.PiOver2, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.Reload(BlendState.Additive);
+            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            for (int i = 0; i < Projectile.oldPos.Length - (Projectile.timeLeft < 25 ? 25 - Projectile.timeLeft : 0); i++)
             {
-                float _scale = MathHelper.Lerp(1f, 0.95f, (float)(5 - i) / 5);
-                var fadeMult = 1f / 5;
-                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.White * (1f - fadeMult * i) * alpha, Projectile.oldRot[i], tex.Size() / 2, _scale, SpriteEffects.None, 0f);
-            }*/
+                float mult = (1f - fadeMult * i) * (Projectile.penetrate + 1) / 3;
+                if (i > 0)
+                    for (float j = 0; j < 5; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
+                        Main.spriteBatch.Draw(tex2, pos + new Vector2(MathF.Sin((Main.GlobalTimeWrappedHourly + i * j) * 5) * 10 * mult, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.Violet, Color.DarkViolet, (float)(j / 5)) * mult, Projectile.oldRot[i], tex2.Size() / 2, mult * 0.03f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex2, pos + new Vector2(MathF.Sin((Main.GlobalTimeWrappedHourly + i * j) * 5) * 10 * mult, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2) + Projectile.Size / 2 - Main.screenPosition, null, Color.White * 0.25f * mult, Projectile.oldRot[i], tex2.Size() / 2, mult * 0.03f, SpriteEffects.None, 0);
+
+                        Main.spriteBatch.Draw(tex2, pos + new Vector2(MathF.Sin((Main.GlobalTimeWrappedHourly + i * j) * 5) * 10 * -mult, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.Violet, Color.DarkViolet, (float)(j / 5)) * mult, Projectile.oldRot[i], tex2.Size() / 2, mult * 0.03f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex2, pos + new Vector2(MathF.Sin((Main.GlobalTimeWrappedHourly + i * j) * 5) * 10 * -mult, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2) + Projectile.Size / 2 - Main.screenPosition, null, Color.White * 0.25f * mult, Projectile.oldRot[i], tex2.Size() / 2, mult * 0.03f, SpriteEffects.None, 0);
+                    }
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
             Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(0, 12) - Main.screenPosition, null, Color.White * alpha * 0.75f, Projectile.rotation - MathHelper.PiOver2, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0f);
             return false;
@@ -239,8 +274,14 @@ namespace MythosOfMoonlight.Items.Galactite
                 else
                     Projectile.frame = 0;
             }
-            if (Projectile.timeLeft > 100)
-                Projectile.velocity = Projectile.velocity.Length() * Helper.FromAToB(Projectile.Center, Main.npc[(int)Projectile.ai[0]].Center);
+            if (Projectile.timeLeft > 475 && Projectile.ai[2] == 0)
+                Projectile.velocity = Projectile.velocity.Length() * Helper.FromAToB(Projectile.Center, Main.npc[(int)Projectile.ai[0]].Center + Main.npc[(int)Projectile.ai[0]].velocity);
+
+            if (Projectile.velocity.Length() < 20f)
+            {
+                Projectile.velocity *= 1.15f;
+            }
+
             Projectile.rotation += MathHelper.ToRadians(3);
             if (Projectile.timeLeft < 20)
                 alpha -= 0.05f;
@@ -260,7 +301,8 @@ namespace MythosOfMoonlight.Items.Galactite
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
-            Projectile.timeLeft = 20;
+            Projectile.timeLeft = 19;
+            Projectile.scale = 0;
             Projectile.tileCollide = false;
         }
         public override bool? CanDamage()

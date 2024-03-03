@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Weapons.Melee;
+using MythosOfMoonlight.Projectiles.VFXProjectiles;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
 {
@@ -86,6 +87,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
         void StateTransitionManagement()
         {
             var maxTime = EntropicTotemProjectile.EntropicTotemProjectile.MAX_TIMELEFT;
+            if (NPC.ai[3] == 0 && NPC.frameCounter > maxTime * 1.75f)
+            {
+                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<EntroQuickFlare>(), 0, 0);
+                NPC.velocity = Helper.FromAToB(Main.LocalPlayer.Center, NPC.Center) * 7;
+                NPC.ai[3] = 1;
+            }
             if (State == 0 && NPC.frameCounter > maxTime * 2) // fires every 2 Projectile lifespans
             {
                 int etpType = ModContent.ProjectileType<EntropicTotemProjectile.EntropicTotemProjectile>();
@@ -100,6 +107,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
             else if (NPC.frameCounter > maxTime * 3)
             {
                 State = 0;
+                NPC.ai[3] = 0;
                 NPC.frameCounter = 0;
             }
         }

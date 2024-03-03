@@ -17,6 +17,7 @@ using MythosOfMoonlight.Items.IridicSet;
 using static System.Net.Mime.MediaTypeNames;
 using MythosOfMoonlight.Items.Galactite;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
+using System.IO;
 
 namespace MythosOfMoonlight
 {
@@ -229,7 +230,14 @@ namespace MythosOfMoonlight
         }
         public static Texture2D GetTex(string fullPath, bool immediate = false)
         {
-            return Request<Texture2D>(fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
+            if (fullPath.Contains("MythosOfMoonlight/"))
+                return Request<Texture2D>(fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
+            else
+                return Request<Texture2D>("MythosOfMoonlight/" + fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
+        }
+        public static Texture2D GetExtraTex(string fullPath, bool immediate = false)
+        {
+            return Request<Texture2D>("MythosOfMoonlight/Textures/" + fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
         }
         public static Vector2 GetWarpPosition(this NPC NPC, Vector2 center, float sqrMinDistFromCenter, float radius)
         {
@@ -468,7 +476,7 @@ namespace MythosOfMoonlight
         public static RenderTarget2D render;
         public static RenderTarget2D DustTrail1;
         public static RenderTarget2D render2;
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline;//, ScreenDistort;
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -491,6 +499,7 @@ namespace MythosOfMoonlight
                 TrailShader = Instance.Assets.Request<Effect>("Effects/TrailShader", AssetRequestMode.ImmediateLoad).Value;
                 RTAlpha = Instance.Assets.Request<Effect>("Effects/RTAlpha", AssetRequestMode.ImmediateLoad).Value;
                 RTOutline = Instance.Assets.Request<Effect>("Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
+                PullingForce = Instance.Assets.Request<Effect>("Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();

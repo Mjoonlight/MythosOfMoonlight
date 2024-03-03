@@ -262,7 +262,8 @@ SUMMONERMELEE */
                 dust2.velocity *= 3f;
             }
             Main.player[npc.target].velocity.Y -= 0.05f;
-            Main.player[npc.target].velocity += b * 0.35f;
+            Main.player[npc.target].velocity += b * 0.5f;
+            Main.player[npc.target].Center += b * 0.15f;
             if (Main.player[npc.target].Center.Distance(Projectile.Center) > 400)
                 Projectile.Kill();
 

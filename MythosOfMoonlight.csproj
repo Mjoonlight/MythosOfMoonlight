@@ -9,6 +9,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Dusts\Starry.png" />
+		<None Remove="effects\PullingForce.fx" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />

@@ -85,63 +85,64 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
         public override void AI()
         {
             NPC owner = Main.npc[(int)Projectile.ai[1]];
-            if (!owner.active || owner.type != ModContent.NPCType<StarveiledScholar>() || owner.ai[0] == -1)
-                Projectile.Kill();
-            if (Main.rand.NextBool(3))
-            {
-                int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
-                Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
-                Main.dust[num904].noGravity = true;
-                Dust dust2 = Main.dust[num904];
-            }
             if (pinkAlpha > 0)
                 pinkAlpha -= 0.05f;
             if (alpha < 1)
                 alpha += 0.05f;
-            if (Projectile.timeLeft > 320)
-            {
-                Projectile.ai[0] += 2f * (float)Math.PI / 600f * 4;
-                Projectile.ai[0] %= 2f * (float)Math.PI;
-                Projectile.Center = owner.Center + 50 * new Vector2((float)Math.Cos(Projectile.ai[0]), (float)Math.Sin(Projectile.ai[0]));
-            }
-            else
-                Projectile.velocity *= 1.025f;
-            if (Projectile.timeLeft == 320)
-            {
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[owner.target].Center) * 5;
-            }
             if (Projectile.timeLeft == 440 || Projectile.timeLeft == 380)
             {
                 pinkAlpha = 1;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.player[owner.target].Center) * 2.5f, ModContent.ProjectileType<ScholarBolt>(), 10, 0);
             }
-
-            Vector2 move = Vector2.Zero;
-            float distance = 5050f;
-            bool target = false;
-            for (int k = 0; k < 200; k++)
-            {
-                if (Main.player[k].active)
-                {
-                    Vector2 newMove = Main.player[k].Center - Projectile.Center;
-                    float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
-                    if (distanceTo < distance)
-                    {
-                        move = newMove;
-                        distance = distanceTo;
-                        target = true;
-                    }
-                }
-            }
-            if (++a % 2 == 0 && target && Projectile.timeLeft > 45 && Projectile.timeLeft < 300)
-            {
-                AdjustMagnitude(ref move);
-                Projectile.velocity = (11f * Projectile.velocity + move) / 11f;
-                AdjustMagnitude(ref Projectile.velocity);
-            }
             if (Projectile.timeLeft < 45)
             {
                 Projectile.velocity *= 0.95f;
+            }
+            if (!(!owner.active || owner.type != ModContent.NPCType<StarveiledScholar>() || owner.ai[0] == -1))
+            {
+                if (Main.rand.NextBool(3))
+                {
+                    int num904 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.WitherLightning, 0f, 0f, 0, default(Color), 0.45f);
+                    Main.dust[num904].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
+                    Main.dust[num904].noGravity = true;
+                    Dust dust2 = Main.dust[num904];
+                }
+                if (Projectile.timeLeft > 320)
+                {
+                    Projectile.ai[0] += 2f * (float)Math.PI / 600f * 4;
+                    Projectile.ai[0] %= 2f * (float)Math.PI;
+                    Projectile.Center = owner.Center + 50 * new Vector2((float)Math.Cos(Projectile.ai[0]), (float)Math.Sin(Projectile.ai[0]));
+                }
+                else
+                    Projectile.velocity *= 1.025f;
+                if (Projectile.timeLeft == 320)
+                {
+                    Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[owner.target].Center) * 5;
+                }
+
+                Vector2 move = Vector2.Zero;
+                float distance = 5050f;
+                bool target = false;
+                for (int k = 0; k < 200; k++)
+                {
+                    if (Main.player[k].active)
+                    {
+                        Vector2 newMove = Main.player[k].Center - Projectile.Center;
+                        float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
+                        if (distanceTo < distance)
+                        {
+                            move = newMove;
+                            distance = distanceTo;
+                            target = true;
+                        }
+                    }
+                }
+                if (++a % 2 == 0 && target && Projectile.timeLeft > 45 && Projectile.timeLeft < 300)
+                {
+                    AdjustMagnitude(ref move);
+                    Projectile.velocity = (11f * Projectile.velocity + move) / 11f;
+                    AdjustMagnitude(ref Projectile.velocity);
+                }
             }
         }
 

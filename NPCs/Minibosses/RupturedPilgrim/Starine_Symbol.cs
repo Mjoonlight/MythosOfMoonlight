@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Starine Symbol");
-            Main.npcFrameCount[NPC.type] = 4;
+            Main.npcFrameCount[NPC.type] = 34;
             NPCID.Sets.ImmuneToRegularBuffs[Type] = true;
 
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });
@@ -350,26 +350,114 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             }
             else
             {
-                Star.starfallBoost = 0;
-                Radius -= 7.5f;
-                if (Radius < 10 && StateTimer == 0)
+                if (animState == 2)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
-                    StateTimer = 1;
+                    Star.starfallBoost = 0;
+                    Radius -= 7.5f;
+                    if (Radius < 10 && StateTimer == 0)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
+                        StateTimer = 1;
+                    }
+                    if (StateTimer != 0)
+                        StateTimer++;
+                    if (StateTimer > 10)
+                        NPC.active = false;
                 }
-                if (StateTimer != 0)
-                    StateTimer++;
-                if (StateTimer > 10)
-                    NPC.active = false;
             }
         }
+        int animState = 0;
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            if (NPC.frameCounter >= 19)
-                NPC.frameCounter = 0;
-
-            NPC.frame.Y = (int)(NPC.frameCounter / 5) * NPC.height;
+            if (NPC.frameCounter % 5 == 0)
+            {
+                if (State == NState.Normal)
+                {
+                    if (!Main.dayTime)
+                    {
+                        animState = 0;
+                        if (NPC.frame.Y > 3 * frameHeight && NPC.frame.Y != 33 * frameHeight)
+                        {
+                            NPC.frame.Y = 33 * frameHeight;
+                        }
+                        else
+                        {
+                            if (NPC.frame.Y < 3 * frameHeight)
+                                NPC.frame.Y += frameHeight;
+                            else
+                                NPC.frame.Y = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (animState == 0)
+                        {
+                            NPC.frame.Y = 22 * frameHeight;
+                            animState = 1;
+                        }
+                        if (animState == 1)
+                        {
+                            if (NPC.frame.Y < 28 * frameHeight)
+                                NPC.frame.Y += frameHeight;
+                            else
+                                animState = 2;
+                        }
+                        if (animState == 2)
+                        {
+                            if (NPC.frame.Y < 32 * frameHeight && NPC.frame.Y >= 29 * frameHeight)
+                                NPC.frame.Y += frameHeight;
+                            else
+                                NPC.frame.Y = 29 * frameHeight;
+                        }
+                    }
+                }
+                else if (State == NState.Despawn)
+                {
+                    if (animState == 0)
+                    {
+                        NPC.frame.Y = 15 * frameHeight;
+                        animState = 1;
+                    }
+                    if (animState == 1)
+                    {
+                        if (NPC.frame.Y < 21 * frameHeight)
+                            NPC.frame.Y += frameHeight;
+                        else
+                            animState = 2;
+                    }
+                }
+                else if (State == NState.Spawn)
+                {
+                    if (animState == 0)
+                    {
+                        NPC.frame.Y = 4 * frameHeight;
+                        animState = 1;
+                    }
+                    if (animState == 1)
+                    {
+                        if (NPC.frame.Y < 10 * frameHeight)
+                            NPC.frame.Y += frameHeight;
+                        else
+                            animState = 2;
+                    }
+                    if (animState == 2)
+                    {
+                        if (NPC.frame.Y < 14 * frameHeight && NPC.frame.Y >= 11 * frameHeight)
+                            NPC.frame.Y += frameHeight;
+                        else
+                            NPC.frame.Y = 11 * frameHeight;
+                    }
+                }
+                else
+                {
+                    animState = 0;
+                    if (NPC.frame.Y < 14 * frameHeight && NPC.frame.Y >= 3 * frameHeight)
+                        NPC.frame.Y += frameHeight;
+                    else
+                        NPC.frame.Y = 11 * frameHeight;
+                }
+            }
         }
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {

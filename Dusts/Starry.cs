@@ -62,7 +62,7 @@ namespace MythosOfMoonlight.Dusts
             dust.position += dust.velocity;
             dust.velocity *= 0.99f;
             dust.rotation += MathHelper.ToRadians(1);
-            dust.scale -= 0.0002f;//Main.rand.NextFloat(0.01f, 0.035f);
+            dust.scale -= 0.002f;//Main.rand.NextFloat(0.01f, 0.035f);
             dust.velocity *= 0.99f;
             if (dust.scale <= 0)
                 dust.active = false;
@@ -72,10 +72,10 @@ namespace MythosOfMoonlight.Dusts
         {
             foreach (Dust d in Main.dust)
             {
-                if (d.type == ModContent.DustType<Starry2>() && d.active )
+                if (d.type == ModContent.DustType<Starry2>() && d.active)
                 {
                     Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Dusts/Starry2").Value;
-                    DrawData a = new(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 1.3f), d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                    DrawData a = new(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10f), d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                     a.Draw(sb);
                     //Helper.DrawWithDye(sb, a, ItemID.TwilightDye, null);
                 }

@@ -461,6 +461,8 @@ Mods: {
 			WardingStarP.DisplayName: Warding Star P
 			WardingStarP2.DisplayName: Warding Star P2
 			StarBatonP.DisplayName: Star Baton P
+			GravitronOrb.DisplayName: Gravitron Orb
+			EntroQuickFlare.DisplayName: Entro Quick Flare
 		}
 
 		NPCs: {
