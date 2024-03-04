@@ -18,11 +18,11 @@ namespace MythosOfMoonlight.Tiles.Rubble
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
+            Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Width = 2;
-
             TileObjectData.newTile.RandomStyleRange = 10;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.DrawYOffset = 2;
@@ -36,6 +36,10 @@ namespace MythosOfMoonlight.Tiles.Rubble
             DustType = DustID.Stone;
 
             AddMapEntry(Color.Thistle);
+        }
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = g = b = 0.1f;
         }
     }
 }
