@@ -142,7 +142,7 @@ namespace MythosOfMoonlight
         {
             return 2f * (float)Math.PI / max * i;
         }
-        public static Vector2 FromAToB(Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
+        public static Vector2 FromAToB(this Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
         {
             Vector2 baseVel = b - a;
             if (normalize)

@@ -20,9 +20,9 @@ namespace MythosOfMoonlight.Tiles.Furniture
             TileObjectData.newTile.DrawYOffset = 2;
 
             //ItemDrop = ModContent.ItemType<PriestessStatueI>();
-            TileObjectData.newTile.Height = 11;
+            TileObjectData.newTile.Height = 12;
             TileObjectData.newTile.Width = 8;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, };
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.AnchorBottom = new Terraria.DataStructures.AnchorData(Terraria.Enums.AnchorType.SolidTile, TileObjectData.newTile.Width, 0);

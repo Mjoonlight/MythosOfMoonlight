@@ -27,6 +27,11 @@ Mods: {
 				DisplayName: Rusty Cut
 				Description: Ouch
 			}
+
+			BlinkrootB: {
+				DisplayName: Blinkroot B
+				Description: Mods.MythosOfMoonlight.Buffs.BlinkrootB.Description
+			}
 		}
 
 		Items: {
@@ -360,6 +365,11 @@ Mods: {
 				DisplayName: Star Baton
 				Tooltip: ""
 			}
+
+			BlinkrootI: {
+				DisplayName: Blinkroot I
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -463,6 +473,7 @@ Mods: {
 			StarBatonP.DisplayName: Star Baton P
 			GravitronOrb.DisplayName: Gravitron Orb
 			EntroQuickFlare.DisplayName: Entro Quick Flare
+			Blinkroot.DisplayName: Blinkroot
 		}
 
 		NPCs: {
