@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.UI.ModBrowser;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace MythosOfMoonlight
@@ -28,7 +29,8 @@ namespace MythosOfMoonlight
         public int source = -1;
         public float lerpSpeed;
         public float LerpTimer;
-        public bool StarBitShot = false;
+        public int GoldenTipI;
+        public bool StarBitShot = false, GoldenTip = false;
         public override void OnEnterWorld()
         {
             for (int i = 1; i < Main.maxTilesX; i++)
@@ -52,6 +54,7 @@ namespace MythosOfMoonlight
         public override void ResetEffects()
         {
             StarBitShot = false;
+            GoldenTip = false;
             CommunicatorEquip = false;
             foreach (NPC NPC in Main.npc)
             {

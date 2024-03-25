@@ -7,6 +7,31 @@ namespace MythosOfMoonlight.NPCs
 {
     public class FighterGlobalAI : GlobalNPC
     {
+        public bool GoldMarked = false;
+        public override void PostAI(NPC npc)
+        {
+            if (GoldMarked)
+            {
+                int num = 244;
+                if (npc.value >= 1000000)
+                {
+                    num = 247;
+                }
+                else if (npc.value >= 10000)
+                {
+                    num = 246;
+                }
+                else if (npc.value >= 100)
+                {
+                    num = 245;
+                }
+                if (Main.rand.NextBool())
+                {
+                    int num2 = Dust.NewDust(npc.position, npc.width, npc.height, num, 0f, 0f, 254, default(Color), 0.25f);
+                    Main.dust[num2].velocity *= 0.2f;
+                }
+            }
+        }
         public override bool InstancePerEntity => true;
         const float StrideLimit = 70.78f;
         public bool Jump = false;

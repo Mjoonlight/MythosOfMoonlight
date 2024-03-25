@@ -277,7 +277,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override void SetDefaults()
         {
             NPC.width = 38;
-            NPC.height = 38;
+            NPC.height = 40;
             NPC.aiStyle = -1;
             NPC.damage = 0;
             NPC.defense = 3;
@@ -314,7 +314,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                 float scale = MathHelper.Lerp(0.95f, 1f, (float)(trailLength - i) / trailLength);
                 var fadeMult = 1f / trailLength;
                 SpriteEffects flipType = NPC.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.oldRot[i], orig, scale, flipType, 0f);
+                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.rotation, orig, scale, flipType, 0f);
             }
             return true;
         }
@@ -327,6 +327,11 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         float TargetY;
         float sineTime = 10f;
         int Timer = 0;
+        public override bool PreAI()
+        {
+            NPC.oldVelocity = NPC.velocity;
+            return base.PreAI();
+        }
         public override void AI()
         {
             Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
@@ -387,16 +392,16 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                     }
                     if (AITimer2 > 1)
                     {
-                        NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? -1 : 1;
                         if (AITimer3 == -1)
                         {
                             NPC.TargetClosest(false);
                             Player npc = Main.player[NPC.target];
+                            NPC.direction = NPC.spriteDirection = Helper.FromAToB(NPC.Center, npc.Center).X < 0 ? -1 : 1;
                             if (npc.active)
                             {
                                 NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + MathHelper.Pi + (NPC.direction == 1 ? MathHelper.Pi : 0), 1f);
                                 NPC.velocity = NPC.Center.FromAToB(npc.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-                                if (NPC.ai[1] == 0 || Main.rand.NextBool(100))
+                                if (NPC.ai[1] == 0 || Main.rand.NextBool(300))
                                 {
                                     NPC.ai[1] = Main.rand.NextFloat(100, 300);
                                     NPC.ai[2] = Main.rand.NextFloat(100, 300);
@@ -407,11 +412,12 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                         else
                         {
                             NPC npc = Main.npc[(int)AITimer3 - 1];
+                            NPC.direction = NPC.spriteDirection = Helper.FromAToB(NPC.Center, npc.Center).X < 0 ? -1 : 1;
                             if (npc.active)
                             {
                                 NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + MathHelper.Pi + (NPC.direction == 1 ? MathHelper.Pi : 0), 1f);
                                 NPC.velocity = NPC.Center.FromAToB(npc.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-                                if (NPC.ai[1] == 0 || Main.rand.NextBool(100))
+                                if (NPC.ai[1] == 0 || Main.rand.NextBool(300))
                                 {
                                     NPC.ai[1] = Main.rand.NextFloat(100, 300);
                                     NPC.ai[2] = Main.rand.NextFloat(100, 300);
@@ -451,25 +457,33 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                                 if (Timer > 70)
                                     NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
                             }
-                            if (Timer > 125 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) > NPC.width * 0.75f) || NPC.collideX || NPC.collideY)
+                            if (Timer > 155 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) > NPC.width * 0.75f) && !NPC.collideX && !NPC.collideY)
                             {
                                 NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity *= 0.9f;
-                                if (Timer > 140)
+                                NPC.velocity *= 0.8f;
+                                if (Timer > 170)
                                     Timer = 0;
                             }
-                            else if (Timer < 125 && Timer > 80 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) < NPC.width * 0.75f || NPC.collideX || NPC.collideY))
+                            else if (Timer < 155 && Timer > 80 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) < NPC.width * 0.75f || NPC.collideX || NPC.collideY))
                             {
                                 NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                if (Timer < 105)
+                                if (Timer < 125)
                                 {
-                                    NPC.velocity = -NPC.velocity * 0.15f;
-                                    Timer = 106;
+                                    Main.NewText(NPC.oldVelocity);
+
+                                    NPC.velocity = -NPC.velocity.RotatedBy(NPC.velocity.Y < 0 ? -MathHelper.PiOver2 * npc.direction : MathHelper.PiOver2 * NPC.direction) * 0.5f;
+                                    Timer = 128;
+                                    didTheThing = true;
                                 }
-                                NPC.velocity *= 0.98f;
-                                if (Timer > 135)
+                            }
+                            else if (didTheThing)
+                            {
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
+                                NPC.velocity *= 0.95f;
+                                if (Timer > 155)
                                 {
                                     Timer = 0;
+                                    didTheThing = false;
                                 }
                             }
                         }
@@ -477,6 +491,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
                     break;
             }
         }
+        bool didTheThing;
         public override void HitEffect(NPC.HitInfo hit)
         {
             for (int i = 0; i < 4; i++)

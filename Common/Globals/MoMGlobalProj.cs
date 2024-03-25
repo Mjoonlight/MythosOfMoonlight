@@ -112,7 +112,7 @@ namespace MythosOfMoonlight.Common.Globals
             if (TargetIndex != -1)
             {
                 NPC target = Main.npc[TargetIndex];
-                if (target == null || !target.active || target.type == NPCID.TargetDummy) HasTarget = false;
+                if (target == null || !target.active || target.type == NPCID.TargetDummy || !Collision.CanHit(proj, target)) HasTarget = false;
                 else
                 {
                     if (Vector2.Distance(target.Center, proj.Center) > radius * 2f) HasTarget = false;

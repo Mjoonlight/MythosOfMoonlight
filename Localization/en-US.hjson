@@ -370,6 +370,11 @@ Mods: {
 				DisplayName: Blinkroot I
 				Tooltip: ""
 			}
+
+			GoldenTip: {
+				DisplayName: Golden Tip
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -474,6 +479,7 @@ Mods: {
 			GravitronOrb.DisplayName: Gravitron Orb
 			EntroQuickFlare.DisplayName: Entro Quick Flare
 			Blinkroot.DisplayName: Blinkroot
+			GoldTippedArrow.DisplayName: Gold Tipped Arrow
 		}
 
 		NPCs: {
