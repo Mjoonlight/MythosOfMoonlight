@@ -20,16 +20,17 @@ namespace MythosOfMoonlight.Items
         }
         public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (item.useAmmo == AmmoID.Arrow)
-            {
-                player.GetModPlayer<MoMPlayer>().GoldenTipI++;
-                if (player.GetModPlayer<MoMPlayer>().GoldenTipI > 4)
+            if (player.GetModPlayer<MoMPlayer>().GoldenTip)
+                if (item.useAmmo == AmmoID.Arrow)
                 {
-                    type = ModContent.ProjectileType<GoldTippedArrow>();
+                    player.GetModPlayer<MoMPlayer>().GoldenTipI++;
+                    if (player.GetModPlayer<MoMPlayer>().GoldenTipI > 4)
+                    {
+                        type = ModContent.ProjectileType<GoldTippedArrow>();
 
-                    player.GetModPlayer<MoMPlayer>().GoldenTipI = 0;
+                        player.GetModPlayer<MoMPlayer>().GoldenTipI = 0;
+                    }
                 }
-            }
         }
     }
 }
