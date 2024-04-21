@@ -15,8 +15,8 @@ namespace MythosOfMoonlight.Items.BossSummons
     {
         public override void SetDefaults()
         {
-            Item.width = 20;
-            Item.height = 20;
+            Item.width = 24;
+            Item.height = 30;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Red;
             Item.useAnimation = 45;
