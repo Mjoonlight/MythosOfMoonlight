@@ -34,6 +34,15 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
             NPC.aiStyle = -1;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetTex(Texture);
+            Texture2D glow = Helper.GetTex(Texture + "_Glow");
+            SpriteEffects effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            spriteBatch.Draw(glow, NPC.Center - screenPos, NPC.frame, Color.White * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f), NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            return false;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
@@ -147,7 +156,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
         }
         public override void AI()
         {
-            Lighting.AddLight(NPC.Center, new Vector3(1, 1, 1) * 0.3f);
+            Lighting.AddLight(NPC.Center, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f);
             NPC.TargetClosest();
             Player player = Main.player[NPC.target];
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -219,7 +228,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
             {
                 if (Projectile.ai[1] < 1)
                     Projectile.ai[1] += 0.05f;
-                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[1], 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
+                float f = (MathF.Sin(Main.GlobalTimeWrappedHourly * 2) + 1) * 0.08f;
+                if (Projectile.ai[0] == 0)
+                    f = ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5) * 2);
+                Main.EntitySpriteDraw(Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]), Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[1] * f, 0, Helper.GetTex("MythosOfMoonlight/NPCs/Enemies/Overworld/Belladonna/BushOverlay_" + Projectile.ai[0]).Size() / 2, 1, effects, 0);
             }
         }
         public override void AI()
@@ -313,7 +325,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
         }
         public override void PostDraw(Color lightColor)
         {
-            Color color = Color.White * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 5) * 2);
+            Color color = Color.White * ((float)Math.Cos(Main.GlobalTimeWrappedHourly * 10) * 2);
             Texture2D a = TextureAssets.Projectile[Type].Value;
             Main.EntitySpriteDraw(a, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, a.Size() / 2, 1, SpriteEffects.None, 0);
         }
@@ -323,6 +335,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
         }
         public override void AI()
         {
+            float f = (MathF.Sin(Main.GlobalTimeWrappedHourly * 2) + 1) * 0.08f;
+            Lighting.AddLight(Projectile.Center, f, f, f);
             foreach (Player npc in Main.player)
             {
                 if (npc.active)
@@ -351,6 +365,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
             Projectile.tileCollide = true;
             Projectile.aiStyle = 14;
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void OnSpawn(IEntitySource source)
         {
             for (int i = 0; i < 10; ++i)

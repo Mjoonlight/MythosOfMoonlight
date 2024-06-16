@@ -29,8 +29,8 @@ Mods: {
 			}
 
 			BlinkrootB: {
-				DisplayName: Blinkroot B
-				Description: Mods.MythosOfMoonlight.Buffs.BlinkrootB.Description
+				DisplayName: Blinkbuddy
+				Description: He's trying his best to light your way.
 			}
 		}
 
@@ -245,7 +245,7 @@ Mods: {
 
 			Borer: {
 				DisplayName: 4-Bore
-				Tooltip: ""
+				Tooltip: Pierces through dead enemies.
 			}
 
 			Crawshot: {
@@ -367,8 +367,8 @@ Mods: {
 			}
 
 			BlinkrootI: {
-				DisplayName: Blinkroot I
-				Tooltip: ""
+				DisplayName: Blinkbud
+				Tooltip: Summons a Blinkbuddy
 			}
 
 			GoldenTip: {
@@ -478,8 +478,9 @@ Mods: {
 			StarBatonP.DisplayName: Star Baton P
 			GravitronOrb.DisplayName: Gravitron Orb
 			EntroQuickFlare.DisplayName: Entro Quick Flare
-			Blinkroot.DisplayName: Blinkroot
+			Blinkroot.DisplayName: Blinkbuddy
 			GoldTippedArrow.DisplayName: Gold Tipped Arrow
+			BorerHeld.DisplayName: Borer Held
 		}
 
 		NPCs: {

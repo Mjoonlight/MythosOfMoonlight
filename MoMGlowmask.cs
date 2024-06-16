@@ -48,7 +48,7 @@ namespace MythosOfMoonlight
                     }
                     else
                     {
-                        offset = new Vector2(10, texture.Height / 2);
+                        offset = new Vector2(0, texture.Height / 2);
                         ItemLoader.HoldoutOffset(drawInfo.drawPlayer.gravDir, item.type, ref offset);
                         origin = new Vector2(-offset.X, texture.Height / 2);
                         if (drawInfo.drawPlayer.direction == -1)
@@ -64,7 +64,7 @@ namespace MythosOfMoonlight
 
                 drawInfo.DrawDataCache.Add(new DrawData(
                     texture,
-                    drawInfo.ItemLocation - Main.screenPosition + offset,
+                    drawInfo.ItemLocation - Main.screenPosition + offset - new Vector2(texture.Width / 2, 0),
                     texture.Bounds,
                     Color.White * ((255f - item.alpha) / 255f),
                     drawInfo.drawPlayer.itemRotation + rotOffset,

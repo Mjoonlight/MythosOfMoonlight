@@ -91,8 +91,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         }
         public override void FindFrame(int g)
         {
-            NPC.frame.Height = 92;
-            int frameHeight = 92;
+            NPC.frame.Height = 94;
+            int frameHeight = 94;
             NPC.frameCounter++;
             if (NPC.frameCounter <= 1)
                 NPC.ai[3] = 0;
