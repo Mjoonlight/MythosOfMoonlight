@@ -10,6 +10,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using MythosOfMoonlight.Misc;
 
 namespace MythosOfMoonlight.Items.Pets
 {
@@ -45,18 +46,21 @@ namespace MythosOfMoonlight.Items.Pets
 
         public override void SetDefaults()
         {
-            Projectile.CloneDefaults(ProjectileID.BabyFaceMonster);
+            Projectile.CloneDefaults(ProjectileID.FennecFox);
             Projectile.Size = new Vector2(30, 28);
-            AIType = ProjectileID.BabyFaceMonster;
+            AIType = 0;
+            Projectile.aiStyle = -1;
         }
-
-        public override bool PreAI()
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             Player player = Main.player[Projectile.owner];
-
-            player.babyFaceMonster = false;
-
-            return true;
+            fallThrough = player.Center.Y > Projectile.Center.Y + Projectile.height;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY);
+            return base.OnTileCollide(oldVelocity);
         }
         int frameCounter;
         Rectangle frames;
@@ -80,11 +84,39 @@ namespace MythosOfMoonlight.Items.Pets
             {
                 Projectile.timeLeft = 2;
             }
+            if (Projectile.Center.Distance(player.Center) > 4000)
+                Projectile.Center = player.Center;
             Lighting.AddLight(Projectile.Center, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f);
             frameCounter++;
             int height = frames.Height;
-            if (Projectile.velocity.Y >= 0f && (double)Projectile.velocity.Y <= 0.8)
+            Projectile.tileCollide = (Player.GetFloorTile(player.Bottom.ToTileCoordinates().X, player.Bottom.ToTileCoordinates().Y) != null && Player.GetFloorTile(Projectile.Top.ToTileCoordinates().X, Projectile.Top.ToTileCoordinates().Y) == null && (player.Center.X.CloseTo(Projectile.Center.X, 400) && player.Center.Y.CloseTo(Projectile.Center.Y, 200)));
+            if ((Projectile.velocity.Y += 0.2f) > 7f) Projectile.velocity.Y = 7f;
+
+            if (!Projectile.tileCollide)
             {
+                Projectile.ai[2]++;
+                Vector2 to = Helper.FromAToB(Projectile.Center, player.Center);
+                float s = MathHelper.Clamp(MathHelper.Lerp(4, 10, player.Center.Distance(Projectile.Center) / 150), 4, 10);
+                if (Projectile.ai[2] % 40 <= 10)
+                {
+                    Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, to.X * s, 0.1f);
+                }
+                if (Projectile.ai[2] % 40 >= 35)
+                    Projectile.velocity.X *= 0.9f;
+                if (Projectile.velocity.Y > -10)
+                    Projectile.velocity.Y += (to.Y * s) * 0.2f;
+
+                if (Main.rand.NextBool(4))
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GrassBlades, Scale: Main.rand.NextFloat(0.25f, .5f));
+                rotation += MathHelper.ToRadians(6);
+                frames.Y = 0;
+            }
+            else
+            {
+
+                if (Collision.SolidCollision(Projectile.position + new Vector2(0, 22), Projectile.width, 4))
+                    Projectile.Center -= Vector2.UnitY;
+
                 if ((double)Projectile.velocity.X < -0.8 || (double)Projectile.velocity.X > 0.8)
                 {
                     if (frameCounter % 5 == 0)
@@ -95,17 +127,53 @@ namespace MythosOfMoonlight.Items.Pets
                     }
                 }
                 else frames.Y = 0;
-                rotation = MathHelper.Lerp(rotation, 0, 0.2f);
-            }
-            else
-            {
-                if (Main.rand.NextBool(4))
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GrassBlades, Scale: Main.rand.NextFloat(0.25f, .5f));
-                Projectile.direction = 1;
-                rotation += MathHelper.ToRadians(6);
-                frames.Y = 0;
-            }
+                rotation = Helper.LerpAngle(rotation, 0, 0.3f);
+                if (!Collision.CanHit(Projectile, player))
+                    Projectile.velocity.Y = -5;
 
+
+                float range = 6f;
+                float speed = 0.2f;
+                if (range < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
+                {
+                    range = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+                    speed = 0.3f;
+                }
+
+                float posX = player.Center.X + -50 * -player.direction;
+                if (posX < Projectile.position.X + (float)(Projectile.width / 2) - (float)30)
+                {
+                    if ((double)Projectile.velocity.X > -3.5)
+                    {
+                        Projectile.velocity.X -= speed;
+                    }
+                    else
+                    {
+                        Projectile.velocity.X -= speed * 0.25f;
+                    }
+                }
+                else if (posX > Projectile.position.X + (float)(Projectile.width / 2) + (float)30)
+                {
+                    if ((double)Projectile.velocity.X < 3.5)
+                    {
+                        Projectile.velocity.X += speed;
+                    }
+                    else
+                    {
+                        Projectile.velocity.X += speed * 0.25f;
+                    }
+                }
+                else
+                {
+                    Projectile.velocity.X *= 0.9f;
+                    if (Projectile.velocity.X >= 0f - speed && Projectile.velocity.X <= speed)
+                    {
+                        Projectile.velocity.X = 0f;
+                    }
+                }
+            }
+            //if (TRay.CastLength(Projectile.Center, Vector2.UnitY, Projectile.height, true) < Projectile.height * 0.75f)
+            //Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY);
         }
     }
     public class BlinkrootB : ModBuff

@@ -27,25 +27,26 @@ namespace MythosOfMoonlight
     {
         public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
         {
-            direction = direction.SafeNormalize(Vector2.UnitY);
+            direction.Normalize();
             Vector2 output = start;
-            int maxLength = (int)length;
 
-            for (int i = 0; i < maxLength; i++)
+            for (int i = 0; i < length; i++)
             {
-                if (!Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) || (platformCheck && Collision.SolidTiles(output, 1, 1, platformCheck)))
+                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) && Main.tile[(int)output.X / 16, (int)output.Y / 16].TileType == TileID.Platforms : true))
+                {
+                    output += direction;
+                }
+                else
                 {
                     break;
                 }
-
-                output += direction;
             }
 
             return output;
         }
         public static bool CastRect(Rectangle rect, Vector2 start, Vector2 direction, float length)
         {
-            direction = direction.SafeNormalize(Vector2.UnitY);
+            direction.Normalize();
             Vector2 output = start;
             int maxLength = (int)length;
 
@@ -109,6 +110,22 @@ namespace MythosOfMoonlight
 
         public static string Empty = "MythosOfMoonlight/Textures/Extra/blank";
 
+
+        /// <summary>
+        /// Finds the shortest path to a desired angle
+        /// </summary>
+        public static float ShortestPathToAngle(float from, float to)
+        {
+            float difference = (to - from) % MathHelper.TwoPi;
+            return (2 * difference % MathHelper.TwoPi) - difference;
+        }
+        /// <summary>
+        /// Lerps to the shortest path to a desired angle
+        /// </summary>
+        public static float LerpAngle(float from, float to, float t)
+        {
+            return from + ShortestPathToAngle(from, to) * t;
+        }
 
         public static bool Grounded(this NPC NPC, float scale = .5f, float scaleX = 1f)
         {
