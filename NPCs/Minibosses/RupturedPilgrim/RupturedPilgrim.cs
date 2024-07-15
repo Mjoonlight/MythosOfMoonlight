@@ -22,6 +22,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Misc;
+using MythosOfMoonlight.BossBars;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -77,6 +78,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                 NPC.lifeMax = 2000;
             else if (Main.masterMode)
                 NPC.lifeMax = 2500;
+
+            NPC.BossBar = ModContent.GetInstance<PilgrimBar>();
         }
         bool hasDoneDeathDrama;
         public int Direction;
@@ -217,7 +220,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     else
                     {
                         if (AITimer == 140)
-                            NPC.frame.Y = 4 * 92;
+                            NPC.frame.Y = 4 * 94;
                         else
                         {
                             if (AITimer % 20 == 0)
@@ -243,7 +246,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     if (AITimer == 130)
                         NPC.frame.Y = 20 * frameHeight;
                     if (AITimer == 60)
-                        NPC.frame.Y = 92 * 4;
+                        NPC.frame.Y = 94 * 4;
                     if (AITimer < 60 || AITimer >= 135)
                         IdleAnim(frameHeight);
                     break;
@@ -263,7 +266,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     if (AITimer == 130)
                         NPC.frame.Y = 20 * frameHeight;
                     if (AITimer == 60)
-                        NPC.frame.Y = 92 * 4;
+                        NPC.frame.Y = 94 * 4;
                     if (AITimer < 60 || AITimer >= 135)
                         IdleAnim(frameHeight);
                     break;
@@ -357,9 +360,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             {
                 for (int i = 1; i < trailLength; i++)
                 {
-                    float _scale = MathHelper.Lerp(1f, 0.95f, (float)(trailLength - i) / trailLength);
+                    float _scale = MathHelper.Lerp(1.1f, 0.95f, (float)(trailLength - i) / trailLength);
                     var fadeMult = 1f / trailLength;
-                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off + new Vector2(0, 1), frame, clr * (1f - fadeMult * i) * alphaModif, NPC.rotation, orig, _scale, flipType, 0f);
+                    spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i) * alphaModif, NPC.rotation, orig, _scale, flipType, 0f);
                 }
             }
             const float TwoPi = (float)Math.PI * 2f;
@@ -584,7 +587,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                     if (AITimer % interval == 0 && AITimer > 25 && AITimer < 250 && owner != null)
                     {
                         CameraSystem.ScreenShakeAmount = 6 - interval * 0.1f;
-                        NPC.frame.Y = (int)Main.rand.Next(0, 29) * 92;
+                        NPC.frame.Y = (int)Main.rand.Next(0, 29) * 94;
                         SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                         if (savedPos == Vector2.Zero)
                             savedPos = NPC.Center;
@@ -601,7 +604,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                         NPC.Center = savedPos + Main.rand.NextVector2Circular(4 + (AITimer * 0.03f), 4 + (AITimer * 0.03f));
                     if (AITimer == 250)
                     {
-                        NPC.frame.Y = 35 * 92;
+                        NPC.frame.Y = 35 * 94;
                         SoundEngine.PlaySound(SoundID.NPCHit5, NPC.Center);
                         Vector2 pos = owner.Center + new Vector2(0, -100);
                         for (int i = 0; i < 30; i++)
@@ -621,7 +624,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             Main.dust[dust].noGravity = true;
                         }
                     }
-                    if (NPC.frame.Y == 92 * 43)
+                    if (NPC.frame.Y == 94 * 43)
                     {
                         owner.ai[0] = 3;
                         NPC.immortal = false;
@@ -676,7 +679,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             {
                                 NPC.frameCounter = 0;
                                 AITimer = 0;
-                                NPC.frame.Y = 4 * 92;
+                                NPC.frame.Y = 4 * 94;
                                 NPC.velocity = Vector2.Zero;
                                 SwitchTo(Next);
                             }
@@ -1487,13 +1490,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             if (aitimer2 > 70 && NPC.ai[3] <= 1f)
                             {
                                 NPC.velocity = Helper.FromAToB(player.Center, NPC.Center) * 15;
-                                NPC.frame.Y = 19 * 92;
+                                NPC.frame.Y = 19 * 94;
                                 NPC.ai[3] += 0.25f;
                                 aitimer2 = 0;
                             }
                             if (AITimer >= 160 && aitimer2 == 1 && AITimer < 180 + (70 * 4) && NPC.ai[3] < 1f)
                             {
-                                NPC.frame.Y = 4 * 92;
+                                NPC.frame.Y = 4 * 94;
                                 savedPos = NPC.Center;
                             }
                             if (aitimer2 < 60 && NPC.ai[3] < 1f && savedPos.Distance(NPC.Center) < 100)
@@ -1514,7 +1517,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             }
                             if (AITimer >= 160 && aitimer2 == 64 && AITimer < 180 + (70 * 4))
                             {
-                                NPC.frame.Y = 8 * 92;
+                                NPC.frame.Y = 8 * 94;
                                 SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash.WithVolumeScale(1.25f), NPC.Center);
                                 for (int i = 0; i < 10; i++)
                                 {

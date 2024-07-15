@@ -27,12 +27,12 @@ namespace MythosOfMoonlight
     {
         public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
         {
-            direction.Normalize();
+            direction.SafeNormalize(Vector2.UnitY);
             Vector2 output = start;
 
             for (int i = 0; i < length; i++)
             {
-                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) && Main.tile[(int)output.X / 16, (int)output.Y / 16].TileType == TileID.Platforms : true))
+                if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) && Main.tile[(int)output.X / 16, (int)output.Y / 16].TileType != TileID.Platforms : true))
                 {
                     output += direction;
                 }
@@ -492,8 +492,8 @@ namespace MythosOfMoonlight
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D render;
         public static RenderTarget2D DustTrail1;
-        public static RenderTarget2D render2;
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce;//, ScreenDistort;
+        public static RenderTarget2D render2, render3;
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -517,6 +517,7 @@ namespace MythosOfMoonlight
                 RTAlpha = Instance.Assets.Request<Effect>("Effects/RTAlpha", AssetRequestMode.ImmediateLoad).Value;
                 RTOutline = Instance.Assets.Request<Effect>("Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
                 PullingForce = Instance.Assets.Request<Effect>("Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
+                metaballGradient = Instance.Assets.Request<Effect>("Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
@@ -547,6 +548,7 @@ namespace MythosOfMoonlight
                 DustTrail1 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                render3 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             }
         }
 
@@ -561,6 +563,7 @@ namespace MythosOfMoonlight
                     DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     render = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     render2 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    render3 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                 }
         }
         void DrawProj(On_Main.orig_DrawProjectiles orig, Main self)
@@ -582,6 +585,12 @@ namespace MythosOfMoonlight
                 Starry.DrawAll(Main.spriteBatch);
                 sb.End();
 
+                gd.SetRenderTarget(render3);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                JunglePinkDust.DrawAll(sb);
+                sb.End();
+
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -597,6 +606,10 @@ namespace MythosOfMoonlight
                 RTOutline.Parameters["useMainAlpha"].SetValue(false);
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.1f, 0));
                 sb.Draw(render, Vector2.Zero, Color.White);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/jungleDustColor", (AssetRequestMode)1).Value;
+                metaballGradient.CurrentTechnique.Passes[0].Apply();
+                sb.Draw(render3, Vector2.Zero, Color.White);
                 sb.End();
             }
             orig(self);
@@ -614,6 +627,7 @@ namespace MythosOfMoonlight
                     DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     render = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     render2 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    render3 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                 }
                 DustTrail(gd);
             }

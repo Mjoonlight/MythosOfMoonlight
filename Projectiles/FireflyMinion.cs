@@ -101,7 +101,7 @@ namespace MythosOfMoonlight.Projectiles
                                 Projectile.velocity = desirePos + dashProgress - Projectile.Center;
                                 if (dashTimer > 60)
                                 {
-                                    owner.CheckMana(3, true);
+                                    // owner.CheckMana(3, true);
                                     dashTimer = 0;
                                     state = State.back;
                                 }

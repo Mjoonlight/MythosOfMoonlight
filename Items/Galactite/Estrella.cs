@@ -109,6 +109,21 @@ namespace MythosOfMoonlight.Items.Galactite
                     Dust.NewDustPerfect(pos, ModContent.DustType<Starry>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, newColor: Color.Lerp(Color.Gray * 0.5f, Color.White, i / 4), Scale: (i / 3f) * 0.11f).noGravity = true;
                 }
             }
+            if (Projectile.timeLeft <= 50)
+            {
+                if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (-Projectile.ai[1]));
+                        proj.rotation = Projectile.rotation;
+                        proj.Center = Projectile.Center;
+                        proj.timeLeft = 225;
+                        Projectile.active = false;
+                    }
+                }
+            }
         }
         public override void PreExtraDraw(float progress)
         {
@@ -185,7 +200,9 @@ namespace MythosOfMoonlight.Items.Galactite
                     Dust.NewDustPerfect(target.Center - Vector2.UnitY * 600, ModContent.DustType<Starry2>(), new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(4, 8)), newColor: Color.White).scale = Main.rand.NextFloat(0.07f, 0.16f);
                 }
                 for (int i = 0; i < 10; i++)
-                    Dust.NewDustPerfect(target.Center, ModContent.DustType<Starry2>(), Main.rand.NextVector2Circular(5, 5), newColor: Color.White).scale = Main.rand.NextFloat(0.05f, 0.16f);
+                    Dust.NewDustPerfect(target.Center, ModContent.DustType<PurpurineDust>(), Main.rand.NextVector2Circular(5, 5), newColor: Color.White).scale = Main.rand.NextFloat(0.05f, 0.16f);
+
+
 
                 SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/estrellaImpact") { PitchVariance = 0.3f, MaxInstances = 3 }, Projectile.Center);
                 //Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Main.rand.NextVector2Circular(target.width / 2, target.height / 2), Helper.FromAToB(Projectile.Center, target.Center), ModContent.ProjectileType<EstrellaPImpact>(), 0, 0, Projectile.owner, target.whoAmI);
@@ -221,7 +238,7 @@ namespace MythosOfMoonlight.Items.Galactite
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<EstrellaPImpact>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center + Helper.FromAToB(Projectile.Center, target.Center) * 20, Vector2.Zero, ModContent.ProjectileType<EstrellaPImpact>(), 0, 0);
             Projectile.ai[2] = 1;
             for (int i = 0; i < 7; i++)
                 Helper.SpawnDust(Projectile.Center, Projectile.Size, ModContent.DustType<PurpurineDust>(), Projectile.velocity * 0.3f);
@@ -285,6 +302,46 @@ namespace MythosOfMoonlight.Items.Galactite
             Projectile.rotation += MathHelper.ToRadians(3);
             if (Projectile.timeLeft < 20)
                 alpha -= 0.05f;
+        }
+    }
+    public class EstrellaPSlice : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Celestial);
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.aiStyle = -1;
+            Projectile.timeLeft = 500;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+        }
+        public override bool? CanDamage() => false;
+        public override bool ShouldUpdatePosition() => false;
+        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
+            float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * 0.5f * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.35f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkViolet * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.45f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.ai[0] += 0.04f;
+            if (Projectile.ai[0] > 1)
+                Projectile.Kill();
         }
     }
     public class EstrellaPImpact : ModProjectile

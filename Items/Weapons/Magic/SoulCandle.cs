@@ -25,11 +25,12 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.width = 40;
             Item.height = 40;
-            Item.useTime = 10;
-            Item.useAnimation = 10;
+            Item.useTime = 100;
+            Item.useAnimation = 100;
             Item.knockBack = 3;
             Item.value = 30000;
             Item.rare = 3;
+            Item.mana = 20;
             Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shoot = ModContent.ProjectileType<SoulCandleHeld>();

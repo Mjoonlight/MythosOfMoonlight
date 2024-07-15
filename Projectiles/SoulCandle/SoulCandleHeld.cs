@@ -54,27 +54,30 @@ namespace MythosOfMoonlight.Projectiles.SoulCandle
             Projectile.ai[0]++;
             if (Projectile.ai[0] == 60)
             {
-                for (int i = 0; i < 30; i++)
+                if (player.CheckMana(20, true))
                 {
-                    Dust dustt = Dust.NewDustPerfect(Projectile.Center - new Vector2(-4, Projectile.height / 2 * player.direction).RotatedBy(Projectile.rotation - MathHelper.PiOver2), DustID.SilverFlame, Main.rand.NextVector2Circular(5, 5), newColor: col, Scale: Main.rand.NextFloat(0.75f, 1.5f));
-                    dustt.noGravity = true;
-                    dustt.noLight = false;
-                }
-                SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, Projectile.Center);
-                float off = Main.rand.NextFloat(MathHelper.Pi * 2);
-                for (int i = 0; i < 30; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 6) + off;
-                    Vector2 position = Main.MouseWorld + Vector2.UnitX.RotatedBy(angle) * 50;
-                    Dust dustt = Dust.NewDustPerfect(position, DustID.SilverFlame, Main.rand.NextVector2Circular(5, 5), newColor: col, Scale: Main.rand.NextFloat(0.75f, 1.5f));
-                    dustt.noGravity = true;
-                    dustt.noLight = false;
-                }
-                for (int i = 0; i < 6; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 6) + off;
-                    Vector2 position = Main.MouseWorld + Vector2.UnitX.RotatedBy(angle) * 50;
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), position, Helper.FromAToB(position, Main.MouseWorld), ModContent.ProjectileType<SoulFlames>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    player.manaRegenDelay = (int)player.maxRegenDelay;
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust dustt = Dust.NewDustPerfect(Projectile.Center - new Vector2(-4, Projectile.height / 2 * player.direction).RotatedBy(Projectile.rotation - MathHelper.PiOver2), DustID.SilverFlame, Main.rand.NextVector2Circular(5, 5), newColor: col, Scale: Main.rand.NextFloat(0.75f, 1.5f));
+                        dustt.noGravity = true;
+                        dustt.noLight = false;
+                    }
+                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, Projectile.Center);
+                    float off = Main.rand.NextFloat(MathHelper.Pi * 2);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 6);
+                        Dust dustt = Dust.NewDustPerfect(Main.MouseWorld, DustID.SilverFlame, Main.rand.NextVector2Circular(5, 5), newColor: col, Scale: Main.rand.NextFloat(0.75f, 1.5f));
+                        dustt.noGravity = true;
+                        dustt.noLight = false;
+                    }
+                    for (int i = 0; i < 6; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 6) + off;
+                        Vector2 position = Main.MouseWorld + Vector2.UnitX.RotatedBy(angle) * 100;
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Main.MouseWorld, Helper.FromAToB(Main.MouseWorld, position) * 20, ModContent.ProjectileType<SoulFlames>(), Projectile.damage, Projectile.knockBack, Projectile.owner, i);
+                    }
                 }
             }
             if (Projectile.ai[0] > 100)

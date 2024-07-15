@@ -113,7 +113,7 @@ namespace MythosOfMoonlight.Projectiles
             Projectile.hostile = false;
             Projectile.penetrate = 3;
             Projectile.hide = true;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 100;
             Projectile.usesLocalNPCImmunity = true;
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
@@ -140,14 +140,14 @@ namespace MythosOfMoonlight.Projectiles
         bool drawBehind;
         public override void AI()
         {
-            if (Projectile.timeLeft == 299)
+            if (Projectile.timeLeft == 99)
             {
                 initCenter = Projectile.Center;
                 initVel = Projectile.velocity;
             }
             Projectile.rotation += MathHelper.ToRadians(4);
             if (initCenter != Vector2.Zero)
-                Projectile.SineMovement(initCenter, initVel, 0.2f - (Projectile.timeLeft * 0.0005f), Projectile.timeLeft * 0.25f);
+                Projectile.SineMovement(initCenter, initVel, 0.2f - (Projectile.timeLeft * 0.0015f), Projectile.timeLeft * 0.65f);
 
             float wave = (float)Math.Sin(Projectile.ai[1] * 0.1f);
             drawBehind = wave > 0.5f;

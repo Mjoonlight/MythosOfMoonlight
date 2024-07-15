@@ -29,7 +29,7 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.width = 44;
             Item.mana = 0;
             Item.height = 50;
-            Item.mana = 2;
+            Item.mana = 3;
             Item.useAnimation = 8;
             Item.useTime = 8;
             Item.knockBack = 2f;
@@ -42,11 +42,6 @@ namespace MythosOfMoonlight.Items.Weapons
             Item.autoReuse = true;
             Item.shootSpeed = 0f;
             Item.shoot = ModContent.ProjectileType<FireflyMinion>();
-        }
-        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-        {
-            reduce = 2;
-            mult = 0;
         }
         public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {

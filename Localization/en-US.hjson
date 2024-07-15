@@ -375,6 +375,16 @@ Mods: {
 				DisplayName: Golden Tip
 				Tooltip: ""
 			}
+
+			LimestoneMasher: {
+				DisplayName: Limestone Masher
+				Tooltip: ""
+			}
+
+			Kristellation: {
+				DisplayName: Kristellation
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -481,6 +491,10 @@ Mods: {
 			Blinkroot.DisplayName: Blinkbuddy
 			GoldTippedArrow.DisplayName: Gold Tipped Arrow
 			BorerHeld.DisplayName: Borer Held
+			LimestoneDebris.DisplayName: Limestone Debris
+			LimestoneMasherP.DisplayName: Limestone Masher P
+			KristellationP.DisplayName: Kristellation P
+			EstrellaPSlice.DisplayName: Estrella P Slice
 		}
 
 		NPCs: {

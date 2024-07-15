@@ -118,13 +118,15 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
                 }
                 Projectile.NewProjectile(null, position, velocity, ModContent.ProjectileType<BorerP>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            if (Projectile.timeLeft > 35 && Projectile.timeLeft <= 45)
+            if (Projectile.timeLeft > 40 && Projectile.timeLeft <= 45)
             {
-                Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], MathHelper.ToRadians(29f * -Projectile.direction), 0.2f);
+                holdOffset = MathHelper.Lerp(holdOffset, 6, 0.3f);
+                Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], MathHelper.ToRadians(29f * -Projectile.direction), 0.3f);
             }
             else if (Projectile.timeLeft < 35)
             {
                 Projectile.ai[1] += 0.002f;
+                holdOffset = MathHelper.Lerp(holdOffset, 20, 0.1f);
                 Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], 0, 0.05f + Projectile.ai[1]);
             }
             if (Projectile.timeLeft == 15)
