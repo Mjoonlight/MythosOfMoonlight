@@ -493,7 +493,7 @@ namespace MythosOfMoonlight
         public static RenderTarget2D render;
         public static RenderTarget2D DustTrail1;
         public static RenderTarget2D render2, render3;
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient;//, ScreenDistort;
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -518,6 +518,7 @@ namespace MythosOfMoonlight
                 RTOutline = Instance.Assets.Request<Effect>("Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
                 PullingForce = Instance.Assets.Request<Effect>("Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
                 metaballGradient = Instance.Assets.Request<Effect>("Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
+                SpriteRotation = Instance.Assets.Request<Effect>("Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
@@ -675,10 +676,19 @@ namespace MythosOfMoonlight
                     projectile.ModProjectile.PreDraw(ref color);
                 }
             }
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && (projectileFinalDrawList.Contains(projectile.type)))
+                {
+                    Color color = Color.White;
+                    projectile.ModProjectile.PreDraw(ref color);
+                }
+            }
             Main.spriteBatch.End();
             gd.SetRenderTarget(null);
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }
+        public static List<int> projectileFinalDrawList = new List<int>();
         private void DustTrail(GraphicsDevice graphicsDevice)
         {
             graphicsDevice.SetRenderTarget(Main.screenTargetSwap);

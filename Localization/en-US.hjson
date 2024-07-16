@@ -385,6 +385,11 @@ Mods: {
 				DisplayName: Kristellation
 				Tooltip: ""
 			}
+
+			Starcaller: {
+				DisplayName: Starcaller
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -495,6 +500,10 @@ Mods: {
 			LimestoneMasherP.DisplayName: Limestone Masher P
 			KristellationP.DisplayName: Kristellation P
 			EstrellaPSlice.DisplayName: Estrella P Slice
+			StarcallerP.DisplayName: Starcaller P
+			StarcallerBolt.DisplayName: Starcaller Bolt
+			StarcallerShotVFX.DisplayName: Starcaller Shot V F X
+			StarcallerPortal.DisplayName: Starcaller Portal
 		}
 
 		NPCs: {
