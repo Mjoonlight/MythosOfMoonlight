@@ -36,8 +36,12 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         float visualOffset;
         float visual1, visual2;
+        float Timer;
+        float scaleOff;
         public override void AI()
         {
+            Timer++;
+            scaleOff = MathHelper.Lerp(scaleOff, MathF.Sin(Timer * .05f) * 0.05f, 0.25f);
             Projectile.velocity = Vector2.UnitY;
             for (int i = 0; i < 5; i++)
             {
@@ -90,6 +94,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
+
             if (Projectile.ai[0] > 0)
             {
                 Main.spriteBatch.Reload(BlendState.Additive);
@@ -127,6 +132,30 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
             }
+
+            Texture2D s_tex = Helper.GetExtraTex("Extra/star_02");
+            Texture2D s_tex2 = Helper.GetExtraTex("Extra/cone7");
+            Vector2 s_scale = new Vector2(1f + scaleOff, 0.25f - scaleOff * 0.5f);
+            Main.spriteBatch.Reload(BlendState.Additive);
+
+            Vector4 col = (new Color(44, 137, 215) * Projectile.scale).ToVector4();
+            Main.spriteBatch.Draw(s_tex2, Projectile.Center - Main.screenPosition, null, new Color(44, 137, 215) * Projectile.scale * 0.75f, MathHelper.PiOver2, new Vector2(0, s_tex2.Height / 2), new Vector2(1, 2) * Projectile.scale, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Reload(MythosOfMoonlight.SpriteRotation);
+            MythosOfMoonlight.SpriteRotation.Parameters["rotation"].SetValue(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly * 125));
+            MythosOfMoonlight.SpriteRotation.Parameters["scale"].SetValue(s_scale * 0.45f * Projectile.scale);
+            col.W = Projectile.scale * 0.15f;
+            MythosOfMoonlight.SpriteRotation.Parameters["uColor"].SetValue(col);
+            for (int i = 0; i < 80; i++)
+            {
+                float s = MathHelper.SmoothStep(Projectile.scale, 0, (float)i / 80);
+                Vector2 pos = Projectile.Center - new Vector2(0, -20) - new Vector2(0, i * s);
+                Main.spriteBatch.Draw(s_tex, pos - Main.screenPosition, null, Color.White, 0, s_tex.Size() / 2, s, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(s_tex, pos - Main.screenPosition, null, Color.White, 0, s_tex.Size() / 2, s, SpriteEffects.FlipHorizontally, 0);
+            }
+            Main.spriteBatch.Reload(effect: null);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             return false;
         }
     }
