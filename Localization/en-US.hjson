@@ -390,6 +390,11 @@ Mods: {
 				DisplayName: Starcaller
 				Tooltip: ""
 			}
+
+			ShewStone: {
+				DisplayName: Shew Stone
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -504,6 +509,10 @@ Mods: {
 			StarcallerBolt.DisplayName: Starcaller Bolt
 			StarcallerShotVFX.DisplayName: Starcaller Shot V F X
 			StarcallerPortal.DisplayName: Starcaller Portal
+			ShewStoneArrow.DisplayName: Shew Stone Arrow
+			ShewStoneCrystal.DisplayName: Shew Stone Crystal
+			ShewStoneRain.DisplayName: Shew Stone Rain
+			ShewStoneSwirlVFX.DisplayName: Shew Stone Swirl V F X
 		}
 
 		NPCs: {

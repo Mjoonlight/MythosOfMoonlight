@@ -140,7 +140,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
                     }
                 }
                 if (Projectile.timeLeft == maxTime - 3)
-                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/bowPull") { PitchVariance = 0.25f }, Projectile.Center);
+                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/bowPull") { PitchVariance = 0.25f, Volume = 0.7f }, Projectile.Center);
                 float progress = Ease(Utils.GetLerpValue(0f, maxTime - 12, Projectile.timeLeft));
                 arrowAlpha = MathHelper.Lerp(arrowAlpha, 1f, 0.1f);
                 if (Projectile.timeLeft > 25 && Projectile.timeLeft < maxTime - 1)
@@ -151,8 +151,8 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             {
                 if (Projectile.timeLeft == 12)
                 {
-                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/bowRelease") { PitchVariance = 0.25f }, Projectile.Center);
-                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/miscMagicPulse") { PitchVariance = 0.25f, Pitch = 0.5f }, Projectile.Center);
+                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/bowRelease") { PitchVariance = 0.25f, Volume = 0.7f }, Projectile.Center);
+                    SoundEngine.PlaySound(new SoundStyle("MythosOfMoonlight/Assets/Sounds/miscMagicPulse") { PitchVariance = 0.25f, Pitch = 0.5f, Volume = 0.25f }, Projectile.Center);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 3.5f, ModContent.ProjectileType<StarcallerBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 15, Projectile.velocity, ModContent.ProjectileType<StarcallerShotVFX>(), 0, 0, Projectile.owner);
 
