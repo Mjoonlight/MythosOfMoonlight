@@ -86,7 +86,7 @@ namespace MythosOfMoonlight.Items.Pets
             }
             if (Projectile.Center.Distance(player.Center) > 4000)
                 Projectile.Center = player.Center;
-            Lighting.AddLight(Projectile.Center, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f);
+            Lighting.AddLight(Projectile.Center, 0.05f + ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, 0.05f + ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f, 0.05f + ((MathF.Sin(Main.GlobalTimeWrappedHourly * 0.75f) + 1) * 0.5f) * 0.2f);
             frameCounter++;
             int height = frames.Height;
             Projectile.tileCollide = (Player.GetFloorTile(player.Bottom.ToTileCoordinates().X, player.Bottom.ToTileCoordinates().Y) != null && Player.GetFloorTile(Projectile.Top.ToTileCoordinates().X, Projectile.Top.ToTileCoordinates().Y) == null && (player.Center.X.CloseTo(Projectile.Center.X, 400) && player.Center.Y.CloseTo(Projectile.Center.Y, 200)));
@@ -95,7 +95,7 @@ namespace MythosOfMoonlight.Items.Pets
             if (!Projectile.tileCollide)
             {
                 Projectile.ai[2]++;
-                Vector2 to = Helper.FromAToB(Projectile.Center, player.Center);
+                Vector2 to = Helper.FromAToB(Projectile.Center, player.Center - new Vector2(0, 50));
                 float s = MathHelper.Clamp(MathHelper.Lerp(4, 10, player.Center.Distance(Projectile.Center) / 150), 4, 10);
                 if (Projectile.ai[2] % 40 <= 10)
                 {
@@ -104,7 +104,7 @@ namespace MythosOfMoonlight.Items.Pets
                 if (Projectile.ai[2] % 40 >= 35)
                     Projectile.velocity.X *= 0.9f;
                 if (Projectile.velocity.Y > -10)
-                    Projectile.velocity.Y += (to.Y * s) * 0.2f;
+                    Projectile.velocity.Y += (to.Y * s) * 0.1f;
 
                 if (Main.rand.NextBool(4))
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GrassBlades, Scale: Main.rand.NextFloat(0.25f, .5f));
@@ -114,7 +114,7 @@ namespace MythosOfMoonlight.Items.Pets
             else
             {
 
-                if (Collision.SolidCollision(Projectile.position + new Vector2(0, 22), Projectile.width, 4))
+                if (Collision.SolidCollision(Projectile.position + new Vector2(0, 22), Projectile.width, 6))
                     Projectile.Center -= Vector2.UnitY;
 
                 if ((double)Projectile.velocity.X < -0.8 || (double)Projectile.velocity.X > 0.8)
@@ -128,7 +128,7 @@ namespace MythosOfMoonlight.Items.Pets
                 }
                 else frames.Y = 0;
                 rotation = Helper.LerpAngle(rotation, 0, 0.3f);
-                if (!Collision.CanHit(Projectile, player))
+                if (!Collision.CanHit(Projectile.position + new Vector2(Helper.FromAToB(Projectile.position, player.position, false).X, 0), Projectile.width, Projectile.height, player.position, player.width, player.height))
                     Projectile.velocity.Y = -5;
 
 

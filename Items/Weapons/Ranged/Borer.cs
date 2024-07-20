@@ -19,7 +19,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 20;
+            Item.damage = 30;
             Item.useTime = 40;
             Item.useAnimation = 40;
             Item.shoot = ModContent.ProjectileType<BorerHeld>();

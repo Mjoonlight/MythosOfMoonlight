@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MythosOfMoonlight.Items.Jungle
 {
@@ -38,6 +39,11 @@ namespace MythosOfMoonlight.Items.Jungle
         {
             return new Vector2(-4, 0);
         }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D tex = Helper.GetTex(Texture + "_Glow");
+            spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, Color.White, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+        }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position += new Vector2(Item.width, 0).RotatedBy(velocity.ToRotation());
@@ -54,6 +60,7 @@ namespace MythosOfMoonlight.Items.Jungle
         public override void SetDefaults()
         {
             Projectile.CloneDefaults(ProjectileID.Bullet);
+            Projectile.light = 0f;
             Projectile.extraUpdates = 3;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

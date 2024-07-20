@@ -21,8 +21,8 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         {
             Item.width = 28;
             Item.height = 66;
-            Item.crit = 10;
-            Item.damage = 20;
+            Item.crit = 5;
+            Item.damage = 17;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -95,7 +95,7 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
         float arrowAlpha;
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.1f, 0.1f, 0.1f);
+            Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0.35f);
             Player player = Main.player[Projectile.owner];
             if (!player.active || player.dead || player.CCed || player.noItems)
             {

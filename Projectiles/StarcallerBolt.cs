@@ -99,6 +99,7 @@ namespace MythosOfMoonlight.Projectiles
         public override bool? CanDamage() => false;
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.35f, 0.35f, 0.45f);
             Projectile.velocity.SafeNormalize(Vector2.UnitX);
             Projectile.ai[0]++;
             if (Projectile.ai[0] < 30)

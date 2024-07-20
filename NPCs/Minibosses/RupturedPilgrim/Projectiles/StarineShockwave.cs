@@ -42,7 +42,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 SoundStyle style = SoundID.DD2_BetsyFireballImpact;
                 style.Volume = 0.5f;
                 SoundEngine.PlaySound(style, Projectile.Center);
-                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(new Vector2(Projectile.Center.X, Main.LocalPlayer.Center.Y) - Vector2.UnitY * 10, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.width * Projectile.velocity + (TRay.Cast(Projectile.Center - Vector2.UnitY * 16, Vector2.UnitY, 500, true) - 30 * Vector2.UnitY), Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1, Projectile.ai[1]);
                 a.ai[0] = Projectile.ai[0] + 1;
                 a.ai[1] = Projectile.ai[1];
             }

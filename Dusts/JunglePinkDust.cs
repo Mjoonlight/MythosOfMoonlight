@@ -17,6 +17,11 @@ namespace MythosOfMoonlight.Dusts
             dust.rotation = Main.rand.NextFloat(MathHelper.Pi);
             // dust.scale *= 2f;
         }
+        public override bool Update(Dust dust)
+        {
+            Lighting.AddLight(dust.position, 0.3f, 0, 0.1f);
+            return base.Update(dust);
+        }
         public override bool MidUpdate(Dust dust)
         {
             if (!dust.noGravity)

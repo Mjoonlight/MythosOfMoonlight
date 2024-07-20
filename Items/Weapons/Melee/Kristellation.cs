@@ -25,7 +25,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Item.knockBack = 5f;
             Item.width = Item.height = 66;
             Item.crit = 5;
-            Item.damage = 7;
+            Item.damage = 10;
             Item.useAnimation = 2;
             Item.useTime = 2;
             Item.noUseGraphic = true;

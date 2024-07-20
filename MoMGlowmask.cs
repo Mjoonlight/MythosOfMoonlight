@@ -12,6 +12,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Items.Armor;
 using Terraria.ID;
+using MythosOfMoonlight.Items.Jungle;
 
 namespace MythosOfMoonlight
 {
@@ -20,7 +21,7 @@ namespace MythosOfMoonlight
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.LastVanillaLayer);
         public List<int> types = new List<int>()
         {
-            ModContent.ItemType<CDGIris>(),
+            ModContent.ItemType<CDGIris>(), ModContent.ItemType<PlantGun>()
         };
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {

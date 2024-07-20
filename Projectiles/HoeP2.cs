@@ -28,7 +28,10 @@ namespace MythosOfMoonlight.Projectiles
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 45;
-            Projectile.scale = 0;
+        }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            hitbox.Y -= 10;
         }
         public override bool ShouldUpdatePosition() => false;
         public override void Kill(int timeLeft)
@@ -57,6 +60,8 @@ namespace MythosOfMoonlight.Projectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
+
+            Projectile.scale = 0;
 
             if (Main.LocalPlayer.ZoneDesert)
                 Projectile.frame = 1;

@@ -21,7 +21,7 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 19;
+            Item.damage = 23;
             Item.DamageType = DamageClass.Magic;
             Item.width = 40;
             Item.height = 40;

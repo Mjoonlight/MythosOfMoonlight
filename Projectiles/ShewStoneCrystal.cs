@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Projectiles.VFXProjectiles;
+using Terraria.Utilities;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -74,8 +75,22 @@ namespace MythosOfMoonlight.Projectiles
             if (player.whoAmI == Main.myPlayer && Projectile.timeLeft > 7)
             {
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.MouseWorld) * 4.5f, 0.025f);
-                if (Projectile.timeLeft < 500 && Main.mouseLeft)
+                if (Projectile.timeLeft < 500 && Main.mouseRight)
                     Projectile.timeLeft = 7;
+            }
+            if (Projectile.timeLeft == 500)
+            {
+                UnifiedRandom rand = new UnifiedRandom(69);
+                float max = 10;
+                for (int i = 0; i < max; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, max);
+                    float scale = rand.NextFloat(1f * 0.2f);
+                    Vector2 offset = new Vector2(Main.rand.NextFloat(50) * scale, 0).RotatedBy(angle);
+                    int jMax = rand.Next(3, 5);
+                    for (int j = 0; j < jMax; j++)
+                        Dust.NewDustPerfect(Projectile.Center + offset * 0.5f, DustID.GemDiamond, Helper.FromAToB(Projectile.Center, Projectile.Center + offset).RotatedByRandom(MathHelper.PiOver4 * (j == 0 ? 0 : 1)) * (scale * 20)).noGravity = true;
+                }
             }
             if (Projectile.timeLeft == 7)
             {

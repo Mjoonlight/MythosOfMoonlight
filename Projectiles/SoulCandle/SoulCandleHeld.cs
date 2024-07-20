@@ -46,13 +46,13 @@ namespace MythosOfMoonlight.Projectiles.SoulCandle
             player.itemAnimation = 2;
             Projectile.timeLeft = 2;
 
-            Color col = Color.Lerp(new Color(201, 122, 255), new Color(191, 210, 255) * 0.5f, Projectile.ai[0] / 100);
+            Color col = Color.Lerp(new Color(201, 122, 255), new Color(191, 210, 255) * 0.5f, Projectile.ai[0] / 80);
             Dust dust = Dust.NewDustPerfect(Projectile.Center - new Vector2(-4, Projectile.height / 2 * player.direction).RotatedBy(Projectile.rotation - MathHelper.PiOver2), DustID.SilverFlame, new Vector2(Main.rand.NextFloat(-1, 1f), -1), newColor: col, Scale: Main.rand.NextFloat(0.75f, 1.5f));
             dust.noGravity = true;
             dust.noLight = false;
 
             Projectile.ai[0]++;
-            if (Projectile.ai[0] == 60)
+            if (Projectile.ai[0] == 40)
             {
                 if (player.CheckMana(20, true))
                 {
@@ -80,7 +80,7 @@ namespace MythosOfMoonlight.Projectiles.SoulCandle
                     }
                 }
             }
-            if (Projectile.ai[0] > 100)
+            if (Projectile.ai[0] > 80)
             {
                 Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
                 Projectile proj = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
