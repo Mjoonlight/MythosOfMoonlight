@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace MythosOfMoonlight.Common.Systems
 {
@@ -14,9 +15,44 @@ namespace MythosOfMoonlight.Common.Systems
     {
         bool hasChecked;
         public static bool BeenThereDoneThatPilgrim;
+        public static bool[] melissaQuest = new bool[3]; // 0 = Fertilizer 1 = SoR 2 = IGP
         public override void Load()
         {
             BeenThereDoneThatPilgrim = false;
+            for (int i = 0; i < 3; i++)
+                melissaQuest[i] = false;
+        }
+        public override void SaveWorldData(TagCompound tag)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (melissaQuest[i])
+                    tag["MelissaQuest" + i] = true;
+            }
+        }
+        public override void LoadWorldData(TagCompound tag)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                melissaQuest[i] = tag.ContainsKey("MelissaQuest" + i);
+            }
+        }
+        public override void NetSend(BinaryWriter writer)
+        {
+            BitsByte flags1 = new BitsByte();
+            for (int i = 0; i < 3; i++)
+            {
+                flags1[i] = melissaQuest[i];
+            }
+            writer.Write(flags1);
+        }
+        public override void NetReceive(BinaryReader reader)
+        {
+            BitsByte flags1 = reader.ReadByte();
+            for (int i = 0; i < 3; i++)
+            {
+                melissaQuest[i] = flags1[i];
+            }
         }
         public override void PostUpdateEverything()
         {

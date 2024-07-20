@@ -109,6 +109,7 @@ namespace MythosOfMoonlight
         }
 
         public static string Empty = "MythosOfMoonlight/Textures/Extra/blank";
+        public static string Placeholder = "MythosOfMoonlight/Textures/Placeholder";
 
 
         /// <summary>

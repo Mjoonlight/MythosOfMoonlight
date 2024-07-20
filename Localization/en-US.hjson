@@ -395,6 +395,11 @@ Mods: {
 				DisplayName: Shew Stone
 				Tooltip: ""
 			}
+
+			ThePebble: {
+				DisplayName: The Pebble
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -513,6 +518,8 @@ Mods: {
 			ShewStoneCrystal.DisplayName: Shew Stone Crystal
 			ShewStoneRain.DisplayName: Shew Stone Rain
 			ShewStoneSwirlVFX.DisplayName: Shew Stone Swirl V F X
+			ShewExplosion.DisplayName: Shew Explosion
+			ShewRainExplosion.DisplayName: Shew Rain Explosion
 		}
 
 		NPCs: {
@@ -539,7 +546,14 @@ Mods: {
 			Pebbi2.DisplayName: Chunk Pebbi
 			Pebbi3.DisplayName: Geode Pebbi
 			PebbiSwarm.DisplayName: PebbiSwarm
-			SunflowerLady.DisplayName: Melissa
+
+			SunflowerLady: {
+				DisplayName: Melissa
+				MelissaQuest0: Melissa's Quest - First Step Complete
+				MelissaQuest1: Melissa's Quest - Second Step Complete
+				MelissaQuest2: Melissa's Quest Complete
+			}
+
 			RupturedPilgrim.DisplayName: Starseeing Pilgrim
 			Starine_Symbol.DisplayName: Starine Symbol
 			StarveiledScholar.DisplayName: Nightveiled Scholar

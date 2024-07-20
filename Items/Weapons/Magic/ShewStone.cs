@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
     {
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 15;
             Item.DamageType = DamageClass.Magic;
             Item.width = 26;
             Item.height = 24;
@@ -35,6 +35,15 @@ namespace MythosOfMoonlight.Items.Weapons.Magic
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[Item.shoot] < 1;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Diamond, 15)
+                .AddIngredient(ItemID.Geode)
+                .AddRecipeGroup(RecipeGroup.RegisterGroup("GoldAndPlatinumBar", new RecipeGroup(() => $"{Lang.GetItemNameValue(ItemID.GoldBar)} / {Lang.GetItemNameValue(ItemID.PlatinumBar)}", ItemID.PlatinumBar, ItemID.GoldBar)), 10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
