@@ -48,8 +48,8 @@ namespace MythosOfMoonlight.Events
             progress = Ease(MathHelper.SmoothStep(0, 2, (float)(Main.time) / ((float)Main.nightLength)));
             mainAlpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI * 0.5f), 0, 1);
             float _progress = MathHelper.SmoothStep(0, 1, (float)(Main.time) / ((float)Main.nightLength));
-            float yOffset_T = MathHelper.Clamp((float)Math.Sin(_progress * Math.PI ) * 0.5f, -.5f, .5f);
-            yOffset = 100 + 400 * yOffset_T  - Main.screenPosition.Y * 0.02f;
+            float yOffset_T = MathHelper.Clamp((float)Math.Sin(_progress * Math.PI) * 0.5f, -.5f, .5f);
+            yOffset = 100 + 400 * yOffset_T - Main.screenPosition.Y * 0.02f;
             linesGlowInner += 0.005f;
             linesGlowInner2 += 0.005f;
             linesGlowOuter += 0.0025f;
@@ -92,7 +92,7 @@ namespace MythosOfMoonlight.Events
                 Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
                 //int cometX = (int)((Main.time) / ((float)Main.nightLength ).0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
-                Vector2 cometP = Vector2.SmoothStep(new Vector2(Main.screenWidth - 75, yOffset), new Vector2(-30, yOffset ), Ease((float)(Main.time) / ((float)Main.nightLength)));
+                Vector2 cometP = Vector2.SmoothStep(new Vector2(Main.screenWidth - 75, yOffset), new Vector2(-30, yOffset), Ease((float)(Main.time) / ((float)Main.nightLength)));
                 //new(Main.screenWidth / 4, MathHelper.Lerp(-200, Main.screenHeight + comet.Height * 0.5f, (float)(Main.time) / ((float)Main.nightLength )));
                 if (Main.screenWidth > Tex.Width || Main.screenHeight > Tex.Height)
                     spriteBatch.Draw(Tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * Intensity * mainAlpha * 0.5f, 0, Vector2.Zero, SpriteEffects.None, 0);
@@ -112,6 +112,11 @@ namespace MythosOfMoonlight.Events
                 spriteBatch.Draw(starTex, cometP + starOffset, null, Color.DarkViolet * mainAlpha * mainAlpha * Intensity * 0.35f, Main.GameUpdateCount * -0.0035f, starTex.Size() / 2, .45f + glow * 0.1f + scaleAdd, SpriteEffects.None, 0f);
 
                 spriteBatch.Draw(starTex, cometP + starOffset, null, Color.DarkViolet * mainAlpha * mainAlpha * Intensity, 0, starTex.Size() / 2, .15f + scaleAdd, SpriteEffects.None, 0f);
+
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * mainAlpha * mainAlpha * Intensity, 0, starTex.Size() / 2, .025f + scaleAdd, SpriteEffects.None, 0f);
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * 0.75f * mainAlpha * mainAlpha * Intensity, 0, starTex.Size() / 2, .05f + scaleAdd, SpriteEffects.None, 0f);
+                spriteBatch.Draw(starTex, cometP + starOffset, null, Color.White * 0.5f * mainAlpha * mainAlpha * Intensity, 0, starTex.Size() / 2, .075f + scaleAdd, SpriteEffects.None, 0f);
+
                 spriteBatch.Draw(starTex3, cometP + starOffset, null, Color.White * mainAlpha * 0.65f * Intensity, 0, starTex3.Size() / 2, .5f + scaleAdd, SpriteEffects.None, 0f);
 
                 //spriteBatch.Draw(starTex2, cometP + starOffset, null, Color.White * mainAlpha * 0.15f * Intensity, 0, starTex2.Size() / 2, 2.15f + scaleAdd, SpriteEffects.None, 0f);
@@ -131,7 +136,7 @@ namespace MythosOfMoonlight.Events
             float s = 1f;
             for (float i = 0; i < trailLength; i++)
             {
-                float inverse_S = Ease(MathHelper.Lerp(mainAlpha , 0, s));
+                float inverse_S = Ease(MathHelper.Lerp(mainAlpha, 0, s));
                 Vector2 firstPos = Vector2.SmoothStep(new Vector2(Main.screenWidth - 75, yOffset), new Vector2(-30, yOffset), Ease((float)((Main.time) - i * 25) / ((float)Main.nightLength))) - new Vector2(0, 25 * inverse_S);
                 Vector2 nextPos = Vector2.SmoothStep(new Vector2(Main.screenWidth - 75, yOffset), new Vector2(-30, yOffset), Ease((float)((Main.time) - (i + 1) * 25) / ((float)Main.nightLength))) - new Vector2(0, 25 * inverse_S);
                 float globalTimeSmoothStepped = MathHelper.SmoothStep(0, 3600, Main.GlobalTimeWrappedHourly / 3600);
@@ -142,9 +147,11 @@ namespace MythosOfMoonlight.Events
                 for (float j = 0; j < 10; j++)
                 {
                     Vector2 pos = Vector2.Lerp(firstPos, nextPos + offset, j / 10);
-                    float alpha = ((0.5f + MathHelper.Lerp(0, glow * 0.1f, s)) * Intensity * s);
+                    float alpha = ((0.5f + MathHelper.Lerp(0, glow * 0.1f, s)) * s) * Intensity;
                     Main.spriteBatch.Draw(tex, pos + starOffset, null, Color.Lerp(Color.Violet * mainAlpha, Color.DarkViolet, mainAlpha) * mainAlpha * mainAlpha * alpha, Helper.FromAToB(firstPos, nextPos).ToRotation(), new Vector2(0, tex.Height / 2), new Vector2(3f, mainAlpha * mainAlpha * 0.5f * s + scaleAdd), SpriteEffects.None, 0);
-                    s -= 1/(trailLength*10);
+
+                    Main.spriteBatch.Draw(tex, pos + starOffset, null, Color.White * 0.65f * s * mainAlpha * mainAlpha * alpha, Helper.FromAToB(firstPos, nextPos).ToRotation(), new Vector2(0, tex.Height / 2), new Vector2(3f, mainAlpha * mainAlpha * 0.15f * s + scaleAdd), SpriteEffects.None, 0);
+                    s -= 1 / (trailLength * 10);
                 }
             }
         }
@@ -155,10 +162,16 @@ namespace MythosOfMoonlight.Events
             Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
 
             Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+
+
+            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+
             for (int k = 0; k < 3; k++)
             {
                 float linesGlow = MathHelper.Clamp(k == 0 ? linesGlowInner : k == 1 ? linesGlowOuter : linesGlowInner2, 0, 1);
-                float alpha = MathHelper.Lerp(0.75f, 0, MathHelper.Clamp(linesGlow * 1.5f, 0, 1)) * 2;
+                float alpha = MathHelper.Lerp(0.75f, 0, MathHelper.Clamp(linesGlow * 1.5f, 0, 1)) * 2 * Intensity;
                 int seed = k == 0 ? innerSeed : k == 1 ? outerSeed : innerSeed2;
                 UnifiedRandom rand = new UnifiedRandom(seed);
                 float max = 5;
@@ -170,8 +183,10 @@ namespace MythosOfMoonlight.Events
                     for (float j = 0; j < 2; j++)
                         Main.spriteBatch.Draw(tex, pos + offset, null, Color.DarkViolet * mainAlpha * mainAlpha * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale, SpriteEffects.None, 0);
 
+                    Main.spriteBatch.Draw(tex, pos + offset * 0.5f, null, Color.White * mainAlpha * mainAlpha * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 0.5f, SpriteEffects.None, 0);
 
-                    Main.spriteBatch.Draw(tex, pos + offset * 3, null, Color.DarkViolet * mainAlpha * mainAlpha * 0.35f * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 3, SpriteEffects.None, 0);
+
+                    Main.spriteBatch.Draw(tex, pos + offset * 3, null, Color.White * mainAlpha * mainAlpha * 0.35f * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 3, SpriteEffects.None, 0);
                 }
             }
         }
