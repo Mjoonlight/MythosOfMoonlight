@@ -8,62 +8,34 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Items.Weapons.Ranged;
+using MythosOfMoonlight.Items.Accessories;
 
 namespace MythosOfMoonlight.Common.Systems
 {
     public class ChestSpawnSystem : ModSystem
     {
-        void RustyWaraxe()
+        void FillChests()
         {
-            int[] chest = { ModContent.ItemType<RustyWaraxe>() };
-            int chestchoice = 0;
-            for (int WchestIndex = 0; WchestIndex < 1000; WchestIndex++)
+            int[] goldChestMainLoot = { ModContent.ItemType<RustyWaraxe>() };
+            int[] goldChestSecondaryLoot = { ModContent.ItemType<GoldenTip>() };
+            int[] waterChestMainLoot = { ModContent.ItemType<Shrimpy>() };
+            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
-                Chest Wchest = Main.chest[WchestIndex];
-                if (Wchest != null && Main.tile[Wchest.x, Wchest.y].TileType == TileID.Containers && Main.tile[Wchest.x, Wchest.y].TileFrameX == 1 * 36)
+                Chest chest = Main.chest[chestIndex];
+                if (chest != null && Main.tile[chest.x, chest.y].TileType == TileID.Containers)
                 {
-
-                    for (int WinventoryIndex = 0; WinventoryIndex < 40; WinventoryIndex++)
+                    if (Main.tile[chest.x, chest.y].TileFrameX == 1 * 36)
                     {
                         if (WorldGen.genRand.NextBool(5))
-                        {
-
-                            Wchest.item[WinventoryIndex].SetDefaults(chest[chestchoice]);
-
-                            Wchest.item[WinventoryIndex].stack = WorldGen.genRand.Next(0, 1);
-
-                            chestchoice = (chestchoice + 1) % chest.Length;
-                            //Wchest.item[WinventoryIndex].SetDefaults(Main.rand.Next(WinventoryIndex));
-                            break;
-                        }
+                            chest.item[0].SetDefaults(Main.rand.Next(goldChestMainLoot));
+                        if (WorldGen.genRand.NextBool(5))
+                            chest.item[1].SetDefaults(Main.rand.Next(goldChestSecondaryLoot));
                     }
-                }
-            }
-        }
-        void ShrimpChest()
-        {
-            int[] waterchest = { ModContent.ItemType<Shrimpy>() };
-            int waterchestchoice = 0;
-            for (int WchestIndex = 0; WchestIndex < 1000; WchestIndex++)
-
-            {
-
-                Chest Wchest = Main.chest[WchestIndex];
-                if (Wchest != null && Main.tile[Wchest.x, Wchest.y].TileType == TileID.Containers && Main.tile[Wchest.x, Wchest.y].TileFrameX == 17 * 36)
-                {
-
-                    for (int WinventoryIndex = 0; WinventoryIndex < 40; WinventoryIndex++)
+                    if (Main.tile[chest.x, chest.y].TileFrameX == 17 * 36)
                     {
                         if (WorldGen.genRand.NextBool(5))
                         {
-
-                            Wchest.item[WinventoryIndex].SetDefaults(waterchest[waterchestchoice]);
-
-                            Wchest.item[WinventoryIndex].stack = WorldGen.genRand.Next(0, 1);
-
-                            waterchestchoice = (waterchestchoice + 1) % waterchest.Length;
-                            //Wchest.item[WinventoryIndex].SetDefaults(Main.rand.Next(WinventoryIndex));
-                            break;
+                            chest.item[0].SetDefaults(Main.rand.Next(waterChestMainLoot));
                         }
                     }
                 }
@@ -71,8 +43,7 @@ namespace MythosOfMoonlight.Common.Systems
         }
         public override void PostWorldGen()
         {
-            ShrimpChest();
-            RustyWaraxe(); //This is such a bad way to do it but i genuinely cant be assed
+            FillChests();
         }
     }
 }

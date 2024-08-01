@@ -43,13 +43,13 @@ namespace MythosOfMoonlight.Common.BiomeManager
         {
             get
             {
-                return Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight ? MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet") : base.Music;
+                return MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
             }
         }
         public override SceneEffectPriority Priority => SceneEffectPriority.Event;
         public override bool IsBiomeActive(Player player)
         {
-            return PurpleCometEvent.PurpleComet;
+            return PurpleCometEvent.PurpleComet && (Main.LocalPlayer.ZoneOverworldHeight || Main.LocalPlayer.ZoneSkyHeight || Main.LocalPlayer.ZoneDirtLayerHeight);
         }
         public override void OnInBiome(Player player)
         {

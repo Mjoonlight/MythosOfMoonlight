@@ -61,7 +61,14 @@ namespace MythosOfMoonlight.NPCs.Field
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.sunflower && !NPC.AnyNPCs(Type) ? 0.25f : 0;
+            float chance = 0.3f;
+            if (GenericSystem.melissaQuest[0])
+                chance = 0.2f;
+            if (GenericSystem.melissaQuest[1])
+                chance = 0.15f;
+            if (GenericSystem.melissaQuest[2])
+                chance = 0.1f;
+            return spawnInfo.Player.sunflower && spawnInfo.Player.ZoneForest && !NPC.AnyNPCs(Type) ? (chance) : 0;
         }
         public override List<string> SetNPCNameList()
         {
@@ -204,7 +211,75 @@ namespace MythosOfMoonlight.NPCs.Field
                     NPC.frame.Y = 78;
                     NPC.frameCounter = 0;
                 }
-                if (!GenericSystem.melissaQuest[0])
+                if (GenericSystem.melissaQuest[0] && GenericSystem.melissaQuest[1] && GenericSystem.melissaQuest[2])
+                {
+                    Main.npcChatText = questChat[9];
+                }
+                else if (GenericSystem.melissaQuest[0] && GenericSystem.melissaQuest[1] && !GenericSystem.melissaQuest[2])
+                {
+                    if (Main.LocalPlayer.HasItem(ItemID.IllegalGunParts) && heardQuestDialogue[2])
+                    {
+                        Main.npcChatCornerItem = 0;
+                        Main.npcChatText = questChat[8];
+                        Celebrate();
+                        for (int j = 0; j < 54; j++)
+                        {
+                            if (player.inventory[j].type == ItemID.IllegalGunParts && player.inventory[j].stack > 0)
+                            {
+                                player.inventory[j].stack--;
+                                despawnReady = true;
+                                Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_FromThis(), ModContent.ItemType<Borer>());
+                                GenericSystem.melissaQuest[2] = true;
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Main.npcChatCornerItem = ItemID.IllegalGunParts;
+                        if (!heardQuestDialogue[2])
+                        {
+                            Main.npcChatText = questChat[6];
+                            heardQuestDialogue[2] = true;
+                        }
+                        else
+                            Main.npcChatText = questChat[7];
+                    }
+                }
+                else if (GenericSystem.melissaQuest[0] && !GenericSystem.melissaQuest[1])
+                {
+                    if (Main.LocalPlayer.HasItem(ItemID.StaffofRegrowth) && heardQuestDialogue[1])
+                    {
+                        Main.npcChatCornerItem = 0;
+                        Main.npcChatText = questChat[5];
+                        Celebrate();
+                        for (int j = 0; j < 54; j++)
+                        {
+                            if (player.inventory[j].type == ItemID.StaffofRegrowth && player.inventory[j].stack > 0)
+                            {
+                                player.inventory[j].stack--;
+                                despawnReady = true;
+                                Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_FromThis(), ModContent.ItemType<Hoe>());
+                                GenericSystem.melissaQuest[1] = true;
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Main.npcChatCornerItem = ItemID.StaffofRegrowth;
+                        if (!heardQuestDialogue[1])
+                        {
+                            Main.npcChatText = questChat[3];
+                            heardQuestDialogue[1] = true;
+                        }
+                        else
+                            Main.npcChatText = questChat[4];
+                    }
+                }
+                else if (!GenericSystem.melissaQuest[0])
                 {
                     if (Main.LocalPlayer.HasItem(ItemID.Fertilizer) && heardQuestDialogue[0])
                     {
@@ -235,74 +310,6 @@ namespace MythosOfMoonlight.NPCs.Field
                             Main.npcChatText = questChat[1];
                     }
                 }
-                else if (GenericSystem.melissaQuest[0] && !GenericSystem.melissaQuest[1])
-                {
-                    if (Main.LocalPlayer.HasItem(ItemID.StaffofRegrowth) && heardQuestDialogue[1])
-                    {
-                        Main.npcChatCornerItem = 0;
-                        Main.npcChatText = questChat[5];
-                        Celebrate();
-                        for (int j = 0; j < 54; j++)
-                        {
-                            if (player.inventory[j].type == ItemID.Fertilizer && player.inventory[j].stack > 0)
-                            {
-                                player.inventory[j].stack--;
-                                despawnReady = true;
-                                Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_FromThis(), ModContent.ItemType<Hoe>());
-                                GenericSystem.melissaQuest[1] = true;
-                                break;
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        Main.npcChatCornerItem = ItemID.StaffofRegrowth;
-                        if (!heardQuestDialogue[1])
-                        {
-                            Main.npcChatText = questChat[3];
-                            heardQuestDialogue[1] = true;
-                        }
-                        else
-                            Main.npcChatText = questChat[4];
-                    }
-                }
-                else if (GenericSystem.melissaQuest[0] && GenericSystem.melissaQuest[1] && !GenericSystem.melissaQuest[2])
-                {
-                    if (Main.LocalPlayer.HasItem(ItemID.IllegalGunParts) && heardQuestDialogue[2])
-                    {
-                        Main.npcChatCornerItem = 0;
-                        Main.npcChatText = questChat[8];
-                        Celebrate();
-                        for (int j = 0; j < 54; j++)
-                        {
-                            if (player.inventory[j].type == ItemID.Fertilizer && player.inventory[j].stack > 0)
-                            {
-                                player.inventory[j].stack--;
-                                despawnReady = true;
-                                Main.LocalPlayer.QuickSpawnItem(NPC.GetSource_FromThis(), ModContent.ItemType<Borer>());
-                                GenericSystem.melissaQuest[2] = true;
-                                break;
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        Main.npcChatCornerItem = ItemID.IllegalGunParts;
-                        if (!heardQuestDialogue[2])
-                        {
-                            Main.npcChatText = questChat[6];
-                            heardQuestDialogue[2] = true;
-                        }
-                        else
-                            Main.npcChatText = questChat[7];
-                    }
-                }
-                else if (GenericSystem.melissaQuest[0] && GenericSystem.melissaQuest[1] && GenericSystem.melissaQuest[2])
-                {
-                    Main.npcChatText = questChat[9];
-                }
             }
         }
         public override void _AI()
@@ -315,7 +322,7 @@ namespace MythosOfMoonlight.NPCs.Field
             }
             else
             {
-                NPC.direction = NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
+                NPC.spriteDirection = NPC.direction;
                 if (despawnReady)
                 {
 

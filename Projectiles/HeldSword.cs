@@ -35,6 +35,7 @@ namespace MythosOfMoonlight.Projectiles
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.ownerHitCheck = true;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             SetExtraDefaults();
@@ -161,7 +162,7 @@ namespace MythosOfMoonlight.Projectiles
             Vector2 start = player.Center;
             Vector2 end = player.Center + rot.ToRotationVector2() * (Projectile.height + holdOffset * 0.8f);
             float a = 0;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, projHitbox.Width, ref a) && Collision.CanHitLine(player.TopLeft, player.width, player.height, targetHitbox.TopLeft(), targetHitbox.Width, targetHitbox.Height);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, projHitbox.Width, ref a) && Collision.CanHitLine(Projectile.TopLeft, Projectile.width, Projectile.height, targetHitbox.TopLeft(), targetHitbox.Width, targetHitbox.Height);
         }
     }
 }
