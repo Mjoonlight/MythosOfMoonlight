@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using Terraria.GameContent;
 using Terraria.ID;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {
@@ -74,7 +75,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
                 Vector2 screenPosition = Main.screenPosition;
                 for (float num2 = 0f; num2 <= num; num2++)
                 {
-                    Main.spriteBatch.Draw(Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3"), vector2 - screenPosition, null, Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Helper.FromAToB(start, end).ToRotation(), Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3").Size() / 2, new Vector2(1, .1f), SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/Ex3"), vector2 - screenPosition, null, Color.Lerp(Color.White, Color.Purple, Projectile.scale) * Projectile.scale, Helper.FromAToB(start, end).ToRotation(), Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/Ex3").Size() / 2, new Vector2(1, .1f), SpriteEffects.None, 0f);
                     vector2 = start + num2 * vector;
                 }
             }

@@ -1,5 +1,4 @@
-﻿using MythosOfMoonlight.BaseClasses.BaseProj;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
@@ -7,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Items.Weapons;
 using System.Collections.Generic;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Common.Utilities;
+using MythosOfMoonlight.Common.Utilities.BaseClasses.BaseProj;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -146,7 +148,7 @@ namespace MythosOfMoonlight.Projectiles
             SpriteEffects effect = Projectile.velocity.X >= 0 ? SpriteEffects.None : SpriteEffects.FlipVertically; List<VertexInfo2> vertices = new();
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 ori = Projectile.Size / 2;
-            Texture2D trail = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/White").Value;
+            Texture2D trail = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/White").Value;
             if (state != State.rotate)
             {
                 for (int j = 0; j <= Math.Min(16 - Projectile.timeLeft, 11); j += 1)

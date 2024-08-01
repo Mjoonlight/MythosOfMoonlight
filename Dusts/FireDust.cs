@@ -7,7 +7,7 @@ namespace MythosOfMoonlight.Dusts
 {
     public class FireDust : ModDust
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void OnSpawn(Dust dust)
         {
             dust.alpha = 255;
@@ -35,7 +35,7 @@ namespace MythosOfMoonlight.Dusts
             {
                 if (d.type == ModContent.DustType<FireDust>() && d.active)
                 {
-                    Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/explosion").Value;
+                    Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/explosion").Value;
                     sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, d.color * d.scale * 10, 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0); ;
                 }

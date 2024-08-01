@@ -24,7 +24,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
 {
     public class ScholarRift : ModNPC
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/corona_transparent";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/corona_transparent";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rift");

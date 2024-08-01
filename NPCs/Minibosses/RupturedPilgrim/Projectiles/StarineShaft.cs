@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {

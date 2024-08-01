@@ -8,12 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
     public class TestTentacle2 : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/Ex2";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/Ex2";
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Test Tentacle real");
@@ -189,7 +190,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                Main.graphics.GraphicsDevice.Textures[0] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/Ex1").Value;
+                Main.graphics.GraphicsDevice.Textures[0] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/Ex1").Value;
                 if (vertices.Count >= 3)
                 {
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);

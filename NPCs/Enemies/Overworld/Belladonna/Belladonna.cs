@@ -9,6 +9,7 @@ using MythosOfMoonlight.Dusts;
 using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
 {

@@ -10,6 +10,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Jungle;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Jungle.Vivine
 {

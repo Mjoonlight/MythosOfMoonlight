@@ -1,4 +1,4 @@
-﻿using MythosOfMoonlight.Extension;
+﻿using MythosOfMoonlight.Common.Utilities.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;

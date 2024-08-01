@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
 {
     public class StarcallerShotVFX : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/MagicBurst";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/MagicBurst";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 5;

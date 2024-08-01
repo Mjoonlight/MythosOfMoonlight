@@ -34,8 +34,8 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_06");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/crosslight");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_06");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * 0.75f * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, alpha * 2f, SpriteEffects.None, 0);
@@ -65,8 +65,8 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_06");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/crosslight");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_06");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] / 2);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * 0.75f * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, alpha * 2.5f, SpriteEffects.None, 0);
@@ -96,8 +96,8 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_06");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/crosslight");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_06");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * 0.15f * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, alpha * 1.5f, SpriteEffects.None, 0);

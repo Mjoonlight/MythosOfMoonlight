@@ -15,7 +15,7 @@ namespace MythosOfMoonlight.BossBars
 {
     public class PilgrimBar : ModBossBar
     {
-        public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/blank");
+        public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame) => ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/blank");
 
         public override bool? ModifyInfo(ref BigProgressBarInfo info, ref float life, ref float lifeMax, ref float shield, ref float shieldMax)
         {

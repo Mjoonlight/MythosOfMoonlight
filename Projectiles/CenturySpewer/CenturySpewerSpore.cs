@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Buffs;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.Projectiles.CenturySpewer
 {

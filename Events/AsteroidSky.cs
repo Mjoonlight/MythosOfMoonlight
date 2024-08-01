@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.Events
                 int variant = rand.Next(2);
                 if (rand.NextBool(50))
                     variant = 2;
-                stars[i].texture = "MythosOfMoonlight/Textures/star" + variant;
+                stars[i].texture = "MythosOfMoonlight/Assets/Textures/star" + variant;
                 stars[i].pos = new Vector2(rand.NextFloat(screenWidth), rand.NextFloat(screenHeight * 0.25f));
                 if (variant != 2)
                     stars[i].depth = rand.NextFloat(0.1f, 0.5f);
@@ -70,9 +70,9 @@ namespace MythosOfMoonlight.Events
         {
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
             {
-                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/gradation").Value;
-                Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/gradation2").Value;
-                Texture2D Tex3 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/trail").Value;
+                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/gradation").Value;
+                Texture2D Tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/gradation2").Value;
+                Texture2D Tex3 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/trail").Value;
                 Vector2 Pos = new(screenWidth / 2, screenHeight / 2);
 
                 spriteBatch.Reload(BlendState.Additive);
@@ -84,7 +84,7 @@ namespace MythosOfMoonlight.Events
                         int variant = rand.Next(2);
                         if (rand.NextBool(50))
                             variant = 2;
-                        stars[i].texture = "MythosOfMoonlight/Textures/star" + variant;
+                        stars[i].texture = "MythosOfMoonlight/Assets/Textures/star" + variant;
                         if (variant != 2)
                             stars[i].depth = rand.NextFloat(0.1f, 0.5f);
                         else
@@ -92,7 +92,7 @@ namespace MythosOfMoonlight.Events
                         stars[i].pos.X = -100;
                         stars[i].pos.Y = rand.NextFloat(screenHeight * 0.25f);
                     }
-                    /*if (stars[i].texture == "MythosOfMoonlight/Textures/star2")
+                    /*if (stars[i].texture == "MythosOfMoonlight/Assets/Textures/star2")
                     {
                         spriteBatch.Draw(Tex3, stars[i].pos, null, Color.White * Intensity * 0.5f * stars[i].depth, 0, new Vector2(Tex3.Width, Tex3.Height / 2), stars[i].depth * 0.1f, SpriteEffects.None, 0);
                     }

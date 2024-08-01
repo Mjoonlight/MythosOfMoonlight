@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Dusts;
 using ReLogic.Content;
 using System;
@@ -558,7 +559,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
     */
     public class CometEmberProj2 : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Explosion");

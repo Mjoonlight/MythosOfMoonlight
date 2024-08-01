@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.BiomeManager;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -9,6 +8,8 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.BiomeManager;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
 {

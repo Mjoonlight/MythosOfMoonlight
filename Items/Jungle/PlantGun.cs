@@ -5,6 +5,7 @@ using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.Items.Jungle
 {
@@ -52,7 +53,7 @@ namespace MythosOfMoonlight.Items.Jungle
     }
     public class PlantGunP : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             Projectile.AddElement(CrossModHelper.Nature);
@@ -128,7 +129,7 @@ namespace MythosOfMoonlight.Items.Jungle
     }
     public class PlantGunP2 : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             Projectile.AddElement(CrossModHelper.Nature);
@@ -173,7 +174,7 @@ namespace MythosOfMoonlight.Items.Jungle
     }
     public class PlantGunB : ModBuff
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             BuffID.Sets.IsATagBuff[Type] = true;

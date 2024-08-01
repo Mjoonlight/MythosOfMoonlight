@@ -28,7 +28,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.StarveiledProj
         public override bool ShouldUpdatePosition() => false;
         /*public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_01");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_01");
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0] , Projectile.ai[0] * 0.6f), SpriteEffects.None, 0);
             return false;
         }*/

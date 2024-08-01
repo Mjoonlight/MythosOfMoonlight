@@ -7,6 +7,7 @@ using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {

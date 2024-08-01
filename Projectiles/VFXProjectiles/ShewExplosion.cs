@@ -38,8 +38,8 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             if (seed == 0) return false;
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/circlething");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/circlething");
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 40;
             Main.spriteBatch.Reload(BlendState.Additive);
@@ -115,7 +115,7 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             if (seed == 0) return false;
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
             UnifiedRandom rand = new UnifiedRandom(seed);

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.BiomeManager;
+using MythosOfMoonlight.Common.BiomeManager;
+using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Common.Systems;
+using MythosOfMoonlight.Common.Utilities;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
@@ -57,14 +59,14 @@ namespace MythosOfMoonlight.NPCs.Minibosses
         {
             /*if (AIState == Comet)
             {
-                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_05").Value;
+                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star_05").Value;
                 spriteBatch.Reload(BlendState.Additive);
                 spriteBatch.Draw(tex, cometPos - screenPos, null, Color.White, Main.GameUpdateCount * 0.0025f, tex.Size() / 2, 0.3f, SpriteEffects.None, 0f);
                 spriteBatch.Reload(BlendState.AlphaBlend);
             }*/
             if ((AIState == Rift && AITimer >= 30) && !ded)
             {
-                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/thingy_transparent").Value;
+                Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/thingy_transparent").Value;
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
                 float riftAlpha2 = MathHelper.Lerp(1, 0, riftAlpha);
@@ -117,13 +119,13 @@ namespace MythosOfMoonlight.NPCs.Minibosses
                     if (verlet[i] != null)
                     {
                         float offset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2) * 0.2f;
-                        verlet[i].Draw(spriteBatch, "MythosOfMoonlight/Textures/scholarChain0", endTex: "MythosOfMoonlight/Textures/scholarChain1", endRot: verlet[i].segments[verlet[i].segments.Count -2 ].Rotation(), useRotEnd: true);
+                        verlet[i].Draw(spriteBatch, "MythosOfMoonlight/Assets/Textures/scholarChain0", endTex: "MythosOfMoonlight/Assets/Textures/scholarChain1", endRot: verlet[i].segments[verlet[i].segments.Count -2 ].Rotation(), useRotEnd: true);
                     }
                 }
             if (!ded && NPC.life < NPC.lifeMax / 2)
             {
 
-                Texture2D tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/thingy_transparent").Value;
+                Texture2D tex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/thingy_transparent").Value;
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
                 DrawData a = new(tex2, NPC.Center - screenPos, null, Color.White, Main.GameUpdateCount * 0.0035f, tex2.Size() / 2, 1, SpriteEffects.None, 0);

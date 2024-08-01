@@ -42,8 +42,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Reload(BlendState.Additive);
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_03");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/Ex3");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_03");
             Vector2 pos = Projectile.Center;
             for (int i = 0; i < MathHelper.Lerp(0, 840, Projectile.scale); i++)
             {

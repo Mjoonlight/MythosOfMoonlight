@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using System.ComponentModel.DataAnnotations.Schema;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -199,7 +200,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
-            Texture2D drawTexture2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/circle_01");
+            Texture2D drawTexture2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/circle_01");
             Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
             Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White * 0.8f, Projectile.rotation, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
 

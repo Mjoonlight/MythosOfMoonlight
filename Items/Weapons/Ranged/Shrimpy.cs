@@ -83,38 +83,6 @@ namespace MythosOfMoonlight.Items.Weapons.Ranged
             return offset;
         }
     }
-    class ShrimpChestSpawn : ModSystem
-    {
-        public override void PostWorldGen()
-        {
-            int[] waterchest = { ModContent.ItemType<Shrimpy>() };
-            int waterchestchoice = 0;
-            for (int WchestIndex = 0; WchestIndex < 1000; WchestIndex++)
-
-            {
-
-                Chest Wchest = Main.chest[WchestIndex];
-                if (Wchest != null && Main.tile[Wchest.x, Wchest.y].TileType == TileID.Containers && Main.tile[Wchest.x, Wchest.y].TileFrameX == 17 * 36)
-                {
-
-                    for (int WinventoryIndex = 0; WinventoryIndex < 40; WinventoryIndex++)
-                    {
-                        if (WorldGen.genRand.NextBool(5))
-                        {
-
-                            Wchest.item[WinventoryIndex].SetDefaults(waterchest[waterchestchoice]);
-
-                            Wchest.item[WinventoryIndex].stack = WorldGen.genRand.Next(0, 1);
-
-                            waterchestchoice = (waterchestchoice + 1) % waterchest.Length;
-                            //Wchest.item[WinventoryIndex].SetDefaults(Main.rand.Next(WinventoryIndex));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
     class ShrimpleBullet : ModProjectile
     {
         public override string Texture => Helper.Empty;

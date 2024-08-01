@@ -98,10 +98,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             if (Projectile.ai[0] > 0)
             {
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3");
-                Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/spark_07");
-                Texture2D tex3 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/vortex");
-                //Texture2D tex3 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/spark_06");
+                Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/Ex3");
+                Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/spark_07");
+                Texture2D tex3 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/vortex");
+                //Texture2D tex3 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/spark_06");
                 Vector2 pos = Projectile.Center;
                 Vector2 scale = new Vector2(1f, Projectile.scale);
                 for (int i = 0; i < Projectile.ai[0]; i++)

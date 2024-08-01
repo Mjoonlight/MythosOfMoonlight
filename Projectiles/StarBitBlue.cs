@@ -10,6 +10,7 @@ using MythosOfMoonlight.Common.Globals;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.Projectiles
 {
@@ -83,7 +84,7 @@ namespace MythosOfMoonlight.Projectiles
                     break;
             }
             Main.instance.LoadProjectile(Projectile.type);
-            Texture2D texture = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/FireGlow").Value;
+            Texture2D texture = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/FireGlow").Value;
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 var offset = new Vector2(Projectile.width / 2f, Projectile.height / 2f);
@@ -98,7 +99,7 @@ namespace MythosOfMoonlight.Projectiles
             }
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 ori = Projectile.Size / 2;
-            Texture2D trail = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/White").Value;
+            Texture2D trail = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/White").Value;
             List<VertexInfo2> vertices = new();
             for (int j = 0; j <= Math.Min(300 - Projectile.timeLeft, 19); j += 1)
             {

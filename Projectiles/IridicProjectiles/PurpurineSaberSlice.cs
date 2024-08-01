@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
-using MythosOfMoonlight.Items.IridicSet;
+using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Items.PurpleComet.IridicSet;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {

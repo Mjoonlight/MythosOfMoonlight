@@ -27,7 +27,7 @@ namespace MythosOfMoonlight.Items.Materials
             Item.consumable = true;
             Item.width = 26;
             Item.height = 24;
-            Item.createTile = ModContent.TileType<Tiles.Galactite>();
+            Item.createTile = ModContent.TileType<Tiles.GalactiteManuallyPlaced>();
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {

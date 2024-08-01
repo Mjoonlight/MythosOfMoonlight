@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.BiomeManager;
-using MythosOfMoonlight.Items.IridicSet;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.Materials;
 using Terraria;
@@ -11,6 +9,9 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using MythosOfMoonlight.Common.BiomeManager;
+using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Items.PurpleComet.IridicSet;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
 {

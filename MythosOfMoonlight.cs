@@ -13,11 +13,11 @@ using ReLogic.Content;
 using System.Reflection;
 using Terraria.DataStructures;
 using System.Collections.Generic;
-using MythosOfMoonlight.Items.IridicSet;
+using MythosOfMoonlight.Items.PurpleComet.IridicSet;
 using static System.Net.Mime.MediaTypeNames;
-using MythosOfMoonlight.Items.Galactite;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
 using System.IO;
+using MythosOfMoonlight.Items.PurpleComet.Galactite;
 
 namespace MythosOfMoonlight
 {
@@ -108,8 +108,8 @@ namespace MythosOfMoonlight
             return f > target - range && f < target + range;
         }
 
-        public static string Empty = "MythosOfMoonlight/Textures/Extra/blank";
-        public static string Placeholder = "MythosOfMoonlight/Textures/Placeholder";
+        public static string Empty = "MythosOfMoonlight/Assets/Textures/Extra/blank";
+        public static string Placeholder = "MythosOfMoonlight/Assets/Textures/Placeholder";
 
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace MythosOfMoonlight
         }
         public static Texture2D GetExtraTex(string fullPath, bool immediate = false)
         {
-            return Request<Texture2D>("MythosOfMoonlight/Textures/" + fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
+            return Request<Texture2D>("MythosOfMoonlight/Assets/Textures/" + fullPath, immediate ? AssetRequestMode.ImmediateLoad : AssetRequestMode.AsyncLoad).Value;
         }
         public static Vector2 GetWarpPosition(this NPC NPC, Vector2 center, float sqrMinDistFromCenter, float radius)
         {
@@ -486,7 +486,7 @@ namespace MythosOfMoonlight
         }
         public static bool InRange(float value, float min, float max) => value < max && value > min;
         public static bool InRange(double value, double min, double max) => value < max && value > min;
-        public static string ExtraDir = "MythosOfMoonlight/Textures/Extra/";
+        public static string ExtraDir = "MythosOfMoonlight/Assets/Textures/Extra/";
     }
     public class MythosOfMoonlight : Mod
     {
@@ -510,17 +510,17 @@ namespace MythosOfMoonlight
         {
             if (!Main.dedServ)
             {
-                PurpleCometEffect = Instance.Assets.Request<Effect>("Effects/PurpleComet", AssetRequestMode.ImmediateLoad).Value;
-                BloomEffect = Instance.Assets.Request<Effect>("Effects/bloom", AssetRequestMode.ImmediateLoad).Value;
-                BlurEffect = Instance.Assets.Request<Effect>("Effects/blur", AssetRequestMode.ImmediateLoad).Value;
-                Tentacle = Instance.Assets.Request<Effect>("Effects/Tentacle", AssetRequestMode.ImmediateLoad).Value;
-                TrailShader = Instance.Assets.Request<Effect>("Effects/TrailShader", AssetRequestMode.ImmediateLoad).Value;
-                RTAlpha = Instance.Assets.Request<Effect>("Effects/RTAlpha", AssetRequestMode.ImmediateLoad).Value;
-                RTOutline = Instance.Assets.Request<Effect>("Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
-                PullingForce = Instance.Assets.Request<Effect>("Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
-                metaballGradient = Instance.Assets.Request<Effect>("Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
-                SpriteRotation = Instance.Assets.Request<Effect>("Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
-                //ScreenDistort = Instance.Assets.Request<Effect>("Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
+                PurpleCometEffect = Instance.Assets.Request<Effect>("Assets/Effects/PurpleComet", AssetRequestMode.ImmediateLoad).Value;
+                BloomEffect = Instance.Assets.Request<Effect>("Assets/Effects/bloom", AssetRequestMode.ImmediateLoad).Value;
+                BlurEffect = Instance.Assets.Request<Effect>("Assets/Effects/blur", AssetRequestMode.ImmediateLoad).Value;
+                Tentacle = Instance.Assets.Request<Effect>("Assets/Effects/Tentacle", AssetRequestMode.ImmediateLoad).Value;
+                TrailShader = Instance.Assets.Request<Effect>("Assets/Effects/TrailShader", AssetRequestMode.ImmediateLoad).Value;
+                RTAlpha = Instance.Assets.Request<Effect>("Assets/Effects/RTAlpha", AssetRequestMode.ImmediateLoad).Value;
+                RTOutline = Instance.Assets.Request<Effect>("Assets/Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
+                PullingForce = Instance.Assets.Request<Effect>("Assets/Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
+                metaballGradient = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
+                SpriteRotation = Instance.Assets.Request<Effect>("Assets/Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
+                //ScreenDistort = Instance.Assets.Request<Effect>("Assets/Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
 
@@ -599,7 +599,7 @@ namespace MythosOfMoonlight
                 sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 sb.End();
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star", (AssetRequestMode)1).Value;
+                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
                 RTOutline.Parameters["m"].SetValue(0.2f); // for more percise textures use 0.62f
                 RTOutline.Parameters["n"].SetValue(0.2f); // and 0.01f here.
@@ -609,7 +609,7 @@ namespace MythosOfMoonlight
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.1f, 0));
                 sb.Draw(render, Vector2.Zero, Color.White);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/jungleDustColor", (AssetRequestMode)1).Value;
+                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/jungleDustColor", (AssetRequestMode)1).Value;
                 metaballGradient.CurrentTechnique.Passes[0].Apply();
                 sb.Draw(render3, Vector2.Zero, Color.White);
                 sb.End();
@@ -646,7 +646,7 @@ namespace MythosOfMoonlight
             sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star", (AssetRequestMode)1).Value;
+            gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
             RTOutline.CurrentTechnique.Passes[0].Apply();
             RTOutline.Parameters["m"].SetValue(0.2f); // for more percise textures use 0.62f
             RTOutline.Parameters["n"].SetValue(0.2f); // and 0.01f here.
@@ -774,18 +774,18 @@ namespace MythosOfMoonlight
                 particles[i].Scale = .1f * particles[i].Depth;
             }
         }
-        public override Asset<Texture2D> Logo => Request<Texture2D>("MythosOfMoonlight/Textures/logo");
+        public override Asset<Texture2D> Logo => Request<Texture2D>("MythosOfMoonlight/Assets/Textures/logo");
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/PurpleComet");
         public override ModSurfaceBackgroundStyle MenuBackgroundStyle => GetInstance<PurpleSurfaceMenu>();
         //public override Asset<Texture2D> SunTexture => MoonTexture;
         public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
-            Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
-            Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
-            Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
-            Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
-            Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
-            Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+            Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Sky").Value;
+            Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Particles/PurpurineParticle").Value;
+            Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/flare").Value;
+            Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star_04").Value;
+            Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/comet_tail2").Value;
+            Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/cone5").Value;
             Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
             //int cometX = (int)(Main.time / 32400.0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
             Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);
@@ -861,12 +861,12 @@ namespace MythosOfMoonlight
             {
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
                 spriteBatch.Reload(BlendState.Additive);
-                Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
-                Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Particles/PurpurineParticle").Value;
-                Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
-                Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/star_04").Value;
-                Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
-                Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Textures/Extra/cone5").Value;
+                Texture2D Tex = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Sky").Value;
+                Texture2D Tex2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Particles/PurpurineParticle").Value;
+                Texture2D starTex = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/flare").Value;
+                Texture2D starTex2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star_04").Value;
+                Texture2D comet = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/comet_tail2").Value;
+                Texture2D comet2 = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/cone5").Value;
                 glow += Main.rand.NextFloat(-.1f, .1f);
                 glow = MathHelper.Clamp(glow, 0, 1);
                 Vector2 cometP = Vector2.Lerp(new Vector2(Main.screenWidth + 300, -100), new Vector2(-500, Main.screenHeight + 100), (float)Main.time / 32400);

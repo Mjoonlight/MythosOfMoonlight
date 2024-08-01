@@ -10,6 +10,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Weapons.Melee;
 using MythosOfMoonlight.Projectiles.VFXProjectiles;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Underground.EntropicTotem
 {

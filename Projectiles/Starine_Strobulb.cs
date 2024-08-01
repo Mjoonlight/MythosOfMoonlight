@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.Projectiles
 {

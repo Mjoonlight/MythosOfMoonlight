@@ -8,6 +8,8 @@ using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using MythosOfMoonlight.Common.Globals;
+using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {
@@ -39,7 +41,7 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 ori = Projectile.Size / 2;
-            Texture2D trail = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/White").Value;
+            Texture2D trail = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/White").Value;
             List<VertexInfo2> vertices = new();
             for (int j = 0; j <= Math.Min(300 - Projectile.timeLeft, 19); j += 1)
             {

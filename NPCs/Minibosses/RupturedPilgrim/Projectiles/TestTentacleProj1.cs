@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -69,7 +70,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 }
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                Main.graphics.GraphicsDevice.Textures[0] = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/Ex1").Value;
+                Main.graphics.GraphicsDevice.Textures[0] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/Ex1").Value;
                 if (vertices.Count >= 3)
                 {
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);

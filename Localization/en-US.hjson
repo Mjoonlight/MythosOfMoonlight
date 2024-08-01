@@ -520,6 +520,7 @@ Mods: {
 			ShewStoneSwirlVFX.DisplayName: Shew Stone Swirl V F X
 			ShewExplosion.DisplayName: Shew Explosion
 			ShewRainExplosion.DisplayName: Shew Rain Explosion
+			AnimeSlash.DisplayName: Anime Slash
 		}
 
 		NPCs: {
@@ -564,6 +565,7 @@ Mods: {
 		Tiles: {
 			BossTrophy.MapEntry: Boss Trophy
 			Galactite.MapEntry: Galactite
+			GalactiteManuallyPlaced.MapEntry: Galactite Manually Placed
 		}
 	}
 

@@ -7,12 +7,13 @@ using MythosOfMoonlight.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.Projectiles.IridicProjectiles
 {
     public class MOCIrisProj : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public float ExistingTime
         {
             get => Projectile.ai[1];
@@ -125,8 +126,8 @@ namespace MythosOfMoonlight.Projectiles.IridicProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/IridicSet/MOCIris").Value;
-            Texture2D glow = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/IridicSet/MOCIris_Glow").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/PurpleComet/IridicSet/MOCIris").Value;
+            Texture2D glow = ModContent.Request<Texture2D>("MythosOfMoonlight/Items/PurpleComet/IridicSet/MOCIris_Glow").Value;
             Vector2 ori = new(0, 8);
             float rot = Projectile.rotation + MathHelper.Pi;
             Vector2 pos = Projectile.Center - Main.screenPosition;

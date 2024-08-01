@@ -1,4 +1,5 @@
 using System;
+using MythosOfMoonlight.Common.Crossmod;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -252,7 +253,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Underground.Pebbi
     }
     public class PebbiSwarm : ModNPC
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true, });

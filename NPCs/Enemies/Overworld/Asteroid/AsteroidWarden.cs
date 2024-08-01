@@ -11,6 +11,7 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using MythosOfMoonlight.Items.Accessories;
 using MythosOfMoonlight.Items.Weapons;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
 {
@@ -147,8 +148,8 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D vortex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/vortex").Value;
-            Texture2D star = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/star0").Value;
+            Texture2D vortex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/vortex").Value;
+            Texture2D star = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/star0").Value;
             if (AIState == 2)
             {
                 spriteBatch.Reload(BlendState.Additive);
@@ -337,7 +338,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D vortex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/vortex").Value;
+            Texture2D vortex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/vortex").Value;
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * 0.005f, tex.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);

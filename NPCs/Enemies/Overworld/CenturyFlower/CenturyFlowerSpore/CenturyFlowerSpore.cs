@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSpore
 {

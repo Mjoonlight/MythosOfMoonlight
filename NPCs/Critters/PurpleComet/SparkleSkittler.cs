@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using MythosOfMoonlight.BiomeManager;
+using MythosOfMoonlight.Common.BiomeManager;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.Critters;
 using Terraria;

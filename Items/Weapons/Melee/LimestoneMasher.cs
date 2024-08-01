@@ -32,7 +32,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = 5;
+            Item.rare = 2;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<LimestoneMasherP>();
         }

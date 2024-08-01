@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -176,10 +177,10 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
         }
         public override bool? CanDamage() => false;
         public override bool ShouldUpdatePosition() => false;
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 2; i++)

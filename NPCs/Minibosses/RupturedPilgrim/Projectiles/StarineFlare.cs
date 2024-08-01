@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,7 +8,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
     public class StarineFlare : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             Projectile.AddElement(CrossModHelper.Celestial);
@@ -30,7 +31,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Reload(BlendState.Additive);
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/star_03");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_03");
             float flicker = 1;
             flicker += Main.rand.NextFloat(-0.5f, 0.5f);
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * (0.3f + Projectile.ai[1]) * flicker, 0, tex.Size() / 2, 0.35f * (Projectile.ai[1] / 2 + 0.5f), SpriteEffects.None, 0);

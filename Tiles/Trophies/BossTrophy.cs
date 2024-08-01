@@ -1,4 +1,3 @@
-using MythosOfMoonlight.Items.Mortiflora.MortTrophy;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

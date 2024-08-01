@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using MythosOfMoonlight.BiomeManager;
 using MythosOfMoonlight.Dusts;
 using MythosOfMoonlight.Items.Critters;
 using Terraria;
 using Terraria.GameContent.Bestiary;
-using MythosOfMoonlight.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using MythosOfMoonlight.Common.BiomeManager;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.NPCs.Critters.PurpleComet
 {

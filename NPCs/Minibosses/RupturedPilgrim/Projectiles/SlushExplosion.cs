@@ -28,8 +28,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/explosion_1");
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/flameEye2");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/explosion_1");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/flameEye2");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(2, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)

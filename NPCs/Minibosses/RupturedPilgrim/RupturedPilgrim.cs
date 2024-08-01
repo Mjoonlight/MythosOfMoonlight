@@ -21,8 +21,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 using Terraria.DataStructures;
-using MythosOfMoonlight.Misc;
 using MythosOfMoonlight.BossBars;
+using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Common.Graphics.Misc;
+using MythosOfMoonlight.Items.Weapons.Ranged;
+using MythosOfMoonlight.Items.Weapons.Melee;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
 {
@@ -44,6 +47,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<LilPilgI>(), 4));
+
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Starcaller>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Kristellation>(), 4));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -60,7 +66,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.width = 58;
             NPC.height = 92;
             NPC.boss = true;
-            NPC.defense = 19;
+            NPC.defense = 8;
             NPC.damage = 0;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0f;
@@ -73,11 +79,11 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.alpha = 255;
             if (!Main.dedServ) Music = MusicLoader.GetMusicSlot(Mod, "Assets/Music/Ruptured");
 
-            NPC.lifeMax = 1500;
+            NPC.lifeMax = 2200;
             if (Main.expertMode && !Main.masterMode)
-                NPC.lifeMax = 2000;
+                NPC.lifeMax = 3000;
             else if (Main.masterMode)
-                NPC.lifeMax = 2500;
+                NPC.lifeMax = 4500;
 
             NPC.BossBar = ModContent.GetInstance<PilgrimBar>();
         }

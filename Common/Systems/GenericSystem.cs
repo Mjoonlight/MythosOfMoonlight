@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FullSerializer;
+using Microsoft.Xna.Framework;
+using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Items.Materials;
 using MythosOfMoonlight.NPCs.Field;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Tiles;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +17,7 @@ namespace MythosOfMoonlight.Common.Systems
 {
     public class GenericSystem : ModSystem
     {
-        bool hasChecked;
+        bool hasChecked, galactiteReady;
         public static bool BeenThereDoneThatPilgrim;
         public static bool[] melissaQuest = new bool[3]; // 0 = Fertilizer 1 = SoR 2 = IGP
         public override void Load()
@@ -90,6 +94,36 @@ namespace MythosOfMoonlight.Common.Systems
                 }
                 else
                     hasChecked = false;
+            }
+            if (!Main.dayTime && PurpleCometEvent.PurpleComet)
+            {
+                galactiteReady = false;
+                if (Main.GameUpdateCount % 60 * 5 == 0)
+                {
+                    for (int i = 0; i < Main.maxTilesX; i++)
+                    {
+                        for (int j = 0; j < Main.maxTilesY; j++)
+                        {
+                            if (Main.tile[i, j].TileType == TileID.Meteorite && Main.tile[i, j].HasTile)
+                                Main.tile[i, j].TileType = (ushort)ModContent.TileType<Galactite>();
+                        }
+                    }
+                }
+            }
+            else if (!PurpleCometEvent.PurpleComet)
+            {
+                if (!galactiteReady)
+                {
+                    for (int i = 0; i < Main.maxTilesX; i++)
+                    {
+                        for (int j = 0; j < Main.maxTilesY; j++)
+                        {
+                            if (Main.tile[i, j].TileType == (ushort)ModContent.TileType<Galactite>() && Main.tile[i, j].HasTile)
+                                Main.tile[i, j].TileType = TileID.Meteorite;
+                        }
+                    }
+                    galactiteReady = true;
+                }
             }
         }
     }

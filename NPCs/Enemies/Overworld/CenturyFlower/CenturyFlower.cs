@@ -9,6 +9,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower
 {

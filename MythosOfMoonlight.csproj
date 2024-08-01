@@ -7,8 +7,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Dusts\Starry.png" />
-		<None Remove="effects\PullingForce.fx" />
-	</ItemGroup>
-	<ItemGroup>
+		<None Remove="Assets\Effects\PullingForce.fx" />
 	</ItemGroup>
 </Project>

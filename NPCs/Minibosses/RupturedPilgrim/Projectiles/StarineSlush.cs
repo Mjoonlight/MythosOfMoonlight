@@ -8,6 +8,7 @@ using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using MythosOfMoonlight.Common.Systems;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {

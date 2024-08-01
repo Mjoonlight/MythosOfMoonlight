@@ -9,6 +9,7 @@ using Terraria.GameContent.Bestiary;
 using MythosOfMoonlight.NPCs.Enemies.Overworld.CenturyFlower.CenturyFlowerSpore;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Snow
 {

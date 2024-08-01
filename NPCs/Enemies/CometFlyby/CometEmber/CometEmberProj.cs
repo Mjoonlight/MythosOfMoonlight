@@ -4,12 +4,13 @@ using Terraria;
 using Terraria.ModLoader;
 using ReLogic.Content;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.CometEmber
 {
     public class CometEmberProj : ModProjectile
     {
-        public override string Texture => "MythosOfMoonlight/Textures/Extra/blank";
+        public override string Texture => "MythosOfMoonlight/Assets/Textures/Extra/blank";
         public override void SetStaticDefaults()
         {
             // DisplayName.SetDefault("Explosion");

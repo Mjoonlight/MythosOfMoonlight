@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Dusts;
 using System;
 using System.Collections.Generic;
@@ -79,7 +80,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i) * Projectile.ai[2] * 0.75f, Projectile.oldRot[i], orig, scale, flipType, 0f);
             }
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/crosslight");
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.End();
@@ -184,7 +185,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                 SpriteEffects flipType = Projectile.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 Main.spriteBatch.Draw(texture, Projectile.oldPos[i] - Main.screenPosition + off, null, clr * (1f - fadeMult * i) * Projectile.ai[2] * 0.75f, Main.GameUpdateCount * 0.002f, orig, scale, flipType, 0f);
             }
-            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Textures/Extra/crosslight");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/crosslight");
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.End();

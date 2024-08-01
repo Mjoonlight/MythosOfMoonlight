@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using MythosOfMoonlight.Misc;
+using MythosOfMoonlight.Common.Graphics.Misc;
 
 namespace MythosOfMoonlight.Items.Pets
 {

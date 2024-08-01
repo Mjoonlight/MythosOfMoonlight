@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Dusts;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
-using MythosOfMoonlight.BiomeManager;
 using static MythosOfMoonlight.Projectiles.FireflyMinion;
+using MythosOfMoonlight.Common.BiomeManager;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {

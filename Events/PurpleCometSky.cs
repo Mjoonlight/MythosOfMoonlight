@@ -85,11 +85,11 @@ namespace MythosOfMoonlight.Events
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
             {
                 float scaleAdd = mainAlpha * 0.1f;
-                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Sky").Value;
-                Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flare").Value;
-                Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/flameEye2").Value;
-                Texture2D starTex3 = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/Circle").Value;
-                Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/comet_tail2").Value;
+                Texture2D Tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Sky").Value;
+                Texture2D starTex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/flare").Value;
+                Texture2D starTex2 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/flameEye2").Value;
+                Texture2D starTex3 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/Circle").Value;
+                Texture2D comet = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/comet_tail2").Value;
                 Vector2 Pos = new(Main.screenWidth / 2, Main.screenHeight / 2);
                 //int cometX = (int)((Main.time) / ((float)Main.nightLength ).0 * (double)(scen.totalWidth + (float)(comet.Width * 2))) - comet.Width;
                 Vector2 cometP = Vector2.SmoothStep(new Vector2(Main.screenWidth - 75, yOffset), new Vector2(-30, yOffset), Ease((float)(Main.time) / ((float)Main.nightLength)));
@@ -130,7 +130,7 @@ namespace MythosOfMoonlight.Events
         void DrawTrail()
         {
             float scaleAdd = mainAlpha * 0.025f;
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/Ex3");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/Ex3");
             float trailLength = 170 * mainAlpha * mainAlpha;
             Vector2 starOffset = new Vector2(35, -14f);
             float s = 1f;
@@ -158,7 +158,7 @@ namespace MythosOfMoonlight.Events
         void DrawShine(Vector2 pos)
         {
             float scaleAdd = mainAlpha * 0.1f;
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Textures/Extra/slash");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
             Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
 
             Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);

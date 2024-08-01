@@ -1,20 +1,15 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using MythosOfMoonlight.Items.Galactite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Projectiles;
-using static tModPorter.ProgressUpdate;
 using Terraria.Audio;
-using Terraria.GameContent.UI.Elements;
 using ReLogic.Content;
+using MythosOfMoonlight.Common.Utilities;
 
 namespace MythosOfMoonlight.Items.Weapons.Melee
 {
@@ -128,7 +123,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
                 MythosOfMoonlight.Tentacle.Parameters[0].SetValue(model * projection);
                 MythosOfMoonlight.Tentacle.CurrentTechnique.Passes[0]
                     .Apply();
-                ((Game)Main.instance).GraphicsDevice.Textures[0] = (Texture)(object)ModContent.Request<Texture2D>("MythosOfMoonlight/Textures/Extra/Ex2", (AssetRequestMode)2).Value;
+                ((Game)Main.instance).GraphicsDevice.Textures[0] = (Texture)(object)ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/Ex2", (AssetRequestMode)2).Value;
                 ((Game)Main.instance).GraphicsDevice.DrawUserPrimitives<VertexInfo2>((PrimitiveType)1, bars.ToArray(), 0, bars.Count - 2);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin((SpriteSortMode)0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, (Effect)null, Main.GameViewMatrix.TransformationMatrix);

@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.Crossmod;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
 {

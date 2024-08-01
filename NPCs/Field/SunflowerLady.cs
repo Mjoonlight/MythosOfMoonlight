@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Common.Systems;
 using MythosOfMoonlight.Items.Armor;
 using MythosOfMoonlight.Items.Food;
@@ -345,6 +346,6 @@ namespace MythosOfMoonlight.NPCs.Field
         {
             return TextureAssets.Npc[npc.type];
         }
-        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("MythosOfMoonlight/Textures/Extra/blank");
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("MythosOfMoonlight/Assets/Textures/Extra/blank");
     }
 }
