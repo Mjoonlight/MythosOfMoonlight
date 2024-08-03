@@ -164,6 +164,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         }
         public override void AI()
         {
+            Lighting.AddLight(NPC.Center, new Vector3(195, 169, 13) / 255 * 0.5f);
             Player player = Main.player[NPC.target];
             AITimer2 = MathHelper.Clamp(AITimer2, 0, 1f);
             if (Main.dayTime)
@@ -282,6 +283,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, new Vector3(195, 169, 13) / 255 * 0.35f);
             if (Projectile.velocity.Length() < 25f)
                 Projectile.velocity *= 1.1f;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -352,6 +354,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Asteroid
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, new Vector3(195, 169, 13) / 255 * 0.35f);
             float progress = Utils.GetLerpValue(0, 121, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
             if (Projectile.ai[0] == 25)

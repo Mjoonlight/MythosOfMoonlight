@@ -18,6 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
 using System.IO;
 using MythosOfMoonlight.Items.PurpleComet.Galactite;
+using MythosOfMoonlight.Items.Accessories;
 
 namespace MythosOfMoonlight
 {
@@ -491,10 +492,9 @@ namespace MythosOfMoonlight
     public class MythosOfMoonlight : Mod
     {
         public static RenderTarget2D OrigRender;
-        public static RenderTarget2D render;
         public static RenderTarget2D DustTrail1;
-        public static RenderTarget2D render2, render3;
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation;//, ScreenDistort;
+        public static RenderTarget2D[] render = new RenderTarget2D[4];
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation, metaballGradientNoiseTex;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -520,6 +520,7 @@ namespace MythosOfMoonlight
                 PullingForce = Instance.Assets.Request<Effect>("Assets/Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
                 metaballGradient = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
                 SpriteRotation = Instance.Assets.Request<Effect>("Assets/Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
+                metaballGradientNoiseTex = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradientNoiseTex", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Assets/Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
@@ -548,9 +549,8 @@ namespace MythosOfMoonlight
             {
                 OrigRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 DustTrail1 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                render3 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                for (int i = 0; i < render.Length; i++)
+                    render[i] = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             }
         }
 
@@ -563,9 +563,8 @@ namespace MythosOfMoonlight
                     GraphicsDevice gd = Main.graphics.GraphicsDevice;
                     OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render2 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render3 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    for (int i = 0; i < render.Length; i++)
+                        render[i] = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                 }
         }
         void DrawProj(On_Main.orig_DrawProjectiles orig, Main self)
@@ -580,17 +579,31 @@ namespace MythosOfMoonlight
                 sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 sb.End();
 
-                gd.SetRenderTarget(render);
+                gd.SetRenderTarget(render[0]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 Starry2.DrawAll(Main.spriteBatch);
                 Starry.DrawAll(Main.spriteBatch);
                 sb.End();
 
-                gd.SetRenderTarget(render3);
+                gd.SetRenderTarget(render[1]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 JunglePinkDust.DrawAll(sb);
+                sb.End();
+
+                gd.SetRenderTarget(render[2]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                ColdwindPendantEffect.DrawAll(sb);
+                ColdwindDust.DrawAll(sb);
+                sb.End();
+
+                gd.SetRenderTarget(render[3]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                ColdwindPendantEffect.DrawAll(sb);
+                ColdwindDust.DrawAll(sb);
                 sb.End();
 
                 gd.SetRenderTarget(Main.screenTarget);
@@ -599,7 +612,7 @@ namespace MythosOfMoonlight
                 sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 sb.End();
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
                 RTOutline.Parameters["m"].SetValue(0.2f); // for more percise textures use 0.62f
                 RTOutline.Parameters["n"].SetValue(0.2f); // and 0.01f here.
@@ -607,11 +620,28 @@ namespace MythosOfMoonlight
                 RTOutline.Parameters["colStart"].SetValue(Color.Black.ToVector4());
                 RTOutline.Parameters["useMainAlpha"].SetValue(false);
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.1f, 0));
-                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.Draw(render[0], Vector2.Zero, Color.White);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/jungleDustColor", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/jungleDustColor", (AssetRequestMode)1).Value;
                 metaballGradient.CurrentTechnique.Passes[0].Apply();
-                sb.Draw(render3, Vector2.Zero, Color.White);
+                sb.Draw(render[1], Vector2.Zero, Color.White);
+
+                gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Gradients/coldwindGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/White", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Gradients/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(0.4f * 0.84f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(0.4f * 0.54f);
+                sb.Draw(render[2], Vector2.Zero, Color.White);
+                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise_Inverse", (AssetRequestMode)1).Value;
+                sb.Draw(render[3], Vector2.Zero, Color.White);
+
+                gd.Textures[1] = null;
+                gd.Textures[2] = null;
+                gd.Textures[4] = null;
+                gd.Textures[3] = null;
                 sb.End();
             }
             orig(self);
@@ -627,9 +657,8 @@ namespace MythosOfMoonlight
                 {
                     OrigRender = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                     DustTrail1 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render2 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
-                    render3 = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
+                    for (int i = 0; i < render.Length; i++)
+                        render[i] = new RenderTarget2D(gd, gd.PresentationParameters.BackBufferWidth, gd.PresentationParameters.BackBufferHeight, false, gd.PresentationParameters.BackBufferFormat, 0);
                 }
                 DustTrail(gd);
             }
@@ -646,7 +675,7 @@ namespace MythosOfMoonlight
             sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            gd.Textures[1] = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
+            gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/star", (AssetRequestMode)1).Value;
             RTOutline.CurrentTechnique.Passes[0].Apply();
             RTOutline.Parameters["m"].SetValue(0.2f); // for more percise textures use 0.62f
             RTOutline.Parameters["n"].SetValue(0.2f); // and 0.01f here.
@@ -659,9 +688,12 @@ namespace MythosOfMoonlight
 
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(Main.spriteBatch);
+            GenericAdditiveDust.DrawAll(sb);
+            SparkleDust.DrawAll(sb);
+            LineDustFollowPoint.DrawAll(sb);
             foreach (Projectile d in Main.projectile)
             {
-                if (d.type == ModContent.ProjectileType<EstrellaPImpact>() && d.active)
+                if (d.type == ProjectileType<EstrellaPImpact>() && d.active)
                 {
                     Color a = Color.Transparent;
                     d.ModProjectile.PreDraw(ref a);
@@ -671,7 +703,7 @@ namespace MythosOfMoonlight
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && projectile.type == ModContent.ProjectileType<EstrellaP>())
+                if (projectile.active && projectile.type == ProjectileType<EstrellaP>())
                 {
                     Color color = Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
                     projectile.ModProjectile.PreDraw(ref color);

@@ -164,6 +164,7 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
                     {
                         rots.RemoveAt(rots.Count - 1);
                     }
+
                 }
                 if (len < totalLength && Projectile.timeLeft > timeLeft)
                 {
@@ -173,6 +174,14 @@ namespace MythosOfMoonlight.Items.Weapons.Melee
                 {
                     len--;
                 }
+            }
+
+            Vector2 p = Projectile.Center - new Vector2(16, -14).RotatedBy(Projectile.rotation);
+            for (int i = 1; i < len; i++)
+            {
+                float factor = (float)i / (float)len;
+                Vector2 v0 = p + Utils.RotatedBy(new Vector2((float)(5 * (i)), 0f), rots[i]);
+                Lighting.AddLight(v0, new Vector3(0, 100, 255) / 255 * (TentacleCounter == -1 ? 0.65f : 0.2f));
             }
         }
         public override void ExtraAI()

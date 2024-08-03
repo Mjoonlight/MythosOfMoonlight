@@ -5,6 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using MythosOfMoonlight.Common.Crossmod;
+using MythosOfMoonlight.Common.Systems;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.Utilities;
+using System;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -17,6 +22,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.AddElement(CrossModHelper.Celestial);
             Projectile.AddElement(CrossModHelper.Arcane);
         }
+        int max = 35;
         public override void SetDefaults()
         {
             Projectile.width = 90;
@@ -26,20 +32,48 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
+            Projectile.timeLeft = max;
         }
         public override void AI()
         {
             Projectile.velocity = Vector2.Zero;
             if (++Projectile.frameCounter >= 5)
             {
+                if (Projectile.frame == 1)
+                    CameraSystem.ScreenShakeAmount = 7f;
                 Projectile.frameCounter = 0;
                 Projectile.frame++;
             }
             if (Projectile.frame == 7)
                 Projectile.Kill();
+
+            Projectile.scale = MathHelper.SmoothStep(2, 1, Utils.GetLerpValue(0, max, Projectile.timeLeft * 1.5f, true));
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            seed = Main.rand.Next(int.MaxValue - 1);
+        }
+        int seed;
         public override bool PreDraw(ref Color lightColor)
         {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/cone4");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            float max = 40;
+            float alpha = MathHelper.Lerp(0.5f, 0, (Projectile.scale - 1)) * 2;
+            for (float i = 0; i < max; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, max);
+                float scale = rand.NextFloat(0.125f, .35f);
+                for (float j = 0; j < 2; j++)
+                    Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.25f, angle, new Vector2(0, tex.Height / 2), new Vector2((Projectile.scale - 1) * 0.5f, alpha) * scale * 6, SpriteEffects.None, 0);
+
+                for (float j = 0; j < 2; j++)
+                    Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.25f, angle, new Vector2(0, tex2.Height / 2), new Vector2((Projectile.scale - 1) * 0.5f, alpha) * scale * 5, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             if (Projectile.frame > 1)
             {
                 Texture2D drawTextureGlow = ModContent.Request<Texture2D>(Projectile.ModProjectile.Texture + "_Extra").Value;

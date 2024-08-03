@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Items.Accessories;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim;
 using MythosOfMoonlight.Projectiles;
 using MythosOfMoonlight.Projectiles.IridicProjectiles;
@@ -30,9 +31,11 @@ namespace MythosOfMoonlight
         public float lerpSpeed;
         public float LerpTimer;
         public int GoldenTipI;
-        public bool StarBitShot = false, GoldenTip = false;
+        public bool StarBitShot = false, GoldenTip = false, Coldwind = false;
+        public float ColdwindTimer = 0f;
         public override void OnEnterWorld()
         {
+            ColdwindTimer = 0f;
             for (int i = 1; i < Main.maxTilesX; i++)
             {
                 for (int j = 1; j < Main.maxTilesY; j++)
@@ -55,6 +58,7 @@ namespace MythosOfMoonlight
         {
             StarBitShot = false;
             GoldenTip = false;
+            Coldwind = false;
             CommunicatorEquip = false;
             foreach (NPC NPC in Main.npc)
             {
@@ -118,6 +122,11 @@ namespace MythosOfMoonlight
 
             }
         }
+        public override void OnHurt(Player.HurtInfo info)
+        {
+            if (Coldwind)
+                ColdwindTimer = 60 * -10;
+        }
 
         public override void UpdateBadLifeRegen()
         {
@@ -137,6 +146,18 @@ namespace MythosOfMoonlight
                 }
             }
             else CommunicatorCD = 300;
+
+            if (Coldwind)
+            {
+                ColdwindTimer++;
+                if (ColdwindTimer >= 60 * 7)
+                {
+                    Projectile.NewProjectile(null, Player.Center, Vector2.Zero, ModContent.ProjectileType<ColdwindPendantEffect>(), 0, 0, Player.whoAmI);
+                    ColdwindTimer = 0;
+                }
+            }
+            else
+                ColdwindTimer = 0;
         }
         public void NewCameraPosition(Vector2 point, float lerpSpeed, int source)
         {

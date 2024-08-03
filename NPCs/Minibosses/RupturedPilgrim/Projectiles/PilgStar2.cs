@@ -165,7 +165,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         {
             Texture2D drawTexture = TextureAssets.Projectile[Projectile.type].Value;
             Rectangle sourceRectangle = new(0, 0, drawTexture.Width, drawTexture.Height);
-            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White * Projectile.ai[2], Main.GameUpdateCount * 0.002f, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(drawTexture, Projectile.Center - Main.screenPosition, sourceRectangle, Color.White * Projectile.ai[2], Main.GameUpdateCount * 0.02f, drawTexture.Size() / 2, 1, SpriteEffects.None, 0);
 
             //3hi31mg
             var off = new Vector2(Projectile.width / 2, Projectile.height / 2);

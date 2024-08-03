@@ -44,13 +44,6 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
             NPC.AddElement(CrossModHelper.Celestial);
             NPC.AddElement(CrossModHelper.Arcane);
         }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<LilPilgI>(), 4));
-
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Starcaller>(), 4));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Kristellation>(), 4));
-        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
 
@@ -963,9 +956,9 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                             if (AITimer == 90)
                             {
                                 SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimExplosion>(), 0, .1f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), owner.Center, Vector2.Zero, ModContent.ProjectileType<StarineSuperSigil>(), 15, .1f, Main.myPlayer);
                             }
-                            if (AITimer == 160)
+                            if (AITimer == 240)
                             {
                                 AITimer = 0;
                                 NPC.frameCounter = 0;
@@ -1047,7 +1040,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                     SoundStyle style = SoundID.DD2_DarkMageCastHeal;
                                     style.Volume = 0.5f;
                                     SoundEngine.PlaySound(style, NPC.Center);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center - new Vector2(0, 100 + 100), Vector2.Zero, ModContent.ProjectileType<StarineSlush>(), 12, .1f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), Sym.Center - new Vector2(0, 100 + 200), Vector2.Zero, ModContent.ProjectileType<StarineSlush>(), 12, .1f, Main.myPlayer);
                                 }
                                 if (AITimer == 150)
                                 {
@@ -1135,7 +1128,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
                                 if (AITimer == 230)
                                     NPC.velocity = new Vector2(15, 0);
                                 if (AITimer == 265)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(lastPPos.X, Sym.Center.Y) - new Vector2(0, 520), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 25 - damageOffset, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(lastPPos.X, Sym.Center.Y) - new Vector2(0, 420), Vector2.UnitY, ModContent.ProjectileType<StarineSlushBeam>(), 25 - damageOffset, 0);
                             }
                             if (AITimer >= (!didp2 || !Main.expertMode ? 300 : 370))
                             {

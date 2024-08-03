@@ -14,6 +14,7 @@ using System.Linq;
 using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Items.Materials;
+using Terraria.Utilities;
 
 namespace MythosOfMoonlight.Items.PurpleComet.Galactite
 {
@@ -379,14 +380,31 @@ namespace MythosOfMoonlight.Items.PurpleComet.Galactite
         {
             return false;
         }
+        int seed;
+        public override void OnSpawn(IEntitySource source)
+        {
+            seed = Main.rand.Next(int.MaxValue);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/flare");
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/cone4");
             Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/star_05");
             Main.spriteBatch.Reload(BlendState.Additive);
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            float max = 40;
             if (lightColor == Color.Transparent)
             {
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0); ;
+
+                float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
+                for (float i = 0; i < max; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, max);
+                    float scale = rand.NextFloat(0.2f, 1f);
+                    Vector2 offset = new Vector2(Main.rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
+                    for (float j = 0; j < 2; j++)
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.DarkViolet * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale, SpriteEffects.None, 0);
+                }
+
                 Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenLastPosition, null, Color.White * Projectile.scale * 2, Main.GameUpdateCount * -0.025f, tex2.Size() / 2, Projectile.scale * 0.5f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -396,6 +414,7 @@ namespace MythosOfMoonlight.Items.PurpleComet.Galactite
         {
             float progress = Utils.GetLerpValue(0, 20, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * MathHelper.Pi) * 0.5f, 0, 0.5f);
+            Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 1, 0.1f);
         }
     }
 }

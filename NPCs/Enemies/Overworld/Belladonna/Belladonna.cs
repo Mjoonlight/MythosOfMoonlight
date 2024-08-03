@@ -10,6 +10,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
 using MythosOfMoonlight.Common.Crossmod;
+using Terraria.Utilities;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
 {
@@ -366,11 +367,31 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
             Projectile.tileCollide = true;
             Projectile.aiStyle = 14;
         }
+        public override bool ShouldUpdatePosition() => false;
         public override Color? GetAlpha(Color lightColor) => Color.White;
+        int seed;
         public override void OnSpawn(IEntitySource source)
         {
             for (int i = 0; i < 10; ++i)
                 Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BelladonnaD2>(), Main.rand.NextVector2Unit());
+            seed = Main.rand.Next(int.MaxValue);
+        }
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/cone4");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            float max = 40;
+            float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
+            for (float i = 0; i < max; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, max);
+                float scale = rand.NextFloat(0.025f, .15f);
+                Vector2 offset = new Vector2(Main.rand.NextFloat(20) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
+                for (float j = 0; j < 2; j++)
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.DarkViolet * alpha * 0.35f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override void AI()
         {
@@ -381,6 +402,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Belladonna
                 else
                     Projectile.Kill();
             }
+            Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 1, 0.1f);
 
         }
     }

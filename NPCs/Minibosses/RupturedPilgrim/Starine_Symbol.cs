@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MythosOfMoonlight.Common.Systems;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Items.Pets;
+using MythosOfMoonlight.Items.Weapons.Melee;
+using MythosOfMoonlight.Items.Weapons.Ranged;
 using MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles;
 using MythosOfMoonlight.Projectiles.VFXProjectiles;
 using System;
@@ -543,6 +546,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.FallenStar, 1, 33, 33));
+            npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<LilPilgI>(), 4));
+
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Starcaller>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Kristellation>(), 4));
         }
     }
 }

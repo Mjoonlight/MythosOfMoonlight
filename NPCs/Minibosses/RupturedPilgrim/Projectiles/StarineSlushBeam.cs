@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using MythosOfMoonlight.Dusts;
 using Terraria.Audio;
 using MythosOfMoonlight.Common.Systems;
+using Terraria.Utilities;
 
 namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
 {
@@ -81,7 +82,8 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             visual2 += 35 * visualOffset;
             Projectile.rotation = Projectile.velocity.ToRotation();
             float progress = Utils.GetLerpValue(0, max, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.1f);
+            Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 3, 0, 1);
         }
         SoundStyle beam = new SoundStyle("MythosOfMoonlight/Assets/Sounds/electricity")
         {
@@ -89,8 +91,34 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
         };
         public override void OnSpawn(IEntitySource source)
         {
+            seed = Main.rand.Next(int.MaxValue - 1);
             CameraSystem.ScreenShakeAmount = 7f;
             SoundEngine.PlaySound(beam, Projectile.Center);
+        }
+        int seed;
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/cone4");
+            Texture2D tex2 = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            UnifiedRandom rand2 = new UnifiedRandom(seed + 1);
+            float max = 40;
+            float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[2]) * 2;
+            for (float i = 0; i < max; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, max);
+                float scale = rand.NextFloat(0.025f, .15f);
+                float scale2 = rand2.NextFloat(0.025f, .15f);
+                Vector2 offset = new Vector2(rand2.NextFloat(50) * Projectile.ai[2] * scale, 0).RotatedBy(angle);
+                Vector2 offset2 = new Vector2(rand2.NextFloat(50) * Projectile.ai[2] * scale2, 0).RotatedBy(angle);
+                for (float j = 0; j < 2; j++)
+                    Main.spriteBatch.Draw(tex, Projectile.Center + Projectile.ai[0] * Vector2.UnitY + offset - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[2], alpha) * scale * 6, SpriteEffects.None, 0);
+
+                for (float j = 0; j < 2; j++)
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.ai[0] * Vector2.UnitY + offset2 - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.85f, angle, new Vector2(0, tex2.Height / 2), new Vector2(Projectile.ai[2], alpha) * scale2 * 5, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -162,7 +190,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
     public class StarineSlushTelegraph : ModProjectile
     {
         public override string Texture => Helper.Empty;
-        const int max = 40;
+        const int max = 120;
         public override void SetDefaults()
         {
             Projectile.Size = Vector2.One;
@@ -173,9 +201,38 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             Projectile.friendly = false;
             Projectile.timeLeft = max;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D s_tex = Helper.GetExtraTex("Extra/star_02");
+            Texture2D s_tex2 = Helper.GetExtraTex("Extra/cone7");
+            Vector2 s_scale = new Vector2(1f + scaleOff, 0.25f - scaleOff * 0.5f);
+            Main.spriteBatch.Reload(BlendState.Additive);
+
+            Vector4 col = (new Color(44, 137, 215) * Projectile.scale).ToVector4();
+            Main.spriteBatch.Draw(s_tex2, Projectile.Center - Main.screenPosition, null, new Color(44, 137, 215) * Projectile.scale * 0.75f, MathHelper.PiOver2, new Vector2(0, s_tex2.Height / 2), new Vector2(1, 2) * Projectile.scale, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Reload(MythosOfMoonlight.SpriteRotation);
+            MythosOfMoonlight.SpriteRotation.Parameters["rotation"].SetValue(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly * 125));
+            MythosOfMoonlight.SpriteRotation.Parameters["scale"].SetValue(s_scale * 0.45f * Projectile.scale);
+            col.W = Projectile.scale * 0.15f;
+            MythosOfMoonlight.SpriteRotation.Parameters["uColor"].SetValue(col);
+            for (int i = 0; i < 80; i++)
+            {
+                float s = MathHelper.SmoothStep(Projectile.scale, 0, (float)i / 80);
+                Vector2 pos = Projectile.Center - new Vector2(0, -20) - new Vector2(0, i * s);
+                Main.spriteBatch.Draw(s_tex, pos - Main.screenPosition, null, Color.White, 0, s_tex.Size() / 2, s, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(s_tex, pos - Main.screenPosition, null, Color.White, 0, s_tex.Size() / 2, s, SpriteEffects.FlipHorizontally, 0);
+            }
+            Main.spriteBatch.Reload(effect: null);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
         public override bool ShouldUpdatePosition() => false;
+        float scaleOff, Timer = -max;
         public override void AI()
         {
+            Timer++;
+            scaleOff = MathHelper.Lerp(scaleOff, MathF.Sin(Timer * .05f) * 0.05f, 0.25f);
             Projectile.velocity = Vector2.UnitY;
             for (int i = 0; i < 5; i++)
             {
@@ -190,7 +247,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
             }
             Projectile.rotation = Projectile.velocity.ToRotation();
             float progress = Utils.GetLerpValue(0, max, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 1, 0, 1);
         }
     }
 }

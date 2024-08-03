@@ -27,8 +27,8 @@ namespace MythosOfMoonlight.Common.Utilities
         {
             ModContent.ItemType<CDGIris>(), ModContent.ItemType<PlantGun>(), ModContent.ItemType<GalactiteOre>()
         };
-            if (!drawInfo.drawPlayer.ItemTimeIsZero)
-                if (types.Contains(drawInfo.heldItem.type))
+            if (drawInfo.heldItem != null)
+                if (types.Contains(drawInfo.heldItem.type) && !drawInfo.drawPlayer.ItemTimeIsZero)
                 {
 
                     Vector2 offset = Vector2.Zero;

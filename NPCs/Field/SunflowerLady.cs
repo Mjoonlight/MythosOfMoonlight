@@ -314,7 +314,7 @@ namespace MythosOfMoonlight.NPCs.Field
         }
         public override void _AI()
         {
-            Lighting.AddLight(NPC.Center, TorchID.Yellow);
+            Lighting.AddLight(NPC.Center, new Vector3(195, 169, 13) / 255 * 0.85f);
             if (Main.npcChatText != "")
             {
                 NPC.velocity.X = 0;
@@ -322,6 +322,8 @@ namespace MythosOfMoonlight.NPCs.Field
             }
             else
             {
+                if (Main.rand.NextBool(150))
+                    NPC.direction = -NPC.direction;
                 NPC.spriteDirection = NPC.direction;
                 if (despawnReady)
                 {

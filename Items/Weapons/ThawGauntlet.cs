@@ -81,6 +81,7 @@ namespace MythosOfMoonlight.Items.Weapons
         public override void AI()
         {
             Projectile.ai[1]++;
+            Lighting.AddLight(Projectile.Center, new Vector3(0, 169, 255) / 255 * 0.5f);
             foreach (Player player in Main.player)
             {
                 if (player == Main.player[Projectile.owner] && player == Main.LocalPlayer)
@@ -174,6 +175,7 @@ namespace MythosOfMoonlight.Items.Weapons
         public override void AI()
         {
             Projectile.ai[1]++;
+            Lighting.AddLight(Projectile.Center, new Vector3(0, 169, 255) / 255 * 0.5f);
             foreach (Player player in Main.player)
             {
                 if (player == Main.player[Projectile.owner] && player == Main.LocalPlayer)

@@ -100,7 +100,7 @@ Mods: {
 
 			Estrella: {
 				DisplayName: Estrella
-				Tooltip: ""
+				Tooltip: Summons a purple star upon striking an enemy
 			}
 
 			ShinyHammer: {
@@ -132,7 +132,7 @@ Mods: {
 				Tooltip:
 					'''
 					Mars Originated Cannon, still slightly radioactive.
-					 Fires homing Embers after charging up. 
+					Fires homing Embers after charging up. 
 					'''
 			}
 
@@ -400,6 +400,11 @@ Mods: {
 				DisplayName: The Pebble
 				Tooltip: ""
 			}
+
+			ColdwindPendant: {
+				DisplayName: Coldwind Pendant
+				Tooltip: ""
+			}
 		}
 
 		Projectiles: {
@@ -521,6 +526,8 @@ Mods: {
 			ShewExplosion.DisplayName: Shew Explosion
 			ShewRainExplosion.DisplayName: Shew Rain Explosion
 			AnimeSlash.DisplayName: Anime Slash
+			StarineSuperSigil.DisplayName: Starine Super Sigil
+			ColdwindPendantEffect.DisplayName: Coldwind Pendant Effect
 		}
 
 		NPCs: {
