@@ -55,12 +55,12 @@ namespace MythosOfMoonlight.Items.Accessories
             Texture2D tex2 = Helper.GetExtraTex("Extra/circlething");
             Texture2D tex3 = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/crosslight").Value;
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2f), projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2f), -projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2f), projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2f), -projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
 
             float t = MathHelper.SmoothStep(0, 1, (MathF.Sin(Projectile.ai[0] * 0.05f + 4f) + 1) * 0.5f);
-            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * t), -projectile.rotation * 0.5f * t, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * t), projectile.rotation * 0.5f * t, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * t), -projectile.rotation * 0.5f * t, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * t), projectile.rotation * 0.5f * t, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
 
             for (int i = 0; i < sparkles.Count; i++)
             {
@@ -87,16 +87,17 @@ namespace MythosOfMoonlight.Items.Accessories
         List<Sparkle> sparkles = new List<Sparkle>(300);
         public static void DrawAll(SpriteBatch spriteBatch)
         {
-            Texture2D tex = Helper.GetExtraTex("Extra/explosion_1");
+            Texture2D tex = Helper.GetExtraTex("Extra/vortex_Inverse");
             Texture2D tex2 = Helper.GetExtraTex("Extra/circlething");
             foreach (Projectile projectile in Main.projectile)
             {
                 if (projectile.active && projectile.type == ModContent.ProjectileType<ColdwindPendantEffect>())
                 {
-                    spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2 * 0.8f), projectile.rotation, tex.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                    //spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale), projectile.rotation, tex.Size() / 2, 0.35f, SpriteEffects.None, 0);
+                    //spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale), -projectile.rotation, tex.Size() / 2, 0.15f, SpriteEffects.None, 0);
 
-                    spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2), projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
-                    spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2), -projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                    //spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2), projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                    //spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, null, Color.White * (projectile.scale * projectile.scale * 2), -projectile.rotation, tex2.Size() / 2, 0.5f, SpriteEffects.None, 0);
                 }
             }
         }
@@ -106,13 +107,17 @@ namespace MythosOfMoonlight.Items.Accessories
             if (player == null || !player.active || player.dead || ++Projectile.ai[0] > 5 * 60) return;
             Projectile.timeLeft = 2;
             Projectile.Center = player.Center;
-            if (Projectile.ai[0] % 4 == 0 && Projectile.scale > 0.4f)
+            if (Projectile.ai[0] % 2 == 0)
             {
                 sparkles.Add(new Sparkle(Main.rand.NextVector2Circular(100, 100), Main.rand.NextVector2Circular(2, 2), Color.Lerp(Color.LightCyan, Color.White, Main.rand.NextFloat()) * Main.rand.NextFloat(0.5f, 1), Main.rand.NextFloat(0.01f, 0.15f)));
                 Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(100, 100), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.Lerp(Color.LightCyan, Color.White, Main.rand.NextFloat()) * Main.rand.NextFloat(0.5f, 1), Main.rand.NextFloat(0.01f, 0.15f));
 
-                for (int i = 0; i < 3; i++)
-                    Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150, 150), ModContent.DustType<ColdwindDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.Lerp(Color.LightCyan, Color.White, Main.rand.NextFloat()) * Main.rand.NextFloat(0.5f, 1), Main.rand.NextFloat(0.01f, 0.15f));
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 pos = Main.rand.NextVector2Circular(30, 30);
+                    Dust d = Dust.NewDustPerfect(Projectile.Center + pos, ModContent.DustType<ColdwindDust>(), Helper.FromAToB(Projectile.Center + pos, Projectile.Center + pos.RotatedBy(MathHelper.Pi + -MathHelper.ToRadians(25))).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.LightCyan, Color.White, Main.rand.NextFloat()), Main.rand.NextFloat(0.25f, 0.7f));
+                    d.customData = player.whoAmI;
+                }
             }
             for (int i = 0; i < sparkles.Count; i++)
             {

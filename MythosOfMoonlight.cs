@@ -494,7 +494,7 @@ namespace MythosOfMoonlight
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D DustTrail1;
         public static RenderTarget2D[] render = new RenderTarget2D[4];
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation, metaballGradientNoiseTex;//, ScreenDistort;
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation, metaballGradientNoiseTex, textureDisplacementWGradients;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -521,6 +521,7 @@ namespace MythosOfMoonlight
                 metaballGradient = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
                 SpriteRotation = Instance.Assets.Request<Effect>("Assets/Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
                 metaballGradientNoiseTex = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradientNoiseTex", AssetRequestMode.ImmediateLoad).Value;
+                textureDisplacementWGradients = Instance.Assets.Request<Effect>("Assets/Effects/textureDisplacementWGradients", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Assets/Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
@@ -602,7 +603,7 @@ namespace MythosOfMoonlight
                 gd.SetRenderTarget(render[3]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                ColdwindPendantEffect.DrawAll(sb);
+                //ColdwindPendantEffect.DrawAll(sb);
                 ColdwindDust.DrawAll(sb);
                 sb.End();
 
@@ -627,21 +628,21 @@ namespace MythosOfMoonlight
                 sb.Draw(render[1], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Gradients/coldwindGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/White", (AssetRequestMode)1).Value;
-                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/swirlyNoise", (AssetRequestMode)1).Value;
                 gd.Textures[4] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Gradients/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(0.4f * 0.84f);
                 metaballGradientNoiseTex.Parameters["offsetY"].SetValue(0.4f * 0.54f);
                 sb.Draw(render[2], Vector2.Zero, Color.White);
-                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise_Inverse", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/swirlyNoise_Inverse", (AssetRequestMode)1).Value;
                 sb.Draw(render[3], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;
-                gd.Textures[4] = null;
                 gd.Textures[3] = null;
+                gd.Textures[4] = null;
                 sb.End();
             }
             orig(self);
