@@ -138,9 +138,15 @@ namespace MythosOfMoonlight.Items.Accessories
             {
                 if (npc.active && npc.CanBeChasedBy(this))
                 {
-                    if (npc.Center.Distance(Projectile.Center) < 100)
+                    if (npc.Center.Distance(Projectile.Center) < 150)
                     {
                         npc.GetGlobalNPC<MoMGlobalNPC>().coldwindCD += 2;
+                        if (npc.GetGlobalNPC<MoMGlobalNPC>().coldwindCD > 0 && Projectile.ai[0] % 5 - (npc.GetGlobalNPC<MoMGlobalNPC>().coldwindCD < 100 ? 2 : 0) == 0)
+                        {
+                            Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<ColdwindDust>(), npc.velocity.X * Main.rand.NextFloat(), Main.rand.NextFloat(-5, -1), 0, default, Main.rand.NextFloat(0.3f, 0.6f));
+                            if (Main.rand.NextBool())
+                                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Frost, npc.velocity.X * Main.rand.NextFloat(), Main.rand.NextFloat(-5, -1), 0, default, Main.rand.NextFloat(.25f, .75f));
+                        }
                     }
                 }
             }
