@@ -141,10 +141,6 @@ namespace MythosOfMoonlight.Items.Accessories
                     if (npc.Center.Distance(Projectile.Center) < 100)
                     {
                         npc.GetGlobalNPC<MoMGlobalNPC>().coldwindCD += 2;
-                        if (Projectile.ai[0] % 25 == 0 && !npc.GetGlobalNPC<MoMGlobalNPC>().coldwind)
-                        {
-                            npc.StrikeNPC(new NPC.HitInfo() { Damage = 5, DamageType = DamageClass.Default });
-                        }
                     }
                 }
             }

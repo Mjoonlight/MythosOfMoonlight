@@ -24,7 +24,6 @@ namespace MythosOfMoonlight.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<MoMGlobalNPC>().coldwind = true;
             Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<ColdwindDust>(), npc.velocity.X * Main.rand.NextFloat(), Main.rand.NextFloat(-5, -1), 0, default, Main.rand.NextFloat(0.3f, 0.6f));
             if (Main.rand.NextBool())
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Frost, npc.velocity.X * Main.rand.NextFloat(), Main.rand.NextFloat(-5, -1), 0, default, Main.rand.NextFloat(.25f, .75f));

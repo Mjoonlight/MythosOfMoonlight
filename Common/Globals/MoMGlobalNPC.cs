@@ -12,17 +12,15 @@ namespace MythosOfMoonlight.Common.Globals
 {
     public class MoMGlobalNPC : GlobalNPC
     {
-        public bool coldwind;
         public float coldwindCD;
         public override void ResetEffects(NPC npc)
         {
             if (coldwindCD > 0)
                 coldwindCD--;
-            coldwind = false;
         }
         public override bool PreAI(NPC npc)
         {
-            if (coldwind)
+            if (npc.HasBuff<ColdwindDebuff>())
             {
                 npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, 0, 100);
                 npc.oldVelocity.X = 0;
@@ -33,12 +31,13 @@ namespace MythosOfMoonlight.Common.Globals
         }
         public override void AI(NPC npc)
         {
-            if (coldwindCD >= 350)
+            if (coldwindCD >= 270)
             {
+                npc.StrikeNPC(new NPC.HitInfo() { Damage = 40, DamageType = DamageClass.Default });
                 npc.AddBuff(ModContent.BuffType<ColdwindDebuff>(), (int)(60 * 2 * (npc.knockBackResist + .1f)));
                 coldwindCD = -100;
             }
-            if (coldwind)
+            if (npc.HasBuff<ColdwindDebuff>())
             {
                 npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, 0, 100);
                 npc.oldVelocity.X = 0;
@@ -48,7 +47,7 @@ namespace MythosOfMoonlight.Common.Globals
         }
         public override void PostAI(NPC npc)
         {
-            if (coldwind)
+            if (npc.HasBuff<ColdwindDebuff>())
             {
                 npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, 0, 100);
                 npc.oldVelocity.X = 0;
