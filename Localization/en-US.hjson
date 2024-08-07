@@ -32,6 +32,11 @@ Mods: {
 				DisplayName: Blinkbuddy
 				Description: He's trying his best to light your way.
 			}
+
+			ColdwindDebuff: {
+				DisplayName: Coldwind Debuff
+				Description: Mods.MythosOfMoonlight.Buffs.ColdwindDebuff.Description
+			}
 		}
 
 		Items: {

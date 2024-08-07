@@ -493,8 +493,8 @@ namespace MythosOfMoonlight
     {
         public static RenderTarget2D OrigRender;
         public static RenderTarget2D DustTrail1;
-        public static RenderTarget2D[] render = new RenderTarget2D[4];
-        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation, metaballGradientNoiseTex, textureDisplacementWGradients;//, ScreenDistort;
+        public static RenderTarget2D[] render = new RenderTarget2D[5];
+        public static Effect PurpleCometEffect, BloomEffect, BlurEffect, Tentacle, TrailShader, RTAlpha, RTOutline, PullingForce, metaballGradient, SpriteRotation, metaballGradientNoiseTex, textureDisplacementWGradients, displacementMap;//, ScreenDistort;
         public static MythosOfMoonlight Instance { get; set; }
         public MythosOfMoonlight()
         {
@@ -522,6 +522,7 @@ namespace MythosOfMoonlight
                 SpriteRotation = Instance.Assets.Request<Effect>("Assets/Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
                 metaballGradientNoiseTex = Instance.Assets.Request<Effect>("Assets/Effects/metaballGradientNoiseTex", AssetRequestMode.ImmediateLoad).Value;
                 textureDisplacementWGradients = Instance.Assets.Request<Effect>("Assets/Effects/textureDisplacementWGradients", AssetRequestMode.ImmediateLoad).Value;
+                displacementMap = Instance.Assets.Request<Effect>("Assets/Effects/displacementMap", AssetRequestMode.ImmediateLoad).Value;
                 //ScreenDistort = Instance.Assets.Request<Effect>("Assets/Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
                 Filters.Scene["PurpleComet"] = new Filter(new ScreenShaderData(new Ref<Effect>(PurpleCometEffect), "ModdersToolkitShaderPass"), EffectPriority.VeryHigh);
                 SkyManager.Instance["PurpleComet"] = new Events.PurpleCometSky();
@@ -603,8 +604,13 @@ namespace MythosOfMoonlight
                 gd.SetRenderTarget(render[3]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                //ColdwindPendantEffect.DrawAll(sb);
                 ColdwindDust.DrawAll(sb);
+                sb.End();
+
+                gd.SetRenderTarget(render[4]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                //NOISE DISPLACEMENT 
                 sb.End();
 
                 gd.SetRenderTarget(Main.screenTarget);
@@ -638,6 +644,14 @@ namespace MythosOfMoonlight
                 sb.Draw(render[2], Vector2.Zero, Color.White);
                 gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/swirlyNoise_Inverse", (AssetRequestMode)1).Value;
                 sb.Draw(render[3], Vector2.Zero, Color.White);
+
+                gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise", (AssetRequestMode)1).Value;
+                displacementMap.CurrentTechnique.Passes[0].Apply();
+                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["resolution"].SetValue(Main.ScreenSize.ToVector2());
+                displacementMap.Parameters["offset"].SetValue(0.025f);
+                displacementMap.Parameters["alpha"].SetValue(0.1f);
+                sb.Draw(render[4], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;

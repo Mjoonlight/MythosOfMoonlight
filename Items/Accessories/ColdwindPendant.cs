@@ -12,9 +12,11 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using static System.Net.Mime.MediaTypeNames;
 using MythosOfMoonlight.Dusts;
+using MythosOfMoonlight.Common.Globals;
 
 namespace MythosOfMoonlight.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Front)]
     public class ColdwindPendant : ModItem
     {
         public override void SetStaticDefaults()
@@ -131,6 +133,21 @@ namespace MythosOfMoonlight.Items.Accessories
             float progress = Utils.GetLerpValue(5 * 60, 0, Projectile.ai[0]);
             float t = MathHelper.SmoothStep(0, 1, (MathF.Sin(Projectile.ai[0] * 0.1f) + 1) * 0.025f);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 2f, 0, 0.5f + t);
+
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.CanBeChasedBy(this))
+                {
+                    if (npc.Center.Distance(Projectile.Center) < 100)
+                    {
+                        npc.GetGlobalNPC<MoMGlobalNPC>().coldwindCD += 2;
+                        if (Projectile.ai[0] % 25 == 0 && !npc.GetGlobalNPC<MoMGlobalNPC>().coldwind)
+                        {
+                            npc.StrikeNPC(new NPC.HitInfo() { Damage = 5, DamageType = DamageClass.Default });
+                        }
+                    }
+                }
+            }
         }
     }
 }
