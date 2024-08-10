@@ -533,6 +533,8 @@ Mods: {
 			AnimeSlash.DisplayName: Anime Slash
 			StarineSuperSigil.DisplayName: Starine Super Sigil
 			ColdwindPendantEffect.DisplayName: Coldwind Pendant Effect
+			GravitronP.DisplayName: Gravitron P
+			GravitronImpactVFX.DisplayName: Gravitron Impact V F X
 		}
 
 		NPCs: {

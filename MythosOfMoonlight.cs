@@ -19,6 +19,7 @@ using MythosOfMoonlight.NPCs.Minibosses.StarveiledProj;
 using System.IO;
 using MythosOfMoonlight.Items.PurpleComet.Galactite;
 using MythosOfMoonlight.Items.Accessories;
+using MythosOfMoonlight.Projectiles.VFXProjectiles;
 
 namespace MythosOfMoonlight
 {
@@ -708,7 +709,7 @@ namespace MythosOfMoonlight
             LineDustFollowPoint.DrawAll(sb);
             foreach (Projectile d in Main.projectile)
             {
-                if (d.type == ProjectileType<EstrellaPImpact>() && d.active)
+                if ((d.type == ProjectileType<EstrellaPImpact>() || d.type == ProjectileType<GravitronImpactVFX>()) && d.active)
                 {
                     Color a = Color.Transparent;
                     d.ModProjectile.PreDraw(ref a);

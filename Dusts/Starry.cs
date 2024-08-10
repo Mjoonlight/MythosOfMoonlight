@@ -59,6 +59,7 @@ namespace MythosOfMoonlight.Dusts
         }
         public override bool Update(Dust dust)
         {
+            Main.NewText("ye");
             dust.position += dust.velocity;
             dust.velocity *= 0.99f;
             dust.rotation += MathHelper.ToRadians(1);

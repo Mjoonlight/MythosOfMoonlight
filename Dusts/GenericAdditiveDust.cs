@@ -103,14 +103,16 @@ namespace MythosOfMoonlight.Dusts
         }
         public override bool Update(Dust dust)
         {
+            if (dust.fadeIn == 0)
+                dust.fadeIn = dust.scale;
             dust.position += dust.velocity;
             dust.scale -= 0.005f;
             dust.rotation = dust.velocity.ToRotation() - MathHelper.PiOver2;
             if (dust.customData != null && dust.customData.GetType() == typeof(Vector2))
             {
-                dust.velocity = Helper.FromAToB(dust.position, (Vector2)dust.customData, false) / 25;
-                if (dust.position.Distance((Vector2)dust.customData) < 100)
-                    dust.scale -= 0.01f;
+                dust.velocity = Helper.FromAToB(dust.position, (Vector2)dust.customData, false) / 10;
+                if (dust.position.Distance((Vector2)dust.customData) < 50)
+                    dust.scale -= 0.02f;
             }
             if (dust.scale <= 0)
                 dust.active = false;
@@ -123,7 +125,7 @@ namespace MythosOfMoonlight.Dusts
                 if (d.type == ModContent.DustType<LineDustFollowPoint>() && d.active)
                 {
                     Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/trace_01").Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(d.scale, d.fadeIn), SpriteEffects.None, 0);
                 }
             }
         }
