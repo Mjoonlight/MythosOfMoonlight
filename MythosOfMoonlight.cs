@@ -176,6 +176,22 @@ namespace MythosOfMoonlight
             }
             return baseVel;
         }
+        public static Vector2 FromAToB(this Entity a_, Entity b_, bool normalize = true, bool reverse = false)
+        {
+            Vector2 a = a_.Center;
+            Vector2 b = b_.Center;
+            Vector2 baseVel = b - a;
+            if (normalize)
+                baseVel.Normalize();
+            if (reverse)
+            {
+                Vector2 baseVelReverse = a - b;
+                if (normalize)
+                    baseVelReverse.Normalize();
+                return baseVelReverse;
+            }
+            return baseVel;
+        }
         public static int HostileProjDmg(int normal, int expert, int master)
         {
             int d = Main.masterMode ? master / 6 : (Main.expertMode ? expert / 4 : normal / 2);

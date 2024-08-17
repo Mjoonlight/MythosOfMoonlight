@@ -10,6 +10,10 @@ using Terraria.GameContent.Bestiary;
 using static MythosOfMoonlight.Projectiles.FireflyMinion;
 using MythosOfMoonlight.Common.BiomeManager;
 using MythosOfMoonlight.Common.Crossmod;
+using Terraria.Utilities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading;
+using Terraria.Audio;
 
 namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
 {
@@ -262,9 +266,9 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         {
             // DisplayName.SetDefault("Starine Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.TrailCacheLength[NPC.type] = 10;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 25;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new()
             {
                 Velocity = 1f,
                 Position = new Vector2(0, 0),
@@ -285,6 +289,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             NPC.lifeMax = 140;
             NPC.noTileCollide = true;
             NPC.noGravity = true;
+            NPC.knockBackResist = 0.2f;
             NPC.HitSound = SoundID.NPCHit19;
             NPC.DeathSound = SoundID.NPCDeath1;
             SpawnModBiomes = new int[]
@@ -303,28 +308,43 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //3hi31mg
-            var off = new Vector2(NPC.width / 2, NPC.height / 2 + 2);
+            var off = new Vector2(NPC.width / 2, NPC.height / 2);
             var clr = new Color(255, 255, 255, 255); // full white
             Texture2D texture = ModContent.Request<Texture2D>(NPC.ModNPC.Texture + "_Trail").Value;
             var frame = new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height);
             var orig = frame.Size() / 2f;
-            var trailLength = NPCID.Sets.TrailCacheLength[NPC.type];
+            var trailLength = NPCID.Sets.TrailCacheLength[NPC.type] / 2;
 
             for (int i = 1; i < trailLength; i++)
             {
-                float scale = MathHelper.Lerp(0.95f, 1f, (float)(trailLength - i) / trailLength);
-                var fadeMult = 1f / trailLength;
+                float scale = MathHelper.Lerp(0.9f, 1f, (float)(trailLength - i) / trailLength);
+                var fadeMult = 1f / (trailLength * 2);
                 SpriteEffects flipType = NPC.spriteDirection == -1 /* or 1, idfk */ ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i), NPC.rotation, orig, scale, flipType, 0f);
+                Main.spriteBatch.Draw(texture, NPC.oldPos[i] - screenPos + off, frame, clr * (1f - fadeMult * i) * 0.05f, NPC.rotation, orig, scale, flipType, 0f);
             }
             return true;
         }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetExtraTex("Extra/solidCone");
+            spriteBatch.Reload(BlendState.Additive);
+            for (int i = -1; i < 2; i++)
+            {
+                float scale = MathHelper.SmoothStep(0.7f, 1, SolidConeAlpha);
+                float offset = MathHelper.SmoothStep(-20, 30, SolidConeAlpha);
+                float angle = (MathHelper.PiOver4 + i * (0.35f)) * NPC.direction;
+                Vector2 off = new Vector2(0, -NPC.height + offset).RotatedBy(angle);
+                for (int j = 0; j < 4; j++) 
+                spriteBatch.Draw(tex, NPC.Center + off - Main.screenPosition, null, new Color(0, 230, 230) * SolidConeAlpha, angle + MathHelper.PiOver2 * NPC.direction, new Vector2(0, tex.Height / 2), new Vector2(scale * 0.35f, 0.2f), NPC.direction == 1 ?SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            }
+            spriteBatch.Reload(BlendState.AlphaBlend);
+        }
 
         public float AIState;
-        public float AITimer;
-        public float AITimer2;
-        public float AITimer3;
-        public const int WanderAround = 0, Scan = 1, Angry = 2;
+        public float[] AITimer = new float[6];
+        public float InterestMeter;
+        public float SolidConeAlpha = 0;
+        public const int WanderAround = 0, Interested = 1, Angry = 2;
         float TargetY;
         float sineTime = 10f;
         int Timer = 0;
@@ -333,185 +353,218 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             NPC.oldVelocity = NPC.velocity;
             return base.PreAI();
         }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+        }
         public override void AI()
         {
-            Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f));
-            AITimer++;
-            AITimer2++;
+            NPC.TargetClosest(false);
+            Player player = Main.player[NPC.target];
+            Lighting.AddLight(NPC.Center, new Vector3(.25f, .3f, .4f)); 
+            if (player.Distance(NPC.Center) < 400)
+                InterestMeter += MathHelper.SmoothStep(7, 1.5f, player.Distance(NPC.Center) / 400f) + MathHelper.Clamp(MathHelper.Lerp(0, 5, player.velocity.Length() / 15), 0, 1);
+
+            if (InterestMeter > 0)
+            {
+                InterestMeter--;
+                if (player.direction != NPC.direction)
+                    InterestMeter -= 3;
+                if (player.Distance(NPC.Center) > 600)
+                    InterestMeter -= 15;
+            }
+            AITimer[0]++;
+            if (AITimer[1] == 0 || AITimer[2] == 0)
+                AITimer[1] = Main.rand.Next(int.MaxValue);
+            UnifiedRandom rand = new UnifiedRandom((int)AITimer[1]);
+            AITimer[2]++;
             if (NPC.life < NPC.lifeMax)
             {
                 AIState = Angry;
             }
+            if (SolidConeAlpha > 0)
+                SolidConeAlpha = MathHelper.Lerp(SolidConeAlpha, 0, 0.1f);
+
+
             switch (AIState)
             {
                 case WanderAround:
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
+                    NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.025f);
                     if (NPC.direction == 0)
                     {
                         NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
                     }
-
-                    if (Main.rand.NextBool(99))
+                    float threshold = rand.Next(100, 200);
+                    if (AITimer[0] > threshold)
                     {
-                        NPC.velocity.X = 0;
-                        NPC.direction = Main.rand.NextBool(2) ? 1 : -1;
+                        if (rand.NextBool(2))
+                        {
+                            AITimer[1] = Main.rand.Next(int.MaxValue);
+                            AITimer[0] = 0;
+                        }
+                        NPC.velocity *= 0.98f;
+                        if (NPC.velocity.Length() < 0.25f)
+                        {
+                            NPC.direction = -NPC.direction;
+                            AITimer[1] = Main.rand.Next(int.MaxValue);
+                            AITimer[0] = 0;
+                        }
                     }
-                    else if (NPC.velocity.X == 0)
-                        NPC.direction = -NPC.direction;
-                    NPC.spriteDirection = NPC.direction;
-                    NPC.velocity.X = NPC.direction * 1.5f;
-                    Vector2 Target = TRay.Cast(NPC.Center, Vector2.UnitY, 400) - new Vector2(0, 60);
-                    NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, NPC.Center.FromAToB(new Vector2(NPC.Center.X, (float)(Target.Y + Math.Sin(AITimer / 20f) * 30))).Y, 0.05f);
-                    if (AITimer2 > Main.rand.Next(400, 850))
+                    else
                     {
-                        AIState = Scan;
-                        AITimer2 = 0;
-                        AITimer3 = 0;
+                        NPC.spriteDirection = NPC.direction;
+                        NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, NPC.direction * 1.5f, 0.05f);
+                        Vector2 Target = TRay.Cast(NPC.Center, Vector2.UnitY, 400) - new Vector2(0, 220);
+                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, NPC.Center.FromAToB(new Vector2(NPC.Center.X, (float)(Target.Y + Math.Cos(AITimer[2] / rand.NextFloat(50, 100)) * rand.NextFloat(5, 10)))).Y, rand.NextFloat(0.005f, 0.02f));
+                    }
+                    
+                    if (InterestMeter > 300)
+                    {
+                        AIState = Interested;
+                        NPC.direction = player.direction;
+                        AITimer[1] = Main.rand.Next(int.MaxValue);
+                        InterestMeter = 0;
+                        AITimer[2] = 0;
+                        AITimer[3] = 0;
                     }
                     break;
-                case Scan:
-                    NPC.velocity *= 0.9f;
-                    if (AITimer2 == 1)
+                case Interested:
                     {
-                        if (Main.rand.NextBool())
+                        int fac = rand.Next(60, 200) + (int)MathHelper.Clamp(MathF.Floor(InterestMeter), 100, 1000);
+                        if (AITimer[2] < fac)
                         {
-                            AITimer3 = -1;
+                            if (NPC.Center.X > player.Center.X)
+                                NPC.direction = -1;
+                            else if (NPC.Center.X < player.Center.X)
+                                NPC.direction = 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.FromAToB(player).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.025f);
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center- new Vector2(0, 85)+ new Vector2(100 * -player.direction, 0)).RotatedBy(MathHelper.ToRadians(MathF.Sin(AITimer[2] / rand.NextFloat(15, 30)) * rand.NextFloat(40, 60)) * player.direction) * 1.5f, 0.02f);
                         }
                         else
                         {
-                            foreach (NPC npc in Main.npc)
-                            {
-                                if (npc.active && (npc.friendly || npc.lifeMax == 5))
-                                {
-                                    AITimer3 = npc.whoAmI + 1;
-                                    break;
-                                }
-                            }
-                            if (AITimer3 == 0)
-                                AITimer3 = -1;
-                        }
-                    }
-                    if (AITimer2 > 1)
-                    {
-                        if (AITimer3 == -1)
-                        {
-                            NPC.TargetClosest(false);
-                            Player npc = Main.player[NPC.target];
-                            NPC.direction = NPC.spriteDirection = Helper.FromAToB(NPC.Center, npc.Center).X < 0 ? -1 : 1;
-                            if (npc.active)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + MathHelper.Pi + (NPC.direction == 1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity = NPC.Center.FromAToB(npc.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-                                if (NPC.ai[1] == 0 || Main.rand.NextBool(300))
-                                {
-                                    NPC.ai[1] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[2] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[3] = Main.rand.NextFloatDirection();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            NPC npc = Main.npc[(int)AITimer3 - 1];
-                            NPC.direction = NPC.spriteDirection = Helper.FromAToB(NPC.Center, npc.Center).X < 0 ? -1 : 1;
-                            if (npc.active)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + MathHelper.Pi + (NPC.direction == 1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity = NPC.Center.FromAToB(npc.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-                                if (NPC.ai[1] == 0 || Main.rand.NextBool(300))
-                                {
-                                    NPC.ai[1] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[2] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[3] = Main.rand.NextFloatDirection();
-                                }
-                            }
+                            AIState = WanderAround;
+                            AITimer[1] = Main.rand.Next(int.MaxValue);
+                            InterestMeter = -300;
+                            AITimer[2] = 0;
                         }
                     }
                     break;
                 case Angry:
                     {
-                        NPC.TargetClosest(false);
-                        Player npc = Main.player[NPC.target];
-                        if (Main.player[NPC.target].active)
+                        switch (AITimer[5])
                         {
-                            NPC.direction = NPC.spriteDirection = NPC.velocity.X < 0 ? -1 : 1;
-                            Timer++;
-                            if (Timer < 57)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity = NPC.Center.FromAToB(npc.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-                                if (NPC.ai[1] == 0 || Main.rand.NextBool(100))
+                            case 0:
+                                AITimer[3]++;
+                                NPC.damage = 0;
+                                if (AITimer[3] < 200)
                                 {
-                                    NPC.ai[1] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[2] = Main.rand.NextFloat(100, 300);
-                                    NPC.ai[3] = Main.rand.NextFloatDirection();
-                                }
-                            }
-                            if (Timer >= 57 && Timer < 70)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.Center.FromAToB(npc.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity *= 0.9f;
-                            }
-                            if (Timer >= 70 && Timer < 80)
-                            {
-                                NPC.velocity += Helper.FromAToB(NPC.Center, npc.Center) * 1.5f;
-                                if (Timer > 70)
-                                    NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                            }
-                            if (Timer > 155 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) > NPC.width * 0.75f) && !NPC.collideX && !NPC.collideY)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity *= 0.8f;
-                                if (Timer > 170)
-                                    Timer = 0;
-                            }
-                            else if (Timer < 155 && Timer > 80 && (TRay.CastLength(NPC.Center, NPC.velocity.SafeNormalize(Vector2.UnitY), 500) < NPC.width * 0.75f || NPC.collideX || NPC.collideY))
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                if (Timer < 125)
-                                {
-                                    Main.NewText(NPC.oldVelocity);
+                                    if (NPC.Center.X > player.Center.X)
+                                        NPC.direction = -1;
+                                    else if (NPC.Center.X < player.Center.X)
+                                        NPC.direction = 1;
+                                    NPC.spriteDirection = NPC.direction;
+                                    NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.FromAToB(player).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.025f);
+                                    Vector2 pos = player.Center + new Vector2(rand.NextFloat(175, 300) * (int)(rand.NextFloatDirection() > 0 ? 1 : -1), -rand.NextFloat(-50, 100));
 
-                                    NPC.velocity = -NPC.velocity.RotatedBy(NPC.velocity.Y < 0 ? -MathHelper.PiOver2 * npc.direction : MathHelper.PiOver2 * NPC.direction) * 0.5f;
-                                    Timer = 128;
-                                    didTheThing = true;
+                                    NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(pos) * 4.5f, 0.02f) ;
+                                    if (NPC.Center.Distance(pos) < 30 && AITimer[3] < 150)
+                                        AITimer[3] = 150;   
                                 }
-                            }
-                            else if (didTheThing)
-                            {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 1f);
-                                NPC.velocity *= 0.95f;
-                                if (Timer > 155)
+                                if (AITimer[3] > 200)
+                                    NPC.velocity *= 0.9f;
+                                if (AITimer[3] >= 230)
                                 {
-                                    Timer = 0;
-                                    didTheThing = false;
+                                    AITimer[4] = Main.rand.NextBool() ? 9: Main.rand.Next(4,10 - (Main.rand.NextBool(20) ? 4: 0));
+                                    AITimer[3] = 0;
+                                    AITimer[1] = Main.rand.Next(int.MaxValue);
+                                    AITimer[5]++;
                                 }
-                            }
+                                break;
+                            case 1:
+                                NPC.damage = 10 + (int)AITimer[4]*2;
+                                AITimer[3]++;
+                                if (AITimer[3] == 3)
+                                {
+                                    savedP = player.Center;
+                                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 5;
+                                }
+                                if (AITimer[3] < 10)
+                                {
+                                    if (NPC.Center.X > player.Center.X)
+                                        NPC.direction = -1;
+                                    else if (NPC.Center.X < player.Center.X)
+                                        NPC.direction = 1;
+                                    NPC.spriteDirection = NPC.direction;
+                                    NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, savedP).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.5f);
+                                }
+                                if (AITimer[3] == 10)
+                                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 28;
+                                if (AITimer[3] > 15)
+                                {
+                                    AITimer[3] = 0;
+                                    AITimer[5]++;
+                                }
+                                break;
+                            case 2:
+                                if (NPC.Center.X > player.Center.X)
+                                    NPC.direction = -1;
+                                else if (NPC.Center.X < player.Center.X)
+                                    NPC.direction = 1;
+                                NPC.spriteDirection = NPC.direction;
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.05f);
+                                NPC.velocity *= 0.95f;
+                                AITimer[3]++;
+                                if (AITimer[3] > 60)
+                                {
+                                    AITimer[4]++;
+                                    if (AITimer[4] < 10)
+                                        AITimer[5] = 1;
+                                    else
+                                        AITimer[5] = 0;
+                                    AITimer[3] = 0;
+                                    AITimer[1] = Main.rand.Next(int.MaxValue);
+                                }
+                                break;
                         }
+                        break;
                     }
-                    break;
             }
-        }
-        bool didTheThing;
+        }Vector2 savedP;
         public override void HitEffect(NPC.HitInfo hit)
         {
+            if (AIState != Angry)
+            {
+                NPC.velocity = Vector2.Zero;
+                SolidConeAlpha = 1f;
+                AIState = Angry;
+                AITimer[1] = Main.rand.Next(int.MaxValue);
+                InterestMeter = 0;
+                AITimer[2] = 0;
+                AITimer[3] = 0;
+            }
+            else
+            {
+                NPC.damage = 0;
+                AITimer[5] = 0;
+                AITimer[1] = Main.rand.Next(int.MaxValue);
+            }
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].scale = 1.5f;
+                Dust dust = Dust.NewDustPerfect(Main.rand.NextVector2FromRectangle(NPC.getRect()), ModContent.DustType<StarineDust>(), Main.rand.NextVector2Circular(3, 3));
+                dust.noGravity = true;
+                dust.scale = 1.5f;
             }
             if (NPC.life <= 0)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 30; i++)
                 {
-                    int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<StarineDust>(), 2 * hit.HitDirection, -1.5f);
-                    Main.dust[dust].scale = 2f;
-                    Main.dust[dust].noGravity = true;
+                    Dust dust = Dust.NewDustPerfect(Main.rand.NextVector2FromRectangle(NPC.getRect()), ModContent.DustType<StarineDust>(), Main.rand.NextVector2Circular(3,3));
+                    dust.scale = 2f;
+                    dust.noGravity = true;
                 }
-                for (int i = 0; i < Main.rand.Next(3, 5); i++)
+                for (int i = 0; i < Main.rand.Next(20, 30); i++)
                 {
-                    Gore.NewGore(NPC.GetSource_OnHit(NPC), NPC.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Vector2.Zero, ModContent.Find<ModGore>("MythosOfMoonlight/Starine").Type);
+                    Gore.NewGore(NPC.GetSource_OnHit(NPC), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(1,1), ModContent.Find<ModGore>("MythosOfMoonlight/Starine").Type, Main.rand.NextFloat(0.8f, 1.2f));
                 }
             }
         }
@@ -528,7 +581,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Overworld.Starine
             NPC.frameCounter++;
             /*if (NPC.frameCounter >= (NPC.life >= NPC.lifeMax / 2 ? 17 : 11)) NPC.frameCounter = 0;
             NPC.frame.Y = (int)(NPC.frameCounter / (NPC.life >= NPC.lifeMax / 2 ? 6 : 4)) * frameHeight;*/
-            if (NPC.frameCounter % 5 == 0)
+            if (NPC.frameCounter % (6-AIState) == 0)
             {
                 if (NPC.frame.Y < 3 * frameHeight)
                     NPC.frame.Y += frameHeight;

@@ -17,11 +17,13 @@ namespace MythosOfMoonlight.Gores.Enemies
             gore.GetAlpha(Color.White);
             gore.rotation += 0.5f;
             gore.position += gore.velocity;
-            gore.velocity.Y += 0.04f;
-            gore.scale -= 0.007f;
+            gore.velocity.Y += 0.1f;
+            gore.scale -= 0.015f;
             if (gore.scale < 0.1)
             {
-                gore.scale = 0.1f;
+                gore.active = false;
+                gore.timeLeft = 0;
+                //gore.scale = 0.1f;
                 gore.alpha = 255;
             }
             return false;
