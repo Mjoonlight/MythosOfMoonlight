@@ -37,6 +37,11 @@ Mods: {
 				DisplayName: Coldwind Debuff
 				Description: Mods.MythosOfMoonlight.Buffs.ColdwindDebuff.Description
 			}
+
+			CommunicatorIrisB: {
+				DisplayName: Communicator Iris B
+				Description: Mods.MythosOfMoonlight.Buffs.CommunicatorIrisB.Description
+			}
 		}
 
 		Items: {
@@ -535,6 +540,7 @@ Mods: {
 			ColdwindPendantEffect.DisplayName: Coldwind Pendant Effect
 			GravitronP.DisplayName: Gravitron P
 			GravitronImpactVFX.DisplayName: Gravitron Impact V F X
+			CommunicatorIrisP.DisplayName: Communicator Iris P
 		}
 
 		NPCs: {

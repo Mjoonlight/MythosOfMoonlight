@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using MythosOfMoonlight.Common.BiomeManager;
 using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Items.PurpleComet.IridicSet;
+using MythosOfMoonlight.Items.Weapons.Summon;
 
 namespace MythosOfMoonlight.NPCs.Enemies.CometFlyby.StrandedMartian
 {
