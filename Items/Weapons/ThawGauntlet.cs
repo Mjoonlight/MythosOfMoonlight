@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MythosOfMoonlight.Common.Crossmod;
 using MythosOfMoonlight.Items.Weapons.Ranged;
 using System;
 using System.IO;
@@ -107,6 +108,10 @@ namespace MythosOfMoonlight.Items.Weapons
 
     public class ThawGauntletP2 : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Projectile.AddElement(CrossModHelper.Ice);
+        }
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);

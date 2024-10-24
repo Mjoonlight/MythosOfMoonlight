@@ -624,12 +624,6 @@ namespace MythosOfMoonlight
                 ColdwindDust.DrawAll(sb);
                 sb.End();
 
-                gd.SetRenderTarget(render[4]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                //NOISE DISPLACEMENT 
-                sb.End();
-
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -661,14 +655,6 @@ namespace MythosOfMoonlight
                 sb.Draw(render[2], Vector2.Zero, Color.White);
                 gd.Textures[3] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/swirlyNoise_Inverse", (AssetRequestMode)1).Value;
                 sb.Draw(render[3], Vector2.Zero, Color.White);
-
-                gd.Textures[1] = Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/coherentNoise", (AssetRequestMode)1).Value;
-                displacementMap.CurrentTechnique.Passes[0].Apply();
-                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
-                displacementMap.Parameters["resolution"].SetValue(Main.ScreenSize.ToVector2());
-                displacementMap.Parameters["offset"].SetValue(0.025f);
-                displacementMap.Parameters["alpha"].SetValue(0.1f);
-                sb.Draw(render[4], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;

@@ -68,8 +68,9 @@ namespace MythosOfMoonlight.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
-            dust.scale -= 0.005f;
+            dust.scale -= 0.0025f;
             dust.velocity *= 0.95f;
+            dust.rotation = dust.velocity.ToRotation();
             if (dust.scale <= 0)
                 dust.active = false;
             return false;
@@ -82,8 +83,8 @@ namespace MythosOfMoonlight.Dusts
                 {
                     Texture2D tex = ModContent.Request<Texture2D>("MythosOfMoonlight/Assets/Textures/Extra/crosslight").Value;
                     if (d.customData != null)
-                        sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                        sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, d.rotation, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                 }
             }
         }

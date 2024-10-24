@@ -3,8 +3,7 @@ sampler uImage1 : register(s1);
 
 float uTime;
 float offset = 1;
-float offsetX, offsetY;
-float2 resolution;
+float offsetX, offsetY, scale = 1;
 float alpha;
 
 float2 Wrap(float2 uv)
@@ -32,7 +31,7 @@ float toRotation(float2 v)
 
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
-    float4 noise = tex2D(uImage1, Wrap(coords + float2(offsetX, offsetY)));
+    float4 noise = tex2D(uImage1, Wrap((coords + float2(offsetX, offsetY)) * scale));
     float noiseA = max(noise.r, max(noise.g, noise.b)) - 0.5;
     float2 uv = coords + float2(sin(noiseA), cos(noiseA)) * offset;
     float4 c = tex2D(uImage0, uv);
