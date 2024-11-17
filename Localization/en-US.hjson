@@ -542,6 +542,8 @@ Mods: {
 			GravitronImpactVFX.DisplayName: Gravitron Impact V F X
 			CommunicatorIrisP.DisplayName: Communicator Iris P
 			ScholarArrow.DisplayName: Scholar Arrow
+			FastScholarArrow.DisplayName: Fast Scholar Arrow
+			ScholarChargeUp.DisplayName: Scholar Charge Up
 		}
 
 		NPCs: {

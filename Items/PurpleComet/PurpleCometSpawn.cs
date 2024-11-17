@@ -147,7 +147,7 @@ namespace MythosOfMoonlight.Items.PurpleComet
 
         public override bool CanUseItem(Player player)
         {
-            if (PurpleCometEvent.PurpleComet || Main.dayTime)
+            if (Main.dayTime)
                 return false;
 
             return true;
