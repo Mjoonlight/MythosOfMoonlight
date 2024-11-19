@@ -71,6 +71,24 @@ namespace MythosOfMoonlight
     }
     public static class Helper
     {
+        public static readonly BlendState Subtractive = new BlendState
+        {
+            ColorSourceBlend = Blend.SourceAlpha,
+            ColorDestinationBlend = Blend.One,
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaSourceBlend = Blend.SourceAlpha,
+            AlphaDestinationBlend = Blend.One,
+            AlphaBlendFunction = BlendFunction.ReverseSubtract
+        };
+        public readonly static BlendState AlphaSubtractive = new BlendState
+        {
+            ColorSourceBlend = Blend.SourceAlpha,
+            AlphaSourceBlend = Blend.SourceAlpha,
+            ColorDestinationBlend = Blend.One,
+            AlphaDestinationBlend = Blend.One,
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaBlendFunction = BlendFunction.ReverseSubtract
+        };
 
         public static SpriteSortMode previousSortMode;
         public static BlendState previousBlendState;

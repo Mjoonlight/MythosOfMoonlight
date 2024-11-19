@@ -159,14 +159,14 @@ namespace MythosOfMoonlight.Events
         {
             float scaleAdd = mainAlpha * 0.1f;
             Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
-            Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha * 2, SpriteEffects.None, 0);
 
-            Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, pos, null, Color.DarkViolet * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha * 2, SpriteEffects.None, 0);
 
 
-            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, 0, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha * 2, SpriteEffects.None, 0);
 
-            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, pos, null, Color.White * (0.7f + glow * 0.1f) * Intensity, MathHelper.PiOver2, tex.Size() / 2, new Vector2(0.4f - glow * 0.1f + scaleAdd, 0.2f + glow * 0.1f + scaleAdd) * mainAlpha * 2, SpriteEffects.None, 0);
 
             for (int k = 0; k < 3; k++)
             {
@@ -181,12 +181,12 @@ namespace MythosOfMoonlight.Events
                     float scale = rand.NextFloat(0.5f, 0.8f) + (k == 1 ? 0.25f : 0);
                     Vector2 offset = new Vector2(Main.rand.NextFloat(30 * (k == 1 ? 1.2f : 1)) * linesGlow * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, pos + offset, null, Color.DarkViolet * mainAlpha * mainAlpha * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, pos + offset, null, Color.DarkViolet * mainAlpha * mainAlpha * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 2, SpriteEffects.None, 0);
 
-                    Main.spriteBatch.Draw(tex, pos + offset * 0.5f, null, Color.White * mainAlpha * mainAlpha * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 0.5f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, pos + offset * 0.5f, null, Color.White * mainAlpha * mainAlpha * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale, SpriteEffects.None, 0);
 
 
-                    Main.spriteBatch.Draw(tex, pos + offset * 3, null, Color.White * mainAlpha * mainAlpha * 0.35f * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 3, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, pos + offset * 3, null, Color.White * mainAlpha * mainAlpha * 0.35f * (k == 1 ? 0.24f : 0.4f) * alpha, angle, tex.Size() / 2, new Vector2(linesGlow + scaleAdd, alpha + scaleAdd) * scale * 3 * 2, SpriteEffects.None, 0);
                 }
             }
         }

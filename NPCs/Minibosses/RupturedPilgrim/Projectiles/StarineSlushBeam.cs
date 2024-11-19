@@ -116,7 +116,7 @@ namespace MythosOfMoonlight.NPCs.Minibosses.RupturedPilgrim.Projectiles
                     Main.spriteBatch.Draw(tex, Projectile.Center + Projectile.ai[0] * Vector2.UnitY + offset - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[2], alpha) * scale * 6, SpriteEffects.None, 0);
 
                 for (float j = 0; j < 2; j++)
-                    Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.ai[0] * Vector2.UnitY + offset2 - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.85f, angle, new Vector2(0, tex2.Height / 2), new Vector2(Projectile.ai[2], alpha) * scale2 * 5, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.ai[0] * Vector2.UnitY + offset2 - Main.screenPosition, null, new Color(44, 137, 215) * alpha * 0.85f, angle, new Vector2(0, tex2.Height / 2), new Vector2(Projectile.ai[2], alpha) * scale2 * 5 * 2, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }

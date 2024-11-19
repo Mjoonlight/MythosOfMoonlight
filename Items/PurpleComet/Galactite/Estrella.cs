@@ -339,10 +339,10 @@ namespace MythosOfMoonlight.Items.PurpleComet.Galactite
             Texture2D tex = Helper.GetTex("MythosOfMoonlight/Assets/Textures/Extra/slash");
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * 0.5f * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.35f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * 0.5f * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.35f * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkViolet * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.45f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkViolet * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.45f * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

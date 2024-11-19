@@ -184,7 +184,7 @@ namespace MythosOfMoonlight.NPCs.Enemies.Snow
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.65f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex.Size() / 2, new Vector2(Projectile.ai[0], 1 + alpha * 0.1f) * 0.65f * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

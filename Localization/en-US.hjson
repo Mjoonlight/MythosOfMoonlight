@@ -544,6 +544,7 @@ Mods: {
 			ScholarArrow.DisplayName: Scholar Arrow
 			FastScholarArrow.DisplayName: Fast Scholar Arrow
 			ScholarChargeUp.DisplayName: Scholar Charge Up
+			ScholarChargeUp2.DisplayName: Scholar Charge Up2
 		}
 
 		NPCs: {

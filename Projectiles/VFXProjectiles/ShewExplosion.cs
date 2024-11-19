@@ -52,7 +52,7 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.2f, 1f);
                     Vector2 offset = new Vector2(Main.rand.NextFloat(50, 100) * ringScale * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f * 2, SpriteEffects.None, 0);
                 }
             }
 
@@ -63,7 +63,7 @@ namespace MythosOfMoonlight.Projectiles.VFXProjectiles
                 float scale = rand.NextFloat(0.2f, 1f);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
                 for (float j = 0; j < 2; j++)
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * alpha, angle, tex.Size() / 2, new Vector2(Projectile.ai[1], alpha) * scale, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * alpha, angle, tex.Size() / 2, new Vector2(Projectile.ai[1], alpha) * scale * 2, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

@@ -122,9 +122,10 @@ namespace MythosOfMoonlight.NPCs.Minibosses
             }
             return true;
         }
-        const int P2Transition = -2, Death = -1, Intro = 0, Idle = 1, UnnamedAttackNumberOne = 2;
+        const int P2Transition = -2, Death = -1, Intro = 0, Idle = 1, Blackhole = 2, StarRain = 2, BasicArrow = 4, UpBeamArrow = 5, DiagonalArrowDash = 6, Flares = 7,
+            RadahnRocks = 8;
         bool ded;
-        int NextAttack = Idle;
+        int NextAttack = Blackhole;
         bool p2;
         Vector2[] disposablePos = new Vector2[10];
         public override void AI()
@@ -145,100 +146,118 @@ namespace MythosOfMoonlight.NPCs.Minibosses
 
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CometEmberProj>(), 20, .1f, Main.myPlayer);
             }
-            if (AIState == P2Transition)
+            AITimer++;
+            switch (AIState)
             {
-                p2 = true;
-                AIState = Idle;
-            }
-            if (AIState == Intro)
-            {
-                AIState = Idle;
-            }
-            else if (AIState == Idle)
-            {
-                AITimer++;
-                if (AITimer == 1)
-                {
-                    AITimer3 = Main.rand.NextBool().ToInt();
-                    AITimer2 = Main.rand.Next(3);
-                    disposablePos[1].X = Main.rand.Next(2);
-                    AITimer3 = 1;
-                }
-
-                float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.01f) + 1) / 2;
-                float rot = MathHelper.Lerp(-MathHelper.Pi, MathHelper.Pi, lerpValue);
-                int dir = disposablePos[1].X == 0 ? -1 : 1;
-                if (AITimer < 120)
-                {
-                    if (AITimer3 == 0)
-                        NPC.velocity = (player.Center + new Vector2(190 * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f;
-                    else
+                case P2Transition:
                     {
-                        if (AITimer % 3 == 0)
+                        p2 = true;
+                        NextAttack = Blackhole;
+                        ResetTo(Idle);
+                    }
+                    break;
+                case Intro:
+                    {
+                        NextAttack = Blackhole;
+                        ResetTo(Idle);
+                    }
+                    break;
+                case Idle:
+                    {
+                        if (AITimer == 1)
                         {
-                            if (AITimer2 == 2)
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, (player.Center + new Vector2((190 + AITimer * 0.6f) * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f, 0.1f);
+                            AITimer3 = Main.rand.NextBool().ToInt();
+                            AITimer2 = Main.rand.Next(3);
+                            disposablePos[1].X = Main.rand.Next(2);
+                            AITimer3 = 1;
+                        }
+
+                        float lerpValue = (float)(Math.Sin(Main.GameUpdateCount * 0.01f) + 1) / 2;
+                        float rot = MathHelper.Lerp(-MathHelper.Pi, MathHelper.Pi, lerpValue);
+                        int dir = disposablePos[1].X == 0 ? -1 : 1;
+                        if (AITimer < 120)
+                        {
+                            if (AITimer3 == 0)
+                                NPC.velocity = (player.Center + new Vector2(190 * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f;
                             else
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, (player.Center + new Vector2(190 * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f, 0.1f);
+                            {
+                                if (AITimer % 3 == 0)
+                                {
+                                    if (AITimer2 == 2)
+                                        NPC.velocity = Vector2.Lerp(NPC.velocity, (player.Center + new Vector2((190 + AITimer * 0.6f) * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f, 0.1f);
+                                    else
+                                        NPC.velocity = Vector2.Lerp(NPC.velocity, (player.Center + new Vector2(190 * dir, -30) + new Vector2(-50 + rot * 3, 0).RotatedBy(rot) - NPC.Center) / 13f, 0.1f);
+                                }
+                            }
+                        }
+                        else
+                            NPC.velocity *= 0.9f;
+                        if (AITimer3 == 1)
+                        {
+                            switch (AITimer2)
+                            {
+                                case 0:
+                                    if (AITimer > 40 && AITimer % (NPC.life < NPC.lifeMax * 0.75f ? 20 : 30) == 0)
+                                        disposablePos[0] = player.Center;
+                                    if (AITimer > 40 && AITimer % (NPC.life < NPC.lifeMax * 0.75f ? 20 : 30) == 10)
+                                    {
+                                        SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
+                                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                        NPC.velocity += new Vector2(Helper.FromAToB(player.Center, NPC.Center).X * 4, 6 * (AITimer % 40 == 0 ? -1 : 1));
+                                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]) * (4.5f + AITimer * 0.08f), ModContent.ProjectileType<ScholarArrow>(), 20, 0);
+                                    }
+                                    break;
+                                case 1:
+                                    if (AITimer == 100)
+                                        disposablePos[0] = player.Center;
+                                    if (AITimer == 110)
+                                    {
+                                        SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
+                                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                        int max = Main.rand.Next(1, 3);
+                                        NPC.velocity += Helper.FromAToB(player.Center, NPC.Center) * 5;
+                                        for (int i = -max; i < max + 1; i++)
+                                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedBy((float)i / max * 0.5f) * (9f - MathF.Abs(i)), ModContent.ProjectileType<ScholarArrow>(), 20, 0);
+                                    }
+                                    break;
+                                case 2:
+                                    if (AITimer == 20)
+                                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScholarChargeUp>(), 0, 0, -1, NPC.whoAmI);
+                                    if (AITimer == 70)
+                                        disposablePos[0] = player.Center + player.velocity * 0.9f;
+                                    if (AITimer == 80)
+                                    {
+                                        SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
+                                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+                                        CameraSystem.ScreenShakeAmount = 5f;
+                                        for (int i = 0; i < 25; i++)
+                                            Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, disposablePos[0]) * Main.rand.NextFloat(10, 30), 0, Color.Lerp(Color.Purple, Color.Indigo, Main.rand.NextFloat()), Main.rand.NextFloat(0.08f, 0.25f));
+                                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]) * 10, ModContent.ProjectileType<FastScholarArrow>(), 50, 0);
+                                    }
+                                    break;
+                            }
+                        }
+                        if (AITimer >= 140)
+                        {
+                            NPC.frame.Y = 0;
+                            ResetTo(NextAttack);
                         }
                     }
-                }
-                else
-                    NPC.velocity *= 0.9f;
-                if (AITimer3 == 1)
-                {
-                    switch (AITimer2)
+                    break;
+                case Blackhole:
                     {
-                        case 0:
-                            if (AITimer > 40 && AITimer % (NPC.life < NPC.lifeMax * 0.75f ? 20 : 30) == 0)
-                                disposablePos[0] = player.Center;
-                            if (AITimer > 40 && AITimer % (NPC.life < NPC.lifeMax * 0.75f ? 20 : 30) == 10)
+                        //if (AITimer < 100)
+                        {
+                            if (AITimer % 7 == 0)
                             {
-                                SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
-                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                                NPC.velocity += new Vector2(Helper.FromAToB(player.Center, NPC.Center).X * 4, 6 * (AITimer % 40 == 0 ? -1 : 1));
-                                Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]) * (4.5f + AITimer * 0.08f), ModContent.ProjectileType<ScholarArrow>(), 20, 0);
+                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScholarChargeUp2>(), 0, 0, -1, NPC.whoAmI);
                             }
-                            break;
-                        case 1:
-                            if (AITimer == 100)
-                                disposablePos[0] = player.Center;
-                            if (AITimer == 110)
-                            {
-                                SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
-                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                                int max = Main.rand.Next(1, 3);
-                                NPC.velocity += Helper.FromAToB(player.Center, NPC.Center) * 5;
-                                for (int i = -max; i < max + 1; i++)
-                                    Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedBy((float)i / max * 0.5f) * (9f - MathF.Abs(i)), ModContent.ProjectileType<ScholarArrow>(), 20, 0);
-                            }
-                            break;
-                        case 2:
-                            if (AITimer == 20)
-                                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScholarChargeUp>(), 0, 0, -1, NPC.whoAmI);
-                            if (AITimer == 70)
-                                disposablePos[0] = player.Center;
-                            if (AITimer == 80)
-                            {
-                                SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
-                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                                CameraSystem.ScreenShakeAmount = 5f;
-                                for (int i = 0; i < 25; i++)
-                                    Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, disposablePos[0]) * Main.rand.NextFloat(10, 30), 0, Color.Lerp(Color.Purple, Color.Indigo, Main.rand.NextFloat()), Main.rand.NextFloat(0.08f, 0.25f));
-                                Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]) * 10, ModContent.ProjectileType<FastScholarArrow>(), 50, 0);
-                            }
-                            break;
+                        }
                     }
-                }
-                if (AITimer >= 140)
-                {
-                    NPC.frame.Y = 0;
-                    Reset(NextAttack);
-                }
+                    break;
             }
-
         }
-        void Reset(int attack)
+        void ResetTo(int attack)
         {
             NPC.velocity = Vector2.Zero;
             AITimer = 0;
